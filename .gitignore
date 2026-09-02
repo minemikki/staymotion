@@ -1,0 +1,19 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Local build / dependency dirs (not used by the static site, but just in case)
+node_modules/
+dist/
+.cache/
+
+# Netlify / Vercel local state
+.netlify/
+.vercel/
+
+# Scratch / source media before optimizing
+_raw/
+*.mov
