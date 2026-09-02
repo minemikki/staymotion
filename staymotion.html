@@ -225,7 +225,7 @@
   @media(max-width:760px){.ba{grid-template-columns:1fr}}
   .ba-cell{position:relative;aspect-ratio:16/10;overflow:hidden}
   .ba-cell .poster,.ba-cell video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .ba-cell .poster{background:center/cover no-repeat;filter:grayscale(1) contrast(.92) brightness(.82)}
+  .ba-cell .poster{background:center/cover no-repeat}
   .ba-label{position:absolute;top:16px;left:16px;z-index:3;font-size:11px;letter-spacing:.24em;text-transform:uppercase;
     padding:6px 12px;background:rgba(8,9,11,.55);color:var(--ivory);border:1px solid var(--line-soft)}
   .ba-cell.after .ba-label{color:var(--gold-lite);border-color:var(--line)}
@@ -411,11 +411,11 @@
     </div>
     <div class="ba rv d1">
       <div class="ba-cell">
-        <div class="poster" style="background-image:url('img/poster-hytte.jpg')"></div>
+        <div class="poster" style="background-image:url('img/fjord.jpg')"></div>
         <span class="ba-label">Før — stillbilde</span>
       </div>
       <div class="ba-cell after">
-        <video id="baVideo" muted loop playsinline preload="none" poster="img/poster-hytte.jpg" data-mp4="video/hytte.mp4" data-webm="video/hytte.webm"></video>
+        <video id="baVideo" muted loop playsinline preload="none" poster="img/fjord.jpg" data-mp4="video/hero.mp4" data-webm="video/hero.webm"></video>
         <span class="ba-label">Etter — StayMotion</span>
       </div>
     </div>
