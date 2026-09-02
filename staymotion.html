@@ -153,6 +153,13 @@
     background:linear-gradient(96deg,var(--champagne),var(--gold-lite));-webkit-background-clip:text;background-clip:text;color:transparent}
   .hero p{font-size:clamp(1.1rem,1.5vw,1.3rem);font-weight:400;color:#EFEADF;max-width:38ch;margin-bottom:38px;line-height:1.66;text-shadow:0 1px 26px rgba(0,0,0,.55)}
   .ctas{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px}
+  .hero-steps{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;margin:34px 0 0;padding:0}
+  .hero-steps li{display:flex;align-items:center;gap:11px;font-family:var(--display);font-size:13px;font-weight:400;
+    color:#DCD6CA;letter-spacing:.01em;text-shadow:0 1px 16px rgba(0,0,0,.55)}
+  .hero-steps li i{font-style:normal;font-size:10.5px;font-weight:600;letter-spacing:.06em;color:var(--champagne);
+    width:26px;height:26px;border:1px solid rgba(232,211,166,.45);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .hero-steps li:not(:last-child)::after{content:"";width:22px;height:1px;background:linear-gradient(90deg,rgba(232,211,166,.6),transparent);margin-left:2px}
+  @media(max-width:520px){.hero-steps li:not(:last-child)::after{display:none}.hero-steps{gap:12px 20px}}
   .scroll-cue{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;z-index:3;
     width:1px;height:46px;background:linear-gradient(180deg,transparent,rgba(240,238,232,.5));overflow:hidden}
   .scroll-cue::after{content:"";position:absolute;top:-46px;left:0;width:1px;height:46px;
@@ -325,6 +332,11 @@
       <a class="btn" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span>Få et gratis eksempel</span></a>
       <a class="btn ghost" href="#arbeid"><span>Se arbeidet</span></a>
     </div>
+    <ul class="hero-steps rise r4" aria-label="Slik funker det">
+      <li><i>01</i> Du sender bildene</li>
+      <li><i>02</i> Vi gjør dem levende</li>
+      <li><i>03</i> Du får ferdige videoer</li>
+    </ul>
   </div>
   <div class="scroll-cue" aria-hidden="true"></div>
 </section>
