@@ -1,17 +1,10 @@
-# StayMotion — static site (Netlify)
-# Pure static HTML: no build step, publish directory is the repo root.
-# Serve the single-file site at the site root ("/" -> staymotion.html).
+# StayMotion — static site
+# Pure static HTML, no build step. index.html is served at the site root.
 
 [build]
   publish = "."
   command = ""
 
-[[redirects]]
-  from = "/"
-  to = "/staymotion.html"
-  status = 200
-
-# Long-lived, immutable caching for the media (filenames are stable).
 [[headers]]
   for = "/video/*"
   [headers.values]
