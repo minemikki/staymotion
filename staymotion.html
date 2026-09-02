@@ -128,6 +128,7 @@
   .hero-media{position:absolute;inset:0;z-index:0}
   .hero-media video,.hero-media .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .hero-media .poster{background:center/cover no-repeat;transform:scale(1.05)}
+  .hero-media .hero-still{transform:scale(1.06);animation:kb 30s ease-in-out infinite alternate}
   .hero-media video{opacity:0;transition:opacity 1.6s var(--ease);transform:scale(1.06);animation:kb 26s linear infinite alternate}
   .hero-media video.ready{opacity:1}
   @keyframes kb{from{transform:scale(1.06)}to{transform:scale(1.14)}}
@@ -285,11 +286,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-media">
-    <div class="poster" style="background-image:url('img/fjord.jpg')"></div>
-    <video id="heroVideo" autoplay muted loop playsinline preload="metadata" poster="img/fjord.jpg">
-      <source src="video/hero.webm" type="video/webm">
-      <source src="video/hero.mp4" type="video/mp4">
-    </video>
+    <div class="poster hero-still" style="background-image:url('img/fjord.jpg')"></div>
     <div class="hero-overlay"></div>
     <div class="grain"></div>
   </div>
