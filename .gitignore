@@ -17,3 +17,6 @@ dist/
 # Scratch / source media before optimizing
 _raw/
 *.mov
+
+# Scratch / concept prototypes (not part of the site)
+_*.html
