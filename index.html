@@ -503,21 +503,18 @@
     <div class="rv" style="margin-bottom:clamp(30px,4.5vw,50px)">
       <span class="kick">Før / etter</span>
       <h2>Samme bilde. Samme rom.<br>Bare <em style="font-style:italic;color:var(--gold-lite)">levende.</em></h2>
-      <p class="lead" style="margin-top:20px">Folk husker ikke bilde nummer 14. De husker <em style="font-style:italic;color:var(--gold-lite)">følelsen</em> av å ville være der. Dra i håndtaket og se forskjellen.</p>
+      <p class="lead" style="margin-top:20px">Vi gir bildene dine et cinematisk løft — samme rom, samme utsikt, bare med lyset, dybden og den rolige bevegelsen som får folk til å <em style="font-style:italic;color:var(--gold-lite)">ville være der.</em></p>
     </div>
-    <div class="ba-slider rv d1" id="baSlider">
-      <div class="ba-after">
+    <div class="ba rv d1">
+      <div class="ba-cell">
         <div class="poster" style="background-image:url('img/fjord.jpg')"></div>
+        <span class="ba-label">Før — vanlig bilde</span>
+      </div>
+      <div class="ba-cell after">
         <video id="baVideo" muted loop playsinline preload="none" poster="img/fjord.jpg" data-mp4="video/hero.mp4"></video>
-        <span class="ba-label r">Etter<span class="lx"> — levende</span></span>
+        <span class="ba-label">Etter — cinematisk</span>
+        <button class="vplay" type="button" aria-label="Spill av video"></button>
       </div>
-      <div class="ba-before">
-        <div class="poster" style="background-image:url('img/fjord.jpg')"></div>
-        <span class="ba-label l">Før<span class="lx"> — stillbilde</span></span>
-      </div>
-      <div class="ba-handle" aria-hidden="true"><span class="grip"></span></div>
-      <input class="ba-range" type="range" min="0" max="100" value="55" aria-label="Dra for å sammenligne før og etter">
-      <button class="vplay" type="button" aria-label="Spill av video"></button>
     </div>
   </div>
 </section>
@@ -757,7 +754,7 @@
         if(webm){var s=document.createElement('source');s.src=webm;s.type='video/webm';ba.appendChild(s);}
         if(mp4){var s2=document.createElement('source');s2.src=mp4;s2.type='video/mp4';ba.appendChild(s2);}
         ba.dataset.loaded='1';ba.load();var p=ba.play();if(p&&p.catch)p.catch(function(){});
-        setTimeout(function(){ if(ba.paused){var c=document.getElementById('baSlider');if(c)c.classList.add('needtap');} },1000);
+        setTimeout(function(){ if(ba.paused){var c=ba.closest('.ba-cell');if(c)c.classList.add('needtap');} },1000);
       };
       if('IntersectionObserver' in window){
         new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){start();}})},{threshold:.4}).observe(cell||ba);
@@ -793,7 +790,7 @@
     [].forEach.call(document.querySelectorAll('.vplay'),function(btn){
       btn.addEventListener('click',function(e){
         e.preventDefault();
-        var c=btn.closest('.show-video')||btn.closest('.ba-slider');
+        var c=btn.closest('.show-video')||btn.closest('.ba-cell')||btn.closest('.ba-slider');
         var v=c&&c.querySelector('video');
         if(v){ var p=v.play(); if(p&&p.catch)p.catch(function(){}); }
         if(c) c.classList.remove('needtap');
