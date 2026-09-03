@@ -437,7 +437,6 @@
 <section class="hero">
   <div class="hero-media">
     <div class="poster" style="background-image:url('img/statement-room.jpg')"></div>
-    <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="img/statement-room.jpg"><source src="video/hero-room.mp4" type="video/mp4"></video>
     <div class="hero-overlay"></div>
     <div class="hero-tint"></div>
     <div class="grain"></div>
@@ -572,9 +571,8 @@
       <div class="arrow">→</div>
       <div class="mid"><img src="img/logo-mono.png" alt="StayMotion"></div>
       <div class="arrow">→</div>
-      <div class="flow-card film-live">
+      <div class="flow-card film-out">
         <div class="poster" style="background-image:url('img/statement-room.jpg')"></div>
-        <video id="flowFilm" muted loop playsinline autoplay preload="metadata" poster="img/statement-room.jpg"><source src="video/hero-room.mp4" type="video/mp4"></video>
         <div class="fl">Din film</div>
       </div>
     </div>
@@ -802,14 +800,6 @@
     function onScroll(){ if(nav) nav.classList.toggle('scrolled', window.scrollY>40); }
     onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
 
-    // Hero video fade-in over the sharp poster
-    var hv=document.getElementById('heroVideo');
-    if(hv){
-      var show=function(){hv.classList.add('ready')};
-      if(hv.readyState>=2) show(); else hv.addEventListener('loadeddata',show,{once:true});
-      play(hv);
-    }
-
     // Reveal on scroll
     var rvs=[].slice.call(document.querySelectorAll('.rv'));
     if('IntersectionObserver' in window && root.classList.contains('anim')){
@@ -842,16 +832,6 @@
       films.forEach(function(f){fio.observe(f)});
     } else {
       films.forEach(function(f){ var v=attach(f); f.classList.add('playing'); play(v); });
-    }
-
-    // "Din film" projection video — nudge play in view
-    var ff=document.getElementById('flowFilm');
-    if(ff){
-      var ffPlay=function(){play(ff);};
-      ffPlay();
-      if('IntersectionObserver' in window){
-        new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting) ffPlay();})},{threshold:.3}).observe(ff);
-      }
     }
 
     // Industry panels — video on hover (desktop) / in view (touch)
