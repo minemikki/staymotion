@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Takk — last opp bildene · StayMotion</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--obsidian:#08090B;--ivory:#F2EEE6;--sand:#D9CBB8;--gold:#C8A96A;--gold-lite:#E7CE97;--champagne:#E8D3A6;--slate:#8B9099;--char:#15181E;--line:rgba(200,169,106,.24);--line-soft:rgba(240,238,232,.10);--serif:"Cormorant Garamond",Georgia,serif;--display:"Inter Tight",-apple-system,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--obsidian);color:var(--ivory);font-family:var(--display);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit}
+  .wrap{width:100%;max-width:640px;margin:0 auto;padding:clamp(28px,6vw,64px) 22px}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:clamp(30px,6vw,54px)}
+  .brand img{height:30px}
+  .brand b{font-weight:600;font-size:14px;letter-spacing:.32em;padding-left:.32em}
+  .kick{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:18px}
+  .kick::before{content:"";width:24px;height:1px;background:currentColor;opacity:.7}
+  h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,7vw,3.4rem);line-height:1.05;margin-bottom:12px}
+  p{color:var(--sand)}
+  .drop{margin:30px 0;border:1.5px dashed var(--line);border-radius:6px;padding:40px 24px;text-align:center;background:rgba(240,238,232,.02);cursor:pointer;transition:border-color .3s,background .3s}
+  .drop:hover,.drop.over{border-color:var(--gold-lite);background:rgba(232,211,166,.05)}
+  .drop b{color:var(--ivory)}
+  .drop small{display:block;color:var(--slate);margin-top:8px;font-size:12.5px}
+  input[type=file]{display:none}
+  .list{margin:18px 0;display:grid;gap:8px}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px;color:var(--sand);border-bottom:1px solid var(--line-soft);padding:8px 0}
+  .row .st{font-size:12px;color:var(--slate)}
+  .row .st.ok{color:var(--gold-lite)}
+  .row .st.err{color:#e88}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 30px;font-weight:600;font-size:14px;letter-spacing:.02em;background:var(--champagne);color:#0c0d10;border:0;border-radius:3px;cursor:pointer}
+  .btn[disabled]{opacity:.5;cursor:default}
+  .muted{color:var(--slate);font-size:13px;margin-top:16px}
+  .state{padding:40px 0}
+  .spin{width:26px;height:26px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:s 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:10px}
+  @keyframes s{to{transform:rotate(360deg)}}
+  .done{border:1px solid var(--line);background:linear-gradient(180deg,rgba(232,211,166,.08),rgba(232,211,166,.01));padding:28px;border-radius:6px;text-align:center}
+  .hide{display:none}
+  .back{margin-top:30px;font-size:13px;color:var(--slate)}
+  .back a{color:var(--sand)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="brand" href="/"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
+
+    <div id="checking" class="state"><span class="spin"></span> Bekrefter betalingen …</div>
+
+    <div id="failed" class="state hide">
+      <span class="kick">Hmm</span>
+      <h1>Fant ikke betalingen ennå</h1>
+      <p>Har du nettopp betalt, kan det ta noen sekunder. Prøv å laste siden på nytt. Skjer det ikke noe, ta kontakt på <a href="mailto:hello@staymotion.no">hello@staymotion.no</a>.</p>
+      <p class="back"><a href="/">&larr; Til forsiden</a></p>
+    </div>
+
+    <div id="upload" class="hide">
+      <span class="kick">Betalt — siste steg</span>
+      <h1>Last opp bildene dine</h1>
+      <p>Velg 6–15 bilder du allerede har av objektet. Vi plukker de beste og gjør dem levende. JPG, PNG, HEIC og WEBP.</p>
+
+      <label class="drop" id="drop" for="files">
+        <b>Trykk for å velge bilder</b>
+        <small>eller dra dem hit</small>
+      </label>
+      <input id="files" type="file" accept="image/*" multiple>
+
+      <div class="list" id="list"></div>
+
+      <button class="btn" id="send" disabled>Send bildene</button>
+      <p class="muted" id="count"></p>
+
+      <div class="done hide" id="done">
+        <h1 style="font-size:2rem">Takk — vi er i gang! ✨</h1>
+        <p>Bildene er mottatt. Du hører fra oss når videoene/bildene er klare.</p>
+      </div>
+    </div>
+
+    <p class="back"><a href="/">&larr; Til forsiden</a></p>
+  </div>
+
+<script type="module">
+  import { upload } from 'https://esm.sh/@vercel/blob@0.27.0/client';
+
+  const q = new URLSearchParams(location.search);
+  const provider = q.get('provider');
+  const statusUrl = provider === 'vipps'
+    ? '/api/vipps/status?ref=' + encodeURIComponent(q.get('ref') || '')
+    : '/api/order-status?session_id=' + encodeURIComponent(q.get('session_id') || '');
+
+  const $ = (id) => document.getElementById(id);
+  let orderToken = null;
+  let files = [];
+
+  async function check() {
+    try {
+      const r = await fetch(statusUrl);
+      const d = await r.json();
+      if (d.paid && d.token) {
+        orderToken = d.token;
+        $('checking').classList.add('hide');
+        $('upload').classList.remove('hide');
+      } else {
+        show('failed');
+      }
+    } catch (e) {
+      show('failed');
+    }
+  }
+  function show(id){ $('checking').classList.add('hide'); $(id).classList.remove('hide'); }
+
+  const input = $('files'), drop = $('drop');
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); addFiles(e.dataTransfer.files); });
+  input.addEventListener('change', () => addFiles(input.files));
+
+  function addFiles(fl) {
+    for (const f of fl) if (f.type.startsWith('image/')) files.push(f);
+    renderList();
+  }
+  function renderList() {
+    const list = $('list'); list.innerHTML = '';
+    files.forEach((f, i) => {
+      const row = document.createElement('div'); row.className = 'row';
+      row.innerHTML = '<span>' + f.name + '</span><span class="st" id="st' + i + '">' + Math.round(f.size/1024/1024*10)/10 + ' MB</span>';
+      list.appendChild(row);
+    });
+    $('send').disabled = files.length === 0;
+    $('count').textContent = files.length ? files.length + ' bilder valgt' : '';
+  }
+
+  $('send').addEventListener('click', async () => {
+    if (!orderToken || !files.length) return;
+    $('send').disabled = true;
+    let ok = 0;
+    for (let i = 0; i < files.length; i++) {
+      const st = $('st' + i);
+      try {
+        st.textContent = 'laster opp …';
+        await upload(files[i].name, files[i], {
+          access: 'public',
+          handleUploadUrl: '/api/blob-upload',
+          clientPayload: orderToken,
+        });
+        st.textContent = '✓ lastet opp'; st.className = 'st ok'; ok++;
+      } catch (e) {
+        st.textContent = '✗ feil'; st.className = 'st err';
+      }
+    }
+    if (ok > 0) { $('done').classList.remove('hide'); $('done').scrollIntoView({ behavior: 'smooth' }); }
+    else $('send').disabled = false;
+  });
+
+  check();
+</script>
+</body>
+</html>

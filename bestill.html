@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Bestill — StayMotion</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--obsidian:#08090B;--ivory:#F2EEE6;--sand:#D9CBB8;--gold:#C8A96A;--gold-lite:#E7CE97;--champagne:#E8D3A6;--slate:#8B9099;--line:rgba(200,169,106,.24);--line-soft:rgba(240,238,232,.10);--char:#15181E;--serif:"Cormorant Garamond",Georgia,serif;--display:"Inter Tight",-apple-system,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--obsidian);color:var(--ivory);font-family:var(--display);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:100%;max-width:620px;margin:0 auto;padding:clamp(28px,6vw,64px) 22px}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:clamp(30px,6vw,54px)}
+  .brand img{height:30px}
+  .brand b{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.32em;padding-left:.32em}
+  .kick{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:18px}
+  .kick::before{content:"";width:24px;height:1px;background:currentColor;opacity:.7}
+  h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.05;letter-spacing:-.01em;margin-bottom:10px}
+  .sum{border:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(232,211,166,.06),rgba(232,211,166,.01));padding:24px;margin:28px 0}
+  .sum .pn{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-lite)}
+  .sum .amt{font-family:var(--serif);font-size:2.8rem;line-height:1;margin:8px 0}
+  .sum .amt small{font-family:var(--display);font-size:14px;color:var(--slate)}
+  .sum .dl{color:var(--sand);font-size:.95rem}
+  .field{margin:18px 0}
+  label{display:block;font-size:13px;letter-spacing:.04em;color:var(--sand);margin-bottom:8px}
+  input[type=email]{width:100%;background:var(--char);border:1px solid var(--line-soft);color:var(--ivory);font:inherit;padding:14px 16px;border-radius:2px}
+  input[type=email]:focus{outline:none;border-color:var(--gold)}
+  .exp{display:flex;align-items:center;gap:10px;color:var(--sand);font-size:.95rem;cursor:pointer;user-select:none}
+  .exp input{width:18px;height:18px;accent-color:var(--gold)}
+  .btns{display:grid;gap:12px;margin-top:26px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 26px;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.02em;border-radius:3px;cursor:pointer;border:1px solid transparent;transition:transform .2s,background .3s,border-color .3s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-vipps{background:#ff5b24;color:#fff}
+  .btn-stripe{background:transparent;color:var(--ivory);border-color:var(--line)}
+  .btn-stripe:hover{border-color:var(--gold-lite);color:#fff}
+  .fine{margin-top:22px;font-size:12.5px;color:var(--slate);line-height:1.6}
+  .fine a{color:var(--gold-lite);border-bottom:1px solid var(--line-soft)}
+  .back{margin-top:30px;font-size:13px;color:var(--slate)}
+  .back a{color:var(--sand)}
+  .err{color:#e88;font-size:.95rem;margin-top:14px;display:none}
+  footer{margin-top:auto}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="brand" href="/"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
+    <span class="kick">Bestilling</span>
+    <h1>Fullfør bestillingen</h1>
+    <p style="color:var(--sand)">Betal trygt med Vipps eller kort. Etter betaling laster du opp bildene dine — så er vi i gang.</p>
+
+    <div class="sum">
+      <div class="pn" id="pn">—</div>
+      <div class="amt"><span id="amt">—</span><small id="cur"> kr</small></div>
+      <div class="dl" id="dl"></div>
+    </div>
+
+    <div class="field">
+      <label for="email">E-posten din (for kvittering og opplastingslenke)</label>
+      <input id="email" type="email" placeholder="deg@epost.no" autocomplete="email" inputmode="email">
+    </div>
+
+    <label class="exp"><input type="checkbox" id="express"> Express — halvert leveringstid (+50 %)</label>
+
+    <div class="btns">
+      <button class="btn btn-vipps" id="pay-vipps">Betal med Vipps</button>
+      <button class="btn btn-stripe" id="pay-stripe">Betal med kort</button>
+    </div>
+    <p class="err" id="err">Velg en gyldig pakke fra prislisten.</p>
+
+    <p class="fine">Ved å bestille godtar du at vi bruker bildene dine til å lage materialet du har betalt for. Vi forfalsker ingenting. Se <a href="/personvern.html">personvern</a>.</p>
+    <p class="back"><a href="/#priser">&larr; Tilbake til priser</a></p>
+  </div>
+  <footer></footer>
+
+<script>
+  var CAT = {
+    bilder:   { name:'Cinematiske bilder',         kr:990,  dl:'Levering ca. 24 timer' },
+    enkelt:   { name:'Enkelt — 1 cinematisk reel', kr:1990, dl:'Levering ca. 48 timer' },
+    signatur: { name:'Signatur — 3 reels',         kr:3490, dl:'Levering ca. 48 timer' }
+  };
+  var q = new URLSearchParams(location.search);
+  var pkg = q.get('pkg');
+  var expressInit = q.get('express') === '1';
+  var base = CAT[pkg];
+  var elAmt=document.getElementById('amt'), elPn=document.getElementById('pn'),
+      elDl=document.getElementById('dl'), elExp=document.getElementById('express'),
+      elErr=document.getElementById('err');
+
+  function fmt(n){ return n.toLocaleString('no-NO'); }
+  function render(){
+    if(!base){ elErr.style.display='block'; return; }
+    var express = elExp.checked;
+    var kr = Math.round(base.kr * (express?1.5:1));
+    elPn.textContent = base.name + (express?' + Express':'');
+    elAmt.textContent = 'fra ' + fmt(kr);
+    elDl.textContent = express ? 'Halvert leveringstid' : base.dl;
+  }
+  elExp.checked = expressInit;
+  elExp.addEventListener('change', render);
+  render();
+
+  function go(provider){
+    if(!base){ elErr.style.display='block'; return; }
+    var params = new URLSearchParams({ pkg:pkg, express: elExp.checked?'1':'0' });
+    var email = document.getElementById('email').value.trim();
+    if(email) params.set('email', email);
+    var path = provider==='vipps' ? '/api/vipps/create' : '/api/checkout';
+    location.href = path + '?' + params.toString();
+  }
+  document.getElementById('pay-vipps').addEventListener('click', function(){ go('vipps'); });
+  document.getElementById('pay-stripe').addEventListener('click', function(){ go('stripe'); });
+</script>
+</body>
+</html>
