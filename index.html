@@ -368,6 +368,20 @@
   .trust-item .n{font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,2.6vw,2.05rem);color:var(--gold-lite);line-height:1.1;letter-spacing:-.005em;font-feature-settings:"lnum" 1,"tnum" 1}
   .trust-item .l{margin-top:11px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);line-height:1.5;font-weight:500}
 
+  /* ---------- VALUE / WHY IT PAYS OFF ---------- */
+  .value .vhead{max-width:60ch}
+  .value .vhead .lead{margin-top:20px}
+  .value-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:clamp(34px,4vw,52px)}
+  @media(max-width:760px){.value-grid{grid-template-columns:1fr;max-width:540px}}
+  .vcard{position:relative;border:1px solid var(--line-soft);border-radius:4px;
+    background:linear-gradient(180deg,rgba(240,238,232,.05),rgba(240,238,232,.015));
+    padding:clamp(26px,3vw,38px);transition:transform .5s var(--ease),border-color .5s,box-shadow .5s}
+  .vcard:hover{transform:translateY(-5px);border-color:var(--line);box-shadow:0 40px 80px -50px rgba(0,0,0,.85)}
+  .vcard .vlead{display:flex;align-items:baseline;gap:8px 16px;flex-wrap:wrap}
+  .vcard .big{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,2.8vw,2.3rem);color:var(--gold-lite);line-height:1;letter-spacing:-.01em;font-feature-settings:"lnum" 1,"tnum" 1}
+  .vcard h3{font-family:var(--display);font-weight:600;font-size:1.12rem;color:var(--ivory);letter-spacing:.005em}
+  .vcard p{margin-top:14px;color:var(--sand);font-size:1rem;line-height:1.6;max-width:48ch}
+
   /* ---------- PRICING ---------- */
   .price-head{max-width:56ch}
   .price-head .lead{margin-top:20px}
@@ -562,7 +576,7 @@
 <section class="trust">
   <div class="wrap">
     <div class="trust-item rv"><div class="n">48 timer</div><div class="l">Fra bilder til ferdig video</div></div>
-    <div class="trust-item rv d1"><div class="n">9:16 + 16:9</div><div class="l">Klar for Finn, nett &amp; reels</div></div>
+    <div class="trust-item rv d1"><div class="n">9:16 + 16:9</div><div class="l">Optimalisert for hver plattform</div></div>
     <div class="trust-item rv d2"><div class="n">Null</div><div class="l">Dager med filming</div></div>
     <div class="trust-item rv d3"><div class="n">Hele Norden</div><div class="l">Gjort ferdig for deg, digitalt</div></div>
   </div>
@@ -578,7 +592,7 @@
     <div class="steps">
       <div class="step rv d1"><span class="no">01</span><h3>Send bildene</h3><p>Du sender 6–15 bilder du allerede har av objektet.</p></div>
       <div class="step rv d2"><span class="no">02</span><h3>Vi gjør dem levende</h3><p>Vi velger de beste og gjør hvert bilde om til et cinematisk shot.</p></div>
-      <div class="step rv d3"><span class="no">03</span><h3>Motta ferdige videoer</h3><p>Du får ferdige reels klare for Finn, nettside og sosiale medier — i 9:16 og 16:9.</p></div>
+      <div class="step rv d3"><span class="no">03</span><h3>Motta ferdige videoer</h3><p>Ferdige, publiseringsklare videoer levert i alle formater — klare til å gå live samme dag du får dem.</p></div>
     </div>
   </div>
 </section>
@@ -601,6 +615,35 @@
     </div>
     <div class="svc-media rv d1">
       <div class="poster" style="background-image:url('img/hotel-dusk.jpg')"></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY IT PAYS OFF -->
+<section class="band value" id="verdi">
+  <div class="wrap">
+    <div class="vhead rv">
+      <span class="kick">Hvorfor det lønner seg</span>
+      <h2>Samme wow-effekt som et filmteam.<br>Uten regningen — eller ventingen.</h2>
+      <p class="lead">Du sitter allerede på bildene. Vi gjør dem om til innhold som selger — mens du sparer penger, tid og styr. Slik regnestykket faktisk ser ut:</p>
+    </div>
+    <div class="value-grid">
+      <div class="vcard rv">
+        <div class="vlead"><span class="big">Spar 15–40k</span><h3>Ingen filmteam</h3></div>
+        <p>Et filmteam med rigg koster fort 15 000–40 000 kr for én dag. Vi bruker bildene du allerede har — så du betaler fra 990 kr, ikke titusener.</p>
+      </div>
+      <div class="vcard rv d1">
+        <div class="vlead"><span class="big">Spar dagene</span><h3>Ingen befaring, ingen venting</h3></div>
+        <p>Ingen å booke inn, ingen rigg, ingen produksjonsdag. Du sender bildene i dag — og har ferdig, publiseringsklart innhold på bordet innen 48 timer.</p>
+      </div>
+      <div class="vcard rv d2">
+        <div class="vlead"><span class="big">Selg raskere</span><h3>Bevegelse fanger blikket</h3></div>
+        <p>Objekter med video får markant flere visninger og henvendelser. Der stillbilder blir scrollet forbi, stopper folk opp på bevegelse — og husker deg.</p>
+      </div>
+      <div class="vcard rv d3">
+        <div class="vlead"><span class="big">Null styr</span><h3>Ferdig, levert, klart</h3></div>
+        <p>Fast pris, ingen overraskelser, levert i alle formater og klart til å publiseres. Du løfter ikke en finger — vi gjør hele jobben ferdig for deg.</p>
+      </div>
     </div>
   </div>
 </section>
