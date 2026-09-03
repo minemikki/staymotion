@@ -371,24 +371,46 @@
   /* ---------- PRICING ---------- */
   .price-head{max-width:56ch}
   .price-head .lead{margin-top:20px}
-  .price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(40px,5vw,64px);align-items:stretch}
-  @media(max-width:1080px){.price-grid{grid-template-columns:repeat(2,1fr);max-width:720px;margin-left:auto;margin-right:auto}}
-  @media(max-width:560px){.price-grid{grid-template-columns:1fr;max-width:420px}}
-  .plan{position:relative;border:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(240,238,232,.035),rgba(240,238,232,.008));
-    padding:clamp(24px,2.4vw,34px);display:flex;flex-direction:column;transition:transform .5s var(--ease),border-color .5s,box-shadow .5s}
-  .plan:hover{transform:translateY(-6px);border-color:var(--line);box-shadow:0 40px 80px -50px rgba(0,0,0,.8)}
-  .plan.feat{border-color:var(--line);background:linear-gradient(180deg,rgba(232,211,166,.10),rgba(232,211,166,.02))}
-  .plan .badge{position:absolute;top:0;right:24px;transform:translateY(-50%);font-family:var(--display);font-size:10px;letter-spacing:.2em;
-    text-transform:uppercase;font-weight:600;background:var(--champagne);color:#0c0d10;padding:6px 12px;border-radius:2px}
-  .plan .pname{font-family:var(--display);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lite)}
-  .plan .amt{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,4.6vw,3.4rem);line-height:1;margin:16px 0 4px;color:var(--ivory)}
-  .plan .amt small{font-family:var(--display);font-size:14px;letter-spacing:.02em;color:var(--slate);font-weight:400}
+  /* value anchor — makes the price feel small next to the alternative */
+  .price-anchor{margin-top:26px;display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:14px 20px;border:1px solid var(--line-soft);border-radius:3px;
+    background:linear-gradient(180deg,rgba(240,238,232,.05),rgba(240,238,232,.015))}
+  .price-anchor .old{color:var(--slate);text-decoration:line-through;text-decoration-color:rgba(139,144,153,.6);font-size:.98rem}
+  .price-anchor .arrow{color:var(--gold);opacity:.8}
+  .price-anchor .new{font-family:var(--display);font-weight:600;color:var(--ivory);font-size:1.02rem}
+  .price-anchor .new b{color:var(--gold-lite)}
+  .price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(34px,4vw,52px);align-items:stretch}
+  @media(max-width:1080px){.price-grid{grid-template-columns:repeat(2,1fr);max-width:760px;margin-left:auto;margin-right:auto}}
+  @media(max-width:560px){.price-grid{grid-template-columns:1fr;max-width:440px}}
+  .plan{position:relative;border:1px solid rgba(240,238,232,.14);border-radius:4px;
+    background:linear-gradient(180deg,rgba(240,238,232,.075),rgba(240,238,232,.025));
+    padding:clamp(26px,2.4vw,34px);display:flex;flex-direction:column;
+    transition:transform .5s var(--ease),border-color .5s,box-shadow .5s}
+  .plan:hover{transform:translateY(-6px);border-color:var(--gold-lite);box-shadow:0 40px 80px -46px rgba(0,0,0,.85)}
+  /* featured card — visually dominant so the eye lands here first */
+  .plan.feat{border-color:var(--gold);background:linear-gradient(180deg,rgba(232,211,166,.16),rgba(232,211,166,.045));
+    box-shadow:0 30px 70px -40px rgba(200,169,106,.5),inset 0 0 0 1px rgba(232,211,166,.12)}
+  @media(min-width:1081px){.plan.feat{transform:scale(1.045);z-index:2}.plan.feat:hover{transform:scale(1.045) translateY(-6px)}}
+  .plan .badge{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);font-family:var(--display);font-size:10.5px;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700;background:var(--champagne);color:#0c0d10;padding:7px 16px;border-radius:100px;white-space:nowrap;
+    box-shadow:0 8px 24px -8px rgba(232,211,166,.6)}
+  .plan .pname{font-family:var(--display);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lite);font-weight:600}
+  .plan .amt{font-family:var(--display);font-weight:700;font-size:clamp(2.3rem,4.1vw,3rem);line-height:1;margin:14px 0 2px;color:var(--ivory);letter-spacing:-.01em;white-space:nowrap}
+  .plan .amt .pre{font-size:.9rem;font-weight:500;letter-spacing:.04em;color:var(--sand);vertical-align:middle;margin-right:2px}
+  .plan .amt small{font-family:var(--display);font-size:14px;letter-spacing:.02em;color:var(--sand);font-weight:500}
   .plan .pdesc{color:var(--sand);font-size:.98rem;margin-bottom:22px;line-height:1.5}
-  .plan ul{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:12px;flex:1}
-  .plan li{position:relative;padding-left:24px;color:#DCD6CA;font-size:.96rem;line-height:1.45}
-  .plan li::before{content:"";position:absolute;left:0;top:.55em;width:11px;height:1px;background:var(--gold)}
+  .plan ul{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:12px;flex:1}
+  .plan li{position:relative;padding-left:26px;color:var(--ivory);font-size:.96rem;line-height:1.45}
+  .plan li::before{content:"";position:absolute;left:0;top:.34em;width:15px;height:15px;
+    background:var(--gold);opacity:.9;-webkit-mask:no-repeat center/contain;mask:no-repeat center/contain;
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E");
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E")}
   .plan .btn{width:100%}
-  .price-note{margin-top:28px;font-size:13.5px;color:var(--slate);line-height:1.7;max-width:70ch}
+  /* reassurance row under the grid */
+  .price-trust{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;justify-content:center;text-align:center}
+  .price-trust span{display:inline-flex;align-items:center;gap:9px;color:var(--sand);font-size:13.5px;letter-spacing:.02em}
+  .price-trust span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.8}
+  .price-note{margin-top:26px;font-size:13px;color:var(--slate);line-height:1.7;max-width:74ch;margin-left:auto;margin-right:auto;text-align:center}
   .price-note b{color:var(--gold-lite);font-weight:500}
 
   /* ---------- FAQ ---------- */
@@ -590,11 +612,16 @@
       <span class="kick">Priser</span>
       <h2>Én fast pris.<br>Null overraskelser.</h2>
       <p class="lead">Du sender bildene du allerede har — vi leverer ferdige, cinematiske bilder og videoer klare til å publiseres. Ingen filmteam, ingen produksjonsdag, ingen skjulte kostnader.</p>
+      <div class="price-anchor">
+        <span class="old">Filmteam med rigg: 15 000–40 000 kr per dag</span>
+        <span class="arrow">→</span>
+        <span class="new">StayMotion: fra <b>990 kr</b> — og ingen møter opp</span>
+      </div>
     </div>
     <div class="price-grid">
       <div class="plan rv">
         <div class="pname">Bilder</div>
-        <div class="amt">fra 990<small> kr</small></div>
+        <div class="amt"><i class="pre">fra</i>990<small> kr</small></div>
         <p class="pdesc">Bildene dine løftet til cinematisk kvalitet.</p>
         <ul>
           <li>Opptil 10 cinematiske bilder</li>
@@ -617,10 +644,10 @@
         <a class="btn glass" href="/bestill.html?pkg=enkelt"><span>Bestill Enkelt</span></a>
       </div>
       <div class="plan feat rv d2">
-        <span class="badge">Mest valgt</span>
+        <span class="badge">★ Mest valgt</span>
         <div class="pname">Signatur</div>
         <div class="amt">3 490<small> kr</small></div>
-        <p class="pdesc">Tre reels — nok til en hel kampanje.</p>
+        <p class="pdesc">Tre reels — nok til en hel kampanje. Best verdi per video.</p>
         <ul>
           <li>3 ferdige videoer</li>
           <li>Levert i 9:16 og 16:9</li>
@@ -631,7 +658,7 @@
       </div>
       <div class="plan rv d3">
         <div class="pname">Månedlig</div>
-        <div class="amt">fra 4 990<small> kr/mnd</small></div>
+        <div class="amt"><i class="pre">fra</i>4 990<small> kr/mnd</small></div>
         <p class="pdesc">Løpende innhold for deg som publiserer jevnt.</p>
         <ul>
           <li>Flere reels hver måned</li>
@@ -642,7 +669,12 @@
         <a class="btn glass" href="mailto:hello@staymotion.no?subject=M%C3%A5nedlig%20avtale"><span>Snakk med oss</span></a>
       </div>
     </div>
-    <p class="price-note rv d1"><b>Express:</b> trenger du det raskere? Vi halverer leveringstiden mot et påslag på 50 %.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Vi tar kun et fåtall nye objekter hver måned</b> — for å holde kvaliteten helt i toppen.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Byrå &amp; management:</b> egne retainer-avtaler fra 9 990 kr/mnd når du har mange objekter.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Introtilbud:</b> for de aller første kundene lager vi den første reelen fra 990 kr.</p>
+    <div class="price-trust rv d1">
+      <span>Betal trygt med Vipps eller kort</span>
+      <span>Levering på 24–48 timer</span>
+      <span>Fast pris — du vet hva du betaler</span>
+    </div>
+    <p class="price-note rv d1"><b>Express:</b> trenger du det raskere? Vi halverer leveringstiden mot et påslag på 50 %.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Kun et fåtall nye objekter hver måned</b> — for å holde kvaliteten helt i toppen.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Byrå &amp; management:</b> egne retainer-avtaler fra 9 990 kr/mnd.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Introtilbud:</b> for de aller første kundene lager vi den første reelen fra 990 kr.</p>
   </div>
 </section>
 
