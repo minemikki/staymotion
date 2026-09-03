@@ -233,6 +233,21 @@
   .reel-play::after{content:"";margin-left:4px;border-left:12px solid var(--ivory);border-top:7px solid transparent;border-bottom:7px solid transparent}
   .reel:hover .reel-play,.reel.playing .reel-play{opacity:0;transform:translate(-50%,-50%) scale(1.2)}
 
+  /* ---------- SHOWCASE (flythrough) ---------- */
+  .show-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:clamp(30px,4.5vw,66px);align-items:center}
+  @media(max-width:900px){.show-grid{grid-template-columns:1fr;gap:30px}}
+  .show-video{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--char);border:1px solid var(--line-soft);box-shadow:0 50px 100px -55px rgba(0,0,0,.85)}
+  .show-video .poster,.show-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .show-video .poster{background:center/cover no-repeat;transform:scale(1.02)}
+  .show-video video{z-index:1}
+  .show-tag{position:absolute;top:16px;left:16px;z-index:3;font-size:10px;letter-spacing:.22em;padding:6px 11px;
+    background:rgba(8,9,11,.5);border:1px solid var(--line);color:var(--gold-lite);backdrop-filter:blur(6px)}
+  .show-copy h2{margin-top:18px}
+  .show-list{list-style:none;margin:24px 0 32px;padding:0;display:grid;gap:15px}
+  .show-list li{position:relative;padding-left:24px;color:var(--sand);font-size:1.04rem;line-height:1.55}
+  .show-list li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:1px;background:var(--gold)}
+  .show-list b{color:var(--ivory);font-weight:500}
+
   /* ---------- BEFORE / AFTER ---------- */
   .ba{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-soft)}
   @media(max-width:760px){.ba{grid-template-columns:1fr}}
@@ -361,6 +376,27 @@
     <p class="kick rv">Fra stille bilde til film</p>
     <h2 class="rv d1">Et bilde viser rommet.<br>En video får folk til å <em>ville være der.</em></h2>
     <p class="lead rv d2">Vi tar de beste bildene dine og gir dem liv — rolige kamerabevegelser, premium lys og atmosfære. Resultatet ser ut som det kom fra et filmteam, uten at noen setter foten innenfor døra.</p>
+  </div>
+</section>
+
+<!-- SHOWCASE / FLYTHROUGH -->
+<section class="band">
+  <div class="wrap show-grid">
+    <div class="show-video rv">
+      <div class="poster" style="background-image:url('img/poster-tour.jpg')"></div>
+      <video id="tourVideo" muted loop playsinline preload="none" poster="img/poster-tour.jpg" data-mp4="video/tour.mp4"></video>
+      <span class="show-tag">DRONE · GJENNOMFLYGING</span>
+    </div>
+    <div class="show-copy rv d1">
+      <span class="kick">Se det i bevegelse</span>
+      <h2>Fra vanlig bildevisning til noe folk <em style="font-style:italic;color:var(--gold-lite)">stopper opp</em> for.</h2>
+      <ul class="show-list">
+        <li><b>Stopper scrollen.</b> Bevegelse fanger blikket der stillbilder blir scrollet forbi.</li>
+        <li><b>Selger følelsen.</b> Kjøpere ser seg selv inne i boligen — ikke bare rommene.</li>
+        <li><b>Skiller deg ut.</b> Mens alle andre poster de samme bildene, viser du film.</li>
+      </ul>
+      <a class="btn" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span>Få et gratis eksempel</span></a>
+    </div>
   </div>
 </section>
 
@@ -524,6 +560,20 @@
       if('IntersectionObserver' in window){
         new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){start();}})},{threshold:.4}).observe(cell||ba);
       } else { start(); }
+    }
+
+    // showcase flythrough autoplay in view
+    var tv=document.getElementById('tourVideo');
+    if(tv){
+      var tstart=function(){
+        if(tv.dataset.loaded) return;
+        var mp4=tv.dataset.mp4;
+        if(mp4){var s=document.createElement('source');s.src=mp4;s.type='video/mp4';tv.appendChild(s);}
+        tv.dataset.loaded='1';tv.load();var p=tv.play();if(p&&p.catch)p.catch(function(){});
+      };
+      if('IntersectionObserver' in window){
+        new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){tstart();}})},{threshold:.3}).observe(tv);
+      } else { tstart(); }
     }
 
     // gentle parallax on cinema/close backgrounds
