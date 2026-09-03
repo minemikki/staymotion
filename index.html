@@ -83,8 +83,11 @@
   img,video{max-width:100%;display:block}
   /* hide iOS/Safari's forced play-button overlay on muted background videos */
   video::-webkit-media-controls{display:none!important}
+  video::-webkit-media-controls-enclosure,
+  video::-webkit-media-controls-panel,
+  video::-webkit-media-controls-overlay-play-button,
   video::-webkit-media-controls-start-playback-button,
-  video::-webkit-media-controls-play-button{display:none!important;-webkit-appearance:none}
+  video::-webkit-media-controls-play-button{display:none!important;-webkit-appearance:none!important;opacity:0!important;pointer-events:none!important;width:0!important;height:0!important}
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad)}
   @media(max-width:680px){:root{--pad:22px}}
