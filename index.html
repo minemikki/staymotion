@@ -274,6 +274,25 @@
   .ba-label{position:absolute;top:16px;left:16px;z-index:3;font-size:11px;letter-spacing:.24em;text-transform:uppercase;
     padding:6px 12px;background:rgba(8,9,11,.55);color:var(--ivory);border:1px solid var(--line-soft)}
   .ba-cell.after .ba-label{color:var(--gold-lite);border-color:var(--line)}
+  /* interactive before/after slider */
+  .ba-slider{position:relative;aspect-ratio:16/10;overflow:hidden;border:1px solid var(--line-soft);--pos:55%;isolation:isolate;user-select:none;touch-action:pan-y}
+  @media(max-width:640px){.ba-slider{aspect-ratio:3/4}}
+  .ba-after,.ba-before{position:absolute;inset:0}
+  .ba-after .poster,.ba-after video,.ba-before .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:center/cover no-repeat}
+  .ba-after video{z-index:1;opacity:0;transition:opacity .9s var(--ease)}
+  .ba-after video[data-loaded]{opacity:1}
+  .ba-before{z-index:2;clip-path:inset(0 calc(100% - var(--pos)) 0 0)}
+  .ba-label{z-index:3}
+  .ba-label.l{left:16px}
+  .ba-label.r{left:auto;right:16px;color:var(--gold-lite);border-color:var(--line)}
+  .ba-handle{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;background:rgba(240,238,232,.92);z-index:4;transform:translateX(-1px);pointer-events:none}
+  .grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;
+    background:rgba(8,9,11,.5);border:1px solid rgba(240,238,232,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:grid;place-items:center;color:var(--ivory);font-size:20px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+  .grip::before{content:"\2194"}
+  .ba-range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;z-index:5}
+  .ba-range:focus-visible{outline:2px solid var(--gold-lite);outline-offset:3px}
+  @media(max-width:640px){.ba-slider .ba-label{font-size:9.5px;padding:5px 9px;top:12px}.ba-slider .ba-label.l{left:12px}.ba-slider .ba-label.r{right:12px}.ba-label .lx{display:none}}
 
   /* ---------- PROCESS ---------- */
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,4vw,56px);margin-top:clamp(44px,6vw,72px)}
@@ -473,19 +492,23 @@
 <!-- BEFORE / AFTER -->
 <section class="band" id="arbeid">
   <div class="wrap">
-    <div class="rv" style="margin-bottom:clamp(34px,5vw,56px)">
+    <div class="rv" style="margin-bottom:clamp(30px,4.5vw,50px)">
       <span class="kick">Før / etter</span>
       <h2>Samme bilde. Samme rom.<br>Bare <em style="font-style:italic;color:var(--gold-lite)">levende.</em></h2>
+      <p class="lead" style="margin-top:20px">Folk husker ikke bilde nummer 14. De husker <em style="font-style:italic;color:var(--gold-lite)">følelsen</em> av å ville være der. Dra i håndtaket og se forskjellen.</p>
     </div>
-    <div class="ba rv d1">
-      <div class="ba-cell">
+    <div class="ba-slider rv d1" id="baSlider">
+      <div class="ba-after">
         <div class="poster" style="background-image:url('img/fjord.jpg')"></div>
-        <span class="ba-label">Før — stillbilde</span>
-      </div>
-      <div class="ba-cell after">
         <video id="baVideo" muted loop playsinline preload="none" poster="img/fjord.jpg" data-mp4="video/hero.mp4"></video>
-        <span class="ba-label">Etter — StayMotion</span>
+        <span class="ba-label r">Etter<span class="lx"> — levende</span></span>
       </div>
+      <div class="ba-before">
+        <div class="poster" style="background-image:url('img/fjord.jpg')"></div>
+        <span class="ba-label l">Før<span class="lx"> — stillbilde</span></span>
+      </div>
+      <div class="ba-handle" aria-hidden="true"><span class="grip"></span></div>
+      <input class="ba-range" type="range" min="0" max="100" value="55" aria-label="Dra for å sammenligne før og etter">
     </div>
   </div>
 </section>
@@ -584,7 +607,7 @@
         <a class="btn glass" href="mailto:hello@staymotion.no?subject=M%C3%A5nedlig%20avtale"><span>Snakk med oss</span></a>
       </div>
     </div>
-    <p class="price-note rv d1"><b>Byrå &amp; management:</b> egne retainer-avtaler fra 9 990 kr/mnd når du har mange objekter.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Introtilbud:</b> for de aller første kundene lager vi den første reelen fra 990 kr.</p>
+    <p class="price-note rv d1"><b>Vi tar kun et fåtall nye objekter hver måned</b> — for å holde kvaliteten helt i toppen.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Byrå &amp; management:</b> egne retainer-avtaler fra 9 990 kr/mnd når du har mange objekter.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Introtilbud:</b> for de aller første kundene lager vi den første reelen fra 990 kr.</p>
   </div>
 </section>
 
@@ -626,11 +649,11 @@
   <div class="wrap">
     <span class="kick rv" style="justify-content:center">Klar når du er</span>
     <h2 class="rv d1">Lurer du på hvordan bildene dine ser ut i bevegelse?</h2>
-    <p class="sub rv d2">Send noen bilder, så lager vi et gratis eksempel av ditt eget objekt.</p>
+    <p class="sub rv d2">Send noen bilder, så lager vi et gratis eksempel av ditt eget objekt. Liker du det ikke, koster det deg ingenting.</p>
     <div class="ctas rv d2">
       <a class="btn" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span>Få et gratis eksempel</span></a>
     </div>
-    <p class="fine rv d3">Ingen filming · Ingen binding</p>
+    <p class="fine rv d3">Ingen filming · Ingen binding · Kun et fåtall objekter i måneden</p>
     <p class="price rv d3">Produksjoner fra 1 990 kr · <a href="#priser">Se pakker og priser</a></p>
   </div>
 </section>
@@ -729,6 +752,16 @@
       if('IntersectionObserver' in window){
         new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){start();}})},{threshold:.4}).observe(cell||ba);
       } else { start(); }
+    }
+
+    // before/after drag slider
+    var baSlider=document.getElementById('baSlider');
+    if(baSlider){
+      var baRange=baSlider.querySelector('.ba-range');
+      var baUpd=function(){ baSlider.style.setProperty('--pos', baRange.value+'%'); };
+      baRange.addEventListener('input',baUpd);
+      baRange.addEventListener('change',baUpd);
+      baUpd();
     }
 
     // showcase flythrough autoplay in view
