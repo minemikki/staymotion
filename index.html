@@ -254,6 +254,8 @@
   .ind:hover{transform:translateY(-6px);border-color:var(--line-strong);box-shadow:0 40px 80px -46px rgba(0,0,0,.85)}
   .ind .poster{position:absolute;inset:0;background:center/cover no-repeat;transform:scale(1.03);transition:transform 1s var(--ease),filter .6s}
   .ind:hover .poster{transform:scale(1.09)}
+  .ind video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s var(--ease)}
+  .ind.playing video{opacity:1}
   .ind::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(9,13,18,.15) 0%,transparent 32%,rgba(9,13,18,.78) 100%)}
   .ind-cap{position:absolute;left:18px;right:18px;bottom:18px;z-index:2}
   .ind-cap b{font-family:var(--display);font-weight:700;font-size:1.28rem;letter-spacing:-.01em;display:block}
@@ -433,6 +435,7 @@
 <section class="hero">
   <div class="hero-media">
     <div class="poster" style="background-image:url('img/statement-room.jpg')"></div>
+    <video id="heroVideo" muted loop playsinline preload="auto" poster="img/statement-room.jpg"><source src="video/hero-room.mp4" type="video/mp4"></video>
     <div class="hero-overlay"></div>
     <div class="hero-tint"></div>
     <div class="grain"></div>
@@ -529,20 +532,24 @@
       <h2>For alle som lever av et godt førsteinntrykk.</h2>
     </div>
     <div class="ind-grid rv d1">
-      <a class="ind" href="mailto:hello@staymotion.no?subject=Eiendom">
+      <a class="ind" data-mp4="video/eiendom.mp4" href="mailto:hello@staymotion.no?subject=Eiendom">
         <div class="poster" style="background-image:url('img/poster-eiendom.jpg')"></div>
+        <video muted loop playsinline preload="none" poster="img/poster-eiendom.jpg"></video>
         <div class="ind-cap"><b>Eiendom</b><span>Få et eksempel →</span></div>
       </a>
-      <a class="ind" href="mailto:hello@staymotion.no?subject=Airbnb%20%26%20Hytter">
+      <a class="ind" data-mp4="video/hytte.mp4" href="mailto:hello@staymotion.no?subject=Airbnb%20%26%20Hytter">
         <div class="poster" style="background-image:url('img/poster-hytte.jpg')"></div>
+        <video muted loop playsinline preload="none" poster="img/poster-hytte.jpg"></video>
         <div class="ind-cap"><b>Airbnb &amp; Hytter</b><span>Få et eksempel →</span></div>
       </a>
-      <a class="ind" href="mailto:hello@staymotion.no?subject=Hotell">
+      <a class="ind" data-mp4="video/hotell.mp4" href="mailto:hello@staymotion.no?subject=Hotell">
         <div class="poster" style="background-image:url('img/poster-hotell.jpg')"></div>
+        <video muted loop playsinline preload="none" poster="img/poster-hotell.jpg"></video>
         <div class="ind-cap"><b>Hotell</b><span>Få et eksempel →</span></div>
       </a>
-      <a class="ind" href="mailto:hello@staymotion.no?subject=Restaurant">
+      <a class="ind" data-mp4="video/restaurant.mp4" href="mailto:hello@staymotion.no?subject=Restaurant">
         <div class="poster" style="background-image:url('img/poster-restaurant.jpg')"></div>
+        <video muted loop playsinline preload="none" poster="img/poster-restaurant.jpg"></video>
         <div class="ind-cap"><b>Restaurant</b><span>Få et eksempel →</span></div>
       </a>
     </div>
@@ -792,6 +799,14 @@
     function onScroll(){ if(nav) nav.classList.toggle('scrolled', window.scrollY>40); }
     onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
 
+    // Hero video fade-in over the sharp poster
+    var hv=document.getElementById('heroVideo');
+    if(hv){
+      var show=function(){hv.classList.add('ready')};
+      if(hv.readyState>=2) show(); else hv.addEventListener('loadeddata',show,{once:true});
+      play(hv);
+    }
+
     // Reveal on scroll
     var rvs=[].slice.call(document.querySelectorAll('.rv'));
     if('IntersectionObserver' in window && root.classList.contains('anim')){
@@ -824,6 +839,23 @@
       films.forEach(function(f){fio.observe(f)});
     } else {
       films.forEach(function(f){ var v=attach(f); f.classList.add('playing'); play(v); });
+    }
+
+    // Industry panels — video on hover (desktop) / in view (touch)
+    var inds=[].slice.call(document.querySelectorAll('.ind'));
+    var touch=window.matchMedia&&window.matchMedia('(hover:none)').matches;
+    if(touch && 'IntersectionObserver' in window){
+      var iio=new IntersectionObserver(function(es){es.forEach(function(e){
+        var el=e.target;
+        if(e.isIntersecting){ var v=attach(el); el.classList.add('playing'); play(v); }
+        else { var vv=el.querySelector('video'); if(vv){try{vv.pause();}catch(x){}} el.classList.remove('playing'); }
+      })},{threshold:.5});
+      inds.forEach(function(el){iio.observe(el)});
+    } else {
+      inds.forEach(function(el){
+        el.addEventListener('mouseenter',function(){ var v=attach(el); el.classList.add('playing'); play(v); });
+        el.addEventListener('mouseleave',function(){ var vv=el.querySelector('video'); if(vv){try{vv.pause();}catch(x){}} el.classList.remove('playing'); });
+      });
     }
 
     // Analytics event on contact clicks
