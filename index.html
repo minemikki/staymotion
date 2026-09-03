@@ -278,20 +278,20 @@
   /* ---------- PROCESS ---------- */
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,4vw,56px);margin-top:clamp(44px,6vw,72px)}
   @media(max-width:760px){.steps{grid-template-columns:1fr;gap:40px}}
-  .step .no{font-family:var(--serif);font-size:3.4rem;color:var(--gold);line-height:1;opacity:.9}
-  .step h3{font-size:1.5rem;margin:16px 0 10px;color:var(--ink)}
-  .step p{color:#5a5750;font-size:1rem;max-width:34ch}
-  .step .no{border-top:1px solid rgba(20,20,20,.14);padding-top:22px;display:block}
+  .step .no{font-family:var(--serif);font-size:3.4rem;color:var(--gold);line-height:1;opacity:.95}
+  .step h3{font-size:1.5rem;margin:16px 0 10px;color:var(--ivory)}
+  .step p{color:var(--sand);font-size:1.02rem;line-height:1.6;max-width:34ch}
+  .step .no{border-top:1px solid var(--line-soft);padding-top:22px;display:block}
 
   /* ---------- SERVICES ---------- */
   .svc-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(34px,5vw,72px);align-items:center}
   @media(max-width:860px){.svc-grid{grid-template-columns:1fr;gap:36px}}
   .svc-list{display:flex;flex-direction:column}
-  .svc-list a{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.4vw,3.1rem);color:var(--ink);
-    padding:20px 0;border-bottom:1px solid rgba(20,20,20,.12);display:flex;align-items:center;justify-content:space-between;
+  .svc-list a{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.4vw,3.1rem);color:var(--ivory);
+    padding:20px 0;border-bottom:1px solid var(--line-soft);display:flex;align-items:center;justify-content:space-between;
     transition:color .35s,padding-left .35s var(--ease)}
-  .svc-list a span.ar{font-size:1.4rem;opacity:0;transform:translateX(-10px);transition:opacity .35s,transform .35s var(--ease);color:#9a7b3e}
-  .svc-list a:hover{color:#9a7b3e;padding-left:14px}
+  .svc-list a span.ar{font-size:1.4rem;opacity:0;transform:translateX(-10px);transition:opacity .35s,transform .35s var(--ease);color:var(--gold-lite)}
+  .svc-list a:hover{color:var(--gold-lite);padding-left:14px}
   .svc-list a:hover span.ar{opacity:1;transform:none}
   .svc-media{position:relative;aspect-ratio:4/5;overflow:hidden}
   .svc-media .poster{position:absolute;inset:0;background:center/cover no-repeat;transform:scale(1.04)}
@@ -299,9 +299,9 @@
 
   /* honesty block */
   .honesty{margin-top:clamp(70px,9vw,120px);max-width:60ch}
-  .honesty h3{font-size:clamp(1.8rem,3.6vw,2.6rem);color:var(--ink);margin-bottom:16px}
-  .honesty h3 em{font-style:italic;color:#9a7b3e}
-  .honesty p{color:#5a5750;font-size:1.08rem;line-height:1.75}
+  .honesty h3{font-size:clamp(1.8rem,3.6vw,2.6rem);color:var(--ivory);margin-bottom:16px}
+  .honesty h3 em{font-style:italic;color:var(--gold-lite)}
+  .honesty p{color:var(--sand);font-size:1.08rem;line-height:1.75}
 
   /* ---------- CLOSING ---------- */
   .close{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden;isolation:isolate;text-align:center}
@@ -501,7 +501,7 @@
 </section>
 
 <!-- PROCESS -->
-<section class="band light" id="prosess">
+<section class="band" id="prosess">
   <div class="wrap">
     <div class="rv" style="max-width:60ch">
       <span class="kick">Slik fungerer det</span>
@@ -516,7 +516,7 @@
 </section>
 
 <!-- SERVICES -->
-<section class="band light" style="padding-top:0" id="tjenester">
+<section class="band" id="tjenester">
   <div class="wrap svc-grid">
     <div>
       <span class="kick rv">Hvem vi lager for</span>
