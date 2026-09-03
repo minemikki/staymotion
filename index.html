@@ -326,24 +326,27 @@
   .step .no{border-top:1px solid var(--line-soft);padding-top:22px;display:block}
 
   /* ---------- SERVICES ---------- */
-  .svc-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(34px,5vw,72px);align-items:center}
-  @media(max-width:860px){.svc-grid{grid-template-columns:1fr;gap:36px}}
-  .svc-list{display:flex;flex-direction:column}
-  .svc-list a{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.4vw,3.1rem);color:var(--ivory);
-    padding:20px 0;border-bottom:1px solid var(--line-soft);display:flex;align-items:center;justify-content:space-between;
-    transition:color .35s,padding-left .35s var(--ease)}
-  .svc-list a span.ar{font-size:1.4rem;opacity:0;transform:translateX(-10px);transition:opacity .35s,transform .35s var(--ease);color:var(--gold-lite)}
-  .svc-list a:hover{color:var(--gold-lite);padding-left:14px}
-  .svc-list a:hover span.ar{opacity:1;transform:none}
-  .svc-media{position:relative;aspect-ratio:4/5;overflow:hidden}
+  .svc-head{max-width:62ch}
+  .svc-head .lead{margin-top:18px;color:var(--sand);max-width:54ch}
+  .svc-cats{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .svc-cats a{display:inline-flex;align-items:center;gap:11px;padding:13px 22px;border:1px solid var(--line-soft);border-radius:100px;
+    font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.02em;color:var(--ivory);
+    background:linear-gradient(180deg,rgba(240,238,232,.05),rgba(240,238,232,.012));
+    transition:border-color .35s,color .35s,transform .25s var(--ease),background .35s}
+  .svc-cats a::after{content:"→";color:var(--gold-lite);opacity:.55;transition:transform .3s var(--ease),opacity .3s}
+  .svc-cats a:hover{border-color:var(--gold-lite);color:#fff;transform:translateY(-2px);background:linear-gradient(180deg,rgba(232,211,166,.10),rgba(232,211,166,.02))}
+  .svc-cats a:hover::after{opacity:1;transform:translateX(3px)}
+  .svc-grid{display:grid;grid-template-columns:1fr .82fr;gap:clamp(34px,5vw,64px);align-items:center;margin-top:clamp(48px,6vw,80px)}
+  @media(max-width:860px){.svc-grid{grid-template-columns:1fr;gap:34px}}
+  .svc-media{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:4px}
   .svc-media .poster{position:absolute;inset:0;background:center/cover no-repeat;transform:scale(1.04)}
-  .svc-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,9,11,.35))}
+  .svc-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(8,9,11,.35))}
 
   /* honesty block */
-  .honesty{margin-top:clamp(70px,9vw,120px);max-width:60ch}
-  .honesty h3{font-size:clamp(1.8rem,3.6vw,2.6rem);color:var(--ivory);margin-bottom:16px}
+  .honesty{max-width:52ch}
+  .honesty h3{font-size:clamp(1.8rem,3.6vw,2.5rem);color:var(--ivory);margin-bottom:16px;line-height:1.1}
   .honesty h3 em{font-style:italic;color:var(--gold-lite)}
-  .honesty p{color:var(--sand);font-size:1.08rem;line-height:1.75}
+  .honesty p{color:var(--sand);font-size:1.06rem;line-height:1.75}
 
   /* ---------- CLOSING ---------- */
   .close{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden;isolation:isolate;text-align:center}
@@ -599,22 +602,26 @@
 
 <!-- SERVICES -->
 <section class="band" id="tjenester">
-  <div class="wrap svc-grid">
-    <div>
-      <span class="kick rv">Hvem vi lager for</span>
-      <div class="svc-list rv d1">
-        <a href="mailto:hello@staymotion.no?subject=Eiendom">Eiendom <span class="ar">→</span></a>
-        <a href="mailto:hello@staymotion.no?subject=Airbnb%20%26%20Hytter">Airbnb &amp; Hytter <span class="ar">→</span></a>
-        <a href="mailto:hello@staymotion.no?subject=Hotell">Hotell <span class="ar">→</span></a>
-        <a href="mailto:hello@staymotion.no?subject=Restaurant">Restaurant <span class="ar">→</span></a>
+  <div class="wrap">
+    <div class="svc-head rv">
+      <span class="kick">Laget for</span>
+      <h2>For alle som lever av<br>et godt førsteinntrykk.</h2>
+      <p class="lead">Enten du selger en bolig, fyller en hytte eller en hotellsuite, eller lokker gjester til bordene dine — vi gjør bildene du allerede har om til innhold som får folk til å ville komme.</p>
+      <div class="svc-cats rv d1">
+        <a href="mailto:hello@staymotion.no?subject=Eiendom">Eiendom</a>
+        <a href="mailto:hello@staymotion.no?subject=Airbnb%20%26%20Hytter">Airbnb &amp; Hytter</a>
+        <a href="mailto:hello@staymotion.no?subject=Hotell">Hotell</a>
+        <a href="mailto:hello@staymotion.no?subject=Restaurant">Restaurant</a>
       </div>
-      <div class="honesty rv d2">
+    </div>
+    <div class="svc-grid">
+      <div class="honesty rv d1">
         <h3>Vi forfalsker <em>ingenting.</em></h3>
         <p>Rom, møbler, proporsjoner og utsikt bevares nøyaktig slik de er. Vi gir bildet liv i bevegelse — vi finner ikke opp rom eller detaljer som ikke finnes. Det du viser fram, er ekte.</p>
       </div>
-    </div>
-    <div class="svc-media rv d1">
-      <div class="poster" style="background-image:url('img/hotel-dusk.jpg')"></div>
+      <div class="svc-media rv d2">
+        <div class="poster" style="background-image:url('img/hotel-dusk.jpg')"></div>
+      </div>
     </div>
   </div>
 </section>
