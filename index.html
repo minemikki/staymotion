@@ -210,11 +210,19 @@
   @keyframes rise{to{opacity:1;transform:none}}
 
   /* ---------- MARQUEE ---------- */
-  .marquee{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
-    background:var(--ink);padding:20px 0;overflow:hidden;white-space:nowrap}
-  .marquee-track{display:inline-flex;gap:44px;animation:scroll 34s linear infinite;will-change:transform}
-  .marquee span{font-family:var(--serif);font-style:italic;font-size:1.35rem;color:var(--sand);opacity:.75}
-  .marquee span::after{content:"—";margin-left:44px;color:var(--gold);opacity:.5}
+  .marquee{position:relative;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
+    background:linear-gradient(180deg,#0A0B0E 0%,#0D0F13 100%);padding:26px 0;overflow:hidden;white-space:nowrap;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+  .marquee-track{display:inline-flex;align-items:center;gap:56px;padding-right:56px;
+    animation:scroll 42s linear infinite;will-change:transform}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  .marquee-item{display:inline-flex;align-items:center;gap:56px;font-family:var(--display);
+    font-weight:500;font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--ivory);opacity:.72;transition:opacity .3s}
+  .marquee-item:hover{opacity:1}
+  .marquee-dot{display:inline-block;width:5px;height:5px;border-radius:50%;
+    background:var(--gold);box-shadow:0 0 12px rgba(200,169,106,.6)}
   @keyframes scroll{to{transform:translateX(-50%)}}
 
   /* ---------- STATEMENT (image band) ---------- */
@@ -470,8 +478,8 @@
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>Eiendom</span><span>Hytter &amp; Airbnb</span><span>Hotell</span><span>Restaurant</span><span>Norge</span><span>Norden</span>
-    <span>Eiendom</span><span>Hytter &amp; Airbnb</span><span>Hotell</span><span>Restaurant</span><span>Norge</span><span>Norden</span>
+    <span class="marquee-item">Eiendom<i class="marquee-dot"></i>Hytter &amp; Airbnb<i class="marquee-dot"></i>Hotell<i class="marquee-dot"></i>Restaurant<i class="marquee-dot"></i>Cinematiske bilder<i class="marquee-dot"></i>Reels for Instagram<i class="marquee-dot"></i>Levering på 48 timer<i class="marquee-dot"></i>Fra 990 kr<i class="marquee-dot"></i>Stavanger &middot; Oslo &middot; Bergen<i class="marquee-dot"></i>Hele Norden</span>
+    <span class="marquee-item" aria-hidden="true">Eiendom<i class="marquee-dot"></i>Hytter &amp; Airbnb<i class="marquee-dot"></i>Hotell<i class="marquee-dot"></i>Restaurant<i class="marquee-dot"></i>Cinematiske bilder<i class="marquee-dot"></i>Reels for Instagram<i class="marquee-dot"></i>Levering på 48 timer<i class="marquee-dot"></i>Fra 990 kr<i class="marquee-dot"></i>Stavanger &middot; Oslo &middot; Bergen<i class="marquee-dot"></i>Hele Norden</span>
   </div>
 </div>
 
