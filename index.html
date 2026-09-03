@@ -260,6 +260,13 @@
   .show-tag{position:absolute;top:16px;left:16px;z-index:3;font-size:10px;letter-spacing:.22em;padding:6px 11px;
     background:rgba(8,9,11,.5);border:1px solid var(--line);color:var(--gold-lite);backdrop-filter:blur(6px)}
   .show-copy h2{margin-top:18px}
+  /* tap-to-play fallback button (shown only when autoplay is blocked) */
+  .vplay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.94);z-index:7;width:76px;height:76px;border-radius:50%;
+    background:rgba(8,9,11,.5);border:1px solid rgba(240,238,232,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:none;place-items:center;cursor:pointer;transition:transform .3s var(--ease),background .3s}
+  .needtap .vplay{display:grid}
+  .vplay:hover{background:rgba(8,9,11,.72);transform:translate(-50%,-50%) scale(1)}
+  .vplay::after{content:"";margin-left:6px;border-left:22px solid var(--ivory);border-top:14px solid transparent;border-bottom:14px solid transparent}
   .show-list{list-style:none;margin:24px 0 32px;padding:0;display:grid;gap:15px}
   .show-list li{position:relative;padding-left:24px;color:var(--sand);font-size:1.04rem;line-height:1.55}
   .show-list li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:1px;background:var(--gold)}
@@ -475,6 +482,7 @@
       <div class="poster" style="background-image:url('img/poster-tour.jpg')"></div>
       <video id="tourVideo" muted loop playsinline preload="none" poster="img/poster-tour.jpg" data-mp4="video/tour.mp4"></video>
       <span class="show-tag">DRONE · GJENNOMFLYGING</span>
+      <button class="vplay" type="button" aria-label="Spill av video"></button>
     </div>
     <div class="show-copy rv d1">
       <span class="kick">Se det i bevegelse</span>
@@ -509,6 +517,7 @@
       </div>
       <div class="ba-handle" aria-hidden="true"><span class="grip"></span></div>
       <input class="ba-range" type="range" min="0" max="100" value="55" aria-label="Dra for å sammenligne før og etter">
+      <button class="vplay" type="button" aria-label="Spill av video"></button>
     </div>
   </div>
 </section>
@@ -748,6 +757,7 @@
         if(webm){var s=document.createElement('source');s.src=webm;s.type='video/webm';ba.appendChild(s);}
         if(mp4){var s2=document.createElement('source');s2.src=mp4;s2.type='video/mp4';ba.appendChild(s2);}
         ba.dataset.loaded='1';ba.load();var p=ba.play();if(p&&p.catch)p.catch(function(){});
+        setTimeout(function(){ if(ba.paused){var c=document.getElementById('baSlider');if(c)c.classList.add('needtap');} },1000);
       };
       if('IntersectionObserver' in window){
         new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){start();}})},{threshold:.4}).observe(cell||ba);
@@ -772,11 +782,23 @@
         var mp4=tv.dataset.mp4;
         if(mp4){var s=document.createElement('source');s.src=mp4;s.type='video/mp4';tv.appendChild(s);}
         tv.dataset.loaded='1';tv.load();var p=tv.play();if(p&&p.catch)p.catch(function(){});
+        setTimeout(function(){ if(tv.paused){var c=tv.closest('.show-video');if(c)c.classList.add('needtap');} },1000);
       };
       if('IntersectionObserver' in window){
         new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){tstart();}})},{threshold:.3}).observe(tv);
       } else { tstart(); }
     }
+
+    // tap-to-play fallback when autoplay is blocked (e.g. iOS Low Power Mode)
+    [].forEach.call(document.querySelectorAll('.vplay'),function(btn){
+      btn.addEventListener('click',function(e){
+        e.preventDefault();
+        var c=btn.closest('.show-video')||btn.closest('.ba-slider');
+        var v=c&&c.querySelector('video');
+        if(v){ var p=v.play(); if(p&&p.catch)p.catch(function(){}); }
+        if(c) c.classList.remove('needtap');
+      });
+    });
 
     // gentle parallax on cinema/close backgrounds
     if(!reduce){
