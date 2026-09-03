@@ -29,6 +29,23 @@
 <meta name="twitter:description" content="Vi gjør eksisterende bilder om til cinematiske videoer for eiendom og hospitality. Ingen ny filming.">
 <meta name="twitter:image" content="https://staymotion.no/og.jpg">
 
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "StayMotion",
+  "description": "Cinematiske videoer for eiendom og hospitality, laget av bildene du allerede har. Ingen ny filming.",
+  "url": "https://staymotion.no/",
+  "email": "hello@staymotion.no",
+  "image": "https://staymotion.no/og.jpg",
+  "areaServed": ["Stavanger", "Ryfylke", "Norge"],
+  "address": { "@type": "PostalAddress", "addressLocality": "Stavanger", "addressCountry": "NO" },
+  "priceRange": "990–9990 kr",
+  "slogan": "Cinematiske videoer som selger"
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -55,7 +72,7 @@
     --ease:cubic-bezier(.22,.61,.36,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  html{scroll-behavior:smooth;scroll-padding-top:92px;-webkit-text-size-adjust:100%}
   body{
     background:var(--obsidian);color:var(--ivory);
     font-family:var(--sans);font-weight:300;line-height:1.65;
@@ -299,11 +316,62 @@
   .price{margin-top:20px;font-size:13px;color:var(--sand)}
   .price a{color:var(--gold-lite);border-bottom:1px solid var(--line)}
 
+  /* ---------- TRUST STRIP ---------- */
+  .trust{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+  .trust .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+  @media(max-width:760px){.trust .wrap{grid-template-columns:repeat(2,1fr)}}
+  .trust-item{padding:clamp(28px,3.6vw,44px) clamp(14px,2vw,30px);text-align:center;position:relative}
+  .trust-item + .trust-item::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;background:var(--line-soft)}
+  @media(max-width:760px){.trust-item:nth-child(2n)::before{display:none}.trust-item:nth-child(n+3){border-top:1px solid var(--line-soft)}}
+  .trust-item .n{font-family:var(--serif);font-weight:400;font-size:clamp(1.7rem,3.2vw,2.5rem);color:var(--gold-lite);line-height:1.05}
+  .trust-item .l{margin-top:9px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);line-height:1.4}
+
+  /* ---------- PRICING ---------- */
+  .price-head{max-width:56ch}
+  .price-head .lead{margin-top:20px}
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:clamp(40px,5vw,64px);align-items:stretch}
+  @media(max-width:900px){.price-grid{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}}
+  .plan{position:relative;border:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(240,238,232,.035),rgba(240,238,232,.008));
+    padding:clamp(28px,3vw,40px);display:flex;flex-direction:column;transition:transform .5s var(--ease),border-color .5s,box-shadow .5s}
+  .plan:hover{transform:translateY(-6px);border-color:var(--line);box-shadow:0 40px 80px -50px rgba(0,0,0,.8)}
+  .plan.feat{border-color:var(--line);background:linear-gradient(180deg,rgba(232,211,166,.10),rgba(232,211,166,.02))}
+  .plan .badge{position:absolute;top:0;right:24px;transform:translateY(-50%);font-family:var(--display);font-size:10px;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:600;background:var(--champagne);color:#0c0d10;padding:6px 12px;border-radius:2px}
+  .plan .pname{font-family:var(--display);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lite)}
+  .plan .amt{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,4.6vw,3.4rem);line-height:1;margin:16px 0 4px;color:var(--ivory)}
+  .plan .amt small{font-family:var(--display);font-size:14px;letter-spacing:.02em;color:var(--slate);font-weight:400}
+  .plan .pdesc{color:var(--sand);font-size:.98rem;margin-bottom:22px;line-height:1.5}
+  .plan ul{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:12px;flex:1}
+  .plan li{position:relative;padding-left:24px;color:#DCD6CA;font-size:.96rem;line-height:1.45}
+  .plan li::before{content:"";position:absolute;left:0;top:.55em;width:11px;height:1px;background:var(--gold)}
+  .plan .btn{width:100%}
+  .price-note{margin-top:28px;font-size:13.5px;color:var(--slate);line-height:1.7;max-width:70ch}
+  .price-note b{color:var(--gold-lite);font-weight:500}
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:840px}
+  .faq details{border-top:1px solid var(--line-soft)}
+  .faq details:last-child{border-bottom:1px solid var(--line-soft)}
+  .faq summary{list-style:none;cursor:pointer;padding:24px 44px 24px 0;position:relative;
+    font-family:var(--display);font-size:clamp(1.05rem,1.9vw,1.28rem);font-weight:500;color:var(--ivory);transition:color .3s}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary:hover{color:var(--gold-lite)}
+  .faq summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-family:var(--display);font-weight:400;
+    font-size:1.6rem;color:var(--gold);transition:transform .3s,color .3s}
+  .faq details[open] summary{color:var(--gold-lite)}
+  .faq details[open] summary::after{content:"–"}
+  .faq .a{padding:2px 44px 26px 0;color:var(--sand);font-size:1.02rem;line-height:1.72;max-width:72ch}
+
   /* ---------- FOOTER ---------- */
   footer{background:var(--obsidian);border-top:1px solid var(--line-soft);padding:clamp(56px,8vw,90px) 0 40px}
   .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap}
   .foot img{height:74px;width:auto;opacity:.96}
   .foot .r{text-align:right}
+  .foot-nav{display:flex;gap:26px;justify-content:flex-end;margin-bottom:18px;font-family:var(--display);font-size:12.5px;
+    letter-spacing:.14em;text-transform:uppercase;color:rgba(240,238,232,.7)}
+  .foot-nav a{transition:color .3s}
+  .foot-nav a:hover{color:var(--gold-lite)}
+  @media(max-width:680px){.foot-nav{justify-content:flex-start;flex-wrap:wrap;gap:16px 22px}}
   .foot a.mail{font-family:var(--serif);font-size:clamp(1.4rem,3vw,2.1rem);color:var(--ivory);transition:color .3s}
   .foot a.mail:hover{color:var(--gold-lite)}
   .foot small{display:block;color:var(--slate);font-size:12px;letter-spacing:.06em;margin-top:14px}
@@ -328,6 +396,8 @@
       <b>STAYMOTION</b>
     </a>
     <nav class="nav-links">
+      <a href="#arbeid">Arbeid</a>
+      <a href="#priser">Priser</a>
       <a href="#prosess">Prosess</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
@@ -420,6 +490,16 @@
   </div>
 </section>
 
+<!-- TRUST -->
+<section class="trust">
+  <div class="wrap">
+    <div class="trust-item rv"><div class="n">48 timer</div><div class="l">Fra bilder til ferdig video</div></div>
+    <div class="trust-item rv d1"><div class="n">9:16 + 16:9</div><div class="l">Klar for Finn, nett &amp; reels</div></div>
+    <div class="trust-item rv d2"><div class="n">Null</div><div class="l">Dager med filming</div></div>
+    <div class="trust-item rv d3"><div class="n">Stavanger</div><div class="l">Lokalt &amp; gjort ferdig for deg</div></div>
+  </div>
+</section>
+
 <!-- PROCESS -->
 <section class="band light" id="prosess">
   <div class="wrap">
@@ -457,6 +537,89 @@
   </div>
 </section>
 
+<!-- PRICING -->
+<section class="band" id="priser">
+  <div class="wrap">
+    <div class="price-head rv">
+      <span class="kick">Priser</span>
+      <h2>Én fast pris.<br>Null overraskelser.</h2>
+      <p class="lead">Du sender bildene du allerede har — vi leverer ferdige, cinematiske videoer klare til å publiseres. Ingen filmteam, ingen produksjonsdag, ingen skjulte kostnader.</p>
+    </div>
+    <div class="price-grid">
+      <div class="plan rv">
+        <div class="pname">Enkelt</div>
+        <div class="amt">1 990<small> kr</small></div>
+        <p class="pdesc">Én cinematisk reel av objektet ditt.</p>
+        <ul>
+          <li>1 ferdig video (15–25 sek)</li>
+          <li>Levert i 9:16 og 16:9</li>
+          <li>Klar for Finn, nettside og SoMe</li>
+          <li>Levering på ca. 48 timer</li>
+        </ul>
+        <a class="btn glass" href="mailto:hello@staymotion.no?subject=Enkelt%20(1%20reel)"><span>Bestill Enkelt</span></a>
+      </div>
+      <div class="plan feat rv d1">
+        <span class="badge">Mest valgt</span>
+        <div class="pname">Signatur</div>
+        <div class="amt">3 490<small> kr</small></div>
+        <p class="pdesc">Tre reels — nok til en hel kampanje.</p>
+        <ul>
+          <li>3 ferdige videoer</li>
+          <li>Levert i 9:16 og 16:9</li>
+          <li>Ulike vinkler og rom av objektet</li>
+          <li>Prioritert levering</li>
+        </ul>
+        <a class="btn" href="mailto:hello@staymotion.no?subject=Signatur%20(3%20reels)"><span>Bestill Signatur</span></a>
+      </div>
+      <div class="plan rv d2">
+        <div class="pname">Månedlig</div>
+        <div class="amt">fra 4 990<small> kr/mnd</small></div>
+        <p class="pdesc">Løpende innhold for deg som publiserer jevnt.</p>
+        <ul>
+          <li>Flere reels hver måned</li>
+          <li>Fast leveringsrytme</li>
+          <li>Prioritert kø</li>
+          <li>Ingen binding</li>
+        </ul>
+        <a class="btn glass" href="mailto:hello@staymotion.no?subject=M%C3%A5nedlig%20avtale"><span>Snakk med oss</span></a>
+      </div>
+    </div>
+    <p class="price-note rv d1"><b>Byrå &amp; management:</b> egne retainer-avtaler fra 9 990 kr/mnd når du har mange objekter.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Introtilbud:</b> for de aller første kundene lager vi den første reelen fra 990 kr.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="band" id="faq">
+  <div class="wrap">
+    <div class="rv" style="margin-bottom:clamp(34px,5vw,54px)">
+      <span class="kick">Vanlige spørsmål</span>
+      <h2>Alt du lurer på.</h2>
+    </div>
+    <div class="faq rv d1">
+      <details>
+        <summary>Er videoene ekte, eller finner AI-en på ting?</summary>
+        <div class="a">Vi forfalsker ingenting. Rom, møbler, proporsjoner og utsikt bevares nøyaktig slik de er på bildene dine. AI-en gir liv til bildet — den finner ikke opp en eiendom som ikke finnes. Det du viser fram, er ekte.</div>
+      </details>
+      <details>
+        <summary>Hvor raskt får jeg videoene?</summary>
+        <div class="a">Vanligvis rundt 48 timer etter at vi har fått bildene. Haster det, si ifra — vi løser det meste.</div>
+      </details>
+      <details>
+        <summary>Hva må jeg sende dere?</summary>
+        <div class="a">6–15 bilder du allerede har av objektet. Vi velger de beste og gjør hvert bilde om til et cinematisk shot. Du trenger verken å filme eller bestille fotograf.</div>
+      </details>
+      <details>
+        <summary>Hvor kan jeg bruke videoene?</summary>
+        <div class="a">Overalt. Du får dem i både 9:16 og 16:9, klare for Finn, nettside, Instagram, TikTok og Facebook.</div>
+      </details>
+      <details>
+        <summary>Hva om jeg ikke er fornøyd?</summary>
+        <div class="a">Vi lager gjerne et gratis eksempel av ditt eget objekt først, så du ser resultatet før du bestiller. Ingen binding, ingen risiko.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- CLOSING -->
 <section class="close" id="kontakt">
   <div class="close-bg" style="background-image:url('img/interior.jpg')" data-parallax></div>
@@ -468,7 +631,7 @@
       <a class="btn" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span>Få et gratis eksempel</span></a>
     </div>
     <p class="fine rv d3">Ingen filming · Ingen binding</p>
-    <p class="price rv d3">Produksjoner fra 1 990 kr · <a href="mailto:hello@staymotion.no?subject=Pakker%20og%20priser">Se pakker</a></p>
+    <p class="price rv d3">Produksjoner fra 1 990 kr · <a href="#priser">Se pakker og priser</a></p>
   </div>
 </section>
 
@@ -479,8 +642,14 @@
       <img src="img/logo.png" alt="StayMotion">
     </div>
     <div class="r">
-      <a class="mail" href="mailto:hello@staymotion.no">hello@staymotion.no</a>
-      <small>StayMotion · Stavanger, Norge · Cinematiske videoer som selger</small>
+      <nav class="foot-nav">
+        <a href="#arbeid">Arbeid</a>
+        <a href="#priser">Priser</a>
+        <a href="#prosess">Prosess</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="mail" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel">hello@staymotion.no</a>
+      <small>StayMotion · Stavanger, Norge · Cinematiske videoer som selger · © 2026</small>
     </div>
   </div>
 </footer>
