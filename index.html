@@ -416,6 +416,8 @@
     .hero-media video{animation:none}
   }
 </style>
+<!-- Vercel Web Analytics — enable in the Vercel dashboard: Analytics → Enable -->
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body id="top">
 
@@ -802,6 +804,11 @@
       } else { tstart(); }
     }
 
+
+    // track "Få et gratis eksempel" / kontakt-klikk (Vercel Analytics custom event)
+    [].forEach.call(document.querySelectorAll('a[href^="mailto:"]'),function(a){
+      a.addEventListener('click',function(){ try{ if(window.va) window.va('event',{name:'kontakt_klikk'}); }catch(e){} });
+    });
 
     // gentle parallax on cinema/close backgrounds
     if(!reduce){
