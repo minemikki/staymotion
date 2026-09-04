@@ -171,7 +171,7 @@
     var both = isVideo && elBoth.checked;
     var kr = Math.round(base.kr * (express?1.5:1)) + (both?BOTH_KR:0);
     elPn.textContent = base.name + (both?' + begge formater':'') + (express?' + Express':'');
-    elAmt.textContent = 'fra ' + fmt(kr);
+    elAmt.textContent = fmt(kr);
     elDl.textContent = express ? 'Halvert leveringstid' : base.dl;
   }
   elExp.checked = expressInit;
