@@ -963,7 +963,10 @@
   /* =============== END CRM / LEADS =============== */
 
   setInterval(function(){[].forEach.call(document.querySelectorAll('.cd[data-deadline]'),function(el){var ts=+el.getAttribute('data-deadline');if(!ts)return;var cd=countdown(ts);el.textContent=cd.t;el.className='cd '+cd.c;});},30000);
-  setInterval(function(){if(!$('dash').classList.contains('hide')&&!document.hidden)load(true);},20000);
+  // General background refresh (cheap: skips re-render when nothing changed).
+  setInterval(function(){if(!$('dash').classList.contains('hide')&&!document.hidden)load(true);},12000);
+  // Near-live refresh while a chat is open, so a customer's reply lands within seconds.
+  setInterval(function(){if(!document.hidden&&CHAT_ID&&!$('chat').classList.contains('hide'))load(true);},3500);
 
   function enter(){KEY=$('key').value.trim();if(!KEY){$('gerr').textContent='Skriv inn passord.';return;}try{sessionStorage.setItem('sm_admin',KEY);}catch(e){}$('gate').classList.add('hide');$('dash').classList.remove('hide');load();}
   function logout(msg){try{sessionStorage.removeItem('sm_admin');}catch(e){}KEY=''; $('dash').classList.add('hide');$('gate').classList.remove('hide');$('gerr').textContent=msg||'';$('key').value='';}
