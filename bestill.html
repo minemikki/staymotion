@@ -118,6 +118,11 @@
       <div id="uplist" class="uplist"></div>
     </div>
 
+    <label class="exp" style="align-items:flex-start;margin-top:22px">
+      <input type="checkbox" id="accept">
+      <span>Jeg har lest og godtar <a href="/vilkar.html" target="_blank" style="color:var(--gold-lite)">vilkårene</a> og <a href="/personvern.html" target="_blank" style="color:var(--gold-lite)">personvernerklæringen</a>, og bekrefter at jeg har rettighetene til bildene jeg laster opp.</span>
+    </label>
+
     <div class="btns">
       <button class="btn btn-card" id="pay-card">Betal med kort &rarr;</button>
     </div>
@@ -173,6 +178,11 @@
     var email = document.getElementById('email').value.trim();
     if(!fornavn || !etternavn || !email){
       elErr.textContent = 'Fyll inn navn og e-post først.';
+      elErr.style.display='block';
+      return;
+    }
+    if(!document.getElementById('accept').checked){
+      elErr.textContent = 'Du må godta vilkårene og personvernerklæringen for å bestille.';
       elErr.style.display='block';
       return;
     }
