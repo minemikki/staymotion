@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
   try {
     const b = req.body || {};
-    const ref = String(b.ref || '').trim();
+    const ref = String(b.ref || '').trim().toUpperCase();
     const email = String(b.email || '').trim().toLowerCase();
     if (!ref || !email) return res.status(400).json({ error: 'Fyll inn referansekode og e-post.' });
 

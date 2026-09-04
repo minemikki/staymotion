@@ -4,7 +4,7 @@
 
 import Stripe from 'stripe';
 import { resolvePackage } from '../lib/packages.js';
-import { saveOrder, deadlineFor } from '../lib/orders.js';
+import { saveOrder, deadlineFor, newRef } from '../lib/orders.js';
 
 export default async function handler(req, res) {
   try {
@@ -16,9 +16,9 @@ export default async function handler(req, res) {
     const fmt = p.both ? '9:16 + 16:9' : (src.fmt || '9:16');
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const created = Date.now();
-    const ref = (typeof src.ref === 'string' && /^sm-[a-z]+-\d+-/.test(src.ref))
+    const ref = (typeof src.ref === 'string' && /^SM-[A-Z0-9]{6}$/i.test(src.ref))
       ? src.ref
-      : `sm-${p.id}-${created}-${Math.random().toString(36).slice(2, 8)}`;
+      : newRef();
 
     try {
       await saveOrder({

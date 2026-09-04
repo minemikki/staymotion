@@ -5,7 +5,7 @@
 
 import Stripe from 'stripe';
 import { resolvePackage } from '../lib/packages.js';
-import { saveOrder, deadlineFor } from '../lib/orders.js';
+import { saveOrder, deadlineFor, newRef } from '../lib/orders.js';
 
 export default async function handler(req, res) {
   try {
@@ -29,9 +29,9 @@ export default async function handler(req, res) {
     const created = Date.now();
     // Reuse the ref from order-init when the customer already uploaded photos
     // on the order page, so those photos stay attached to this order.
-    const ref = (typeof src.ref === 'string' && /^sm-[a-z]+-\d+-/.test(src.ref))
+    const ref = (typeof src.ref === 'string' && /^SM-[A-Z0-9]{6}$/i.test(src.ref))
       ? src.ref
-      : `sm-${p.id}-${created}-${Math.random().toString(36).slice(2, 8)}`;
+      : newRef();
 
     // Record the order before redirecting to payment.
     try {
