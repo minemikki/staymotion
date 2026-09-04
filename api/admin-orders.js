@@ -3,7 +3,7 @@
 //   POST /api/admin-orders  { id, status }    → update an order's status
 // (key sent as ?key= or x-admin-key header)
 
-import { listOrders, setStatus, markPaid, deleteOrder } from '../lib/orders.js';
+import { listOrders, setStatus, markPaid, deleteOrder, setVideoRequest } from '../lib/orders.js';
 
 function authed(req) {
   const key = process.env.ADMIN_KEY;
@@ -22,6 +22,11 @@ export default async function handler(req, res) {
       if (body.delete) {
         const r = await deleteOrder(body.id);
         return res.json({ ok: true, deleted: r.deleted });
+      }
+      // Flag/unflag "send to Claude" for video production.
+      if (body.requestVideo !== undefined) {
+        const updated = await setVideoRequest(body.id, !!body.requestVideo);
+        return res.json({ ok: true, order: updated });
       }
       // Manually confirm a payment (webhook miss / recovery).
       if (body.paid) {
