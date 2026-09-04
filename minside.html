@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Min side · StayMotion</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--obsidian:#0C1116;--ivory:#EEF3F6;--sand:#C7D3DB;--gold:#69D4E0;--gold-lite:#E7D2A9;--champagne:#E8D3A6;--slate:#8A9AA7;--line:rgba(200,169,106,.24);--f:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--obsidian);color:var(--ivory);font-family:var(--f);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit}
+  .wrap{width:100%;max-width:520px;margin:0 auto;padding:clamp(28px,6vw,64px) 22px}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:clamp(30px,6vw,50px)}
+  .brand img{height:30px}
+  .brand b{font-weight:600;font-size:14px;letter-spacing:.32em;padding-left:.32em}
+  .kick{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:16px}
+  .kick::before{content:"";width:24px;height:1px;background:currentColor;opacity:.7}
+  h1{font-weight:700;letter-spacing:-.02em;font-size:clamp(2rem,6.5vw,2.9rem);line-height:1.06;margin-bottom:12px}
+  p{color:var(--sand)}
+  form{margin-top:28px}
+  label{display:block;font-size:13px;color:var(--slate);margin:16px 0 7px;letter-spacing:.02em}
+  input{width:100%;background:rgba(240,238,232,.03);border:1px solid var(--line);border-radius:7px;color:var(--ivory);padding:14px 15px;font-family:inherit;font-size:15px}
+  input:focus{outline:none;border-color:var(--gold-lite)}
+  .btn{width:100%;margin-top:24px;min-height:54px;padding:0 30px;font-weight:600;font-size:15px;background:var(--champagne);color:#0c0d10;border:0;border-radius:4px;cursor:pointer}
+  .btn[disabled]{opacity:.5;cursor:default}
+  .err{color:#e88;font-size:14px;margin-top:16px;display:none}
+  .muted{color:var(--slate);font-size:13px;margin-top:22px}
+  .back{margin-top:30px;font-size:13px;color:var(--slate)}
+  .back a{color:var(--sand)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="brand" href="/"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
+
+    <span class="kick">Min side</span>
+    <h1>Følg bestillingen din</h1>
+    <p>Skriv inn referansekoden fra bekreftelsen og e-posten du bestilte med, så kommer du rett inn på din side — status, bilder og nedlasting.</p>
+
+    <form id="form">
+      <label for="ref">Referansekode</label>
+      <input id="ref" type="text" placeholder="SM-…" autocomplete="off" spellcheck="false">
+      <label for="email">E-post</label>
+      <input id="email" type="email" placeholder="din@epost.no" autocomplete="email">
+      <button class="btn" id="go" type="submit">Åpne min side →</button>
+      <p class="err" id="err"></p>
+    </form>
+
+    <p class="muted">Finner du ikke koden? Sjekk bekreftelses-e-posten fra StayMotion — eller bruk knappen «Følg bestillingen din» i den.</p>
+    <p class="back"><a href="/">&larr; Til forsiden</a></p>
+  </div>
+
+<script>
+  const $ = (id)=>document.getElementById(id);
+  const q = new URLSearchParams(location.search);
+  if(q.get('ref')) $('ref').value = q.get('ref');
+  $('form').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const ref = $('ref').value.trim(), email = $('email').value.trim();
+    $('err').style.display='none';
+    if(!ref || !email){ $('err').textContent='Fyll inn både referansekode og e-post.'; $('err').style.display='block'; return; }
+    $('go').disabled=true; $('go').textContent='Sjekker …';
+    try{
+      const r = await fetch('/api/order-access', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ref,email}) });
+      const d = await r.json();
+      if(!r.ok || !d.url) throw new Error(d.error||'Fant ikke bestillingen.');
+      location.href = d.url;
+    }catch(err){
+      $('err').textContent = err.message || 'Noe gikk galt. Prøv igjen.'; $('err').style.display='block';
+      $('go').disabled=false; $('go').textContent='Åpne min side →';
+    }
+  });
+</script>
+</body>
+</html>
