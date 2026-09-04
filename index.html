@@ -297,6 +297,7 @@
   .flow-card.plain .fl{color:var(--muted)}
   .flow-card.film-out .fl{color:var(--champagne)}
   .flow-card.film-out{box-shadow:0 30px 70px -40px rgba(105,212,224,.3)}
+  .flow-card.film-out .poster{animation:kb 16s ease-in-out infinite alternate}
   .flow .mid{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;border:1px solid var(--line-strong);
     background:var(--surface);margin:0 auto}
   .flow .mid img{height:26px;width:auto}
@@ -407,16 +408,17 @@
   .final .price a{color:var(--champagne);border-bottom:1px solid var(--line-strong)}
 
   /* ---------- FOOTER ---------- */
-  footer{background:var(--base-2);border-top:1px solid var(--line);padding:clamp(52px,7vw,80px) 0 40px}
-  .foot{display:flex;justify-content:space-between;align-items:flex-start;gap:36px;flex-wrap:wrap}
-  .foot img{height:30px;width:auto;opacity:.95}
-  .foot .r{text-align:right;display:flex;flex-direction:column;gap:14px;align-items:flex-end}
-  .foot-nav{display:flex;gap:26px;flex-wrap:wrap;justify-content:flex-end;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ice-dim)}
+  footer{background:var(--base-2);border-top:1px solid var(--line);padding:clamp(56px,7vw,84px) 0 32px}
+  .foot-top{display:flex;justify-content:space-between;gap:48px;flex-wrap:wrap;padding-bottom:clamp(32px,4vw,48px);border-bottom:1px solid var(--line)}
+  .foot-brand{max-width:360px}
+  .foot-brand img{height:36px;width:auto;margin-bottom:20px}
+  .foot-brand p{color:var(--muted);line-height:1.6;margin-bottom:18px;font-size:.98rem}
+  .foot-mail{font-size:1.1rem;color:var(--ice);border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:color .3s,border-color .3s}
+  .foot-mail:hover{color:var(--champagne);border-color:var(--champagne)}
+  .foot-nav{display:grid;gap:14px;align-content:start;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ice-dim)}
   .foot-nav a{transition:color .3s}.foot-nav a:hover{color:var(--cyan)}
-  .foot .mail{font-size:1.05rem;color:var(--ice)}
-  .foot .mail:hover{color:var(--champagne)}
-  .foot small{color:var(--muted);font-size:12px;letter-spacing:.02em;max-width:60ch}
-  @media(max-width:680px){.foot{flex-direction:column;align-items:flex-start}.foot .r{text-align:left;align-items:flex-start}.foot-nav{justify-content:flex-start}}
+  .foot-bot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:26px;color:var(--muted);font-size:12.5px;letter-spacing:.02em}
+  @media(max-width:680px){.foot-top{flex-direction:column;gap:34px}.foot-bot{flex-direction:column;gap:8px}}
 
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
@@ -766,9 +768,13 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="wrap foot">
-    <div><img src="img/logo.png" alt="StayMotion"></div>
-    <div class="r">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="img/logo.png" alt="StayMotion">
+        <p data-en="Cinematic videos that sell — made from the photos you already have.">Cinematiske videoer som selger — laget av bildene du allerede har.</p>
+        <a class="foot-mail" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel">hello@staymotion.no</a>
+      </div>
       <nav class="foot-nav">
         <a href="#arbeid" data-en="Work">Arbeid</a>
         <a href="#prosess" data-en="Process">Prosess</a>
@@ -776,8 +782,10 @@
         <a href="#faq">FAQ</a>
         <a href="/personvern.html" data-en="Privacy">Personvern</a>
       </nav>
-      <a class="mail" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel">hello@staymotion.no</a>
-      <small data-en="StayMotion · Serving all of the Nordics · Cinematic videos that sell · © 2026">StayMotion · Leverer i hele Norden · Cinematiske videoer som selger · © 2026</small>
+    </div>
+    <div class="foot-bot">
+      <small data-en="StayMotion · Serving all of the Nordics">StayMotion · Leverer i hele Norden</small>
+      <small>© 2026</small>
     </div>
   </div>
 </footer>
