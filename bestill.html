@@ -47,6 +47,10 @@
   .btn-card{background:var(--cyan,#69D4E0);color:#08131a;border:none;font-weight:700}
   .btn-card:hover{filter:brightness(1.06);transform:translateY(-1px)}
   .secure{margin:12px 0 0;text-align:center;font-size:.82rem;color:var(--slate,#8A9AA7);letter-spacing:.01em}
+  .hide{display:none!important}
+  #express{min-height:48px}
+  .ordiv{display:flex;align-items:center;gap:12px;color:var(--slate);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:2px 0}
+  .ordiv::before,.ordiv::after{content:"";flex:1;height:1px;background:var(--line-soft)}
   .fine{margin-top:22px;font-size:12.5px;color:var(--slate);line-height:1.6}
   .fine a{color:var(--gold-lite);border-bottom:1px solid var(--line-soft)}
   .back{margin-top:30px;font-size:13px;color:var(--slate)}
@@ -124,6 +128,10 @@
     </label>
 
     <div class="btns">
+      <div id="express-wrap" class="hide">
+        <div id="express"></div>
+        <div class="ordiv">eller</div>
+      </div>
       <button class="btn btn-card" id="pay-card">Betal med kort &rarr;</button>
     </div>
     <p class="secure">🔒 Sikker betaling med Visa, Mastercard &amp; Apple&nbsp;Pay</p>
@@ -198,6 +206,88 @@
     location.href = path + '?' + params.toString();
   }
   document.getElementById('pay-card').addEventListener('click', function(){ go('stripe'); });
+
+  // Shared helpers for the Apple Pay / Google Pay module below.
+  window.__amountMinor = function(){
+    if(!base) return 0;
+    var e = elExp.checked, b = isVideo && elBoth && elBoth.checked;
+    var k = Math.round(base.kr * (e?1.5:1)) + (b?BOTH_KR:0);
+    return k * 100;
+  };
+  window.__orderFields = function(){
+    var fn=document.getElementById('fornavn').value.trim(),
+        en=document.getElementById('etternavn').value.trim(),
+        em=document.getElementById('email').value.trim();
+    var o = { pkg:pkg, express: elExp.checked?'1':'0', navn:(fn+' '+en).trim(), email:em,
+      melding: document.getElementById('melding').value.trim().slice(0,600) };
+    if(isVideo){ o.fmt = chosenFmt(); o.both = (elBoth&&elBoth.checked)?'1':'0'; }
+    if(window.__orderRef) o.ref = window.__orderRef;
+    return o;
+  };
+  window.__orderError = function(){
+    var fn=document.getElementById('fornavn').value.trim(),
+        en=document.getElementById('etternavn').value.trim(),
+        em=document.getElementById('email').value.trim();
+    if(!base) return 'Velg en gyldig pakke fra prislisten.';
+    if(!fn||!en||!em) return 'Fyll inn navn og e-post først.';
+    if(!document.getElementById('accept').checked) return 'Du må godta vilkårene for å bestille.';
+    return '';
+  };
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+<script type="module">
+  // Apple Pay / Google Pay express button. Kept separate + fully optional:
+  // if Stripe.js is blocked, no publishable key is set, or the device has no
+  // wallet, this silently does nothing and the card button carries the flow.
+  (async function(){
+    const $ = (id)=>document.getElementById(id);
+    if (typeof Stripe === 'undefined') return;
+    let pk = '';
+    try { const r = await fetch('/api/stripe-config'); pk = (await r.json()).pk || ''; } catch(e){}
+    if (!pk) return;
+    const amount0 = window.__amountMinor ? window.__amountMinor() : 0;
+    if (!amount0) return;
+
+    const stripe = Stripe(pk);
+    const elements = stripe.elements({ mode:'payment', amount: amount0, currency:'nok' });
+    const ece = elements.create('expressCheckout', { buttonTheme:{ applePay:'black', googlePay:'black' } });
+    const wrap = $('express-wrap');
+
+    ece.on('ready', (e)=>{ if (e && e.availablePaymentMethods) wrap.classList.remove('hide'); });
+    ece.mount('#express');
+
+    function sync(){ const a = window.__amountMinor(); if (a) elements.update({ amount:a }); }
+    ['express','both'].forEach(function(id){ const el=$(id); if(el) el.addEventListener('change', sync); });
+    [].forEach.call(document.querySelectorAll('input[name="fmt"]'), function(r){ r.addEventListener('change', sync); });
+
+    function showErr(m){ const e=$('err'); e.textContent=m; e.style.display='block'; }
+
+    ece.on('click', (event)=>{
+      const err = window.__orderError();
+      if (err){ showErr(err); return; }   // not resolving cancels the sheet
+      event.resolve();
+    });
+
+    ece.on('confirm', async (event)=>{
+      const { error: submitError } = await elements.submit();
+      if (submitError){ showErr(submitError.message || 'Betaling avbrutt.'); return; }
+      let clientSecret, ref;
+      try {
+        const res = await fetch('/api/payment-intent', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(window.__orderFields()),
+        });
+        const d = await res.json(); clientSecret = d.clientSecret; ref = d.ref;
+        if (!clientSecret) throw 0;
+        window.__orderRef = ref;
+      } catch(e){ showErr('Kunne ikke starte betaling. Prøv igjen.'); return; }
+      const { error } = await stripe.confirmPayment({
+        elements, clientSecret,
+        confirmParams: { return_url: location.origin + '/takk.html?provider=stripe&ref=' + encodeURIComponent(ref) },
+      });
+      if (error) showErr(error.message || 'Betalingen ble ikke fullført.');
+    });
+  })();
 </script>
 
 <script type="module">

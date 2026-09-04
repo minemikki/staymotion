@@ -87,13 +87,16 @@
 
   const q = new URLSearchParams(location.search);
   const provider = q.get('provider');
-  const statusUrl = provider === 'vipps'
-    ? '/api/vipps/status?ref=' + encodeURIComponent(q.get('ref') || '')
-    : '/api/order-status?session_id=' + encodeURIComponent(q.get('session_id') || '');
+  const paymentIntent = q.get('payment_intent');
+  const statusUrl = paymentIntent
+    ? '/api/pi-status?pi=' + encodeURIComponent(paymentIntent)
+    : provider === 'vipps'
+      ? '/api/vipps/status?ref=' + encodeURIComponent(q.get('ref') || '')
+      : '/api/order-status?session_id=' + encodeURIComponent(q.get('session_id') || '');
 
   const $ = (id) => document.getElementById(id);
   let orderToken = null;
-  let orderRef = q.get('ref') || q.get('session_id') || '';
+  let orderRef = q.get('ref') || q.get('session_id') || paymentIntent || '';
   let files = [];
 
   async function check() {
