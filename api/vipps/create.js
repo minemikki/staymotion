@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     // Graceful fallback: Vipps not configured yet → order by email.
     if (!process.env.VIPPS_CLIENT_ID || !process.env.VIPPS_SUBSCRIPTION_KEY || !process.env.VIPPS_MSN) {
-      const mail = 'mailto:hello@staymotion.no?subject=' +
+      const mail = 'mailto:michael@staymotion.no?subject=' +
         encodeURIComponent('Bestilling: ' + p.label) +
         '&body=' + encodeURIComponent('Hei! Jeg vil bestille ' + p.label + ' (' + p.amountKr + ' kr).');
       res.writeHead(303, { Location: mail });

@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     const key = process.env.RESEND_API_KEY;
     if (!key) return res.status(400).json({ error: 'RESEND_API_KEY er ikke satt i Vercel — kan ikke sende ennå.' });
 
-    const from = process.env.MAIL_FROM || 'StayMotion <hello@staymotion.no>';
+    const from = process.env.MAIL_FROM || 'StayMotion <michael@staymotion.no>';
     const replyTo = process.env.OWNER_EMAIL || '';
 
     let text = String(body).trim();

@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     });
 
     const pkg = ref.split('-')[1] || '';
-    const owner = process.env.OWNER_EMAIL || 'hello@staymotion.no';
+    const owner = process.env.OWNER_EMAIL || 'michael@staymotion.no';
 
     // Mark the order paid & unprocessed, and pull its details for the email.
     let order = null;

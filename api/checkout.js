@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     // Graceful fallback: no Stripe key yet → let the customer order by email
     // instead of showing a broken checkout.
     if (!process.env.STRIPE_SECRET_KEY) {
-      const mail = 'mailto:hello@staymotion.no?subject=' +
+      const mail = 'mailto:michael@staymotion.no?subject=' +
         encodeURIComponent('Bestilling: ' + p.label) +
         '&body=' + encodeURIComponent('Hei! Jeg vil bestille ' + p.label + ' (' + p.amountKr + ' kr).');
       res.writeHead(303, { Location: mail });
