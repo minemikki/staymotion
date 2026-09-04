@@ -297,7 +297,8 @@
   .flow-card.plain .fl{color:var(--muted)}
   .flow-card.film-out .fl{color:var(--champagne)}
   .flow-card.film-out{box-shadow:0 30px 70px -40px rgba(105,212,224,.3)}
-  .flow-card.film-out .poster{animation:kb 16s ease-in-out infinite alternate}
+  .flow-card.film-out .poster{transform-origin:60% 40%;animation:kbfilm 11s ease-in-out infinite alternate}
+  @keyframes kbfilm{0%{transform:scale(1.02) translate(0,0)}100%{transform:scale(1.17) translate(-2.5%,-2%)}}
   .flow .mid{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;border:1px solid var(--line-strong);
     background:var(--surface);margin:0 auto}
   .flow .mid img{height:26px;width:auto}
