@@ -3,7 +3,7 @@
 
 import { verifyOrder } from '../lib/token.js';
 import { addNote } from '../lib/orders.js';
-import { sendEmail } from '../lib/email.js';
+import { sendEmail, renderEmail, emailP } from '../lib/email.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
@@ -24,10 +24,14 @@ export default async function handler(req, res) {
       await sendEmail({
         to: owner,
         subject: `Ny melding fra kunde — ${order.navn || order.kunde || ref}`,
-        html: `<h2>Ny melding / etterlevering</h2>
-          <p><b>${order.navn || order.kunde || 'Kunde'}</b> (ref ${ref}) skrev:</p>
-          <blockquote>${note.replace(/</g, '&lt;')}</blockquote>
-          <p>Se bestillingen i <a href="${origin}/admin.html">admin-panelet</a>.</p>`,
+        html: renderEmail({
+          heading: 'Ny melding fra kunde 💬',
+          html:
+            emailP(`<b style="color:#EEF3F6">${order.navn || order.kunde || 'Kunde'}</b> (ref <b style="color:#E8D3A6">${String(ref).toUpperCase()}</b>) skrev:`) +
+            emailP(`<span style="color:#EEF3F6">«${note.replace(/</g, '&lt;')}»</span>`),
+          ctaText: 'Åpne admin-panelet',
+          ctaUrl: `${origin}/admin.html`,
+        }),
       });
     } catch (e) { console.error('[order-note] email', e.message); }
 
