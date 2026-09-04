@@ -4,12 +4,14 @@
 
 import { resolvePackage } from '../../lib/packages.js';
 import { vippsAccessToken, vippsHeaders, vippsBase } from '../../lib/vipps.js';
+import { saveOrder, deadlineFor } from '../../lib/orders.js';
 
 export default async function handler(req, res) {
   try {
     const src = req.method === 'POST' ? (req.body || {}) : (req.query || {});
     const p = resolvePackage(src.pkg, src.express, src.both);
     if (!p) return res.status(400).json({ error: 'Ukjent pakke' });
+    const fmt = p.both ? '9:16 + 16:9' : (src.fmt || '9:16');
 
     // Graceful fallback: Vipps not configured yet → order by email.
     if (!process.env.VIPPS_CLIENT_ID || !process.env.VIPPS_SUBSCRIPTION_KEY || !process.env.VIPPS_MSN) {
@@ -23,6 +25,27 @@ export default async function handler(req, res) {
     const token = await vippsAccessToken();
     const origin = `https://${req.headers.host}`;
     const reference = `sm-${p.id}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    // Record the order up front (status "avventer" until payment confirms),
+    // so the name / message / package are saved even before payment.
+    const created = Date.now();
+    try {
+      await saveOrder({
+        id: reference,
+        navn: src.navn || '',
+        email: src.email || '',
+        melding: src.melding || '',
+        pkg: p.id,
+        pakke: p.label,
+        format: fmt,
+        express: p.express,
+        both: p.both,
+        amountKr: p.amountKr,
+        created,
+        deadline: deadlineFor(p.id, p.express, created),
+        status: 'avventer',
+      });
+    } catch (e) { console.error('[vipps/create] saveOrder', e.message); }
 
     const r = await fetch(`${vippsBase()}/epayment/v1/payments`, {
       method: 'POST',

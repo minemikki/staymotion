@@ -5,7 +5,6 @@
 
 import { handleUpload } from '@vercel/blob/client';
 import { verifyOrder } from '../lib/token.js';
-import { sendEmail } from '../lib/email.js';
 
 export default async function handler(req, res) {
   try {
@@ -15,23 +14,21 @@ export default async function handler(req, res) {
       onBeforeGenerateToken: async (pathname, clientPayload) => {
         const order = verifyOrder(clientPayload);
         if (!order) throw new Error('Ugyldig eller utløpt ordre');
+        // Photos may only be written under this order's own folder.
+        const prefix = 'orders/' + order.orderId + '/';
+        if (order.orderId && !pathname.startsWith(prefix)) {
+          throw new Error('Ugyldig filsti');
+        }
         return {
           allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'],
           maximumSizeInBytes: 30 * 1024 * 1024,
           addRandomSuffix: true,
-          tokenPayload: JSON.stringify({ orderId: order.orderId, pkg: order.pkg }),
+          tokenPayload: JSON.stringify({ orderId: order.orderId }),
         };
       },
-      onUploadCompleted: async ({ blob, tokenPayload }) => {
-        const info = JSON.parse(tokenPayload || '{}');
-        const owner = process.env.OWNER_EMAIL || 'hello@staymotion.no';
-        await sendEmail({
-          to: owner,
-          subject: `Nye bilder lastet opp — ordre ${info.orderId}`,
-          html: `<p>Ordre <b>${info.orderId}</b> (${info.pkg})</p>
-            <p>Fil: <a href="${blob.url}">${blob.pathname}</a></p>`,
-        });
-      },
+      // Photos land in the order folder; the admin dashboard reads them from
+      // there, so no per-file email is needed (the order email already fired).
+      onUploadCompleted: async () => {},
     });
     res.json(json);
   } catch (e) {

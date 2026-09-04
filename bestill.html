@@ -28,8 +28,11 @@
   .sum .dl{color:var(--sand);font-size:.95rem}
   .field{margin:18px 0}
   label{display:block;font-size:13px;letter-spacing:.04em;color:var(--sand);margin-bottom:8px}
-  input[type=email]{width:100%;background:var(--char);border:1px solid var(--line-soft);color:var(--ivory);font:inherit;padding:14px 16px;border-radius:2px}
-  input[type=email]:focus{outline:none;border-color:var(--gold)}
+  input[type=email],input[type=text],textarea{width:100%;background:var(--char);border:1px solid var(--line-soft);color:var(--ivory);font:inherit;padding:14px 16px;border-radius:2px}
+  textarea{resize:vertical;min-height:84px;line-height:1.5}
+  input:focus,textarea:focus{outline:none;border-color:var(--gold)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:460px){.two{grid-template-columns:1fr}}
   .exp{display:flex;align-items:center;gap:10px;color:var(--sand);font-size:.95rem;cursor:pointer;user-select:none;margin-top:16px}
   .exp input{width:18px;height:18px;accent-color:var(--gold);flex:none}
   .fmt-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 4px}
@@ -66,8 +69,21 @@
     </div>
 
     <div class="field">
+      <label>Navnet ditt</label>
+      <div class="two">
+        <input id="fornavn" type="text" placeholder="Fornavn" autocomplete="given-name">
+        <input id="etternavn" type="text" placeholder="Etternavn" autocomplete="family-name">
+      </div>
+    </div>
+
+    <div class="field">
       <label for="email">E-posten din (for kvittering og opplastingslenke)</label>
       <input id="email" type="email" placeholder="deg@epost.no" autocomplete="email" inputmode="email">
+    </div>
+
+    <div class="field">
+      <label for="melding">Melding til oss <span style="color:var(--slate)">(valgfritt)</span></label>
+      <textarea id="melding" rows="3" placeholder="Adresse på objektet, ønsker, stil, frister … alt som hjelper oss."></textarea>
     </div>
 
     <div class="field" id="fmtField">
@@ -130,10 +146,20 @@
 
   function go(provider){
     if(!base){ elErr.style.display='block'; return; }
+    var fornavn = document.getElementById('fornavn').value.trim();
+    var etternavn = document.getElementById('etternavn').value.trim();
+    var email = document.getElementById('email').value.trim();
+    if(!fornavn || !etternavn || !email){
+      elErr.textContent = 'Fyll inn navn og e-post først.';
+      elErr.style.display='block';
+      return;
+    }
     var params = new URLSearchParams({ pkg:pkg, express: elExp.checked?'1':'0' });
     if(isVideo){ params.set('fmt', chosenFmt()); params.set('both', elBoth.checked?'1':'0'); }
-    var email = document.getElementById('email').value.trim();
-    if(email) params.set('email', email);
+    params.set('navn', (fornavn+' '+etternavn));
+    params.set('email', email);
+    var melding = document.getElementById('melding').value.trim();
+    if(melding) params.set('melding', melding.slice(0,600));
     var path = provider==='vipps' ? '/api/vipps/create' : '/api/checkout';
     location.href = path + '?' + params.toString();
   }

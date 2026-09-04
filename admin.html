@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Bestillinger — StayMotion</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--base:#0C1116;--base2:#0E1620;--surface:#141D26;--ice:#EEF3F6;--dim:#C7D3DB;--muted:#8A9AA7;
+    --cyan:#69D4E0;--champagne:#E7D2A9;--green:#63D08A;--red:#E9866F;--line:rgba(190,214,226,.14);--line2:rgba(190,214,226,.24);
+    --f:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--base);color:var(--ice);font-family:var(--f);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:clamp(24px,4vw,44px) 20px 80px}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:28px}
+  .brand b{font-weight:700;font-size:14px;letter-spacing:.28em;padding-left:.28em}
+  .brand b i{font-style:normal;color:var(--champagne)}
+  h1{font-size:1.5rem;font-weight:700;letter-spacing:-.01em;margin-bottom:2px}
+  .sub{color:var(--muted);font-size:13px}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  .btn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border:1px solid var(--line2);border-radius:6px;
+    font-size:13px;font-weight:600;color:var(--dim);transition:border-color .25s,color .25s,background .25s}
+  .btn:hover{border-color:var(--cyan);color:var(--ice)}
+  .btn.primary{background:var(--champagne);color:#12100a;border-color:var(--champagne)}
+  /* gate */
+  .gate{max-width:380px;margin:14vh auto 0;text-align:center}
+  .gate h1{margin-bottom:8px}.gate p{color:var(--muted);margin-bottom:22px;font-size:14px}
+  .gate input{width:100%;background:var(--surface);border:1px solid var(--line2);color:var(--ice);font:inherit;padding:14px 16px;border-radius:8px;margin-bottom:12px}
+  .gate input:focus{outline:none;border-color:var(--cyan)}
+  .gate .btn{width:100%;justify-content:center;min-height:50px}
+  .err{color:var(--red);font-size:13px;margin-top:10px;min-height:18px}
+  /* stats + tabs */
+  .stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+  .stat{flex:1;min-width:120px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:16px 18px}
+  .stat .n{font-size:1.8rem;font-weight:700;line-height:1;font-feature-settings:"tnum" 1}
+  .stat .l{color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
+  .stat.warn .n{color:var(--champagne)} .stat.ok .n{color:var(--green)}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{padding:8px 16px;border-radius:100px;border:1px solid var(--line2);font-size:13px;font-weight:600;color:var(--muted)}
+  .tab.active{background:var(--ice);color:#0c1116;border-color:var(--ice)}
+  /* order card */
+  .order{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:20px;margin-bottom:14px}
+  .order.overdue{border-color:rgba(233,134,111,.5)}
+  .oh{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
+  .oh .who b{font-size:1.15rem;font-weight:700}
+  .oh .who a{color:var(--cyan);font-size:13.5px;text-decoration:none}
+  .badge{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;border-radius:100px;white-space:nowrap}
+  .badge.ubeh{background:rgba(231,210,169,.16);color:var(--champagne)}
+  .badge.beh{background:rgba(99,208,138,.16);color:var(--green)}
+  .badge.avv{background:rgba(138,154,167,.16);color:var(--muted)}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 22px;margin:14px 0;color:var(--dim);font-size:13.5px}
+  .meta b{color:var(--ice);font-weight:600}
+  .meta .dl.over{color:var(--red);font-weight:700}
+  .msg{border-left:2px solid var(--line2);padding:6px 0 6px 14px;color:var(--dim);font-size:13.5px;margin:8px 0 14px;white-space:pre-wrap}
+  .photos{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .photos a{width:66px;height:66px;border-radius:6px;overflow:hidden;border:1px solid var(--line2);background:#000}
+  .photos img{width:100%;height:100%;object-fit:cover;display:block}
+  .photos .none{color:var(--muted);font-size:13px}
+  .oa{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .empty{text-align:center;color:var(--muted);padding:60px 0}
+  .spin{width:22px;height:22px;border:2px solid var(--line);border-top-color:var(--cyan);border-radius:50%;animation:s 1s linear infinite;display:inline-block}
+  @keyframes s{to{transform:rotate(360deg)}}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- Password gate -->
+<div id="gate" class="gate">
+  <div class="brand" style="justify-content:center;margin-bottom:20px"><img src="img/logo-mono.png" alt=""><b>STAY<i>MOTION</i></b></div>
+  <h1>Bestillinger</h1>
+  <p>Skriv inn admin-passordet.</p>
+  <input id="key" type="password" placeholder="Passord" autocomplete="current-password">
+  <button class="btn primary" id="enter">Logg inn</button>
+  <div class="err" id="gerr"></div>
+</div>
+
+<!-- Dashboard -->
+<div id="dash" class="wrap hide">
+  <div class="top">
+    <div>
+      <div class="brand" style="margin-bottom:8px"><img src="img/logo-mono.png" alt=""><b>STAY<i>MOTION</i></b></div>
+      <h1>Bestillinger</h1>
+      <div class="sub" id="updated"></div>
+    </div>
+    <button class="btn" id="refresh">↻ Oppdater</button>
+  </div>
+
+  <div class="stats" id="stats"></div>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-f="ubehandlet">Ubehandlet</button>
+    <button class="tab" data-f="behandlet">Behandlet</button>
+    <button class="tab" data-f="alle">Alle</button>
+  </div>
+
+  <div id="list"></div>
+</div>
+
+<script>
+  var KEY = '';
+  var ORDERS = [];
+  var FILTER = 'ubehandlet';
+  var $ = function(id){ return document.getElementById(id); };
+
+  function fmtDate(ts){ return ts ? new Date(ts).toLocaleString('no-NO',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '—'; }
+  function esc(s){ return String(s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+
+  async function load(){
+    try{
+      var r = await fetch('/api/admin-orders?key=' + encodeURIComponent(KEY));
+      if(r.status === 401){ logout('Feil passord.'); return; }
+      var d = await r.json();
+      ORDERS = d.orders || [];
+      $('updated').textContent = 'Oppdatert ' + new Date().toLocaleTimeString('no-NO');
+      render();
+    }catch(e){ $('list').innerHTML = '<div class="empty">Kunne ikke hente bestillinger.</div>'; }
+  }
+
+  function statusOf(o){ return o.status || 'ubehandlet'; }
+
+  function render(){
+    // stats
+    var ubeh = ORDERS.filter(function(o){return statusOf(o)==='ubehandlet';}).length;
+    var beh  = ORDERS.filter(function(o){return statusOf(o)==='behandlet';}).length;
+    var overdue = ORDERS.filter(function(o){return statusOf(o)==='ubehandlet' && o.deadline && o.deadline < Date.now();}).length;
+    $('stats').innerHTML =
+      '<div class="stat warn"><div class="n">'+ubeh+'</div><div class="l">Ubehandlet</div></div>'+
+      '<div class="stat ok"><div class="n">'+beh+'</div><div class="l">Behandlet</div></div>'+
+      '<div class="stat"><div class="n" style="'+(overdue?'color:var(--red)':'')+'">'+overdue+'</div><div class="l">Over frist</div></div>';
+
+    var rows = ORDERS.filter(function(o){
+      var s = statusOf(o);
+      if(FILTER==='alle') return s!=='avventer';
+      return s===FILTER;
+    });
+    if(!rows.length){ $('list').innerHTML = '<div class="empty">Ingen bestillinger her.</div>'; return; }
+
+    $('list').innerHTML = rows.map(function(o){
+      var s = statusOf(o);
+      var over = s==='ubehandlet' && o.deadline && o.deadline < Date.now();
+      var badge = s==='behandlet' ? '<span class="badge beh">Behandlet</span>'
+                : s==='avventer' ? '<span class="badge avv">Avventer betaling</span>'
+                : '<span class="badge ubeh">Ubehandlet</span>';
+      var photos = (o.photos&&o.photos.length)
+        ? o.photos.map(function(p){return '<a href="'+p.url+'" target="_blank" rel="noopener"><img src="'+p.url+'" alt=""></a>';}).join('')
+        : '<span class="none">Ingen bilder lastet opp ennå</span>';
+      var extra = (o.express?' + Express':'') + (o.both?' + begge formater':'');
+      return '<div class="order'+(over?' overdue':'')+'">'+
+        '<div class="oh"><div class="who"><b>'+esc(o.navn||'Ukjent')+'</b><br><a href="mailto:'+esc(o.email)+'">'+esc(o.email||'')+'</a></div>'+badge+'</div>'+
+        '<div class="meta">'+
+          '<span><b>'+esc(o.pakke||o.pkg||'')+'</b>'+extra+'</span>'+
+          '<span>Format: <b>'+esc(o.format||'—')+'</b></span>'+
+          '<span>'+ (o.amountKr!=null?('<b>'+o.amountKr.toLocaleString('no-NO')+' kr</b>'):'') +'</span>'+
+          '<span>Bestilt: '+fmtDate(o.created)+'</span>'+
+          '<span class="dl'+(over?' over':'')+'">Frist: '+fmtDate(o.deadline)+(over?' ⚠':'')+'</span>'+
+        '</div>'+
+        (o.melding?('<div class="msg">'+esc(o.melding)+'</div>'):'')+
+        '<div class="photos">'+photos+'</div>'+
+        '<div class="oa">'+
+          (s==='behandlet'
+            ? '<button class="btn" data-id="'+o.id+'" data-s="ubehandlet">↩ Merk ubehandlet</button>'
+            : '<button class="btn primary" data-id="'+o.id+'" data-s="behandlet">✓ Merk behandlet</button>')+
+        '</div>'+
+      '</div>';
+    }).join('');
+
+    [].forEach.call($('list').querySelectorAll('[data-id]'),function(btn){
+      btn.addEventListener('click',function(){ setStatus(btn.getAttribute('data-id'), btn.getAttribute('data-s'), btn); });
+    });
+  }
+
+  async function setStatus(id, status, btn){
+    btn.disabled = true; btn.textContent = '…';
+    try{
+      await fetch('/api/admin-orders?key='+encodeURIComponent(KEY),{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ id:id, status:status })
+      });
+      var o = ORDERS.filter(function(x){return x.id===id;})[0]; if(o) o.status = status;
+      render();
+    }catch(e){ btn.disabled=false; }
+  }
+
+  // tabs
+  [].forEach.call(document.querySelectorAll('.tab'),function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+      t.classList.add('active'); FILTER = t.getAttribute('data-f'); render();
+    });
+  });
+  $('refresh').addEventListener('click', load);
+
+  function enter(){
+    KEY = $('key').value.trim();
+    if(!KEY){ $('gerr').textContent='Skriv inn passord.'; return; }
+    try{ sessionStorage.setItem('sm_admin', KEY); }catch(e){}
+    $('gate').classList.add('hide'); $('dash').classList.remove('hide');
+    load();
+  }
+  function logout(msg){
+    try{ sessionStorage.removeItem('sm_admin'); }catch(e){}
+    KEY=''; $('dash').classList.add('hide'); $('gate').classList.remove('hide'); $('gerr').textContent = msg||'';
+  }
+  $('enter').addEventListener('click', enter);
+  $('key').addEventListener('keydown',function(e){ if(e.key==='Enter') enter(); });
+
+  // auto-login if key remembered this session
+  (function(){ var k; try{ k = sessionStorage.getItem('sm_admin'); }catch(e){} if(k){ $('key').value=k; enter(); } })();
+</script>
+</body>
+</html>
