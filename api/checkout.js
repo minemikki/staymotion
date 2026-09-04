@@ -27,7 +27,11 @@ export default async function handler(req, res) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const origin = `https://${req.headers.host}`;
     const created = Date.now();
-    const ref = `sm-${p.id}-${created}-${Math.random().toString(36).slice(2, 8)}`;
+    // Reuse the ref from order-init when the customer already uploaded photos
+    // on the order page, so those photos stay attached to this order.
+    const ref = (typeof src.ref === 'string' && /^sm-[a-z]+-\d+-/.test(src.ref))
+      ? src.ref
+      : `sm-${p.id}-${created}-${Math.random().toString(36).slice(2, 8)}`;
 
     // Record the order before redirecting to payment.
     try {

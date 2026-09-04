@@ -52,6 +52,17 @@
   .back{margin-top:30px;font-size:13px;color:var(--slate)}
   .back a{color:var(--sand)}
   .err{color:#e88;font-size:.95rem;margin-top:14px;display:none}
+  .opt{color:var(--slate);font-weight:400}
+  .drop{border:1px dashed var(--line-soft);border-radius:6px;padding:22px 16px;text-align:center;cursor:pointer;transition:border-color .25s,background .25s;background:rgba(190,214,226,.02)}
+  .drop:hover,.drop.over{border-color:var(--gold);background:rgba(105,212,224,.05)}
+  .drop-in{color:var(--sand);font-size:.95rem;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+  .drop-in b{color:var(--gold);font-weight:600}
+  #uperr{color:#e88;font-size:.88rem;margin-top:10px;display:none}
+  .uplist{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .up{position:relative;width:64px;height:64px;border-radius:5px;overflow:hidden;border:1px solid var(--line-soft);background:#000}
+  .up img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85}
+  .up-st{position:absolute;right:3px;bottom:3px;font-size:11px;font-weight:700;background:rgba(9,13,18,.72);color:var(--ivory);border-radius:4px;padding:1px 5px}
+  .up-st.ok{color:#63D08A}.up-st.err{color:#e88}
   footer{margin-top:auto}
 </style>
 </head>
@@ -60,7 +71,7 @@
     <a class="brand" href="/"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
     <span class="kick">Bestilling</span>
     <h1>Fullfør bestillingen</h1>
-    <p style="color:var(--sand)">Betal trygt med kort. Etter betaling laster du opp bildene dine — så er vi i gang.</p>
+    <p style="color:var(--sand)">Fyll inn, last opp bildene dine, og betal trygt med kort — så er vi i gang.</p>
 
     <div class="sum">
       <div class="pn" id="pn">—</div>
@@ -96,6 +107,16 @@
     </div>
 
     <label class="exp"><input type="checkbox" id="express"> Express — halvert leveringstid (+50 %)</label>
+
+    <div class="field" style="margin-top:22px">
+      <label>Last opp bildene dine <span class="opt">(kan også gjøres etter betaling)</span></label>
+      <div id="drop" class="drop">
+        <input id="files" type="file" accept="image/*" multiple hidden>
+        <div class="drop-in">📷 Dra bildene hit, eller <b id="pick">velg filer</b></div>
+      </div>
+      <div id="uperr"></div>
+      <div id="uplist" class="uplist"></div>
+    </div>
 
     <div class="btns">
       <button class="btn btn-card" id="pay-card">Betal med kort &rarr;</button>
@@ -161,10 +182,76 @@
     params.set('email', email);
     var melding = document.getElementById('melding').value.trim();
     if(melding) params.set('melding', melding.slice(0,600));
+    // Reuse the order started by the photo upload, so the photos stay attached.
+    if(window.__orderRef) params.set('ref', window.__orderRef);
     var path = provider==='vipps' ? '/api/vipps/create' : '/api/checkout';
     location.href = path + '?' + params.toString();
   }
   document.getElementById('pay-card').addEventListener('click', function(){ go('stripe'); });
+</script>
+
+<script type="module">
+  // Photo upload on the order page. Kept in its own module so a hiccup loading
+  // the upload library never blocks the payment button above.
+  import { upload } from 'https://esm.sh/@vercel/blob@0.27.0/client';
+  const $ = (id)=>document.getElementById(id);
+  const qq = new URLSearchParams(location.search);
+  const PKG = qq.get('pkg');
+  const isVid = PKG==='enkelt' || PKG==='signatur';
+  let ORDER = null;                    // {ref, token}
+
+  function vals(){
+    const fn=$('fornavn').value.trim(), en=$('etternavn').value.trim(), email=$('email').value.trim();
+    const fmtR = document.querySelector('input[name="fmt"]:checked');
+    return { fn, en, email, navn:(fn+' '+en).trim(),
+      melding:$('melding').value.trim().slice(0,600),
+      express:$('express').checked?'1':'0',
+      both:(isVid && $('both') && $('both').checked)?'1':'0',
+      fmt:isVid ? (fmtR?fmtR.value:'9:16') : '' };
+  }
+  function upErr(m){ const e=$('uperr'); if(e){ e.textContent=m||''; e.style.display=m?'block':'none'; } }
+
+  async function ensureOrder(){
+    if(ORDER) return ORDER;
+    const v = vals();
+    if(!v.fn || !v.en || !v.email){ upErr('Fyll inn navn og e-post øverst først, så kan du laste opp bildene.'); return null; }
+    upErr('');
+    const p = new URLSearchParams({ pkg:PKG, express:v.express, both:v.both, fmt:v.fmt, navn:v.navn, email:v.email, melding:v.melding });
+    try{
+      const r = await fetch('/api/order-init?' + p.toString());
+      if(!r.ok) throw 0;
+      const d = await r.json();
+      ORDER = { ref:d.ref, token:d.token };
+      window.__orderRef = d.ref;        // picked up by go() for checkout
+      return ORDER;
+    }catch(e){ upErr('Kunne ikke starte opplasting akkurat nå — du kan laste opp etter betaling i stedet.'); return null; }
+  }
+
+  const drop = $('drop'), input = $('files');
+  $('pick').addEventListener('click', (e)=>{ e.stopPropagation(); input.click(); });
+  drop.addEventListener('click', ()=> input.click());
+  drop.addEventListener('dragover', (e)=>{ e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', ()=> drop.classList.remove('over'));
+  drop.addEventListener('drop', (e)=>{ e.preventDefault(); drop.classList.remove('over'); handle(e.dataTransfer.files); });
+  input.addEventListener('change', ()=> handle(input.files));
+
+  async function handle(fl){
+    const imgs = [].slice.call(fl).filter(f=>f.type.startsWith('image/'));
+    if(!imgs.length) return;
+    const o = await ensureOrder(); if(!o) return;
+    for(const f of imgs){ await one(f, o); }
+  }
+  async function one(file, o){
+    const card = document.createElement('div'); card.className='up';
+    const img = document.createElement('img'); img.src = URL.createObjectURL(file); card.appendChild(img);
+    const st = document.createElement('span'); st.className='up-st'; st.textContent='…'; card.appendChild(st);
+    $('uplist').appendChild(card);
+    try{
+      const safe = file.name.replace(/[^\w.\-]+/g,'_');
+      await upload('orders/' + o.ref + '/' + safe, file, { access:'public', handleUploadUrl:'/api/blob-upload', clientPayload:o.token });
+      st.textContent='✓'; st.className='up-st ok';
+    }catch(e){ st.textContent='✗'; st.className='up-st err'; }
+  }
 </script>
 </body>
 </html>
