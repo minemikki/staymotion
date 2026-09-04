@@ -44,9 +44,9 @@
   .btns{display:grid;gap:12px;margin-top:26px}
   .btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 26px;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.02em;border-radius:3px;cursor:pointer;border:1px solid transparent;transition:transform .2s,background .3s,border-color .3s}
   .btn:hover{transform:translateY(-1px)}
-  .btn-vipps{background:#ff5b24;color:#fff}
-  .btn-stripe{background:transparent;color:var(--ivory);border-color:var(--line)}
-  .btn-stripe:hover{border-color:var(--gold-lite);color:#fff}
+  .btn-card{background:var(--cyan,#69D4E0);color:#08131a;border:none;font-weight:700}
+  .btn-card:hover{filter:brightness(1.06);transform:translateY(-1px)}
+  .secure{margin:12px 0 0;text-align:center;font-size:.82rem;color:var(--slate,#8A9AA7);letter-spacing:.01em}
   .fine{margin-top:22px;font-size:12.5px;color:var(--slate);line-height:1.6}
   .fine a{color:var(--gold-lite);border-bottom:1px solid var(--line-soft)}
   .back{margin-top:30px;font-size:13px;color:var(--slate)}
@@ -60,7 +60,7 @@
     <a class="brand" href="/"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
     <span class="kick">Bestilling</span>
     <h1>Fullfør bestillingen</h1>
-    <p style="color:var(--sand)">Betal trygt med Vipps. Etter betaling laster du opp bildene dine — så er vi i gang.</p>
+    <p style="color:var(--sand)">Betal trygt med kort. Etter betaling laster du opp bildene dine — så er vi i gang.</p>
 
     <div class="sum">
       <div class="pn" id="pn">—</div>
@@ -98,8 +98,9 @@
     <label class="exp"><input type="checkbox" id="express"> Express — halvert leveringstid (+50 %)</label>
 
     <div class="btns">
-      <button class="btn btn-vipps" id="pay-vipps">Betal med Vipps</button>
+      <button class="btn btn-card" id="pay-card">Betal med kort &rarr;</button>
     </div>
+    <p class="secure">🔒 Sikker betaling med Visa, Mastercard &amp; Apple&nbsp;Pay</p>
     <p class="err" id="err">Velg en gyldig pakke fra prislisten.</p>
 
     <p class="fine">Ved å bestille godtar du at vi bruker bildene dine til å lage materialet du har betalt for. Vi forfalsker ingenting. Se <a href="/personvern.html">personvern</a>.</p>
@@ -163,7 +164,7 @@
     var path = provider==='vipps' ? '/api/vipps/create' : '/api/checkout';
     location.href = path + '?' + params.toString();
   }
-  document.getElementById('pay-vipps').addEventListener('click', function(){ go('vipps'); });
+  document.getElementById('pay-card').addEventListener('click', function(){ go('stripe'); });
 </script>
 </body>
 </html>
