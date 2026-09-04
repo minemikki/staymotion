@@ -182,6 +182,7 @@
 
   function go(provider){
     if(!base){ elErr.style.display='block'; return; }
+    if(window.__uploadsBusy){ elErr.textContent='Vent litt – bildene lastes fortsatt opp. Betal når alle viser ✓.'; elErr.style.display='block'; return; }
     var fornavn = document.getElementById('fornavn').value.trim();
     var etternavn = document.getElementById('etternavn').value.trim();
     var email = document.getElementById('email').value.trim();
@@ -230,6 +231,7 @@
         en=document.getElementById('etternavn').value.trim(),
         em=document.getElementById('email').value.trim();
     if(!base) return 'Velg en gyldig pakke fra prislisten.';
+    if(window.__uploadsBusy) return 'Vent litt – bildene lastes fortsatt opp.';
     if(!fn||!en||!em) return 'Fyll inn navn og e-post først.';
     if(!document.getElementById('accept').checked) return 'Du må godta vilkårene for å bestille.';
     return '';
@@ -309,6 +311,38 @@
   const isVid = PKG==='enkelt' || PKG==='signatur';
   let ORDER = null;                    // {ref, token}
 
+  // ---- Upload progress + pay-button lock -------------------------------
+  let pending = 0, doneCount = 0;
+  const payBtn = $('pay-card');
+  (function(){
+    const s = document.createElement('style');
+    s.textContent = '@keyframes upspin{to{transform:rotate(360deg)}}'
+      + '.up-spin{width:16px;height:16px;border:2px solid rgba(231,210,169,.25);border-top-color:#E7D2A9;border-radius:50%;display:inline-block;animation:upspin .7s linear infinite;vertical-align:middle}'
+      + '#up-status{display:none;align-items:center;gap:9px;margin-top:12px;font-size:14px;font-weight:600}'
+      + '#up-status.busy{color:#E7D2A9}#up-status.ok{color:#69D4E0}';
+    document.head.appendChild(s);
+  })();
+  const upStatus = document.createElement('div');
+  upStatus.id = 'up-status';
+  upStatus.innerHTML = '<span class="up-spin"></span><span class="t"></span>';
+  if($('uplist')) $('uplist').parentNode.insertBefore(upStatus, $('uplist').nextSibling);
+  function setBusy(){
+    window.__uploadsBusy = pending > 0;
+    const t = upStatus.querySelector('.t');
+    const spin = upStatus.querySelector('.up-spin');
+    if(pending > 0){
+      upStatus.style.display = 'flex'; upStatus.className = 'busy';
+      spin.style.display = 'inline-block';
+      t.textContent = 'Laster opp bilder … ' + doneCount + ' ferdig, ' + pending + ' igjen. Ikke betal ennå.';
+      if(payBtn){ payBtn.style.opacity='.45'; payBtn.style.filter='grayscale(1)'; payBtn.style.cursor='not-allowed'; payBtn.setAttribute('aria-disabled','true'); }
+    } else if(doneCount > 0){
+      upStatus.style.display = 'flex'; upStatus.className = 'ok';
+      spin.style.display = 'none';
+      t.textContent = 'Alle ' + doneCount + ' bildene er lastet opp ✓ — du kan betale nå.';
+      if(payBtn){ payBtn.style.opacity=''; payBtn.style.filter=''; payBtn.style.cursor=''; payBtn.removeAttribute('aria-disabled'); }
+    }
+  }
+
   function vals(){
     const fn=$('fornavn').value.trim(), en=$('etternavn').value.trim(), email=$('email').value.trim();
     const fmtR = document.querySelector('input[name="fmt"]:checked');
@@ -348,7 +382,8 @@
     const imgs = [].slice.call(fl).filter(f=>f.type.startsWith('image/'));
     if(!imgs.length) return;
     const o = await ensureOrder(); if(!o) return;
-    for(const f of imgs){ await one(f, o); }
+    pending += imgs.length; setBusy();
+    for(const f of imgs){ try{ await one(f, o); doneCount++; } finally { pending--; setBusy(); } }
   }
   async function one(file, o){
     const card = document.createElement('div'); card.className='up';
