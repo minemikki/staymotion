@@ -43,7 +43,8 @@ export default async function handler(req, res) {
       to: owner,
       subject: 'Ny bestilling — StayMotion',
       html: `<h2>Ny betalt bestilling</h2>
-        <p>Pakke: <b>${s.metadata?.pkg || '?'}</b>${s.metadata?.express === 'true' ? ' + Express' : ''}<br>
+        <p>Pakke: <b>${s.metadata?.pkg || '?'}</b>${s.metadata?.express === 'true' ? ' + Express' : ''}${s.metadata?.both === 'true' ? ' + begge formater' : ''}<br>
+        Format: ${s.metadata?.format || '9:16'}<br>
         Kunde: ${email || 'ukjent'}<br>
         Beløp: ${(s.amount_total / 100).toLocaleString('no-NO')} kr</p>
         <p>Kunden får en lenke til å laste opp bildene. Du varsles på nytt når bildene er lastet opp.</p>`,
