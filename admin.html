@@ -117,7 +117,30 @@
   .photos button:hover{transform:scale(1.05);border-color:var(--cyan)}
   .photos img{width:100%;height:100%;object-fit:cover;display:block}
   .none{color:var(--muted);font-size:13px;font-style:italic}
-  .oa{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  .oa{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);align-items:center}
+  .photos button.morep{display:flex;align-items:center;justify-content:center;color:var(--cyan);font-weight:700;font-size:14px;background:rgba(105,212,224,.08)}
+  .photos button.late{border-color:var(--amber)}
+  .photos button.late::after{content:"";position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 2px var(--base2)}
+  .photos button{position:relative}
+  .latepill{font-size:10.5px;font-weight:600;color:var(--amber);background:rgba(231,184,114,.12);border:1px solid rgba(231,184,114,.35);padding:2px 8px;border-radius:100px;margin-left:8px}
+  /* status segmented control */
+  .statusctl{display:inline-flex;background:var(--base2);border:1px solid var(--line2);border-radius:100px;padding:3px;gap:2px}
+  .sbtn{padding:7px 13px;border-radius:100px;font-size:12.5px;font-weight:600;color:var(--muted);white-space:nowrap;transition:.15s;border:0;background:transparent;cursor:pointer;font-family:inherit}
+  .sbtn:hover{color:var(--ivory)}
+  .sbtn.on{background:var(--ice);color:#0c1116}
+  .slab{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-right:10px;align-self:center}
+  /* admin conversation */
+  .conv{margin:16px 0 4px;border-top:1px solid var(--line);padding-top:14px}
+  .conv .t{color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:600;margin-bottom:10px;display:block}
+  .cbub{max-width:82%;padding:9px 13px;border-radius:12px;font-size:13.5px;line-height:1.5;white-space:pre-wrap;margin-bottom:8px}
+  .cbub .w{display:block;font-size:10px;letter-spacing:.05em;text-transform:uppercase;opacity:.6;margin-bottom:2px}
+  .cbub .tm{display:block;font-size:10px;color:var(--muted);margin-top:4px}
+  .cbub.kunde{background:rgba(105,212,224,.07);border:1px solid rgba(105,212,224,.28);color:var(--ivory);border-bottom-left-radius:3px;margin-right:auto}
+  .cbub.oss{background:rgba(231,210,169,.08);border:1px solid rgba(231,210,169,.28);color:var(--ivory);border-bottom-right-radius:3px;margin-left:auto}
+  .reply{margin-top:12px}
+  .reply textarea{width:100%;min-height:64px;background:var(--base2);border:1px solid var(--line2);border-radius:10px;color:var(--ivory);padding:11px 13px;font-family:inherit;font-size:13.5px;resize:vertical}
+  .reply .ra{display:flex;align-items:center;gap:12px;margin-top:9px}
+  .rstat{font-size:12.5px;color:var(--muted)}
   .empty{text-align:center;color:var(--muted);padding:70px 20px}.empty .big{font-size:34px;margin-bottom:10px;opacity:.5}
 
   /* customers table */
@@ -323,7 +346,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-  var KEY='', ORDERS=[], VIEW='oversikt', FILTER='nye', SORT='ny', Q='', CQ='', SEEN=0;
+  var KEY='', ORDERS=[], VIEW='oversikt', FILTER='nye', SORT='ny', Q='', CQ='', SEEN=0, LASTSIG='';
   var $=function(id){return document.getElementById(id);};
   var C={cyan:'#69D4E0',champagne:'#E7D2A9',green:'#63D08A',amber:'#E7B872',red:'#E9866F',muted:'#8A9AA7',dim:'#C7D3DB',line:'rgba(190,214,226,.12)'};
   var charts={};
@@ -339,12 +362,18 @@
   // else — carts started but never paid — is "Påbegynt", kept separate.
   function paid(o){return !!(o.paid||o.paidAt);}
 
-  async function load(){
+  function ordersSig(list){return list.map(function(o){return o.id+':'+(o.status||'')+':'+(o.paid?1:0)+':'+((o.photos&&o.photos.length)||0)+':'+((o.notes&&o.notes.length)||0)+':'+((o.replies&&o.replies.length)||0);}).join('|');}
+  async function load(auto){
     try{
       var r=await fetch('/api/admin-orders?key='+encodeURIComponent(KEY));
       if(r.status===401){logout('Feil passord.');return;}
-      var d=await r.json();ORDERS=d.orders||[];
+      var d=await r.json();var incoming=d.orders||[];
       $('updated').textContent='Oppdatert '+new Date().toLocaleTimeString('no-NO');
+      var sig=ordersSig(incoming);
+      // Background refresh: if nothing changed, skip the heavy re-render/relayout
+      // so the page stays smooth instead of rebuilding every card + thumbnail.
+      if(auto && sig===LASTSIG) return;
+      LASTSIG=sig; ORDERS=incoming;
       // Capture the "seen" watermark from last visit BEFORE rendering, so the
       // "Nye"-tab can show real orders that arrived since then.
       try{ SEEN=parseInt(localStorage.getItem('sm_seen')||'0',10)||0; }catch(e){ SEEN=0; }
@@ -406,13 +435,39 @@
   }
 
   /* ---------- BESTILLINGER ---------- */
+  var MAXTHUMB=8;
   function orderCard(o){
-    var now=Date.now();var s=statusOf(o);var isPaid=paid(o);var over=isPaid&&s!=='behandlet'&&o.deadline&&o.deadline<now;
-    var badge=!isPaid?'<span class="badge avv">Påbegynt</span>':(s==='behandlet'?'<span class="badge beh">Behandlet</span>':'<span class="badge ubeh">Ubehandlet</span>');
+    var now=Date.now();var s=statusOf(o);var isPaid=paid(o);var id=esc(o.id);
+    var over=isPaid&&s!=='behandlet'&&(!(o.deliverables&&o.deliverables.length))&&o.deadline&&o.deadline<now;
+    var badge=!isPaid?'<span class="badge avv">Påbegynt</span>':(s==='behandlet'?'<span class="badge beh">Ferdig</span>':s==='under_arbeid'?'<span class="badge ubeh" style="background:rgba(105,212,224,.16);color:var(--cyan)">Under arbeid</span>':'<span class="badge ubeh">Ubehandlet</span>');
     var pills=(o.express?'<span class="pill exp">Express</span>':'')+(o.both?'<span class="pill both">Begge formater</span>':'');
     var cd=countdown(o.deadline);
-    var photos=(o.photos&&o.photos.length)?o.photos.map(function(p,pi){return '<button data-oid="'+esc(o.id)+'" data-pi="'+pi+'"><img src="'+esc(p.url)+'" alt="" loading="lazy"></button>';}).join(''):'<span class="none">Ingen bilder lastet opp ennå</span>';
-    var dlAll=(o.photos&&o.photos.length)?'<button class="btn sm ghost" data-dl="'+esc(o.id)+'">⤓ Last ned alle ('+o.photos.length+')</button>':'';
+    // photos: cap thumbnails for performance; flag ones sent after the order was placed
+    var plist=o.photos||[]; var lateCut=(o.created||0)+120000;
+    var lateCount=plist.filter(function(p){return p.uploadedAt&&p.uploadedAt>lateCut;}).length;
+    var shown=plist.slice(0,MAXTHUMB); var extra=plist.length-shown.length;
+    var photos=plist.length?(shown.map(function(p,pi){
+        var late=p.uploadedAt&&p.uploadedAt>lateCut;
+        return '<button class="'+(late?'late':'')+'" data-oid="'+id+'" data-pi="'+pi+'"><img src="'+esc(p.url)+'" alt="" loading="lazy" decoding="async" width="74" height="74"></button>';
+      }).join('')+(extra>0?'<button class="morep" data-oid="'+id+'" data-pi="'+MAXTHUMB+'">+'+extra+'</button>':''))
+      :'<span class="none">Ingen bilder lastet opp ennå</span>';
+    var dlAll=plist.length?'<button class="btn sm ghost" data-dl="'+id+'">⤓ Last ned alle ('+plist.length+')</button>':'';
+    // conversation: our replies + customer notes, oldest → newest
+    var thread=[].concat((o.replies||[]).map(function(m){return {at:m.at||0,text:m.text||'',who:'oss'};}))
+                 .concat((o.notes||[]).map(function(m){return {at:m.at||0,text:m.text||'',who:'kunde'};}))
+                 .sort(function(a,b){return (a.at||0)-(b.at||0);});
+    var threadHtml=thread.length?('<div class="conv"><span class="t">💬 Samtale</span>'+thread.map(function(m){
+        return '<div class="cbub '+m.who+'"><span class="w">'+(m.who==='oss'?'Deg (StayMotion)':'Kunde')+'</span>'+esc(m.text)+(m.at?'<span class="tm">'+fmtDate(m.at)+' · '+ago(m.at)+'</span>':'')+'</div>';
+      }).join(''))+'</div>':'';
+    var statusCtl=isPaid?('<span class="slab">Status kunden ser</span><div class="statusctl">'+
+        '<button class="sbtn'+(s!=='under_arbeid'&&s!=='behandlet'?' on':'')+'" data-id="'+id+'" data-s="ubehandlet">I kø</button>'+
+        '<button class="sbtn'+(s==='under_arbeid'?' on':'')+'" data-id="'+id+'" data-s="under_arbeid">Under arbeid</button>'+
+        '<button class="sbtn'+(s==='behandlet'?' on':'')+'" data-id="'+id+'" data-s="behandlet">Ferdig</button>'+
+      '</div>'):'<button class="btn primary" data-paid="'+id+'">✓ Bekreft betalt</button>';
+    var replyBox=isPaid?('<div class="reply">'+threadHtml+
+        '<textarea class="rin" id="rin-'+id+'" placeholder="Skriv en melding til kunden … Den vises på Min side og sendes på e-post."></textarea>'+
+        '<div class="ra"><button class="btn primary sm" data-reply="'+id+'">✉ Send til kunde</button><span class="rstat" id="rstat-'+id+'"></span></div>'+
+      '</div>'):'';
     return '<div class="order '+(over?'overdue':s)+'">'+
       '<div class="oh"><div class="who"><b>'+esc(o.navn||'Ukjent')+'</b>'+
         '<div class="em"><a href="mailto:'+esc(o.email)+'">'+esc(o.email||'')+'</a>'+(o.email?'<button class="copy" data-cp="'+esc(o.email)+'" title="Kopier">⧉</button>':'')+'</div></div>'+
@@ -425,14 +480,10 @@
         '<span><span class="lab">Frist</span><span class="cd '+cd.c+'" data-deadline="'+(o.deadline||'')+'">'+cd.t+'</span></span>'+
       '</div>'+
       (o.melding?('<div class="msg"><span class="lab">Melding fra kunde</span>'+esc(o.melding)+'</div>'):'')+
-      '<div class="phead"><span class="t">Bilder'+(o.photos&&o.photos.length?' ('+o.photos.length+')':'')+'</span>'+dlAll+'</div>'+
+      '<div class="phead"><span class="t">Bilder'+(plist.length?' ('+plist.length+')':'')+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+dlAll+'</div>'+
       '<div class="photos">'+photos+'</div>'+
-      '<div class="oa">'+
-        (!isPaid
-          ? '<button class="btn primary" data-paid="'+esc(o.id)+'">✓ Bekreft betalt</button>'
-          : (s==='behandlet'?'<button class="btn ghost" data-id="'+esc(o.id)+'" data-s="ubehandlet">↩ Merk ubehandlet</button>':'<button class="btn primary" data-id="'+esc(o.id)+'" data-s="behandlet">✓ Merk behandlet</button>'))+
-        '<a class="btn ghost" href="mailto:'+esc(o.email)+'?subject='+encodeURIComponent('StayMotion — bestillingen din')+'">✉ Svar kunde</a>'+
-      '</div></div>';
+      replyBox+
+      '<div class="oa">'+statusCtl+'</div></div>';
   }
   function renderBestillinger(){
     var now=Date.now();var m=metrics();
@@ -461,14 +512,29 @@
     [].forEach.call(l.querySelectorAll('[data-cp]'),function(b){b.onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(b.getAttribute('data-cp'));toast('E-post kopiert');};});
     [].forEach.call(l.querySelectorAll('[data-oid]'),function(b){b.onclick=function(){openLB(b.getAttribute('data-oid'),+b.getAttribute('data-pi'));};});
     [].forEach.call(l.querySelectorAll('[data-dl]'),function(b){b.onclick=function(){downloadAll(b.getAttribute('data-dl'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-reply]'),function(b){b.onclick=function(){sendReply(b.getAttribute('data-reply'),b);};});
   }
+  var STLABEL={ubehandlet:'I kø',under_arbeid:'Under arbeid',behandlet:'Ferdig'};
   async function setStatus(id,status,btn){
     btn.disabled=true;var old=btn.textContent;btn.textContent='…';
     try{
       await fetch('/api/admin-orders?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,status:status})});
       var o=ORDERS.filter(function(x){return x.id===id;})[0];if(o)o.status=status;
-      toast(status==='behandlet'?'Markert behandlet ✓':'Flyttet til ubehandlet');renderAll();
+      toast('Status: '+(STLABEL[status]||status)+' — kunden ser dette nå ✓');renderAll();
     }catch(e){btn.disabled=false;btn.textContent=old;toast('Noe gikk galt');}
+  }
+  async function sendReply(id,btn){
+    var ta=$('rin-'+id); if(!ta)return; var text=(ta.value||'').trim();
+    var st=$('rstat-'+id);
+    if(!text){ if(st){st.textContent='Skriv en melding først.';} return; }
+    btn.disabled=true;var old=btn.textContent;btn.textContent='Sender …';if(st)st.textContent='';
+    try{
+      var r=await fetch('/api/admin-message?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,text:text})});
+      var d=await r.json(); if(!r.ok||!d.ok) throw new Error(d.error||'feil');
+      var o=ORDERS.filter(function(x){return x.id===id;})[0];
+      if(o){o.replies=Array.isArray(o.replies)?o.replies:[];o.replies.push({at:Date.now(),text:text});}
+      toast('Melding sendt til kunden ✓ (e-post + Min side)');renderAll();
+    }catch(e){btn.disabled=false;btn.textContent=old;if(st){st.textContent='Kunne ikke sende – prøv igjen.';}}
   }
   async function markPaid(id,btn){
     btn.disabled=true;var old=btn.textContent;btn.textContent='…';
@@ -590,7 +656,7 @@
   $('q').addEventListener('input',function(){Q=this.value.trim().toLowerCase();renderBestillinger();});
   $('sort').addEventListener('change',function(){SORT=this.value;renderBestillinger();});
   $('cq').addEventListener('input',function(){CQ=this.value.trim().toLowerCase();renderKunder();});
-  $('refresh').onclick=load;$('logout').onclick=function(){logout('');};
+  $('refresh').onclick=function(){LASTSIG='';load(false);};$('logout').onclick=function(){logout('');};
   $('bell').onclick=function(){
     showView('bestillinger');
     FILTER='nye';
@@ -823,7 +889,7 @@
   /* =============== END CRM / LEADS =============== */
 
   setInterval(function(){[].forEach.call(document.querySelectorAll('.cd[data-deadline]'),function(el){var ts=+el.getAttribute('data-deadline');if(!ts)return;var cd=countdown(ts);el.textContent=cd.t;el.className='cd '+cd.c;});},30000);
-  setInterval(function(){if(!$('dash').classList.contains('hide'))load();},60000);
+  setInterval(function(){if(!$('dash').classList.contains('hide'))load(true);},60000);
 
   function enter(){KEY=$('key').value.trim();if(!KEY){$('gerr').textContent='Skriv inn passord.';return;}try{sessionStorage.setItem('sm_admin',KEY);}catch(e){}$('gate').classList.add('hide');$('dash').classList.remove('hide');load();}
   function logout(msg){try{sessionStorage.removeItem('sm_admin');}catch(e){}KEY=''; $('dash').classList.add('hide');$('gate').classList.remove('hide');$('gerr').textContent=msg||'';$('key').value='';}

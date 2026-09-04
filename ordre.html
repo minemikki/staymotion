@@ -56,6 +56,14 @@
   .drop:hover{border-color:var(--gold-lite)}
   input[type=file]{display:none}
   .ok{color:var(--gold-lite)} .err{color:#e88}
+  /* conversation thread */
+  .thread{display:flex;flex-direction:column;gap:10px;margin:6px 0 18px}
+  .bub{max-width:88%;padding:11px 15px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap}
+  .bub .who{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.6;margin-bottom:3px}
+  .bub.them{align-self:flex-start;background:linear-gradient(180deg,rgba(105,212,224,.14),rgba(105,212,224,.05));border:1px solid rgba(105,212,224,.35);color:var(--ivory);border-bottom-left-radius:4px}
+  .bub.me{align-self:flex-end;background:rgba(240,238,232,.05);border:1px solid var(--line-soft);color:var(--sand);border-bottom-right-radius:4px}
+  .bub .tm{display:block;font-size:10.5px;color:var(--slate);margin-top:5px}
+  .badge-new{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#0c0d10;background:var(--gold-lite);padding:1px 6px;border-radius:100px;vertical-align:middle;margin-left:6px}
   .muted{color:var(--slate);font-size:13px;margin-top:10px}
   .spin{width:24px;height:24px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:s 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:10px}
   @keyframes s{to{transform:rotate(360deg)}}
@@ -107,13 +115,13 @@
         <p class="muted" id="upStatus"></p>
       </div>
 
-      <!-- Message / extra request -->
+      <!-- Conversation -->
       <div class="card">
-        <h2>Melding til oss</h2>
-        <p class="muted">Ønsker, detaljer eller noe du vil vi skal vite? Skriv her – vi får beskjed.</p>
-        <textarea id="note" placeholder="Skriv en melding …"></textarea>
+        <h2>Meldinger</h2>
+        <div id="thread" class="thread"></div>
+        <p class="muted" id="threadEmpty">Ønsker, detaljer eller noe du vil vi skal vite? Skriv her – vi får beskjed med en gang.</p>
+        <textarea id="note" placeholder="Skriv en melding til oss …"></textarea>
         <div style="margin-top:10px"><button class="btn line" id="sendNote">Send melding</button> <span class="muted" id="noteStatus"></span></div>
-        <div id="noteList" style="margin-top:14px"></div>
       </div>
 
       <p class="back"><a href="/">&larr; Til forsiden</a></p>
@@ -143,10 +151,12 @@
   function show(id){ $('loading').classList.add('hide'); $(id).classList.remove('hide'); }
 
   function stage(){
-    if((data.deliverables||[]).length) return 3;
-    if(/arbeid|behandl|gang/i.test(data.status||'')) return 2;
-    return 1; // paid / received
+    if((data.deliverables||[]).length) return 3;           // video levert
+    var s = data.status||'';
+    if(s==='under_arbeid' || s==='behandlet') return 2;     // vi klipper nå
+    return 1;                                               // mottatt / i kø
   }
+  function fmtTime(ms){ try{ return new Date(ms).toLocaleString('no-NO',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
   function render(){
     show('view');
     const first = (data.navn||'').split(' ')[0];
@@ -185,9 +195,22 @@
     $('photoCount').textContent = ph.length ? '('+ph.length+')' : '';
     if(ph.length){ $('noPhotos').classList.add('hide'); const g=$('photoGrid'); g.innerHTML=''; ph.forEach(p=>{ const i=document.createElement('img'); i.src=p.url; i.loading='lazy'; g.appendChild(i); }); }
 
-    // notes
-    if((data.notes||[]).length){ const nl=$('noteList'); nl.innerHTML=''; data.notes.forEach(n=>{ const d=document.createElement('p'); d.className='muted'; d.textContent='• '+(n.text||''); nl.appendChild(d); }); }
+    // conversation: merge our replies + the customer's notes into one timeline
+    const msgs = []
+      .concat((data.replies||[]).map(m=>({at:m.at||0, text:m.text||'', from:'them'})))
+      .concat((data.notes||[]).map(m=>({at:m.at||0, text:m.text||'', from:'me'})))
+      .sort((a,b)=>(a.at||0)-(b.at||0));
+    const th=$('thread'); th.innerHTML='';
+    if(msgs.length){
+      $('threadEmpty').classList.add('hide');
+      msgs.forEach(m=>{
+        const b=document.createElement('div'); b.className='bub '+(m.from==='them'?'them':'me');
+        b.innerHTML='<span class="who">'+(m.from==='them'?'StayMotion':'Deg')+'</span>'+esc(m.text)+(m.at?('<span class="tm">'+fmtTime(m.at)+'</span>'):'');
+        th.appendChild(b);
+      });
+    } else { $('threadEmpty').classList.remove('hide'); }
   }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 
   // add more photos — deliberate flow: pick → preview → "Send inn" → confirmation
   const input=$('more');

@@ -5,7 +5,7 @@
 
 import Stripe from 'stripe';
 import { signOrder } from '../lib/token.js';
-import { setStatus, countPhotos } from '../lib/orders.js';
+import { markPaid, countPhotos } from '../lib/orders.js';
 
 export default async function handler(req, res) {
   try {
@@ -21,8 +21,10 @@ export default async function handler(req, res) {
     const email = s.customer_details?.email || s.metadata?.email || '';
     const navn = s.metadata?.navn || '';
 
-    // Move the order to "ubehandlet" (idempotent; the webhook may also do this).
-    try { await setStatus(ref, 'ubehandlet'); } catch (e) { console.error('[order-status] setStatus', e.message); }
+    // Durably mark paid (idempotent; the webhook does this too). This is the
+    // safety net: even if the webhook is delayed or fails, landing on the
+    // success page confirms payment so the order can never strand as a cart.
+    try { await markPaid(ref, s.amount_total != null ? s.amount_total / 100 : null); } catch (e) { console.error('[order-status] markPaid', e.message); }
 
     const token = signOrder({
       orderId: ref,
