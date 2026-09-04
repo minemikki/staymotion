@@ -246,7 +246,7 @@
     try {
       if (typeof Stripe === 'undefined'){ dbg('Apple Pay: Stripe.js lastet ikke (blokkert?)'); return; }
       let pk = '';
-      try { const r = await fetch('/api/stripe-config?t=' + Date.now(), { cache: 'no-store' }); pk = (await r.json()).pk || ''; } catch(e){ dbg('Apple Pay: konfig-feil'); return; }
+      try { const r = await fetch('/api/stripe-config?t=' + Date.now(), { cache: 'no-store' }); pk = ((await r.json()).pk || '').trim(); } catch(e){ dbg('Apple Pay: konfig-feil'); return; }
       if (!pk){ dbg('Apple Pay: mangler nøkkel'); return; }
       const amount0 = window.__amountMinor ? window.__amountMinor() : 0;
       if (!amount0){ dbg('Apple Pay: mangler beløp'); return; }
@@ -261,7 +261,7 @@
         if (m){ wrap.classList.remove('hide'); dbg(''); }
         else { dbg('Apple Pay: ingen lommebok tilgjengelig (ready uten metoder)'); }
       });
-      ece.on('loaderror', (e)=>{ dbg('Apple Pay loaderror: ' + ((e && e.error && e.error.message) || 'ukjent')); });
+      ece.on('loaderror', (e)=>{ dbg('Apple Pay loaderror: ' + ((e && e.error && e.error.message) || 'ukjent') + ' [nøkkellengde ' + pk.length + ']'); });
       ece.mount('#express-el');
 
       function sync(){ const a = window.__amountMinor(); if (a) elements.update({ amount:a }); }
