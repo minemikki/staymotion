@@ -57,7 +57,7 @@
     <a class="brand" href="/"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
     <span class="kick">Bestilling</span>
     <h1>Fullfør bestillingen</h1>
-    <p style="color:var(--sand)">Betal trygt med Vipps eller kort. Etter betaling laster du opp bildene dine — så er vi i gang.</p>
+    <p style="color:var(--sand)">Betal trygt med Vipps. Etter betaling laster du opp bildene dine — så er vi i gang.</p>
 
     <div class="sum">
       <div class="pn" id="pn">—</div>
@@ -83,7 +83,6 @@
 
     <div class="btns">
       <button class="btn btn-vipps" id="pay-vipps">Betal med Vipps</button>
-      <button class="btn btn-stripe" id="pay-stripe">Betal med kort</button>
     </div>
     <p class="err" id="err">Velg en gyldig pakke fra prislisten.</p>
 
@@ -139,7 +138,6 @@
     location.href = path + '?' + params.toString();
   }
   document.getElementById('pay-vipps').addEventListener('click', function(){ go('vipps'); });
-  document.getElementById('pay-stripe').addEventListener('click', function(){ go('stripe'); });
 </script>
 </body>
 </html>
