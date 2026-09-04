@@ -48,6 +48,11 @@
   .btn[disabled]{opacity:.45;cursor:default}
   textarea{width:100%;min-height:90px;background:rgba(240,238,232,.03);border:1px solid var(--line);border-radius:6px;color:var(--ivory);padding:12px;font-family:inherit;font-size:14px;resize:vertical}
   .drop{display:block;width:100%;border:1.5px dashed var(--line);border-radius:6px;padding:26px;text-align:center;cursor:pointer;color:var(--sand);font-size:14px;margin-top:8px}
+  .pending{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-top:12px}
+  .pending .p{position:relative}
+  .pending img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:5px;border:1px solid var(--line-soft);opacity:.9}
+  #sendPhotos{width:100%;margin-top:14px}
+  .sent-ok{margin-top:14px;padding:14px 16px;border-radius:8px;background:linear-gradient(180deg,rgba(105,212,224,.12),rgba(105,212,224,.03));border:1px solid rgba(105,212,224,.4);color:var(--gold);font-weight:600;text-align:center}
   .drop:hover{border-color:var(--gold-lite)}
   input[type=file]{display:none}
   .ok{color:var(--gold-lite)} .err{color:#e88}
@@ -94,8 +99,11 @@
         <h2>Bildene dine <span class="muted" id="photoCount"></span></h2>
         <div class="grid" id="photoGrid"></div>
         <p class="muted" id="noPhotos">Ingen bilder lastet opp ennå.</p>
-        <label class="drop" id="drop" for="more">+ Last opp flere bilder</label>
+        <label class="drop" id="drop" for="more">+ Velg flere bilder</label>
         <input id="more" type="file" accept="image/*" multiple>
+        <div class="pending" id="pending"></div>
+        <button class="btn" id="sendPhotos" hidden>Send inn bildene</button>
+        <div class="sent-ok hide" id="photoOk">✓ Takk! Bildene er sendt inn og mottatt.</div>
         <p class="muted" id="upStatus"></p>
       </div>
 
@@ -181,23 +189,40 @@
     if((data.notes||[]).length){ const nl=$('noteList'); nl.innerHTML=''; data.notes.forEach(n=>{ const d=document.createElement('p'); d.className='muted'; d.textContent='• '+(n.text||''); nl.appendChild(d); }); }
   }
 
-  // add more photos
+  // add more photos — deliberate flow: pick → preview → "Send inn" → confirmation
   const input=$('more');
+  let queue=[];
   $('drop').addEventListener('click',()=>input.click());
-  input.addEventListener('change', async ()=>{
+  input.addEventListener('change', ()=>{
     const imgs=[].slice.call(input.files).filter(f=>f.type.startsWith('image/'));
     if(!imgs.length) return;
+    queue=queue.concat(imgs);
+    input.value='';
+    renderQueue();
+  });
+  function renderQueue(){
+    const box=$('pending'); box.innerHTML='';
+    queue.forEach(f=>{ const w=document.createElement('div'); w.className='p'; const i=document.createElement('img'); i.src=URL.createObjectURL(f); w.appendChild(i); box.appendChild(w); });
+    const btn=$('sendPhotos');
+    if(queue.length){ btn.hidden=false; btn.textContent='Send inn '+queue.length+' bilde'+(queue.length>1?'r':''); $('photoOk').classList.add('hide'); }
+    else { btn.hidden=true; }
+  }
+  $('sendPhotos').addEventListener('click', async ()=>{
+    if(!queue.length) return;
+    const btn=$('sendPhotos'); btn.disabled=true;
     let done=0;
-    for(const f of imgs){
-      $('upStatus').textContent='Laster opp … '+done+'/'+imgs.length;
+    for(const f of queue){
+      btn.textContent='Sender … '+done+'/'+queue.length;
       try{
         const safe=f.name.replace(/[^\w.\-]+/g,'_');
         await upload('orders/'+ref+'/'+safe, f, { access:'public', handleUploadUrl:'/api/blob-upload', clientPayload:t });
         done++;
       }catch(e){}
     }
-    $('upStatus').textContent=done+' bilde(r) lastet opp ✓'; $('upStatus').className='ok';
-    setTimeout(load, 800);
+    queue=[]; $('pending').innerHTML=''; btn.hidden=true; btn.disabled=false;
+    $('photoOk').classList.remove('hide');
+    $('photoOk').scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(load, 1200);
   });
 
   // send note
