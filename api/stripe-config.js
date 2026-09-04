@@ -5,5 +5,6 @@
 
 export default function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store, max-age=0');
-  res.json({ pk: process.env.STRIPE_PUBLISHABLE_KEY || '' });
+  // Trim stray whitespace/newlines that can sneak in when pasting the key.
+  res.json({ pk: (process.env.STRIPE_PUBLISHABLE_KEY || '').trim() });
 }
