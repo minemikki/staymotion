@@ -86,11 +86,11 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F7F9FB;background-color:#F7F9FB">
         <tr><td align="center" style="padding:40px 16px">
           <table role="presentation" width="580" cellpadding="0" cellspacing="0" border="0" style="width:580px;max-width:100%">
-            <tr><td align="center" style="padding:2px 0 4px">
-              <img src="${origin}/img/logo-mono.png" width="30" height="23" alt="StayMotion" style="vertical-align:middle;border:0;margin-right:9px">
-              <span style="${F}font-size:15px;letter-spacing:5px;font-weight:700;color:#111820;vertical-align:middle">STAYMOTION</span>
+            <tr><td align="center" style="padding:2px 0 6px">
+              <img src="${origin}/img/logo-mono.png" width="38" height="29" alt="StayMotion" style="vertical-align:middle;border:0;margin-right:12px">
+              <span style="${F}font-size:24px;letter-spacing:4px;font-weight:800;color:#0C1116;vertical-align:middle">STAYMOTION</span>
             </td></tr>
-            <tr><td align="center" style="${F}padding:0 0 26px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:#9AA6AE">Cinematiske videoer fra bildene du allerede har</td></tr>
+            <tr><td align="center" style="${F}padding:0 0 28px;font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:#9AA6AE">Cinematiske videoer fra bildene du allerede har</td></tr>
             <tr><td style="background:#FFFFFF;background-color:#FFFFFF;border:1px solid #E6ECEF;border-radius:16px;padding:38px 38px 34px">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 22px"><tr>
                 <td width="46" valign="middle"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td width="40" height="40" align="center" valign="middle" style="width:40px;height:40px;border-radius:50%;background:#EAF4F6;color:#1597A8;font-size:19px">&#10003;</td></tr></table></td>
