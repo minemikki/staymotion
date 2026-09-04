@@ -22,7 +22,7 @@
   .kick::before{content:"";width:24px;height:1px;background:currentColor;opacity:.7}
   h1{font-family:var(--serif);font-weight:700;letter-spacing:-.02em;font-size:clamp(2.2rem,7vw,3.4rem);line-height:1.05;margin-bottom:12px}
   p{color:var(--sand)}
-  .drop{margin:30px 0;border:1.5px dashed var(--line);border-radius:6px;padding:40px 24px;text-align:center;background:rgba(240,238,232,.02);cursor:pointer;transition:border-color .3s,background .3s}
+  .drop{display:block;width:100%;margin:30px 0;border:1.5px dashed var(--line);border-radius:6px;padding:40px 24px;text-align:center;background:rgba(240,238,232,.02);cursor:pointer;transition:border-color .3s,background .3s}
   .drop:hover,.drop.over{border-color:var(--gold-lite);background:rgba(232,211,166,.05)}
   .drop b{color:var(--ivory)}
   .drop small{display:block;color:var(--slate);margin-top:8px;font-size:12.5px}
@@ -58,20 +58,28 @@
     </div>
 
     <div id="upload" class="hide">
-      <span class="kick">Betalt — siste steg</span>
-      <h1>Last opp bildene dine</h1>
-      <p>Velg 6–15 bilder du allerede har av objektet. Vi plukker de beste og gjør dem levende. JPG, PNG, HEIC og WEBP.</p>
+      <span class="kick" id="kick">Betalt — siste steg</span>
+      <h1 id="uptitle">Last opp bildene dine</h1>
+      <p id="uptext">Velg 6–15 bilder du allerede har av objektet. Vi plukker de beste og gjør dem levende. JPG, PNG, HEIC og WEBP.</p>
 
-      <label class="drop" id="drop" for="files">
-        <b>Trykk for å velge bilder</b>
-        <small>eller dra dem hit</small>
-      </label>
-      <input id="files" type="file" accept="image/*" multiple>
+      <div class="done hide" id="received">
+        <h1 style="font-size:2rem">Bildene dine er mottatt ✓</h1>
+        <p>Takk! Vi har fått bildene du lastet opp, og setter i gang. Du hører fra oss når resultatet er klart.</p>
+        <p style="margin-top:16px"><a href="#" id="addmore" style="color:var(--gold-lite);font-weight:600">+ Legg til flere bilder</a></p>
+      </div>
 
-      <div class="list" id="list"></div>
+      <div id="uploadbox">
+        <label class="drop" id="drop" for="files">
+          <b>Trykk for å velge bilder</b>
+          <small>eller dra dem hit</small>
+        </label>
+        <input id="files" type="file" accept="image/*" multiple>
 
-      <button class="btn" id="send" disabled>Send bildene</button>
-      <p class="muted" id="count"></p>
+        <div class="list" id="list"></div>
+
+        <button class="btn" id="send" disabled>Send bildene</button>
+        <p class="muted" id="count"></p>
+      </div>
 
       <div class="done hide" id="done">
         <h1 style="font-size:2rem">Takk — vi er i gang! ✨</h1>
@@ -108,6 +116,14 @@
         if (d.ref) orderRef = d.ref;
         $('checking').classList.add('hide');
         $('upload').classList.remove('hide');
+        if (d.photoCount > 0) {
+          // Customer already uploaded photos before paying — don't demand it again.
+          $('kick').textContent = 'Betalt';
+          $('uptitle').textContent = 'Takk for bestillingen!';
+          $('uptext').classList.add('hide');
+          $('received').classList.remove('hide');
+          $('uploadbox').classList.add('hide');
+        }
       } else {
         show('failed');
       }
@@ -116,6 +132,14 @@
     }
   }
   function show(id){ $('checking').classList.add('hide'); $(id).classList.remove('hide'); }
+
+  $('addmore').addEventListener('click', (e) => {
+    e.preventDefault();
+    $('uploadbox').classList.remove('hide');
+    $('uptext').classList.remove('hide');
+    $('uptitle').textContent = 'Last opp flere bilder';
+    e.target.style.display = 'none';
+  });
 
   const input = $('files'), drop = $('drop');
   drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
