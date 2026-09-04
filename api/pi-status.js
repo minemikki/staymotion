@@ -4,7 +4,7 @@
 
 import Stripe from 'stripe';
 import { signOrder } from '../lib/token.js';
-import { setStatus } from '../lib/orders.js';
+import { setStatus, countPhotos } from '../lib/orders.js';
 
 export default async function handler(req, res) {
   try {
@@ -26,7 +26,10 @@ export default async function handler(req, res) {
       exp: Date.now() + 1000 * 60 * 60 * 24 * 7,
     });
 
-    res.json({ paid: true, token, ref, pkg: p.metadata?.pkg || '' });
+    let photoCount = 0;
+    try { photoCount = await countPhotos(ref); } catch (e) {}
+
+    res.json({ paid: true, token, ref, pkg: p.metadata?.pkg || '', photoCount });
   } catch (e) {
     console.error('[pi-status]', e);
     res.status(500).json({ error: 'Kunne ikke bekrefte betaling' });
