@@ -99,21 +99,23 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
               <h1 style="${F}margin:0 0 14px;font-size:27px;line-height:1.18;color:#111820;font-weight:700;letter-spacing:-.01em">Takk for bestillingen${navn ? ', ' + navn.split(' ')[0] : ''}!</h1>
               <p style="${F}margin:0;font-size:15.5px;line-height:1.6;color:#71808A">Vi har mottatt bildene og betalingen din.<br>Nå starter vi produksjonen — du hører fra oss når resultatet er klart.</p>
               ${box}
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0 6px"><tr>
+              <table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:30px auto 6px"><tr>
                 <td align="center" bgcolor="#101820" style="border-radius:9px">
-                  <a href="${portalUrl}" style="${F}display:inline-block;padding:16px 36px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;border-radius:9px">Følg bestillingen din &rarr;</a>
+                  <a href="${portalUrl}" style="${F}display:inline-block;padding:16px 40px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;border-radius:9px">Følg bestillingen din &rarr;</a>
                 </td></tr></table>
-              <p style="${F}margin:22px 0 0;font-size:13.5px;line-height:1.6;color:#71808A">Har du spørsmål? Bare svar på denne e-posten, så hjelper vi deg.</p>
+              <p style="${F}margin:22px 0 0;font-size:13.5px;line-height:1.65;color:#71808A;text-align:center">Har du spørsmål eller trenger hjelp?<br>Send oss en e-post på <a href="mailto:${owner}" style="color:#1597A8;text-decoration:none">${owner}</a></p>
             </td></tr>
-            <tr><td style="padding:24px 8px 0">
+            <tr><td style="padding:26px 8px 0">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-                <td valign="top" style="${F}font-size:12px;line-height:1.7;color:#71808A">
+                <td valign="middle" style="${F}font-size:12px;line-height:1.7;color:#71808A">
                   <b style="color:#111820">StayMotion</b> · <a href="https://staymotion.no" style="color:#1597A8;text-decoration:none">staymotion.no</a><br>
-                  Cinematiske videoer fra bildene du allerede har.
+                  Cinematiske videoer fra bildene du allerede har.<br>
+                  Org.nr 937 492 472
                 </td>
-                <td valign="top" align="right" style="${F}font-size:12px;color:#71808A">
-                  <a href="https://instagram.com/staymotion.no" style="color:#71808A;text-decoration:none">Instagram</a> ·
-                  <a href="https://www.tiktok.com/@staymotion2" style="color:#71808A;text-decoration:none">TikTok</a>
+                <td valign="middle" align="right">
+                  <a href="https://instagram.com/staymotion.no" style="text-decoration:none"><img src="${origin}/img/sc-ig.png" width="20" height="20" alt="Instagram" style="border:0;margin-left:12px;vertical-align:middle"></a>
+                  <a href="https://www.tiktok.com/@staymotion2" style="text-decoration:none"><img src="${origin}/img/sc-tt.png" width="20" height="20" alt="TikTok" style="border:0;margin-left:12px;vertical-align:middle"></a>
+                  <a href="https://www.facebook.com/1291143160752179" style="text-decoration:none"><img src="${origin}/img/sc-fb.png" width="20" height="20" alt="Facebook" style="border:0;margin-left:12px;vertical-align:middle"></a>
                 </td>
               </tr></table>
             </td></tr>
