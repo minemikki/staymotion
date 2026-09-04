@@ -131,6 +131,87 @@ Hei! Dere lager innhold som treffer. Jeg kan være video-leddet når kundene tre
     notes:`Emne: Video-produksjon dere kan tilby
 
 Hei! Jeg lager korte filmatiske videoer ut av bilder som allerede finnes, et raskt supplement dere kan tilby kundene uten å filme selv. Vil dere ha en gratis prøve? Michael, staymotion.no` },
+
+  { id:'seed-kleppa', company:'Kleppa Gård & Glamping', segment:'hytte', location:'Hjelmeland', website:'', leadScore:84, channel:'email',
+    notes:`Emne: Glamping-domene i bevegelse
+
+Hei! Glamping-domene deres rett ved stranda i Hjelmeland ser helt magiske ut. Så at dere har fine bilder, men lite video. Jeg lager korte filmatiske snutter ut av bilder dere allerede har, uten ny filming. Kan lage en gratis prøve av ett av bildene deres. Vil dere se? Michael, staymotion.no` },
+  { id:'seed-norglamp', company:'NorGlamp Randøy', segment:'hytte', location:'Randøy', website:'', leadScore:84, channel:'email',
+    notes:`Emne: Rask idé til NorGlamp
+
+Hei! Konseptet deres på Randøy med domer, kokonger og hobbit-hus er helt unikt, og det roper etter video. Jeg lager korte filmatiske klipp ut av bildene dere allerede har. Kan lage en gratis prøve så dere ser hvordan det blir. Vil dere? Michael, staymotion.no` },
+  { id:'seed-tveita', company:'Tveita Adventure', segment:'hytte', location:'Suldal', website:'', leadScore:80, channel:'email',
+    notes:`Emne: Domene med fjordutsikt i bevegelse
+
+Hei! Domene deres med panoramautsikt over Ryfylke-fjordene er nydelige. En kort video gjør noe helt annet med folk som vurderer et opphold. Jeg lager det ut av bilder dere allerede har. Gratis prøve? Michael, staymotion.no` },
+  { id:'seed-akrafjorden', company:'Åkrafjorden Glamping', segment:'hytte', location:'Åkrafjorden', website:'', leadScore:82, channel:'email',
+    notes:`Emne: Domene på fjellhylla i bevegelse
+
+Hei! Domene deres på fjellhylla over Åkrafjorden er spektakulære. Jeg lager korte filmatiske snutter ut av bildene dere allerede har, uten ny filming. Vil dere ha en gratis prøve? Michael, staymotion.no` },
+  { id:'seed-sirdalfjellgard', company:'Sirdal Fjellgård', segment:'hytte', location:'Sirdal', website:'sirdal-fjellgard.no', leadScore:78, channel:'email',
+    notes:`Emne: Ecolodgene i bevegelse
+
+Hei! Ecolodgene deres i Sirdal er noe for seg selv. Jeg lager korte filmatiske klipp ut av bilder dere allerede har. Kan lage en gratis prøve. Vil dere se? Michael, staymotion.no` },
+  { id:'seed-sirdalhoyfjell', company:'Sirdal Høyfjellshotell', segment:'hotell', location:'Sirdal', website:'', leadScore:72, channel:'email',
+    notes:`Emne: Video til høyfjellshotellet
+
+Hei! Beliggenheten deres på Sirdal-fjellet er et salgsargument i seg selv, og den blir enda bedre i bevegelse. Jeg lager korte klipp ut av bildene dere har. Gratis prøve? Michael, staymotion.no` },
+  { id:'seed-grandegersund', company:'Grand Hotel Egersund', segment:'hotell', location:'Egersund', website:'', leadScore:74, channel:'email',
+    notes:`Emne: Idé til Grand Hotel
+
+Hei! Grand Hotel Egersund har en fin karakter, og rommene og restauranten hadde sett flott ut i video. Jeg lager det ut av bildene dere allerede har, uten ny filming. Vil dere ha en gratis prøve? Michael, staymotion.no` },
+  { id:'seed-strandgaten', company:'Strandgaten Gjestgiveri', segment:'hotell', location:'Haugesund', website:'gjestgiveri.net', leadScore:70, channel:'email',
+    notes:`Emne: Video til gjestgiveriet
+
+Hei! Det gamle herskapshuset deres i Haugesund sentrum har masse sjarm. Jeg lager korte filmatiske videoer ut av bilder dere allerede har. Gratis prøve? Michael, staymotion.no` },
+  { id:'seed-skeisvang', company:'Skeisvang Gjestgiveri', segment:'hotell', location:'Haugesund', website:'', leadScore:68, channel:'email',
+    notes:`Emne: Liten idé til Skeisvang
+
+Hei! Gjestgiveriet deres har en koselig stemning som fortjener mer enn stillbilder. Jeg lager korte videoer ut av bildene dere allerede har, uten ny filming. Vil dere se en gratis prøve? Michael, staymotion.no` },
+  { id:'seed-banken', company:'Banken Hotel Haugesund', segment:'hotell', location:'Haugesund', website:'', leadScore:70, channel:'email',
+    notes:`Emne: Video til Banken Hotel
+
+Hei! Banken Hotel har en fin egen stil. En kort video av rommene og stemningen selger bedre enn bilder alene. Jeg lager det ut av bildene dere har. Gratis prøve? Michael, staymotion.no` },
+  { id:'seed-heldigvis', company:'Heldigvis Restaurant & Bar', segment:'restaurant', location:'Bryne', website:'', leadScore:66, channel:'email',
+    notes:`Emne: Maten deres i bevegelse
+
+Hei! Maten hos dere på Bryne ser utrolig bra ut. Jeg gjør matbilder om til korte filmatiske klipp som får folk til å ville booke bord, uten ny fotografering. Gratis prøve av en rett? Michael, staymotion.no` },
+  { id:'seed-fira', company:'Fira', segment:'restaurant', location:'Sandnes', website:'', leadScore:66, channel:'email',
+    notes:`Emne: Hjemmerestauranten i bevegelse
+
+Hei! Konseptet deres med hjemmerestaurant i Sandnes er unikt og personlig. Jeg lager korte filmatiske klipp ut av bildene dere har, som fanger stemningen. Vil dere ha en gratis prøve? Michael, staymotion.no` },
+  { id:'seed-tispiseri', company:'Ti Spiseri', segment:'restaurant', location:'Sandnes', website:'', leadScore:64, channel:'email',
+    notes:`Emne: Maten i bevegelse
+
+Hei! Rettene deres ser flotte ut på bilder, og enda bedre i bevegelse. Jeg lager korte filmatiske klipp ut av bildene dere har, ingen ny fotografering. Gratis prøve? Michael, staymotion.no` },
+  { id:'seed-eigra', company:'Eigra Kjøkken & Bar', segment:'restaurant', location:'Egersund', website:'', leadScore:64, channel:'email',
+    notes:`Emne: Idé til Eigra
+
+Hei! Kjøkkenet og baren deres i Egersund ser lekre ut. Jeg gjør bildene dere har om til korte filmatiske klipp som får folk til å ville stikke innom. Gratis prøve? Michael, staymotion.no` },
+  { id:'seed-106ost', company:'106 grader Øst', segment:'restaurant', location:'Sandnes', website:'', leadScore:62, channel:'email',
+    notes:`Emne: Street food i bevegelse
+
+Hei! Den vietnamesiske street fooden deres er jo laget for reels. Jeg lager korte filmatiske klipp ut av bildene dere har. Vil dere ha en gratis prøve? Michael, staymotion.no` },
+  { id:'seed-hereford', company:'Hereford & Friends Steakhouse', segment:'restaurant', location:'Sandnes', website:'', leadScore:62, channel:'email',
+    notes:`Emne: Maten i bevegelse
+
+Hei! En god biff ser fantastisk ut i bevegelse. Jeg lager korte filmatiske klipp ut av bildene dere allerede har, ingen ny fotografering. Gratis prøve? Michael, staymotion.no` },
+  { id:'seed-amoy', company:'Amoy Fjordferie', segment:'hytte', location:'Karmøy', website:'', leadScore:74, channel:'email',
+    notes:`Emne: Fjordferien i bevegelse
+
+Hei! Fjordferie-stedet deres ser rolig og fint ut. En kort video som fanger sjøen og lyset gjør noe med folk som vurderer et opphold. Jeg lager det ut av bilder dere allerede har. Gratis prøve? Michael, staymotion.no` },
+  { id:'seed-dnbsandnes', company:'DNB Eiendom Sandnes', segment:'megler', location:'Sandnes', website:'dnbeiendom.no', leadScore:66, channel:'email',
+    notes:`Emne: Idé til boligannonsene
+
+Hei [navn]! Boligene dere legger ut har fine bilder, men de står stille. En kort filmatisk video av boligen, laget ut av bildene som allerede er tatt, skiller annonsen ut på Finn og Instagram. Kan lage en gratis prøve av en av boligene dine. Vil du se? Michael, staymotion.no` },
+  { id:'seed-leversenfoto', company:'Leversenfoto', segment:'partner', location:'Sandnes', website:'', leadScore:72, channel:'partner',
+    notes:`Emne: Et videotilbud til kundene dine
+
+Hei! Så at du driver med foto i Sandnes-området. Får du noen gang spørsmål om video? Jeg lager korte filmatiske videoer ut av bilder som allerede er tatt, ferdig på et par dager, gjerne under ditt navn. Kan lage en gratis prøve av ett av bildene dine. Vil du se? Michael, staymotion.no` },
+  { id:'seed-nordsjovegen', company:'Nordsjøvegen', segment:'partner', location:'Rogaland/Vestland', website:'nordsjovegen.no', leadScore:66, channel:'partner',
+    notes:`Emne: Video-samarbeid langs Nordsjøvegen
+
+Hei! Dere samler mange flotte overnattings- og opplevelsessteder langs Nordsjøvegen. Jeg lager korte filmatiske videoer ut av bilder som allerede finnes, og det kunne vært et fint tilbud til medlemmene deres. Vil dere ta en prat om et samarbeid? Michael, staymotion.no` },
 ];
 
 function authed(req) {
