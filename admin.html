@@ -408,7 +408,7 @@
     $('c-ubeh').textContent=m.ubeh.length;$('c-beh').textContent=m.beh.length;$('c-all').textContent=m.paidO.length;
     var rows=ORDERS.filter(function(o){
       var s=statusOf(o);
-      if(FILTER==='alle'){if(!paid(o))return false;}else if(s!==FILTER)return false;
+      if(FILTER==='alle'){/* show all incl. avventer (påbegynte/ubetalte) */}else if(s!==FILTER)return false;
       if(Q){var hay=((o.navn||'')+' '+(o.email||'')+' '+(o.pakke||o.pkg||'')+' '+(o.format||'')).toLowerCase();if(hay.indexOf(Q)<0)return false;}
       return true;
     });
