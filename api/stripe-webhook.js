@@ -50,6 +50,26 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
       portalUrl = `${origin}/ordre.html?ref=${encodeURIComponent(ref)}&t=${encodeURIComponent(token)}`;
     } catch (e) { console.error('[stripe-webhook] token', e.message); }
 
+    const EP = 'font-family:Arial,Helvetica,sans-serif;';
+    const dO = { timeZone: 'Europe/Oslo', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' };
+    const bestilt = order?.created ? new Date(order.created).toLocaleString('no-NO', dO) : '—';
+    const ferdig = order?.deadline ? new Date(order.deadline).toLocaleString('no-NO', dO) : '—';
+    const belop = (amountKr != null ? amountKr : (order?.amountKr || 0)).toLocaleString('no-NO');
+    const row = (l, v) => `<tr>
+        <td style="${EP}font-size:13px;color:#9A8F7A;padding:7px 0;vertical-align:top">${l}</td>
+        <td style="${EP}font-size:14px;color:#14181C;font-weight:600;padding:7px 0;text-align:right;vertical-align:top">${v}</td></tr>`;
+    const summary = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:20px 0 4px"><tr>
+        <td style="background:#F6F2EA;background-color:#F6F2EA;border:1px solid #E4DCC9;border-radius:10px;padding:10px 20px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+            ${row('Bestilling', order?.pakke || '—')}
+            ${row('Format', order?.format || '9:16')}
+            ${row('Referanse', `<span style="letter-spacing:.5px">${String(ref).toUpperCase()}</span>`)}
+            ${row('Bestilt', bestilt)}
+            ${row('Ferdig innen', `<span style="color:#0E7C8B">${ferdig}</span>`)}
+            ${row('Betalt', belop + ' kr')}
+          </table>
+        </td></tr></table>`;
+
     await sendEmail({
       to: email,
       subject: 'Takk for bestillingen hos StayMotion 🎬',
@@ -58,9 +78,9 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
         badge: true,
         kicker: 'Betalt',
         heading: `Takk for bestillingen${navn ? ', ' + navn.split(' ')[0] : ''}!`,
-        html: emailP('Vi har mottatt betalingen og bildene dine. Nå setter vi i gang — du hører fra oss når resultatet er klart.'),
-        refLabel: 'Din referanse',
-        refValue: String(ref).toUpperCase(),
+        html:
+          emailP('Vi har mottatt betalingen og bildene dine. Nå setter vi i gang — du hører fra oss når resultatet er klart.') +
+          summary,
         ctaText: 'Følg bestillingen din',
         ctaUrl: portalUrl,
       }),
