@@ -24,6 +24,7 @@ export default async function handler(req, res) {
       deadline: o.deadline || null,
       melding: o.melding || '',
       notes: Array.isArray(o.notes) ? o.notes : [],
+      replies: Array.isArray(o.replies) ? o.replies : [],
       photos: o.photos || [],
       deliverables: o.deliverables || [],
     });

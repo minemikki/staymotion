@@ -4,7 +4,7 @@
 
 import Stripe from 'stripe';
 import { signOrder } from '../lib/token.js';
-import { setStatus, countPhotos } from '../lib/orders.js';
+import { markPaid, countPhotos } from '../lib/orders.js';
 
 export default async function handler(req, res) {
   try {
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     const email = p.receipt_email || p.metadata?.email || '';
     const navn = p.metadata?.navn || '';
 
-    try { await setStatus(ref, 'ubehandlet'); } catch (e) { console.error('[pi-status] setStatus', e.message); }
+    try { await markPaid(ref, (p.amount_received != null ? p.amount_received : p.amount) / 100); } catch (e) { console.error('[pi-status] markPaid', e.message); }
 
     const token = signOrder({
       orderId: ref, pkg: p.metadata?.pkg || '', navn, email,
