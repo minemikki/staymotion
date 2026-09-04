@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 
     const token = signOrder({
       orderId: ref, pkg: p.metadata?.pkg || '', navn, email,
-      exp: Date.now() + 1000 * 60 * 60 * 24 * 7,
+      exp: Date.now() + 1000 * 60 * 60 * 24 * 90,
     });
 
     let photoCount = 0;

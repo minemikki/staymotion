@@ -29,7 +29,7 @@ export default async function handler(req, res) {
       pkg: s.metadata?.pkg || '',
       navn,
       email,
-      exp: Date.now() + 1000 * 60 * 60 * 24 * 7, // 7 days
+      exp: Date.now() + 1000 * 60 * 60 * 24 * 90, // 90 days (portal + upload window)
     });
 
     let photoCount = 0;

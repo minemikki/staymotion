@@ -7,6 +7,7 @@
 import Stripe from 'stripe';
 import { sendEmail } from '../lib/email.js';
 import { setStatus } from '../lib/orders.js';
+import { signOrder } from '../lib/token.js';
 
 // Stripe needs the raw request body to verify the signature.
 export const config = { api: { bodyParser: false } };
@@ -43,13 +44,24 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
   });
 
   if (email) {
+    let portalUrl = uploadUrl;
+    try {
+      const token = signOrder({ orderId: ref, navn, email, exp: Date.now() + 1000 * 60 * 60 * 24 * 90 });
+      portalUrl = `${origin}/ordre.html?ref=${encodeURIComponent(ref)}&t=${encodeURIComponent(token)}`;
+    } catch (e) { console.error('[stripe-webhook] token', e.message); }
+
     await sendEmail({
       to: email,
-      subject: 'Takk for bestillingen — last opp bildene dine',
-      html: `<h2>Takk for bestillingen${navn ? ', ' + navn.split(' ')[0] : ''}!</h2>
-        <p>Har du ikke lastet opp bildene ennå, kan du gjøre det her:</p>
-        <p><a href="${uploadUrl}">Last opp bildene</a></p>
-        <p>— StayMotion</p>`,
+      subject: 'Takk for bestillingen hos StayMotion 🎬',
+      html: `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#1a1a1a;max-width:520px">
+        <p style="margin:0 0 14px">Hei${navn ? ' ' + navn.split(' ')[0] : ''},</p>
+        <p style="margin:0 0 14px">Tusen takk for bestillingen! Vi har mottatt betalingen og bildene dine, og setter i gang med å gjøre dem levende.</p>
+        <p style="margin:0 0 6px">Din referanse: <b>${String(ref).toUpperCase()}</b></p>
+        <p style="margin:14px 0 20px">På din egen side kan du følge status, legge til flere bilder, sende oss en melding — og laste ned videoen når den er klar:</p>
+        <p style="margin:0 0 22px"><a href="${portalUrl}" style="display:inline-block;background:#E8D3A6;color:#0c0d10;text-decoration:none;font-weight:700;padding:13px 26px;border-radius:4px">Se bestillingen din →</a></p>
+        <p style="margin:0 0 4px">Mvh,<br>Michael</p>
+        <p style="margin:0"><a href="https://staymotion.no" style="color:#0f8a99;text-decoration:none">StayMotion · staymotion.no</a></p>
+      </div>`,
     });
   }
 }
