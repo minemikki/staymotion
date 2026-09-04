@@ -55,12 +55,13 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
       subject: 'Takk for bestillingen hos StayMotion 🎬',
       html: renderEmail({
         preheader: 'Vi har mottatt bestillingen din og setter i gang.',
-        heading: `Takk for bestillingen${navn ? ', ' + navn.split(' ')[0] : ''}! 🎬`,
-        html:
-          emailP('Vi har mottatt betalingen og bildene dine, og setter i gang med å gjøre dem levende.') +
-          emailP(`Din referanse: <b style="color:#E8D3A6;letter-spacing:1px">${String(ref).toUpperCase()}</b>`) +
-          emailP('På din egen side følger du status, kan legge til flere bilder eller sende oss en melding — og laster ned videoen når den er klar. Vi sender deg en e-post så snart den er ferdig.'),
-        ctaText: 'Se bestillingen din',
+        badge: true,
+        kicker: 'Betalt',
+        heading: `Takk for bestillingen${navn ? ', ' + navn.split(' ')[0] : ''}!`,
+        html: emailP('Vi har mottatt betalingen og bildene dine. Nå setter vi i gang — du hører fra oss når resultatet er klart.'),
+        refLabel: 'Din referanse',
+        refValue: String(ref).toUpperCase(),
+        ctaText: 'Følg bestillingen din',
         ctaUrl: portalUrl,
       }),
     });
