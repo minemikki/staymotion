@@ -8,7 +8,7 @@ import { vippsAccessToken, vippsHeaders, vippsBase } from '../../lib/vipps.js';
 export default async function handler(req, res) {
   try {
     const src = req.method === 'POST' ? (req.body || {}) : (req.query || {});
-    const p = resolvePackage(src.pkg, src.express);
+    const p = resolvePackage(src.pkg, src.express, src.both);
     if (!p) return res.status(400).json({ error: 'Ukjent pakke' });
 
     // Graceful fallback: Vipps not configured yet → order by email.

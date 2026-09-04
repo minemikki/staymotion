@@ -30,8 +30,14 @@
   label{display:block;font-size:13px;letter-spacing:.04em;color:var(--sand);margin-bottom:8px}
   input[type=email]{width:100%;background:var(--char);border:1px solid var(--line-soft);color:var(--ivory);font:inherit;padding:14px 16px;border-radius:2px}
   input[type=email]:focus{outline:none;border-color:var(--gold)}
-  .exp{display:flex;align-items:center;gap:10px;color:var(--sand);font-size:.95rem;cursor:pointer;user-select:none}
-  .exp input{width:18px;height:18px;accent-color:var(--gold)}
+  .exp{display:flex;align-items:center;gap:10px;color:var(--sand);font-size:.95rem;cursor:pointer;user-select:none;margin-top:16px}
+  .exp input{width:18px;height:18px;accent-color:var(--gold);flex:none}
+  .fmt-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 4px}
+  .fmt-opt{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line-soft);border-radius:3px;padding:12px 14px;cursor:pointer;transition:border-color .3s,background .3s}
+  .fmt-opt:has(input:checked){border-color:var(--gold);background:linear-gradient(180deg,rgba(232,211,166,.08),rgba(232,211,166,.02))}
+  .fmt-opt input{position:absolute;opacity:0;pointer-events:none}
+  .fmt-opt b{color:var(--ivory);font-weight:600;font-size:.98rem}
+  .fmt-opt span{color:var(--slate);font-size:12px}
   .btns{display:grid;gap:12px;margin-top:26px}
   .btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 26px;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.02em;border-radius:3px;cursor:pointer;border:1px solid transparent;transition:transform .2s,background .3s,border-color .3s}
   .btn:hover{transform:translateY(-1px)}
@@ -64,6 +70,15 @@
       <input id="email" type="email" placeholder="deg@epost.no" autocomplete="email" inputmode="email">
     </div>
 
+    <div class="field" id="fmtField">
+      <label>Velg format</label>
+      <div class="fmt-opts">
+        <label class="fmt-opt"><input type="radio" name="fmt" value="9:16" checked><b>9:16 — stående</b><span>Reels, TikTok, Instagram</span></label>
+        <label class="fmt-opt"><input type="radio" name="fmt" value="16:9"><b>16:9 — liggende</b><span>Finn, nettside, YouTube</span></label>
+      </div>
+      <label class="exp"><input type="checkbox" id="both"> Begge formater (9:16 + 16:9) — +690 kr</label>
+    </div>
+
     <label class="exp"><input type="checkbox" id="express"> Express — halvert leveringstid (+50 %)</label>
 
     <div class="btns">
@@ -87,26 +102,37 @@
   var pkg = q.get('pkg');
   var expressInit = q.get('express') === '1';
   var base = CAT[pkg];
+  var BOTH_KR = 690; // begge formater — mersalg
   var elAmt=document.getElementById('amt'), elPn=document.getElementById('pn'),
       elDl=document.getElementById('dl'), elExp=document.getElementById('express'),
+      elBoth=document.getElementById('both'), elFmtField=document.getElementById('fmtField'),
       elErr=document.getElementById('err');
 
+  // Images package has no 9:16/16:9 video format — hide the format picker
+  var isVideo = pkg==='enkelt' || pkg==='signatur';
+  if(!isVideo && elFmtField){ elFmtField.style.display='none'; }
+
+  function chosenFmt(){ var r=document.querySelector('input[name="fmt"]:checked'); return r?r.value:'9:16'; }
   function fmt(n){ return n.toLocaleString('no-NO'); }
   function render(){
     if(!base){ elErr.style.display='block'; return; }
     var express = elExp.checked;
-    var kr = Math.round(base.kr * (express?1.5:1));
-    elPn.textContent = base.name + (express?' + Express':'');
+    var both = isVideo && elBoth.checked;
+    var kr = Math.round(base.kr * (express?1.5:1)) + (both?BOTH_KR:0);
+    elPn.textContent = base.name + (both?' + begge formater':'') + (express?' + Express':'');
     elAmt.textContent = 'fra ' + fmt(kr);
     elDl.textContent = express ? 'Halvert leveringstid' : base.dl;
   }
   elExp.checked = expressInit;
   elExp.addEventListener('change', render);
+  if(elBoth) elBoth.addEventListener('change', render);
+  [].forEach.call(document.querySelectorAll('input[name="fmt"]'),function(r){ r.addEventListener('change', render); });
   render();
 
   function go(provider){
     if(!base){ elErr.style.display='block'; return; }
     var params = new URLSearchParams({ pkg:pkg, express: elExp.checked?'1':'0' });
+    if(isVideo){ params.set('fmt', chosenFmt()); params.set('both', elBoth.checked?'1':'0'); }
     var email = document.getElementById('email').value.trim();
     if(email) params.set('email', email);
     var path = provider==='vipps' ? '/api/vipps/create' : '/api/checkout';

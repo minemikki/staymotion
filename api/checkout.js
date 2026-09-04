@@ -7,8 +7,9 @@ import { resolvePackage } from '../lib/packages.js';
 export default async function handler(req, res) {
   try {
     const src = req.method === 'POST' ? (req.body || {}) : (req.query || {});
-    const p = resolvePackage(src.pkg, src.express);
+    const p = resolvePackage(src.pkg, src.express, src.both);
     if (!p) return res.status(400).json({ error: 'Ukjent pakke' });
+    const fmt = src.both === '1' || src.both === 'true' ? '9:16 + 16:9' : (src.fmt || '9:16');
 
     // Graceful fallback: no Stripe key yet → let the customer order by email
     // instead of showing a broken checkout.
@@ -34,7 +35,7 @@ export default async function handler(req, res) {
           product_data: { name: 'StayMotion — ' + p.label },
         },
       }],
-      metadata: { pkg: p.id, express: String(p.express) },
+      metadata: { pkg: p.id, express: String(p.express), both: String(p.both), format: fmt },
       success_url: `${origin}/takk.html?provider=stripe&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/bestill.html?pkg=${p.id}`,
     });
