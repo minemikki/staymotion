@@ -408,17 +408,20 @@
   .final .price a{color:var(--champagne);border-bottom:1px solid var(--line-strong)}
 
   /* ---------- FOOTER ---------- */
-  footer{background:var(--base-2);border-top:1px solid var(--line);padding:clamp(56px,7vw,84px) 0 32px}
-  .foot-top{display:flex;justify-content:space-between;gap:48px;flex-wrap:wrap;padding-bottom:clamp(32px,4vw,48px);border-bottom:1px solid var(--line)}
-  .foot-brand{max-width:360px}
-  .foot-brand img{height:36px;width:auto;margin-bottom:20px}
-  .foot-brand p{color:var(--muted);line-height:1.6;margin-bottom:18px;font-size:.98rem}
-  .foot-mail{font-size:1.1rem;color:var(--ice);border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:color .3s,border-color .3s}
+  footer{background:var(--base-2);border-top:1px solid var(--line);padding:clamp(60px,8vw,92px) 0 34px}
+  .foot-c{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .foot-brand2{display:inline-flex;align-items:center;gap:15px;margin-bottom:24px}
+  .foot-brand2 img{height:46px;width:auto}
+  .foot-brand2 b{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:.3em;padding-left:.3em;color:var(--ice)}
+  .foot-brand2 b i{font-style:normal;color:var(--champagne)}
+  .foot-tag{color:var(--muted);max-width:48ch;margin-bottom:30px;line-height:1.65;font-size:1rem}
+  .foot-nav2{display:flex;gap:14px 32px;flex-wrap:wrap;justify-content:center;margin-bottom:26px;
+    font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ice-dim)}
+  .foot-nav2 a{transition:color .3s}.foot-nav2 a:hover{color:var(--cyan)}
+  .foot-mail{font-size:1.12rem;color:var(--ice);border-bottom:1px solid var(--line-strong);padding-bottom:3px;transition:color .3s,border-color .3s}
   .foot-mail:hover{color:var(--champagne);border-color:var(--champagne)}
-  .foot-nav{display:grid;gap:14px;align-content:start;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ice-dim)}
-  .foot-nav a{transition:color .3s}.foot-nav a:hover{color:var(--cyan)}
-  .foot-bot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:26px;color:var(--muted);font-size:12.5px;letter-spacing:.02em}
-  @media(max-width:680px){.foot-top{flex-direction:column;gap:34px}.foot-bot{flex-direction:column;gap:8px}}
+  .foot-line{width:100%;height:1px;background:var(--line);margin:clamp(38px,5vw,52px) 0 22px}
+  .foot-bot2{color:var(--muted);font-size:12.5px;letter-spacing:.03em}
 
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
@@ -768,25 +771,22 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="wrap">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <img src="img/logo.png" alt="StayMotion">
-        <p data-en="Cinematic videos that sell — made from the photos you already have.">Cinematiske videoer som selger — laget av bildene du allerede har.</p>
-        <a class="foot-mail" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel">hello@staymotion.no</a>
-      </div>
-      <nav class="foot-nav">
-        <a href="#arbeid" data-en="Work">Arbeid</a>
-        <a href="#prosess" data-en="Process">Prosess</a>
-        <a href="#priser" data-en="Pricing">Priser</a>
-        <a href="#faq">FAQ</a>
-        <a href="/personvern.html" data-en="Privacy">Personvern</a>
-      </nav>
-    </div>
-    <div class="foot-bot">
-      <small data-en="StayMotion · Serving all of the Nordics">StayMotion · Leverer i hele Norden</small>
-      <small>© 2026</small>
-    </div>
+  <div class="wrap foot-c">
+    <a href="#top" class="foot-brand2" aria-label="StayMotion">
+      <img src="img/logo-mono.png" alt="">
+      <b>STAY<i>MOTION</i></b>
+    </a>
+    <p class="foot-tag" data-en="Cinematic videos that sell — made from the photos you already have.">Cinematiske videoer som selger — laget av bildene du allerede har.</p>
+    <nav class="foot-nav2">
+      <a href="#arbeid" data-en="Work">Arbeid</a>
+      <a href="#prosess" data-en="Process">Prosess</a>
+      <a href="#priser" data-en="Pricing">Priser</a>
+      <a href="#faq">FAQ</a>
+      <a href="/personvern.html" data-en="Privacy">Personvern</a>
+    </nav>
+    <a class="foot-mail" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel">hello@staymotion.no</a>
+    <div class="foot-line"></div>
+    <div class="foot-bot2"><span data-en="StayMotion · Serving all of the Nordics · © 2026">StayMotion · Leverer i hele Norden · © 2026</span></div>
   </div>
 </footer>
 
