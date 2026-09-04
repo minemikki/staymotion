@@ -4,7 +4,7 @@
 // so the pre-uploaded photos stay attached to the paid order.
 
 import { resolvePackage } from '../lib/packages.js';
-import { saveOrder, deadlineFor } from '../lib/orders.js';
+import { saveOrder, deadlineFor, newRef } from '../lib/orders.js';
 import { signOrder } from '../lib/token.js';
 
 export default async function handler(req, res) {
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
     const fmt = p.both ? '9:16 + 16:9' : (src.fmt || '9:16');
     const created = Date.now();
-    const ref = `sm-${p.id}-${created}-${Math.random().toString(36).slice(2, 8)}`;
+    const ref = newRef();
 
     await saveOrder({
       id: ref,
