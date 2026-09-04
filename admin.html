@@ -334,7 +334,9 @@
   function countdown(ts){if(!ts)return{t:'—',c:''};var d=ts-Date.now();var over=d<0;var a=Math.abs(d);var h=Math.floor(a/3600000),m=Math.floor((a%3600000)/60000);var days=Math.floor(h/24);var txt=days>=1?(days+'d '+(h%24)+'t'):(h+'t '+m+'m');if(over)return{t:'Over frist · '+txt,c:'over'};if(d<6*3600000)return{t:txt+' igjen',c:'soon'};return{t:txt+' igjen',c:'ok'};}
   function toast(msg){var t=$('toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._x);t._x=setTimeout(function(){t.classList.remove('on');},1900);}
   function statusOf(o){return o.status||'ubehandlet';}
-  function paid(o){return statusOf(o)!=='avventer';}
+  // A real order is one Stripe confirmed as paid (durable flag). Everything
+  // else — carts started but never paid — is "Påbegynt", kept separate.
+  function paid(o){return !!(o.paid||o.paidAt);}
 
   async function load(){
     try{
@@ -368,15 +370,15 @@
   /* ---------- shared stat cards ---------- */
   function metrics(){
     var now=Date.now();
-    var ubeh=ORDERS.filter(function(o){return statusOf(o)==='ubehandlet';});
-    var beh=ORDERS.filter(function(o){return statusOf(o)==='behandlet';});
+    var ubeh=ORDERS.filter(function(o){return paid(o)&&statusOf(o)!=='behandlet';});
+    var beh=ORDERS.filter(function(o){return paid(o)&&statusOf(o)==='behandlet';});
     var overdue=ubeh.filter(function(o){return o.deadline&&o.deadline<now;});
     var paidO=ORDERS.filter(paid);
     var rev=paidO.reduce(function(a,o){return a+(o.amountKr||0);},0);
     var mStart=new Date();mStart.setDate(1);mStart.setHours(0,0,0,0);
     var revM=paidO.filter(function(o){return o.created&&o.created>=mStart.getTime();}).reduce(function(a,o){return a+(o.amountKr||0);},0);
     var avg=paidO.length?Math.round(rev/paidO.length):0;
-    var avv=ORDERS.filter(function(o){return statusOf(o)==='avventer';});
+    var avv=ORDERS.filter(function(o){return !paid(o);});
     return {ubeh:ubeh,beh:beh,overdue:overdue,paidO:paidO,rev:rev,revM:revM,avg:avg,avv:avv};
   }
 
@@ -402,8 +404,8 @@
 
   /* ---------- BESTILLINGER ---------- */
   function orderCard(o){
-    var now=Date.now();var s=statusOf(o);var over=s==='ubehandlet'&&o.deadline&&o.deadline<now;
-    var badge=s==='behandlet'?'<span class="badge beh">Behandlet</span>':s==='avventer'?'<span class="badge avv">Avventer</span>':'<span class="badge ubeh">Ubehandlet</span>';
+    var now=Date.now();var s=statusOf(o);var isPaid=paid(o);var over=isPaid&&s!=='behandlet'&&o.deadline&&o.deadline<now;
+    var badge=!isPaid?'<span class="badge avv">Påbegynt</span>':(s==='behandlet'?'<span class="badge beh">Behandlet</span>':'<span class="badge ubeh">Ubehandlet</span>');
     var pills=(o.express?'<span class="pill exp">Express</span>':'')+(o.both?'<span class="pill both">Begge formater</span>':'');
     var cd=countdown(o.deadline);
     var photos=(o.photos&&o.photos.length)?o.photos.map(function(p,pi){return '<button data-oid="'+esc(o.id)+'" data-pi="'+pi+'"><img src="'+esc(p.url)+'" alt="" loading="lazy"></button>';}).join(''):'<span class="none">Ingen bilder lastet opp ennå</span>';
@@ -423,7 +425,9 @@
       '<div class="phead"><span class="t">Bilder'+(o.photos&&o.photos.length?' ('+o.photos.length+')':'')+'</span>'+dlAll+'</div>'+
       '<div class="photos">'+photos+'</div>'+
       '<div class="oa">'+
-        (s==='behandlet'?'<button class="btn ghost" data-id="'+esc(o.id)+'" data-s="ubehandlet">↩ Merk ubehandlet</button>':'<button class="btn primary" data-id="'+esc(o.id)+'" data-s="behandlet">✓ Merk behandlet</button>')+
+        (!isPaid
+          ? '<button class="btn primary" data-paid="'+esc(o.id)+'">✓ Bekreft betalt</button>'
+          : (s==='behandlet'?'<button class="btn ghost" data-id="'+esc(o.id)+'" data-s="ubehandlet">↩ Merk ubehandlet</button>':'<button class="btn primary" data-id="'+esc(o.id)+'" data-s="behandlet">✓ Merk behandlet</button>'))+
         '<a class="btn ghost" href="mailto:'+esc(o.email)+'?subject='+encodeURIComponent('StayMotion — bestillingen din')+'">✉ Svar kunde</a>'+
       '</div></div>';
   }
@@ -431,8 +435,11 @@
     var now=Date.now();var m=metrics();
     $('c-ubeh').textContent=m.ubeh.length;$('c-beh').textContent=m.beh.length;$('c-all').textContent=m.paidO.length;var ca=$('c-avv');if(ca)ca.textContent=m.avv.length;
     var rows=ORDERS.filter(function(o){
-      var s=statusOf(o);
-      if(FILTER==='alle'){if(!paid(o))return false;}else if(s!==FILTER)return false;
+      var s=statusOf(o),p=paid(o);
+      if(FILTER==='avventer'){ if(p)return false; }            // Påbegynt = ikke betalt
+      else if(FILTER==='alle'){ if(!p)return false; }           // alle ekte ordre
+      else if(FILTER==='behandlet'){ if(!p||s!=='behandlet')return false; }
+      else { if(!p||s==='behandlet')return false; }             // ubehandlet = nye ekte ordre
       if(Q){var hay=((o.navn||'')+' '+(o.email||'')+' '+(o.pakke||o.pkg||'')+' '+(o.format||'')).toLowerCase();if(hay.indexOf(Q)<0)return false;}
       return true;
     });
@@ -445,6 +452,7 @@
 
   function wireList(l){
     [].forEach.call(l.querySelectorAll('[data-id]'),function(b){b.onclick=function(){setStatus(b.getAttribute('data-id'),b.getAttribute('data-s'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-paid]'),function(b){b.onclick=function(){markPaid(b.getAttribute('data-paid'),b);};});
     [].forEach.call(l.querySelectorAll('[data-cp]'),function(b){b.onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(b.getAttribute('data-cp'));toast('E-post kopiert');};});
     [].forEach.call(l.querySelectorAll('[data-oid]'),function(b){b.onclick=function(){openLB(b.getAttribute('data-oid'),+b.getAttribute('data-pi'));};});
     [].forEach.call(l.querySelectorAll('[data-dl]'),function(b){b.onclick=function(){downloadAll(b.getAttribute('data-dl'),b);};});
@@ -455,6 +463,14 @@
       await fetch('/api/admin-orders?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,status:status})});
       var o=ORDERS.filter(function(x){return x.id===id;})[0];if(o)o.status=status;
       toast(status==='behandlet'?'Markert behandlet ✓':'Flyttet til ubehandlet');renderAll();
+    }catch(e){btn.disabled=false;btn.textContent=old;toast('Noe gikk galt');}
+  }
+  async function markPaid(id,btn){
+    btn.disabled=true;var old=btn.textContent;btn.textContent='…';
+    try{
+      await fetch('/api/admin-orders?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,paid:true})});
+      var o=ORDERS.filter(function(x){return x.id===id;})[0];if(o){o.paid=true;if(!o.paidAt)o.paidAt=Date.now();if(!o.status||o.status==='avventer')o.status='ubehandlet';}
+      toast('Bekreftet betalt ✓');renderAll();
     }catch(e){btn.disabled=false;btn.textContent=old;toast('Noe gikk galt');}
   }
   async function downloadAll(id,btn){

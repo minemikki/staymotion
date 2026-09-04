@@ -6,7 +6,7 @@
 
 import Stripe from 'stripe';
 import { sendEmail, renderEmail, emailP } from '../lib/email.js';
-import { setStatus } from '../lib/orders.js';
+import { markPaid } from '../lib/orders.js';
 import { signOrder } from '../lib/token.js';
 
 // Stripe needs the raw request body to verify the signature.
@@ -26,7 +26,7 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
   const origin = `https://${req.headers.host}`;
 
   let order = null;
-  try { order = await setStatus(ref, 'ubehandlet'); } catch (e) { console.error('[stripe-webhook] setStatus', e.message); }
+  try { order = await markPaid(ref, amountKr); } catch (e) { console.error('[stripe-webhook] markPaid', e.message); }
 
   const frist = order?.deadline ? new Date(order.deadline).toLocaleString('no-NO') : '—';
   await sendEmail({
