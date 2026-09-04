@@ -139,14 +139,31 @@
   function fmtDate(ms){ try{ return new Date(ms).toLocaleDateString('no-NO',{day:'numeric',month:'long'}); }catch(e){ return ''; } }
   const PKG = { bilder:'Cinematiske bilder', enkelt:'Enkelt — 1 reel', signatur:'Signatur — 3 reels' };
 
+  let lastSig='', busy=false, polling=false;
+  function sigOf(d){ return (d.status||'')+'|'+((d.replies||[]).length)+'|'+((d.notes||[]).length)+'|'+((d.deliverables||[]).length)+'|'+((d.photos||[]).length); }
   async function load(){
     if(!ref || !t){ show('denied'); return; }
     try{
       const r = await fetch('/api/order-view?ref='+encodeURIComponent(ref)+'&t='+encodeURIComponent(t));
       if(!r.ok) throw 0;
       data = await r.json();
+      lastSig = sigOf(data);
       render();
+      startPolling();
     }catch(e){ show('denied'); }
+  }
+  // Quietly check for new messages / status changes so the customer never has
+  // to refresh. Only re-renders when something actually changed.
+  function startPolling(){ if(polling) return; polling=true; setInterval(poll, 12000); }
+  async function poll(){
+    if(busy || document.hidden) return;
+    try{
+      const r = await fetch('/api/order-view?ref='+encodeURIComponent(ref)+'&t='+encodeURIComponent(t));
+      if(!r.ok) return;
+      const d = await r.json();
+      const s = sigOf(d);
+      if(s !== lastSig){ data = d; lastSig = s; render(); }
+    }catch(e){}
   }
   function show(id){ $('loading').classList.add('hide'); $(id).classList.remove('hide'); }
 
@@ -232,7 +249,7 @@
   }
   $('sendPhotos').addEventListener('click', async ()=>{
     if(!queue.length) return;
-    const btn=$('sendPhotos'); btn.disabled=true;
+    const btn=$('sendPhotos'); btn.disabled=true; busy=true;
     let done=0;
     for(const f of queue){
       btn.textContent='Sender … '+done+'/'+queue.length;
@@ -242,7 +259,7 @@
         done++;
       }catch(e){}
     }
-    queue=[]; $('pending').innerHTML=''; btn.hidden=true; btn.disabled=false;
+    queue=[]; $('pending').innerHTML=''; btn.hidden=true; btn.disabled=false; busy=false;
     $('photoOk').classList.remove('hide');
     $('photoOk').scrollIntoView({behavior:'smooth',block:'center'});
     setTimeout(load, 1200);
@@ -256,8 +273,13 @@
     try{
       const r=await fetch('/api/order-note',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ref,t,note}) });
       if(!r.ok) throw 0;
+      // Show it in the thread immediately so it feels instant.
+      data.notes = Array.isArray(data.notes) ? data.notes : [];
+      data.notes.push({ at: Date.now(), text: note });
+      lastSig = sigOf(data);
+      render();
       $('note').value=''; $('noteStatus').textContent='Sendt ✓'; $('noteStatus').className='ok muted';
-      setTimeout(load, 800);
+      $('sendNote').disabled=false;
     }catch(e){ $('noteStatus').textContent='Kunne ikke sende – prøv igjen.'; $('noteStatus').className='err muted'; $('sendNote').disabled=false; }
   });
 
