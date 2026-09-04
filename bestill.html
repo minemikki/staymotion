@@ -242,7 +242,7 @@
   // wallet, this silently does nothing and the card button carries the flow.
   (async function(){
     const $ = (id)=>document.getElementById(id);
-    const dbg = (m)=>{ const d=$('ppdebug'); if(d) d.textContent = m || ''; };
+    const dbg = (m)=>{ try{ if(m) console.log('[applepay]', m); }catch(e){} };
     try {
       if (typeof Stripe === 'undefined'){ dbg('Apple Pay: Stripe.js lastet ikke (blokkert?)'); return; }
       let pk = '';
