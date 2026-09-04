@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     const order = await addNote(ref, note);
     if (!order) return res.status(404).json({ error: 'fant ikke bestillingen' });
 
-    const owner = process.env.OWNER_EMAIL || 'hello@staymotion.no';
+    const owner = process.env.OWNER_EMAIL || 'michael@staymotion.no';
     const origin = `https://${req.headers.host}`;
     try {
       await sendEmail({

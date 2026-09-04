@@ -22,7 +22,7 @@ function rawBody(req) {
 }
 
 async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
-  const owner = process.env.OWNER_EMAIL || 'hello@staymotion.no';
+  const owner = process.env.OWNER_EMAIL || 'michael@staymotion.no';
   const origin = `https://${req.headers.host}`;
 
   let order = null;
