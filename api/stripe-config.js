@@ -4,5 +4,6 @@
 // the card button.
 
 export default function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store, max-age=0');
   res.json({ pk: process.env.STRIPE_PUBLISHABLE_KEY || '' });
 }
