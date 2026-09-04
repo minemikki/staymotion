@@ -135,6 +135,7 @@
       <button class="btn btn-card" id="pay-card">Betal med kort &rarr;</button>
     </div>
     <p class="secure">🔒 Sikker betaling med Visa, Mastercard &amp; Apple&nbsp;Pay</p>
+    <div id="ppdebug" style="margin-top:8px;text-align:center;font-size:11px;color:var(--slate)"></div>
     <p class="err" id="err">Velg en gyldig pakke fra prislisten.</p>
 
     <p class="fine">Ved å bestille godtar du at vi bruker bildene dine til å lage materialet du har betalt for. Vi forfalsker ingenting. Se <a href="/personvern.html">personvern</a>.</p>
@@ -241,52 +242,60 @@
   // wallet, this silently does nothing and the card button carries the flow.
   (async function(){
     const $ = (id)=>document.getElementById(id);
-    if (typeof Stripe === 'undefined') return;
-    let pk = '';
-    try { const r = await fetch('/api/stripe-config'); pk = (await r.json()).pk || ''; } catch(e){}
-    if (!pk) return;
-    const amount0 = window.__amountMinor ? window.__amountMinor() : 0;
-    if (!amount0) return;
+    const dbg = (m)=>{ const d=$('ppdebug'); if(d) d.textContent = m || ''; };
+    try {
+      if (typeof Stripe === 'undefined'){ dbg('Apple Pay: Stripe.js lastet ikke (blokkert?)'); return; }
+      let pk = '';
+      try { const r = await fetch('/api/stripe-config'); pk = (await r.json()).pk || ''; } catch(e){ dbg('Apple Pay: konfig-feil'); return; }
+      if (!pk){ dbg('Apple Pay: mangler nøkkel'); return; }
+      const amount0 = window.__amountMinor ? window.__amountMinor() : 0;
+      if (!amount0){ dbg('Apple Pay: mangler beløp'); return; }
 
-    const stripe = Stripe(pk);
-    const elements = stripe.elements({ mode:'payment', amount: amount0, currency:'nok' });
-    const ece = elements.create('expressCheckout', { buttonTheme:{ applePay:'black', googlePay:'black' } });
-    const wrap = $('express-wrap');
+      const stripe = Stripe(pk);
+      const elements = stripe.elements({ mode:'payment', amount: amount0, currency:'nok' });
+      const ece = elements.create('expressCheckout');
+      const wrap = $('express-wrap');
 
-    ece.on('ready', (e)=>{ if (e && e.availablePaymentMethods) wrap.classList.remove('hide'); });
-    ece.mount('#express');
-
-    function sync(){ const a = window.__amountMinor(); if (a) elements.update({ amount:a }); }
-    ['express','both'].forEach(function(id){ const el=$(id); if(el) el.addEventListener('change', sync); });
-    [].forEach.call(document.querySelectorAll('input[name="fmt"]'), function(r){ r.addEventListener('change', sync); });
-
-    function showErr(m){ const e=$('err'); e.textContent=m; e.style.display='block'; }
-
-    ece.on('click', (event)=>{
-      const err = window.__orderError();
-      if (err){ showErr(err); return; }   // not resolving cancels the sheet
-      event.resolve();
-    });
-
-    ece.on('confirm', async (event)=>{
-      const { error: submitError } = await elements.submit();
-      if (submitError){ showErr(submitError.message || 'Betaling avbrutt.'); return; }
-      let clientSecret, ref;
-      try {
-        const res = await fetch('/api/payment-intent', {
-          method:'POST', headers:{'Content-Type':'application/json'},
-          body: JSON.stringify(window.__orderFields()),
-        });
-        const d = await res.json(); clientSecret = d.clientSecret; ref = d.ref;
-        if (!clientSecret) throw 0;
-        window.__orderRef = ref;
-      } catch(e){ showErr('Kunne ikke starte betaling. Prøv igjen.'); return; }
-      const { error } = await stripe.confirmPayment({
-        elements, clientSecret,
-        confirmParams: { return_url: location.origin + '/takk.html?provider=stripe&ref=' + encodeURIComponent(ref) },
+      ece.on('ready', (e)=>{
+        const m = e && e.availablePaymentMethods;
+        if (m){ wrap.classList.remove('hide'); dbg(''); }
+        else { dbg('Apple Pay: ingen lommebok tilgjengelig (ready uten metoder)'); }
       });
-      if (error) showErr(error.message || 'Betalingen ble ikke fullført.');
-    });
+      ece.on('loaderror', (e)=>{ dbg('Apple Pay loaderror: ' + ((e && e.error && e.error.message) || 'ukjent')); });
+      ece.mount('#express');
+
+      function sync(){ const a = window.__amountMinor(); if (a) elements.update({ amount:a }); }
+      ['express','both'].forEach(function(id){ const el=$(id); if(el) el.addEventListener('change', sync); });
+      [].forEach.call(document.querySelectorAll('input[name="fmt"]'), function(r){ r.addEventListener('change', sync); });
+
+      function showErr(m){ const e=$('err'); e.textContent=m; e.style.display='block'; }
+
+      ece.on('click', (event)=>{
+        const err = window.__orderError();
+        if (err){ showErr(err); return; }   // not resolving cancels the sheet
+        event.resolve();
+      });
+
+      ece.on('confirm', async (event)=>{
+        const { error: submitError } = await elements.submit();
+        if (submitError){ showErr(submitError.message || 'Betaling avbrutt.'); return; }
+        let clientSecret, ref;
+        try {
+          const res = await fetch('/api/payment-intent', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(window.__orderFields()),
+          });
+          const d = await res.json(); clientSecret = d.clientSecret; ref = d.ref;
+          if (!clientSecret) throw 0;
+          window.__orderRef = ref;
+        } catch(e){ showErr('Kunne ikke starte betaling. Prøv igjen.'); return; }
+        const { error } = await stripe.confirmPayment({
+          elements, clientSecret,
+          confirmParams: { return_url: location.origin + '/takk.html?provider=stripe&ref=' + encodeURIComponent(ref) },
+        });
+        if (error) showErr(error.message || 'Betalingen ble ikke fullført.');
+      });
+    } catch(e){ dbg('Apple Pay-feil: ' + (e && e.message ? e.message : String(e))); }
   })();
 </script>
 
