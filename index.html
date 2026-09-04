@@ -155,6 +155,9 @@
   .nav-links a:hover{color:var(--ice)}
   .nav-links a:hover::after{width:100%}
   @media(max-width:920px){.nav-links{display:none}}
+  .nav-mypage{display:none;font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:500;color:var(--ice-dim);transition:color .3s;white-space:nowrap}
+  .nav-mypage:hover{color:var(--ice)}
+  @media(max-width:920px){.nav-mypage{display:inline-block}}
   @media(max-width:560px){.nav-cta .btn{padding:0 16px;font-size:11px;min-height:42px}.brand b{display:none}}
 
   /* ---------- HERO ---------- */
@@ -466,6 +469,7 @@
       <a href="#kontakt" data-en="Contact">Kontakt</a>
     </nav>
     <div class="nav-right">
+      <a class="nav-mypage" href="/minside.html" data-en="My page">Min side</a>
       <div class="lang" role="group" aria-label="Språk / Language">
         <button type="button" data-lang="no">NO</button>
         <button type="button" data-lang="en">EN</button>
