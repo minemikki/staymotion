@@ -224,12 +224,14 @@
   .xform.live .stage video{opacity:1}
   .xform.live .stage .still{transform:scale(1.06)}
   .stage-grad{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(9,13,18,.15),transparent 26%,transparent 66%,rgba(9,13,18,.55))}
-  .stage-lbl{position:absolute;left:20px;bottom:20px;z-index:3;display:flex;align-items:center;gap:12px;
-    font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;padding:10px 16px;
-    border:1px solid var(--line-strong);border-radius:100px;background:rgba(9,13,18,.42);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-  .stage-lbl .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);transition:background .6s,box-shadow .6s}
-  .stage-lbl .t1{color:var(--ice-dim);transition:opacity .6s}
-  .stage-lbl .t2{color:var(--cyan);position:absolute;left:38px;opacity:0;transition:opacity .6s}
+  .stage-lbl{position:absolute;left:16px;bottom:16px;z-index:3;display:inline-flex;align-items:center;gap:10px;
+    font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;padding:9px 15px;
+    border:1px solid var(--line-strong);border-radius:100px;background:rgba(9,13,18,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .stage-lbl .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);transition:background .6s,box-shadow .6s;flex:none}
+  .stage-lbl .morph{display:inline-grid}
+  .stage-lbl .t1,.stage-lbl .t2{grid-area:1/1;white-space:nowrap;transition:opacity .6s}
+  .stage-lbl .t1{color:var(--ice-dim)}
+  .stage-lbl .t2{color:var(--cyan);opacity:0}
   .xform.live .stage-lbl .dot{background:var(--cyan);box-shadow:0 0 12px rgba(105,212,224,.8)}
   .xform.live .stage-lbl .t1{opacity:0}
   .xform.live .stage-lbl .t2{opacity:1}
@@ -508,7 +510,7 @@
       <div class="still" style="background-image:url('img/poster-tour.jpg')"></div>
       <video id="xformVideo" muted loop playsinline preload="none" poster="img/poster-tour.jpg" data-mp4="video/tour.mp4"></video>
       <div class="stage-grad"></div>
-      <div class="stage-lbl"><span class="dot"></span><span class="t1" data-en="Still image">Stillbilde</span><span class="t2">StayMotion</span></div>
+      <div class="stage-lbl"><span class="dot"></span><span class="morph"><span class="t1" data-en="Still image">Stillbilde</span><span class="t2">StayMotion</span></span></div>
       <div class="stage-hint" data-en="Scroll ↓">Scroll ↓</div>
     </div>
   </div>
