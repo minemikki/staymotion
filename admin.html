@@ -142,6 +142,8 @@
   .reply .ra{display:flex;align-items:center;gap:12px;margin-top:9px}
   .rstat{font-size:12.5px;color:var(--muted)}
   /* chat button on card */
+  .btn.del{color:var(--muted);margin-left:auto}
+  .btn.del:hover{color:var(--red);border-color:rgba(233,134,111,.5)}
   .chatbtn{position:relative}
   .chatbtn .cbadge{display:inline-block;min-width:18px;padding:0 5px;margin-left:6px;font-size:11px;font-weight:700;border-radius:100px;background:rgba(190,214,226,.16);color:var(--dim)}
   .chatbtn.unread{border-color:var(--cyan);color:var(--cyan)}
@@ -519,7 +521,7 @@
       (o.melding?('<div class="msg"><span class="lab">Melding fra kunde</span>'+esc(o.melding)+'</div>'):'')+
       '<div class="phead"><span class="t">Bilder'+(plist.length?' ('+plist.length+')':'')+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+dlAll+'</div>'+
       '<div class="photos">'+photos+'</div>'+
-      '<div class="oa">'+chatBtn+statusCtl+'</div></div>';
+      '<div class="oa">'+chatBtn+statusCtl+'<button class="btn ghost del" data-del="'+id+'" title="Slett bestilling">🗑 Slett</button></div></div>';
   }
   function renderBestillinger(){
     var now=Date.now();var m=metrics();
@@ -549,6 +551,19 @@
     [].forEach.call(l.querySelectorAll('[data-oid]'),function(b){b.onclick=function(){openLB(b.getAttribute('data-oid'),+b.getAttribute('data-pi'));};});
     [].forEach.call(l.querySelectorAll('[data-dl]'),function(b){b.onclick=function(){downloadAll(b.getAttribute('data-dl'),b);};});
     [].forEach.call(l.querySelectorAll('[data-chat]'),function(b){b.onclick=function(){openChat(b.getAttribute('data-chat'));};});
+    [].forEach.call(l.querySelectorAll('[data-del]'),function(b){b.onclick=function(){delOrder(b.getAttribute('data-del'),b);};});
+  }
+  async function delOrder(id,btn){
+    var o=ORDERS.filter(function(x){return x.id===id;})[0];
+    if(!confirm('Slette bestillingen'+(o&&o.navn?(' fra '+o.navn):'')+'?\n\nDette sletter ordren og alle bildene permanent. Kan ikke angres.')) return;
+    btn.disabled=true;var old=btn.textContent;btn.textContent='Sletter …';
+    try{
+      var r=await fetch('/api/admin-orders?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,delete:true})});
+      if(!r.ok) throw 0;
+      ORDERS=ORDERS.filter(function(x){return x.id!==id;}); LASTSIG='';
+      if(CHAT_ID===id) closeChat();
+      toast('Bestilling slettet');renderAll();
+    }catch(e){btn.disabled=false;btn.textContent=old;toast('Kunne ikke slette');}
   }
   /* ---------- CHAT POPUP ---------- */
   var CHAT_ID=null;

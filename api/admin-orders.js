@@ -3,7 +3,7 @@
 //   POST /api/admin-orders  { id, status }    → update an order's status
 // (key sent as ?key= or x-admin-key header)
 
-import { listOrders, setStatus, markPaid } from '../lib/orders.js';
+import { listOrders, setStatus, markPaid, deleteOrder } from '../lib/orders.js';
 
 function authed(req) {
   const key = process.env.ADMIN_KEY;
@@ -18,6 +18,11 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
       const body = req.body || {};
       if (!body.id) return res.status(400).json({ error: 'mangler id' });
+      // Permanently delete an order (test/abandoned cleanup).
+      if (body.delete) {
+        const r = await deleteOrder(body.id);
+        return res.json({ ok: true, deleted: r.deleted });
+      }
       // Manually confirm a payment (webhook miss / recovery).
       if (body.paid) {
         const updated = await markPaid(body.id, body.amountKr != null ? body.amountKr : null);
