@@ -251,7 +251,8 @@
       </select>
     </div>
     <div class="tabs" id="tabs">
-      <button class="tab active" data-f="ubehandlet">Ubehandlet<span class="c" id="c-ubeh">0</span></button>
+      <button class="tab active" data-f="nye">Nye<span class="c" id="c-nye">0</span></button>
+      <button class="tab" data-f="ubehandlet">Ubehandlet<span class="c" id="c-ubeh">0</span></button>
       <button class="tab" data-f="behandlet">Behandlet<span class="c" id="c-beh">0</span></button>
       <button class="tab" data-f="alle">Alle<span class="c" id="c-all">0</span></button>
       <button class="tab" data-f="avventer">Påbegynt<span class="c" id="c-avv">0</span></button>
@@ -322,7 +323,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-  var KEY='', ORDERS=[], VIEW='oversikt', FILTER='ubehandlet', SORT='ny', Q='', CQ='';
+  var KEY='', ORDERS=[], VIEW='oversikt', FILTER='nye', SORT='ny', Q='', CQ='', SEEN=0;
   var $=function(id){return document.getElementById(id);};
   var C={cyan:'#69D4E0',champagne:'#E7D2A9',green:'#63D08A',amber:'#E7B872',red:'#E9866F',muted:'#8A9AA7',dim:'#C7D3DB',line:'rgba(190,214,226,.12)'};
   var charts={};
@@ -344,25 +345,25 @@
       if(r.status===401){logout('Feil passord.');return;}
       var d=await r.json();ORDERS=d.orders||[];
       $('updated').textContent='Oppdatert '+new Date().toLocaleTimeString('no-NO');
+      // Capture the "seen" watermark from last visit BEFORE rendering, so the
+      // "Nye"-tab can show real orders that arrived since then.
+      try{ SEEN=parseInt(localStorage.getItem('sm_seen')||'0',10)||0; }catch(e){ SEEN=0; }
       renderAll();
-      // toast once if a new unhandled order arrived since last visit
+      // toast once for genuinely new paid orders, then advance the watermark
       try{
-        var seen=parseInt(localStorage.getItem('sm_seen')||'0',10)||0;
-        var mm=metrics(); var newest=mm.ubeh.reduce(function(a,o){return Math.max(a,o.created||0);},0);
-        var nNew=mm.ubeh.filter(function(o){return (o.created||0)>seen;}).length;
-        if(nNew>0 && seen>0) toast(nNew===1?'Ny bestilling! 🔔':nNew+' nye bestillinger! 🔔');
-        if(seen===0 && newest>0) try{localStorage.setItem('sm_seen',String(newest));}catch(e){}
+        var mm=metrics(); var nNew=mm.nye.length;
+        if(nNew>0 && SEEN>0) toast(nNew===1?'Ny bestilling! 🔔':nNew+' nye bestillinger! 🔔');
+        var newest=mm.paidO.reduce(function(a,o){return Math.max(a,o.created||0);},0);
+        if(newest>SEEN) try{localStorage.setItem('sm_seen',String(newest));}catch(e){}
       }catch(e){}
     }catch(e){ $('list').innerHTML='<div class="empty"><div class="big">⚠</div>Kunne ikke hente bestillinger.</div>'; }
   }
 
   function updateBell(){
-    var m=metrics(), n=m.ubeh.length, badge=$('bellBadge'), bell=$('bell');
+    var m=metrics(), n=m.nye.length, badge=$('bellBadge'), bell=$('bell');
     if(!badge||!bell)return;
     if(n>0){badge.textContent=n;badge.classList.remove('hide');}else{badge.classList.add('hide');}
-    var seen=0;try{seen=parseInt(localStorage.getItem('sm_seen')||'0',10)||0;}catch(e){}
-    var newest=m.ubeh.reduce(function(a,o){return Math.max(a,o.created||0);},0);
-    bell.classList.toggle('has', n>0 && newest>seen);
+    bell.classList.toggle('has', n>0);
   }
 
   function renderAll(){ renderOversikt(); renderBestillinger(); renderStatistikk(); renderKunder(); updateBell(); }
@@ -379,7 +380,9 @@
     var revM=paidO.filter(function(o){return o.created&&o.created>=mStart.getTime();}).reduce(function(a,o){return a+(o.amountKr||0);},0);
     var avg=paidO.length?Math.round(rev/paidO.length):0;
     var avv=ORDERS.filter(function(o){return !paid(o);});
-    return {ubeh:ubeh,beh:beh,overdue:overdue,paidO:paidO,rev:rev,revM:revM,avg:avg,avv:avv};
+    // Nye = real orders that arrived since the last admin visit, still unhandled.
+    var nye=ORDERS.filter(function(o){return paid(o)&&statusOf(o)!=='behandlet'&&(o.created||0)>SEEN;});
+    return {ubeh:ubeh,beh:beh,overdue:overdue,paidO:paidO,rev:rev,revM:revM,avg:avg,avv:avv,nye:nye};
   }
 
   /* ---------- OVERSIKT ---------- */
@@ -433,19 +436,21 @@
   }
   function renderBestillinger(){
     var now=Date.now();var m=metrics();
+    var cn=$('c-nye');if(cn)cn.textContent=m.nye.length;
     $('c-ubeh').textContent=m.ubeh.length;$('c-beh').textContent=m.beh.length;$('c-all').textContent=m.paidO.length;var ca=$('c-avv');if(ca)ca.textContent=m.avv.length;
     var rows=ORDERS.filter(function(o){
       var s=statusOf(o),p=paid(o);
-      if(FILTER==='avventer'){ if(p)return false; }            // Påbegynt = ikke betalt
+      if(FILTER==='nye'){ if(!p||s==='behandlet'||(o.created||0)<=SEEN)return false; } // nye ekte ordre siden sist
+      else if(FILTER==='avventer'){ if(p)return false; }        // Påbegynt = ikke betalt
       else if(FILTER==='alle'){ if(!p)return false; }           // alle ekte ordre
       else if(FILTER==='behandlet'){ if(!p||s!=='behandlet')return false; }
-      else { if(!p||s==='behandlet')return false; }             // ubehandlet = nye ekte ordre
+      else { if(!p||s==='behandlet')return false; }             // ubehandlet = ekte ordre som ikke er ferdig
       if(Q){var hay=((o.navn||'')+' '+(o.email||'')+' '+(o.pakke||o.pkg||'')+' '+(o.format||'')).toLowerCase();if(hay.indexOf(Q)<0)return false;}
       return true;
     });
     rows.sort(function(a,b){if(SORT==='frist')return (a.deadline||9e15)-(b.deadline||9e15);if(SORT==='belop')return (b.amountKr||0)-(a.amountKr||0);return (b.created||0)-(a.created||0);});
-    if(FILTER==='ubehandlet'&&SORT==='ny'){rows.sort(function(a,b){var ao=a.deadline&&a.deadline<now?1:0,bo=b.deadline&&b.deadline<now?1:0;if(ao!==bo)return bo-ao;return (b.created||0)-(a.created||0);});}
-    if(!rows.length){$('list').innerHTML='<div class="empty"><div class="big">'+(Q?'🔍':'✧')+'</div>'+(Q?'Ingen treff på «'+esc(Q)+'».':'Ingen bestillinger her ennå.')+'</div>';return;}
+    if((FILTER==='ubehandlet'||FILTER==='nye')&&SORT==='ny'){rows.sort(function(a,b){var ao=a.deadline&&a.deadline<now?1:0,bo=b.deadline&&b.deadline<now?1:0;if(ao!==bo)return bo-ao;return (b.created||0)-(a.created||0);});}
+    if(!rows.length){var em=Q?'Ingen treff på «'+esc(Q)+'».':FILTER==='nye'?'Ingen nye bestillinger siden sist. 🎉':FILTER==='avventer'?'Ingen påbegynte (ubetalte) bestillinger.':'Ingen bestillinger her ennå.';$('list').innerHTML='<div class="empty"><div class="big">'+(Q?'🔍':'✧')+'</div>'+em+'</div>';return;}
     $('list').innerHTML=rows.map(orderCard).join('');
     wireList($('list'));
   }
@@ -588,10 +593,10 @@
   $('refresh').onclick=load;$('logout').onclick=function(){logout('');};
   $('bell').onclick=function(){
     showView('bestillinger');
-    FILTER='ubehandlet';
-    document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('active',x.getAttribute('data-f')==='ubehandlet');});
+    FILTER='nye';
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('active',x.getAttribute('data-f')==='nye');});
     renderBestillinger();
-    var m=metrics();var newest=m.ubeh.reduce(function(a,o){return Math.max(a,o.created||0);},0);
+    var m=metrics();var newest=m.paidO.reduce(function(a,o){return Math.max(a,o.created||0);},0);
     try{localStorage.setItem('sm_seen',String(newest));}catch(e){}
     $('bell').classList.remove('has');
   };
