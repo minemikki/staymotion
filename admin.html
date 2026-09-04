@@ -616,6 +616,7 @@
       na+
       (l.notes?'<div class="lead-sub" style="margin-top:8px;white-space:pre-wrap">'+esc(l.notes)+'</div>':'')+
       '<div class="lead-foot">'+
+        '<button class="btn sm primary" data-msg="'+esc(l.id)+'">✉ Åpne melding</button>'+
         '<select class="stagesel" data-stage-for="'+esc(l.id)+'">'+stageOpts+'</select>'+
         (l.quotedPrice?'<span class="seg-pill">Tilbud: '+kr(l.quotedPrice)+'</span>':'')+
         '<button class="btn sm" data-edit="'+esc(l.id)+'">Rediger</button>'+
@@ -624,6 +625,7 @@
   }
   function wireLeads(){
     var l=$('lead-list');
+    [].forEach.call(l.querySelectorAll('[data-msg]'),function(b){b.onclick=function(){openSendModal(b.getAttribute('data-msg'));};});
     [].forEach.call(l.querySelectorAll('[data-edit]'),function(b){b.onclick=function(){openLeadModal(b.getAttribute('data-edit'));};});
     [].forEach.call(l.querySelectorAll('[data-del]'),function(b){b.onclick=function(){delLead(b.getAttribute('data-del'));};});
     [].forEach.call(l.querySelectorAll('[data-stage-for]'),function(sel){sel.onchange=function(){quickStage(sel.getAttribute('data-stage-for'),sel.value);};});
@@ -687,6 +689,50 @@
     };
   }
   function closeLeadModal(){ leadModalOpen=false; var el=$('leadModal'); if(el)el.remove(); }
+
+  function parseMsg(notes){
+    var s='', b=String(notes||'');
+    var m=b.match(/^\s*Emne:\s*(.+?)\r?\n/);
+    if(m){ s=m[1].trim(); b=b.slice(m[0].length).replace(/^\s+/,''); }
+    return {subject:s, body:b.trim()};
+  }
+  function openSendModal(id){
+    var l=LEADS.filter(function(x){return x.id===id;})[0]; if(!l)return;
+    leadModalOpen=true;
+    var p=parseMsg(l.notes);
+    if(!p.subject) p.subject='Rask idé til '+(l.company||'');
+    if(!p.body) p.body='Hei! Jeg lager korte filmatiske videoer ut av bilder dere allerede har, uten ny filming. Vil dere ha en gratis prøve? Michael, staymotion.no';
+    var el=document.createElement('div'); el.className='modal'; el.id='leadModal';
+    el.innerHTML='<div class="box"><h3>Send e-post til '+esc(l.company||'')+'</h3>'+
+      '<div class="f"><label>Til (mottakers e-post)</label><input id="sm-to" type="email" value="'+esc(l.email||'')+'" placeholder="post@bedrift.no"></div>'+
+      '<div class="f"><label>Emne</label><input id="sm-sub" type="text" value="'+esc(p.subject)+'"></div>'+
+      '<div class="f full"><label>Melding</label><textarea id="sm-body" style="min-height:200px">'+esc(p.body)+'</textarea></div>'+
+      '<p class="lead-sub" style="margin:8px 0 0">Sendes fra din StayMotion-e-post, og svar kommer rett til innboksen din. En kort «si ifra hvis ikke aktuelt»-linje legges til automatisk.</p>'+
+      '<div id="sm-err" style="color:var(--red);font-size:13px;margin-top:8px;display:none"></div>'+
+      '<div class="modal-actions"><button class="btn ghost" id="sm-cancel">Avbryt</button><button class="btn primary" id="sm-send">✉ Send e-post</button></div></div>';
+    document.body.appendChild(el);
+    el.addEventListener('click',function(e){if(e.target===el)closeLeadModal();});
+    $('sm-cancel').onclick=closeLeadModal;
+    $('sm-send').onclick=async function(){
+      var to=$('sm-to').value.trim(), sub=$('sm-sub').value.trim(), body=$('sm-body').value.trim();
+      var err=$('sm-err');
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)){ err.textContent='Fyll inn en gyldig mottaker-e-post.'; err.style.display='block'; return; }
+      if(!sub||!body){ err.textContent='Emne og melding må fylles ut.'; err.style.display='block'; return; }
+      $('sm-send').disabled=true; $('sm-send').textContent='Sender …'; err.style.display='none';
+      try{
+        var r=await fetch('/api/send-lead-email?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:to,subject:sub,body:body})});
+        var d=await r.json();
+        if(!r.ok||!d.ok) throw new Error(d.error||('HTTP '+r.status));
+        l.email=to;
+        if((l.stage||'sourced')==='sourced'||l.stage==='kvalifisert') l.stage='kontaktet';
+        l.lastResponse='E-post sendt '+new Date().toLocaleDateString('no-NO');
+        l.nextAction='Følg opp';
+        var d3=new Date(); d3.setDate(d3.getDate()+3); l.nextActionDate=d3.toISOString().slice(0,10);
+        await putLead(l);
+        closeLeadModal(); toast('E-post sendt ✓'); renderLeads();
+      }catch(e){ $('sm-send').disabled=false; $('sm-send').textContent='✉ Send e-post'; err.textContent='Kunne ikke sende: '+(e.message||e); err.style.display='block'; }
+    };
+  }
 
   function openImport(){
     leadModalOpen=true;
