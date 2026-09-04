@@ -144,6 +144,7 @@
   /* chat button on card */
   .claudebtn{border-color:rgba(105,212,224,.45);color:var(--cyan)}
   .claudebtn:hover{background:rgba(105,212,224,.1)}
+  .claudebtn.on{background:var(--cyan);color:#0c1116;border-color:var(--cyan)}
   .btn.del{color:var(--muted);margin-left:auto}
   .btn.del:hover{color:var(--red);border-color:rgba(233,134,111,.5)}
   .chatbtn{position:relative}
@@ -410,7 +411,7 @@
              .sort(function(a,b){return (a.at||0)-(b.at||0);});
   }
 
-  function ordersSig(list){return list.map(function(o){return o.id+':'+(o.status||'')+':'+(o.paid?1:0)+':'+((o.photos&&o.photos.length)||0)+':'+((o.notes&&o.notes.length)||0)+':'+((o.replies&&o.replies.length)||0);}).join('|');}
+  function ordersSig(list){return list.map(function(o){return o.id+':'+(o.status||'')+':'+(o.paid?1:0)+':'+(o.videoRequested?1:0)+':'+((o.photos&&o.photos.length)||0)+':'+((o.notes&&o.notes.length)||0)+':'+((o.replies&&o.replies.length)||0);}).join('|');}
   async function load(auto){
     try{
       var r=await fetch('/api/admin-orders?key='+encodeURIComponent(KEY));
@@ -521,7 +522,7 @@
         '<span><span class="lab">Frist</span><span class="cd '+cd.c+'" data-deadline="'+(o.deadline||'')+'">'+cd.t+'</span></span>'+
       '</div>'+
       (o.melding?('<div class="msg"><span class="lab">Melding fra kunde</span>'+esc(o.melding)+'</div>'):'')+
-      '<div class="phead"><span class="t">Bilder'+(plist.length?' ('+plist.length+')':'')+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?'<button class="btn sm claudebtn" data-claude="'+id+'">📤 Send til Claude</button>':'')+dlAll+'</div>'+
+      '<div class="phead"><span class="t">Bilder'+(plist.length?' ('+plist.length+')':'')+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?(o.videoRequested?'<button class="btn sm claudebtn on" data-claude="'+id+'" data-on="1">✓ Sendt til Claude</button>':'<button class="btn sm claudebtn" data-claude="'+id+'">🎬 Send til Claude</button>'):'')+dlAll+'</div>'+
       '<div class="photos">'+photos+'</div>'+
       '<div class="oa">'+chatBtn+statusCtl+'<button class="btn ghost del" data-del="'+id+'" title="Slett bestilling">🗑 Slett</button></div></div>';
   }
@@ -554,28 +555,18 @@
     [].forEach.call(l.querySelectorAll('[data-dl]'),function(b){b.onclick=function(){downloadAll(b.getAttribute('data-dl'),b);};});
     [].forEach.call(l.querySelectorAll('[data-chat]'),function(b){b.onclick=function(){openChat(b.getAttribute('data-chat'));};});
     [].forEach.call(l.querySelectorAll('[data-del]'),function(b){b.onclick=function(){delOrder(b.getAttribute('data-del'),b);};});
-    [].forEach.call(l.querySelectorAll('[data-claude]'),function(b){b.onclick=function(){copyForClaude(b.getAttribute('data-claude'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-claude]'),function(b){b.onclick=function(){sendToClaude(b.getAttribute('data-claude'),b);};});
   }
-  // Copy everything Claude needs to produce the video for one order:
-  // context (package/format/message) + every photo's direct link. No download.
-  async function copyForClaude(id,btn){
-    var o=ORDERS.filter(function(x){return x.id===id;})[0]; if(!o)return;
-    var lines=[];
-    lines.push('StayMotion-bestilling '+String(o.id).toUpperCase());
-    lines.push('Kunde: '+(o.navn||'—')+(o.email?(' ('+o.email+')'):''));
-    lines.push('Pakke: '+(o.pakke||o.pkg||'—')+' · Format: '+(o.format||'9:16')+(o.express?' · EXPRESS':'')+(o.both?' · begge formater':''));
-    if(o.melding) lines.push('Melding fra kunde: "'+o.melding+'"');
-    var notes=(o.notes||[]).map(function(n){return n.text;}).filter(Boolean);
-    if(notes.length) lines.push('Ettersendte meldinger: '+notes.map(function(t){return '"'+t+'"';}).join('  '));
-    lines.push('');
-    lines.push('Bilder ('+((o.photos||[]).length)+'):');
-    (o.photos||[]).forEach(function(p){lines.push(p.url);});
-    lines.push('');
-    lines.push('Oppgave: lag Signature Flythrough-video(er) fra disse bildene (ekte/filmet look, ikke AI/animert). Behold rommene 100% sant.');
-    var text=lines.join('\n');
-    try{ await navigator.clipboard.writeText(text); toast('Kopiert ✓ — lim inn til Claude'); }
-    catch(e){ // fallback: show a prompt to copy manually
-      window.prompt('Kopier teksten (Ctrl/Cmd+C):', text); }
+  // Flag an order for Claude to produce the video. Claude picks it up via the
+  // MCP (list_video_requests) and starts — no download, no pasting.
+  async function sendToClaude(id,btn){
+    var on=btn.getAttribute('data-on')==='1';
+    btn.disabled=true;var old=btn.textContent;btn.textContent='…';
+    try{
+      await fetch('/api/admin-orders?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,requestVideo:!on})});
+      var o=ORDERS.filter(function(x){return x.id===id;})[0];if(o)o.videoRequested=!on;
+      toast(!on?'Sendt til Claude ✓ — jeg starter videoen':'Tatt av Claude-køen');renderAll();
+    }catch(e){btn.disabled=false;btn.textContent=old;toast('Noe gikk galt');}
   }
   async function delOrder(id,btn){
     var o=ORDERS.filter(function(x){return x.id===id;})[0];
