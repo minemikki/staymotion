@@ -799,13 +799,17 @@
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   if(!reduce){ root.classList.add('anim'); }
 
-  function play(v){ if(!v) return; var p=v.play&&v.play(); if(p&&p.catch) p.catch(function(){}); }
+  function play(v){ if(!v) return; try{ v.muted=true; v.playsInline=true; }catch(e){} var p=v.play&&v.play(); if(p&&p.catch) p.catch(function(){}); }
   function attach(host){
     var v=host.querySelector?host.querySelector('video'):host;
     if(host.tagName==='VIDEO') v=host;
     if(!v||v.dataset.loaded) return v;
     var mp4=host.dataset&&host.dataset.mp4||v.dataset.mp4;
     if(mp4 && !v.querySelector('source')){ var s=document.createElement('source'); s.src=mp4; s.type='video/mp4'; v.appendChild(s); }
+    // iOS: set muted/inline as properties and retry play once the media is ready.
+    try{ v.muted=true; v.playsInline=true; v.setAttribute('playsinline',''); }catch(e){}
+    v.addEventListener('loadeddata',function(){ play(v); });
+    v.addEventListener('canplay',function(){ play(v); });
     v.dataset.loaded='1'; v.load(); return v;
   }
 
