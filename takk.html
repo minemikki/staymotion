@@ -3,42 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Takk — last opp bildene · StayMotion</title>
+<title>Takk for bestillingen · StayMotion</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--obsidian:#0C1116;--ivory:#EEF3F6;--sand:#C7D3DB;--gold:#69D4E0;--gold-lite:#E7D2A9;--champagne:#E8D3A6;--slate:#8A9AA7;--char:#141D26;--line:rgba(200,169,106,.24);--line-soft:rgba(190,214,226,.14);--serif:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif;--display:"Inter Tight",-apple-system,sans-serif}
+  :root{--obsidian:#0C1116;--ivory:#EEF3F6;--sand:#C7D3DB;--gold:#69D4E0;--gold-lite:#E7D2A9;--champagne:#E8D3A6;--slate:#8A9AA7;--line:rgba(200,169,106,.24);--f:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--obsidian);color:var(--ivory);font-family:var(--display);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+  body{background:var(--obsidian);color:var(--ivory);font-family:var(--f);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
   a{color:inherit}
-  .wrap{width:100%;max-width:640px;margin:0 auto;padding:clamp(28px,6vw,64px) 22px}
+  .wrap{width:100%;max-width:600px;margin:0 auto;padding:clamp(28px,6vw,64px) 22px}
   .brand{display:flex;align-items:center;gap:12px;margin-bottom:clamp(30px,6vw,54px)}
   .brand img{height:30px}
   .brand b{font-weight:600;font-size:14px;letter-spacing:.32em;padding-left:.32em}
   .kick{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:18px}
   .kick::before{content:"";width:24px;height:1px;background:currentColor;opacity:.7}
-  h1{font-family:var(--serif);font-weight:700;letter-spacing:-.02em;font-size:clamp(2.2rem,7vw,3.4rem);line-height:1.05;margin-bottom:12px}
+  h1{font-weight:700;letter-spacing:-.02em;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.05;margin-bottom:14px}
   p{color:var(--sand)}
-  .drop{display:block;width:100%;margin:30px 0;border:1.5px dashed var(--line);border-radius:6px;padding:40px 24px;text-align:center;background:rgba(240,238,232,.02);cursor:pointer;transition:border-color .3s,background .3s}
-  .drop:hover,.drop.over{border-color:var(--gold-lite);background:rgba(232,211,166,.05)}
-  .drop b{color:var(--ivory)}
-  .drop small{display:block;color:var(--slate);margin-top:8px;font-size:12.5px}
-  input[type=file]{display:none}
-  .list{margin:18px 0;display:grid;gap:8px}
-  .row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px;color:var(--sand);border-bottom:1px solid var(--line-soft);padding:8px 0}
-  .row .st{font-size:12px;color:var(--slate)}
-  .row .st.ok{color:var(--gold-lite)}
-  .row .st.err{color:#e88}
-  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 30px;font-weight:600;font-size:14px;letter-spacing:.02em;background:var(--champagne);color:#0c0d10;border:0;border-radius:3px;cursor:pointer}
-  .btn[disabled]{opacity:.5;cursor:default}
-  .muted{color:var(--slate);font-size:13px;margin-top:16px}
-  .state{padding:40px 0}
+  .check{width:64px;height:64px;border-radius:50%;background:linear-gradient(180deg,rgba(105,212,224,.18),rgba(105,212,224,.04));border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);margin-bottom:22px}
+  .refbox{border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin:26px 0;background:linear-gradient(180deg,rgba(232,211,166,.07),rgba(232,211,166,.01))}
+  .refbox .l{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--slate)}
+  .refbox .r{font-size:1.5rem;font-weight:700;letter-spacing:.04em;color:var(--gold-lite)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 30px;font-weight:600;font-size:14px;background:var(--champagne);color:#0c0d10;border:0;border-radius:3px;cursor:pointer;text-decoration:none;margin-top:8px}
+  .muted{color:var(--slate);font-size:13.5px;margin-top:18px}
+  .state{padding:30px 0}
   .spin{width:26px;height:26px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:s 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:10px}
   @keyframes s{to{transform:rotate(360deg)}}
-  .done{border:1px solid var(--line);background:linear-gradient(180deg,rgba(232,211,166,.08),rgba(232,211,166,.01));padding:28px;border-radius:6px;text-align:center}
   .hide{display:none}
   .back{margin-top:30px;font-size:13px;color:var(--slate)}
   .back a{color:var(--sand)}
@@ -57,42 +49,25 @@
       <p class="back"><a href="/">&larr; Til forsiden</a></p>
     </div>
 
-    <div id="upload" class="hide">
-      <span class="kick" id="kick">Betalt — siste steg</span>
-      <h1 id="uptitle">Last opp bildene dine</h1>
-      <p id="uptext">Velg 6–15 bilder du allerede har av objektet. Vi plukker de beste og gjør dem levende. JPG, PNG, HEIC og WEBP.</p>
+    <div id="done" class="hide">
+      <div class="check">✓</div>
+      <span class="kick">Betalt</span>
+      <h1 id="title">Takk for bestillingen!</h1>
+      <p id="lead">Vi har mottatt betalingen og bildene dine. Nå setter vi i gang — du hører fra oss når resultatet er klart.</p>
 
-      <div class="done hide" id="received">
-        <h1 style="font-size:2rem">Bildene dine er mottatt ✓</h1>
-        <p>Takk! Vi har fått bildene du lastet opp, og setter i gang. Du hører fra oss når resultatet er klart.</p>
-        <p style="margin-top:16px"><a href="#" id="addmore" style="color:var(--gold-lite);font-weight:600">+ Legg til flere bilder</a></p>
+      <div class="refbox">
+        <div class="l">Din referanse</div>
+        <div class="r" id="ref">—</div>
       </div>
 
-      <div id="uploadbox">
-        <label class="drop" id="drop" for="files">
-          <b>Trykk for å velge bilder</b>
-          <small>eller dra dem hit</small>
-        </label>
-        <input id="files" type="file" accept="image/*" multiple>
+      <a class="btn" id="portal" href="#">Følg bestillingen din →</a>
+      <p class="muted">Her ser du status, kan legge til flere bilder eller sende oss en melding, og laster ned videoen når den er klar. Vi sender også en e-post når den er ferdig.</p>
 
-        <div class="list" id="list"></div>
-
-        <button class="btn" id="send" disabled>Send bildene</button>
-        <p class="muted" id="count"></p>
-      </div>
-
-      <div class="done hide" id="done">
-        <h1 style="font-size:2rem">Takk — vi er i gang! ✨</h1>
-        <p>Bildene er mottatt. Du hører fra oss når videoene/bildene er klare.</p>
-      </div>
+      <p class="back"><a href="/">&larr; Til forsiden</a></p>
     </div>
-
-    <p class="back"><a href="/">&larr; Til forsiden</a></p>
   </div>
 
 <script type="module">
-  import { upload } from 'https://esm.sh/@vercel/blob@0.27.0/client';
-
   const q = new URLSearchParams(location.search);
   const provider = q.get('provider');
   const paymentIntent = q.get('payment_intent');
@@ -101,91 +76,28 @@
     : provider === 'vipps'
       ? '/api/vipps/status?ref=' + encodeURIComponent(q.get('ref') || '')
       : '/api/order-status?session_id=' + encodeURIComponent(q.get('session_id') || '');
-
   const $ = (id) => document.getElementById(id);
-  let orderToken = null;
-  let orderRef = q.get('ref') || q.get('session_id') || paymentIntent || '';
-  let files = [];
 
   async function check() {
     try {
       const r = await fetch(statusUrl);
       const d = await r.json();
       if (d.paid && d.token) {
-        orderToken = d.token;
-        if (d.ref) orderRef = d.ref;
-        $('checking').classList.add('hide');
-        $('upload').classList.remove('hide');
-        if (d.photoCount > 0) {
-          // Customer already uploaded photos before paying — don't demand it again.
-          $('kick').textContent = 'Betalt';
-          $('uptitle').textContent = 'Takk for bestillingen!';
-          $('uptext').classList.add('hide');
-          $('received').classList.remove('hide');
-          $('uploadbox').classList.add('hide');
+        const ref = d.ref || q.get('ref') || '';
+        $('ref').textContent = (ref || '').toUpperCase();
+        $('portal').href = '/ordre.html?ref=' + encodeURIComponent(ref) + '&t=' + encodeURIComponent(d.token);
+        if (!(d.photoCount > 0)) {
+          $('lead').textContent = 'Vi har mottatt betalingen din. Neste steg: last opp bildene på "Min bestilling"-siden, så setter vi i gang.';
         }
+        $('checking').classList.add('hide');
+        $('done').classList.remove('hide');
       } else {
-        show('failed');
+        $('checking').classList.add('hide'); $('failed').classList.remove('hide');
       }
     } catch (e) {
-      show('failed');
+      $('checking').classList.add('hide'); $('failed').classList.remove('hide');
     }
   }
-  function show(id){ $('checking').classList.add('hide'); $(id).classList.remove('hide'); }
-
-  $('addmore').addEventListener('click', (e) => {
-    e.preventDefault();
-    $('uploadbox').classList.remove('hide');
-    $('uptext').classList.remove('hide');
-    $('uptitle').textContent = 'Last opp flere bilder';
-    e.target.style.display = 'none';
-  });
-
-  const input = $('files'), drop = $('drop');
-  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
-  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
-  drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); addFiles(e.dataTransfer.files); });
-  input.addEventListener('change', () => addFiles(input.files));
-
-  function addFiles(fl) {
-    for (const f of fl) if (f.type.startsWith('image/')) files.push(f);
-    renderList();
-  }
-  function renderList() {
-    const list = $('list'); list.innerHTML = '';
-    files.forEach((f, i) => {
-      const row = document.createElement('div'); row.className = 'row';
-      row.innerHTML = '<span>' + f.name + '</span><span class="st" id="st' + i + '">' + Math.round(f.size/1024/1024*10)/10 + ' MB</span>';
-      list.appendChild(row);
-    });
-    $('send').disabled = files.length === 0;
-    $('count').textContent = files.length ? files.length + ' bilder valgt' : '';
-  }
-
-  $('send').addEventListener('click', async () => {
-    if (!orderToken || !files.length) return;
-    $('send').disabled = true;
-    let ok = 0;
-    for (let i = 0; i < files.length; i++) {
-      const st = $('st' + i);
-      try {
-        st.textContent = 'laster opp …';
-        var safeName = files[i].name.replace(/[^\w.\-]+/g, '_');
-        var path = orderRef ? ('orders/' + orderRef + '/' + safeName) : safeName;
-        await upload(path, files[i], {
-          access: 'public',
-          handleUploadUrl: '/api/blob-upload',
-          clientPayload: orderToken,
-        });
-        st.textContent = '✓ lastet opp'; st.className = 'st ok'; ok++;
-      } catch (e) {
-        st.textContent = '✗ feil'; st.className = 'st err';
-      }
-    }
-    if (ok > 0) { $('done').classList.remove('hide'); $('done').scrollIntoView({ behavior: 'smooth' }); }
-    else $('send').disabled = false;
-  });
-
   check();
 </script>
 </body>

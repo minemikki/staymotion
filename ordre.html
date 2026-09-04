@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Min bestilling · StayMotion</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--obsidian:#0C1116;--ivory:#EEF3F6;--sand:#C7D3DB;--gold:#69D4E0;--gold-lite:#E7D2A9;--champagne:#E8D3A6;--slate:#8A9AA7;--char:#141D26;--line:rgba(200,169,106,.24);--line-soft:rgba(190,214,226,.14);--f:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--obsidian);color:var(--ivory);font-family:var(--f);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:inherit}
+  .wrap{width:100%;max-width:680px;margin:0 auto;padding:clamp(26px,6vw,60px) 22px}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:clamp(26px,5vw,44px)}
+  .brand img{height:28px}
+  .brand b{font-weight:600;font-size:13px;letter-spacing:.32em;padding-left:.32em}
+  .kick{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:14px}
+  .kick::before{content:"";width:24px;height:1px;background:currentColor;opacity:.7}
+  h1{font-weight:700;letter-spacing:-.02em;font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.06;margin-bottom:8px}
+  h2{font-weight:600;font-size:1.15rem;margin:0 0 12px}
+  p{color:var(--sand)}
+  .meta{color:var(--slate);font-size:13.5px;margin-bottom:26px}
+  .meta b{color:var(--sand)}
+  .card{border:1px solid var(--line);border-radius:8px;padding:22px;margin:18px 0;background:rgba(240,238,232,.02)}
+  /* stepper */
+  .steps{display:flex;gap:8px;margin:24px 0 8px}
+  .step{flex:1;text-align:center}
+  .dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:13px;color:var(--slate);background:var(--obsidian)}
+  .step.on .dot{border-color:var(--gold);color:var(--gold)}
+  .step.done .dot{border-color:var(--gold-lite);background:var(--gold-lite);color:#0c0d10}
+  .step .lbl{font-size:12px;color:var(--slate)}
+  .step.on .lbl,.step.done .lbl{color:var(--ivory)}
+  .bar{height:2px;background:var(--line);position:relative;margin:-27px 14% 20px;z-index:-1}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:6px}
+  .grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:5px;border:1px solid var(--line-soft)}
+  video{width:100%;border-radius:8px;border:1px solid var(--line);background:#000;margin-bottom:10px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 26px;font-weight:600;font-size:14px;background:var(--champagne);color:#0c0d10;border:0;border-radius:3px;cursor:pointer;text-decoration:none}
+  .btn.line{background:transparent;border:1px solid var(--line);color:var(--ivory)}
+  .btn[disabled]{opacity:.45;cursor:default}
+  textarea{width:100%;min-height:90px;background:rgba(240,238,232,.03);border:1px solid var(--line);border-radius:6px;color:var(--ivory);padding:12px;font-family:inherit;font-size:14px;resize:vertical}
+  .drop{display:block;width:100%;border:1.5px dashed var(--line);border-radius:6px;padding:26px;text-align:center;cursor:pointer;color:var(--sand);font-size:14px;margin-top:8px}
+  .drop:hover{border-color:var(--gold-lite)}
+  input[type=file]{display:none}
+  .ok{color:var(--gold-lite)} .err{color:#e88}
+  .muted{color:var(--slate);font-size:13px;margin-top:10px}
+  .spin{width:24px;height:24px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:s 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:10px}
+  @keyframes s{to{transform:rotate(360deg)}}
+  .hide{display:none}
+  .back{margin-top:28px;font-size:13px;color:var(--slate)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="brand" href="/"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
+
+    <div id="loading"><span class="spin"></span> Henter bestillingen din …</div>
+
+    <div id="denied" class="hide">
+      <span class="kick">Ups</span>
+      <h1>Fant ikke bestillingen</h1>
+      <p>Lenken kan være utløpt eller feil. Sjekk e-posten din, eller ta kontakt så hjelper vi deg.</p>
+      <p class="back"><a href="/">&larr; Til forsiden</a></p>
+    </div>
+
+    <div id="view" class="hide">
+      <span class="kick">Min bestilling</span>
+      <h1 id="title">Bestillingen din</h1>
+      <p class="meta" id="meta"></p>
+
+      <div class="steps" id="steps">
+        <div class="step" data-s="1"><div class="dot">1</div><div class="lbl">Mottatt</div></div>
+        <div class="step" data-s="2"><div class="dot">2</div><div class="lbl">Under arbeid</div></div>
+        <div class="step" data-s="3"><div class="dot">3</div><div class="lbl">Ferdig</div></div>
+      </div>
+
+      <!-- Finished delivery -->
+      <div id="delivery" class="card hide">
+        <h2>🎬 Videoen din er klar</h2>
+        <div id="deliverList"></div>
+      </div>
+
+      <!-- Uploaded photos -->
+      <div class="card">
+        <h2>Bildene dine <span class="muted" id="photoCount"></span></h2>
+        <div class="grid" id="photoGrid"></div>
+        <p class="muted" id="noPhotos">Ingen bilder lastet opp ennå.</p>
+        <label class="drop" id="drop" for="more">+ Last opp flere bilder</label>
+        <input id="more" type="file" accept="image/*" multiple>
+        <p class="muted" id="upStatus"></p>
+      </div>
+
+      <!-- Message / extra request -->
+      <div class="card">
+        <h2>Melding til oss</h2>
+        <p class="muted">Ønsker, detaljer eller noe du vil vi skal vite? Skriv her – vi får beskjed.</p>
+        <textarea id="note" placeholder="Skriv en melding …"></textarea>
+        <div style="margin-top:10px"><button class="btn line" id="sendNote">Send melding</button> <span class="muted" id="noteStatus"></span></div>
+        <div id="noteList" style="margin-top:14px"></div>
+      </div>
+
+      <p class="back"><a href="/">&larr; Til forsiden</a></p>
+    </div>
+  </div>
+
+<script type="module">
+  import { upload } from 'https://esm.sh/@vercel/blob@0.27.0/client';
+  const $ = (id)=>document.getElementById(id);
+  const q = new URLSearchParams(location.search);
+  const ref = q.get('ref') || '';
+  const t = q.get('t') || '';
+  let data = null;
+
+  function fmtDate(ms){ try{ return new Date(ms).toLocaleDateString('no-NO',{day:'numeric',month:'long'}); }catch(e){ return ''; } }
+  const PKG = { bilder:'Cinematiske bilder', enkelt:'Enkelt — 1 reel', signatur:'Signatur — 3 reels' };
+
+  async function load(){
+    if(!ref || !t){ show('denied'); return; }
+    try{
+      const r = await fetch('/api/order-view?ref='+encodeURIComponent(ref)+'&t='+encodeURIComponent(t));
+      if(!r.ok) throw 0;
+      data = await r.json();
+      render();
+    }catch(e){ show('denied'); }
+  }
+  function show(id){ $('loading').classList.add('hide'); $(id).classList.remove('hide'); }
+
+  function stage(){
+    if((data.deliverables||[]).length) return 3;
+    if(/arbeid|behandl|gang/i.test(data.status||'')) return 2;
+    return 1; // paid / received
+  }
+  function render(){
+    show('view');
+    const first = (data.navn||'').split(' ')[0];
+    $('title').textContent = first ? ('Hei ' + first + '!') : 'Bestillingen din';
+    $('meta').innerHTML = '<b>' + (PKG[data.pkg]||data.pkg||'Bestilling') + '</b>'
+      + (data.format?(' · ' + data.format):'')
+      + ' · Ref <b>' + ref.toUpperCase() + '</b>'
+      + (data.deadline?(' · Frist ' + fmtDate(data.deadline)):'');
+
+    const st = stage();
+    [].forEach.call(document.querySelectorAll('.step'), el=>{
+      const n = +el.dataset.s;
+      el.classList.toggle('done', n < st);
+      el.classList.toggle('on', n === st);
+    });
+
+    // delivery
+    if((data.deliverables||[]).length){
+      $('delivery').classList.remove('hide');
+      const box = $('deliverList'); box.innerHTML='';
+      data.deliverables.forEach(d=>{
+        const isVid = /\.(mp4|mov|webm|m4v)$/i.test(d.name);
+        if(isVid){ const v=document.createElement('video'); v.src=d.url; v.controls=true; v.playsInline=true; box.appendChild(v); }
+        const a=document.createElement('a'); a.href=d.url; a.download=d.name; a.className='btn'; a.textContent='Last ned '+d.name; a.style.marginRight='8px'; a.style.marginBottom='8px'; box.appendChild(a);
+      });
+    }
+
+    // photos
+    const ph = data.photos||[];
+    $('photoCount').textContent = ph.length ? '('+ph.length+')' : '';
+    if(ph.length){ $('noPhotos').classList.add('hide'); const g=$('photoGrid'); g.innerHTML=''; ph.forEach(p=>{ const i=document.createElement('img'); i.src=p.url; i.loading='lazy'; g.appendChild(i); }); }
+
+    // notes
+    if((data.notes||[]).length){ const nl=$('noteList'); nl.innerHTML=''; data.notes.forEach(n=>{ const d=document.createElement('p'); d.className='muted'; d.textContent='• '+(n.text||''); nl.appendChild(d); }); }
+  }
+
+  // add more photos
+  const input=$('more');
+  $('drop').addEventListener('click',()=>input.click());
+  input.addEventListener('change', async ()=>{
+    const imgs=[].slice.call(input.files).filter(f=>f.type.startsWith('image/'));
+    if(!imgs.length) return;
+    let done=0;
+    for(const f of imgs){
+      $('upStatus').textContent='Laster opp … '+done+'/'+imgs.length;
+      try{
+        const safe=f.name.replace(/[^\w.\-]+/g,'_');
+        await upload('orders/'+ref+'/'+safe, f, { access:'public', handleUploadUrl:'/api/blob-upload', clientPayload:t });
+        done++;
+      }catch(e){}
+    }
+    $('upStatus').textContent=done+' bilde(r) lastet opp ✓'; $('upStatus').className='ok';
+    setTimeout(load, 800);
+  });
+
+  // send note
+  $('sendNote').addEventListener('click', async ()=>{
+    const note=$('note').value.trim();
+    if(!note){ return; }
+    $('sendNote').disabled=true; $('noteStatus').textContent='Sender …';
+    try{
+      const r=await fetch('/api/order-note',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ref,t,note}) });
+      if(!r.ok) throw 0;
+      $('note').value=''; $('noteStatus').textContent='Sendt ✓'; $('noteStatus').className='ok muted';
+      setTimeout(load, 800);
+    }catch(e){ $('noteStatus').textContent='Kunne ikke sende – prøv igjen.'; $('noteStatus').className='err muted'; $('sendNote').disabled=false; }
+  });
+
+  load();
+</script>
+</body>
+</html>
