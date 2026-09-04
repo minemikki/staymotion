@@ -131,6 +131,46 @@
   .ctable .num{text-align:center;color:var(--dim)}
   @media(max-width:640px){.ctable .hidesm{display:none}}
 
+  /* ---- CRM / Leads ---- */
+  .lead-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+  .pipe{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .pipe .p{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:100px;border:1px solid var(--line2);font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s}
+  .pipe .p:hover{color:var(--ice)}
+  .pipe .p.active{background:var(--ice);color:#0c1116;border-color:var(--ice)}
+  .lead{position:relative;border:1px solid var(--line);border-radius:13px;background:linear-gradient(180deg,var(--surface),var(--base2));padding:16px 18px;margin-bottom:12px;animation:rise .3s cubic-bezier(.22,.61,.36,1) both}
+  .lead::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--muted)}
+  .lead.st-vunnet::before,.lead.st-retainer::before{background:var(--green)}
+  .lead.st-tapt::before{background:var(--red)}
+  .lead.st-kontaktet::before,.lead.st-svart::before{background:var(--cyan)}
+  .lead.st-tilbud::before,.lead.st-demo_sendt::before,.lead.st-demo_tilbudt::before{background:var(--champagne)}
+  .lead-h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+  .lead-h .co{font-size:1.1rem;font-weight:700;letter-spacing:-.01em}
+  .lead-sub{color:var(--muted);font-size:12.5px;margin-top:2px}
+  .lead-links{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0;font-size:13px}
+  .lead-links a{color:var(--cyan);text-decoration:none}
+  .lead-links a:hover{text-decoration:underline}
+  .score{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin:8px 0}
+  .score .bar{flex:1;max-width:130px;height:6px;border-radius:3px;background:rgba(190,214,226,.14);overflow:hidden}
+  .score .bar i{display:block;height:100%;background:var(--cyan)}
+  .seg-pill{font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;border:1px solid var(--line2);color:var(--dim);white-space:nowrap}
+  .na{font-size:12.5px;color:var(--dim);margin-top:6px}
+  .na.over{color:var(--red);font-weight:600}.na.today{color:var(--amber);font-weight:600}
+  .lead-foot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+  select.stagesel{background:var(--surface2);border:1px solid var(--line2);color:var(--ice);padding:7px 10px;border-radius:8px;font-size:12.5px;cursor:pointer}
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:70;background:rgba(6,9,12,.72);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:36px 16px}
+  .modal .box{width:100%;max-width:560px;background:var(--surface);border:1px solid var(--line2);border-radius:16px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .modal h3{font-size:1.2rem;font-weight:700;margin-bottom:16px}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:520px){.fgrid{grid-template-columns:1fr}}
+  .f{display:flex;flex-direction:column;gap:5px}
+  .f.full{grid-column:1/-1}
+  .f label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+  .f input,.f select,.f textarea{background:var(--base2);border:1px solid var(--line2);color:var(--ice);padding:10px 12px;border-radius:8px;font:inherit}
+  .f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--cyan)}
+  .f textarea{min-height:70px;resize:vertical}
+  .modal-actions{display:flex;gap:10px;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
+
   .spin{width:22px;height:22px;border:2px solid var(--line);border-top-color:var(--cyan);border-radius:50%;animation:s 1s linear infinite;display:inline-block}
   @keyframes s{to{transform:rotate(360deg)}}
   .hide{display:none!important}
@@ -177,6 +217,7 @@
     <button class="n" data-v="bestillinger"><span class="ic">▤</span> Bestillinger</button>
     <button class="n" data-v="statistikk"><span class="ic">📈</span> Statistikk</button>
     <button class="n" data-v="kunder"><span class="ic">☺</span> Kunder</button>
+    <button class="n" data-v="leads"><span class="ic">◎</span> Leads</button>
   </div>
 
   <!-- OVERSIKT -->
@@ -239,6 +280,36 @@
       </label>
     </div>
     <div class="panel" style="padding:8px 10px"><div style="overflow-x:auto"><table class="ctable" id="ctable"></table></div></div>
+  </section>
+
+  <!-- LEADS / CRM -->
+  <section id="v-leads" class="hide">
+    <div class="stats" id="lead-stats"></div>
+    <div class="pipe" id="lead-pipe"></div>
+    <div class="lead-toolbar">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="lq" type="search" placeholder="Søk selskap, kontakt, e-post …" autocomplete="off">
+      </label>
+      <select id="lseg">
+        <option value="">Alle segmenter</option>
+        <option value="hotell">Hotell</option>
+        <option value="hytte">Hytte/Airbnb</option>
+        <option value="megler">Eiendomsmegler</option>
+        <option value="property">Property manager</option>
+        <option value="restaurant">Restaurant</option>
+        <option value="partner">Partner</option>
+        <option value="annet">Annet</option>
+      </select>
+      <select id="lsort">
+        <option value="score">Høyest score</option>
+        <option value="na">Neste handling</option>
+        <option value="recent">Sist endret</option>
+      </select>
+      <button class="btn primary" id="lead-add">+ Ny lead</button>
+      <button class="btn ghost" id="lead-import">Importer</button>
+    </div>
+    <div id="lead-list"></div>
   </section>
 </div>
 
@@ -464,8 +535,9 @@
   /* ---------- nav + controls ---------- */
   function showView(v){
     VIEW=v;
-    ['oversikt','bestillinger','statistikk','kunder'].forEach(function(x){$('v-'+x).classList.toggle('hide',x!==v);});
+    ['oversikt','bestillinger','statistikk','kunder','leads'].forEach(function(x){$('v-'+x).classList.toggle('hide',x!==v);});
     [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.classList.toggle('active',n.getAttribute('data-v')===v);});
+    if(v==='leads' && !leadsLoaded) loadLeads();
     window.scrollTo(0,0);
   }
   [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.onclick=function(){showView(n.getAttribute('data-v'));};});
@@ -475,6 +547,181 @@
   $('sort').addEventListener('change',function(){SORT=this.value;renderBestillinger();});
   $('cq').addEventListener('input',function(){CQ=this.value.trim().toLowerCase();renderKunder();});
   $('refresh').onclick=load;$('logout').onclick=function(){logout('');};
+
+  /* ================= CRM / LEADS ================= */
+  var LEADS=[], LFILTER_STAGE='', LSEG='', LSORT='score', LQ='', leadModalOpen=false, leadsLoaded=false;
+  var STAGES=[['sourced','Ny'],['kvalifisert','Kvalifisert'],['kontaktet','Kontaktet'],['svart','Svart'],['demo_tilbudt','Demo tilbudt'],['demo_sendt','Demo sendt'],['tilbud','Tilbud gitt'],['vunnet','Vunnet'],['retainer','Retainer'],['tapt','Tapt']];
+  var SEGMENTS=[['hotell','Hotell'],['hytte','Hytte/Airbnb'],['megler','Eiendomsmegler'],['property','Property manager'],['restaurant','Restaurant'],['partner','Partner'],['annet','Annet']];
+  var OPEN_STAGES=['sourced','kvalifisert','kontaktet','svart','demo_tilbudt','demo_sendt','tilbud'];
+  function stageLabel(s){var f=STAGES.filter(function(x){return x[0]===s;})[0];return f?f[1]:(s||'Ny');}
+  function segLabel(s){var f=SEGMENTS.filter(function(x){return x[0]===s;})[0];return f?f[1]:(s||'—');}
+  function naTime(l){ if(!l.nextActionDate) return 0; var t=Date.parse(l.nextActionDate); return isNaN(t)?0:t; }
+
+  async function loadLeads(){
+    try{
+      var r=await fetch('/api/admin-leads?key='+encodeURIComponent(KEY));
+      if(r.status===401){logout('Feil passord.');return;}
+      var d=await r.json(); LEADS=d.leads||[]; leadsLoaded=true; renderLeads();
+    }catch(e){ $('lead-list').innerHTML='<div class="empty"><div class="big">⚠</div>Kunne ikke hente leads.</div>'; }
+  }
+
+  function renderLeads(){
+    if(leadModalOpen) return;
+    var open=LEADS.filter(function(l){return OPEN_STAGES.indexOf(l.stage||'sourced')>=0;});
+    var won=LEADS.filter(function(l){return l.stage==='vunnet'||l.stage==='retainer';});
+    var pipeVal=open.reduce(function(a,l){return a+(Number(l.quotedPrice)||0);},0);
+    var avg=LEADS.length?Math.round(LEADS.reduce(function(a,l){return a+(Number(l.leadScore)||0);},0)/LEADS.length):0;
+    $('lead-stats').innerHTML=
+      '<div class="stat"><span class="k">◎</span><div class="n">'+LEADS.length+'</div><div class="l">Totalt</div></div>'+
+      '<div class="stat warn"><span class="k">◔</span><div class="n">'+open.length+'</div><div class="l">I pipeline</div></div>'+
+      '<div class="stat ok"><span class="k">✓</span><div class="n">'+won.length+'</div><div class="l">Vunnet</div></div>'+
+      '<div class="stat rev"><span class="k">◆</span><div class="n">'+kr(pipeVal)+'</div><div class="l">Pipeline-verdi</div></div>'+
+      '<div class="stat"><span class="k">☆</span><div class="n">'+avg+'</div><div class="l">Snitt score</div></div>';
+    var counts={}; LEADS.forEach(function(l){var s=l.stage||'sourced';counts[s]=(counts[s]||0)+1;});
+    $('lead-pipe').innerHTML='<span class="p'+(LFILTER_STAGE===''?' active':'')+'" data-stage="">Alle <b>'+LEADS.length+'</b></span>'+
+      STAGES.map(function(s){return '<span class="p'+(LFILTER_STAGE===s[0]?' active':'')+'" data-stage="'+s[0]+'">'+s[1]+' <b>'+(counts[s[0]]||0)+'</b></span>';}).join('');
+    [].forEach.call($('lead-pipe').querySelectorAll('.p'),function(p){p.onclick=function(){LFILTER_STAGE=p.getAttribute('data-stage');renderLeads();};});
+
+    var rows=LEADS.filter(function(l){
+      if(LFILTER_STAGE && (l.stage||'sourced')!==LFILTER_STAGE) return false;
+      if(LSEG && (l.segment||'')!==LSEG) return false;
+      if(LQ){var hay=((l.company||'')+' '+(l.contact||'')+' '+(l.email||'')+' '+(l.location||'')).toLowerCase();if(hay.indexOf(LQ)<0)return false;}
+      return true;
+    });
+    rows.sort(function(a,b){
+      if(LSORT==='na'){var an=naTime(a)||9e15,bn=naTime(b)||9e15;return an-bn;}
+      if(LSORT==='recent'){return (b.updated||0)-(a.updated||0);}
+      return (Number(b.leadScore)||0)-(Number(a.leadScore)||0);
+    });
+    if(!rows.length){ $('lead-list').innerHTML='<div class="empty"><div class="big">'+(LQ||LFILTER_STAGE||LSEG?'🔍':'◎')+'</div>'+(LQ||LFILTER_STAGE||LSEG?'Ingen treff.':'Ingen leads ennå. Trykk «+ Ny lead» eller «Importer».')+'</div>'; return; }
+    $('lead-list').innerHTML=rows.map(leadCard).join('');
+    wireLeads();
+  }
+
+  function leadCard(l){
+    var s=l.stage||'sourced';
+    var sc=Math.max(0,Math.min(100,Number(l.leadScore)||0));
+    var links=[];
+    if(l.email) links.push('<a href="mailto:'+esc(l.email)+'">✉ '+esc(l.email)+'</a>');
+    if(l.phone) links.push('<a href="tel:'+esc(l.phone)+'">✆ '+esc(l.phone)+'</a>');
+    if(l.instagram) links.push('<a href="https://instagram.com/'+esc(String(l.instagram).replace(/^@/,''))+'" target="_blank" rel="noopener">IG</a>');
+    if(l.website) links.push('<a href="'+esc(/^https?:/.test(l.website)?l.website:'https://'+l.website)+'" target="_blank" rel="noopener">Web</a>');
+    var na=''; if(l.nextAction){ var t=naTime(l); var cls=''; if(t){ var dd=t-Date.now(); if(dd<0)cls='over'; else if(dd<86400000)cls='today'; } na='<div class="na '+cls+'">▸ '+esc(l.nextAction)+(l.nextActionDate?(' · '+esc(l.nextActionDate)):'')+'</div>'; }
+    var stageOpts=STAGES.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===s?' selected':'')+'>'+x[1]+'</option>';}).join('');
+    return '<div class="lead st-'+s+'">'+
+      '<div class="lead-h"><div><div class="co">'+esc(l.company||'(uten navn)')+'</div>'+
+        '<div class="lead-sub">'+(l.contact?esc(l.contact)+' · ':'')+esc(l.location||'')+'</div></div>'+
+        '<span class="seg-pill">'+esc(segLabel(l.segment))+'</span></div>'+
+      '<div class="score">Score <div class="bar"><i style="width:'+sc+'%"></i></div> '+sc+'</div>'+
+      (links.length?'<div class="lead-links">'+links.join('')+'</div>':'')+
+      na+
+      (l.notes?'<div class="lead-sub" style="margin-top:8px;white-space:pre-wrap">'+esc(l.notes)+'</div>':'')+
+      '<div class="lead-foot">'+
+        '<select class="stagesel" data-stage-for="'+esc(l.id)+'">'+stageOpts+'</select>'+
+        (l.quotedPrice?'<span class="seg-pill">Tilbud: '+kr(l.quotedPrice)+'</span>':'')+
+        '<button class="btn sm" data-edit="'+esc(l.id)+'">Rediger</button>'+
+        '<button class="btn sm ghost" data-del="'+esc(l.id)+'">Slett</button>'+
+      '</div></div>';
+  }
+  function wireLeads(){
+    var l=$('lead-list');
+    [].forEach.call(l.querySelectorAll('[data-edit]'),function(b){b.onclick=function(){openLeadModal(b.getAttribute('data-edit'));};});
+    [].forEach.call(l.querySelectorAll('[data-del]'),function(b){b.onclick=function(){delLead(b.getAttribute('data-del'));};});
+    [].forEach.call(l.querySelectorAll('[data-stage-for]'),function(sel){sel.onchange=function(){quickStage(sel.getAttribute('data-stage-for'),sel.value);};});
+  }
+
+  async function putLead(lead){
+    try{
+      var r=await fetch('/api/admin-leads?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lead:lead})});
+      var d=await r.json();
+      if(d.lead){ var i=LEADS.map(function(x){return x.id;}).indexOf(d.lead.id); if(i>=0)LEADS[i]=d.lead; else LEADS.unshift(d.lead); }
+      return d.lead;
+    }catch(e){ toast('Kunne ikke lagre'); }
+  }
+  async function quickStage(id,stage){
+    var l=LEADS.filter(function(x){return x.id===id;})[0]; if(!l)return; l.stage=stage;
+    await putLead(l); toast('Flyttet til '+stageLabel(stage)); renderLeads();
+  }
+  async function delLead(id){
+    if(!confirm('Slette denne leaden?'))return;
+    try{ await fetch('/api/admin-leads?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({op:'delete',id:id})});
+      LEADS=LEADS.filter(function(x){return x.id!==id;}); toast('Slettet'); renderLeads();
+    }catch(e){ toast('Kunne ikke slette'); }
+  }
+
+  function lf(k,label,val,type){return '<div class="f"><label>'+label+'</label><input id="lf-'+k+'" type="'+(type||'text')+'" value="'+esc(val!=null?val:'')+'"></div>';}
+  function openLeadModal(id){
+    var l=id?LEADS.filter(function(x){return x.id===id;})[0]:{}; if(id&&!l)return; l=l||{};
+    leadModalOpen=true;
+    var seg=SEGMENTS.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===(l.segment||'')?' selected':'')+'>'+x[1]+'</option>';}).join('');
+    var st=STAGES.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===(l.stage||'sourced')?' selected':'')+'>'+x[1]+'</option>';}).join('');
+    var chan=['email','dm','telefon','referral','partner','inbound'].map(function(c){return '<option value="'+c+'"'+(c===(l.channel||'')?' selected':'')+'>'+c+'</option>';}).join('');
+    var el=document.createElement('div'); el.className='modal'; el.id='leadModal';
+    el.innerHTML='<div class="box"><h3>'+(id?'Rediger lead':'Ny lead')+'</h3><div class="fgrid">'+
+      lf('company','Selskap',l.company)+
+      lf('contact','Kontaktperson',l.contact)+
+      lf('email','E-post',l.email,'email')+
+      lf('phone','Telefon',l.phone)+
+      lf('location','Sted',l.location)+
+      '<div class="f"><label>Segment</label><select id="lf-segment">'+seg+'</select></div>'+
+      lf('instagram','Instagram',l.instagram)+
+      lf('website','Nettside',l.website)+
+      '<div class="f"><label>Lead score (0–100)</label><input id="lf-leadScore" type="number" min="0" max="100" value="'+(l.leadScore!=null?l.leadScore:'')+'"></div>'+
+      '<div class="f"><label>Kanal</label><select id="lf-channel"><option value=""></option>'+chan+'</select></div>'+
+      '<div class="f"><label>Stadium</label><select id="lf-stage">'+st+'</select></div>'+
+      lf('quotedPrice','Tilbud (kr)',l.quotedPrice,'number')+
+      lf('nextAction','Neste handling',l.nextAction)+
+      lf('nextActionDate','Frist (åååå-mm-dd)',l.nextActionDate)+
+      '<div class="f full"><label>Notater</label><textarea id="lf-notes">'+esc(l.notes||'')+'</textarea></div>'+
+    '</div><div class="modal-actions"><button class="btn ghost" id="lf-cancel">Avbryt</button><button class="btn primary" id="lf-save">Lagre</button></div></div>';
+    document.body.appendChild(el);
+    el.addEventListener('click',function(e){if(e.target===el)closeLeadModal();});
+    $('lf-cancel').onclick=closeLeadModal;
+    $('lf-save').onclick=async function(){
+      var lead=Object.assign({},l);
+      ['company','contact','email','phone','location','instagram','website','nextAction','nextActionDate','notes'].forEach(function(k){lead[k]=($('lf-'+k).value||'').trim();});
+      lead.segment=$('lf-segment').value; lead.channel=$('lf-channel').value; lead.stage=$('lf-stage').value;
+      lead.leadScore=Number($('lf-leadScore').value)||0; lead.quotedPrice=Number($('lf-quotedPrice').value)||0;
+      if(id)lead.id=id;
+      $('lf-save').disabled=true; $('lf-save').textContent='…';
+      await putLead(lead); closeLeadModal(); toast(id?'Oppdatert':'Lead lagt til'); renderLeads();
+    };
+  }
+  function closeLeadModal(){ leadModalOpen=false; var el=$('leadModal'); if(el)el.remove(); }
+
+  function openImport(){
+    leadModalOpen=true;
+    var el=document.createElement('div'); el.className='modal'; el.id='leadModal';
+    el.innerHTML='<div class="box"><h3>Importer leads</h3>'+
+      '<p class="lead-sub" style="margin-bottom:10px">Lim inn én lead per linje. Felt skilt med komma eller tab, i denne rekkefølgen:<br><b>Selskap, Segment, Sted, Kontakt, E-post, Telefon, Instagram, Nettside, Score</b><br>Segment: hotell / hytte / megler / property / restaurant / partner / annet</p>'+
+      '<div class="f full"><textarea id="imp" style="min-height:170px" placeholder="Hytte AS, hytte, Ryfylke, Kari, post@hytte.no, 40000000, @hytteas, hytte.no, 75"></textarea></div>'+
+      '<div class="modal-actions"><button class="btn ghost" id="lf-cancel">Avbryt</button><button class="btn primary" id="imp-save">Importer</button></div></div>';
+    document.body.appendChild(el);
+    el.addEventListener('click',function(e){if(e.target===el)closeLeadModal();});
+    $('lf-cancel').onclick=closeLeadModal;
+    $('imp-save').onclick=async function(){
+      var lines=($('imp').value||'').split('\n').map(function(x){return x.trim();}).filter(Boolean);
+      if(!lines.length){closeLeadModal();return;}
+      $('imp-save').disabled=true; $('imp-save').textContent='…';
+      var keys=['company','segment','location','contact','email','phone','instagram','website','leadScore'];
+      var n=0;
+      for(var i=0;i<lines.length;i++){
+        var parts=lines[i].split(/\t|,/).map(function(x){return x.trim();});
+        var lead={stage:'sourced'};
+        keys.forEach(function(k,idx){ if(parts[idx]!=null&&parts[idx]!=='') lead[k]=parts[idx]; });
+        if(lead.leadScore!=null) lead.leadScore=Number(lead.leadScore)||0;
+        if(lead.company){ await putLead(lead); n++; }
+      }
+      closeLeadModal(); toast('Importerte '+n+' leads'); renderLeads();
+    };
+  }
+
+  $('lq').addEventListener('input',function(){LQ=this.value.trim().toLowerCase();renderLeads();});
+  $('lseg').addEventListener('change',function(){LSEG=this.value;renderLeads();});
+  $('lsort').addEventListener('change',function(){LSORT=this.value;renderLeads();});
+  $('lead-add').onclick=function(){openLeadModal(null);};
+  $('lead-import').onclick=openImport;
+  /* =============== END CRM / LEADS =============== */
 
   setInterval(function(){[].forEach.call(document.querySelectorAll('.cd[data-deadline]'),function(el){var ts=+el.getAttribute('data-deadline');if(!ts)return;var cd=countdown(ts);el.textContent=cd.t;el.className='cd '+cd.c;});},30000);
   setInterval(function(){if(!$('dash').classList.contains('hide'))load();},60000);
