@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Bestillinger — StayMotion</title>
+<title>Dashbord — StayMotion</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,23 +17,19 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--base);color:var(--ice);font-family:var(--f);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;
     background-image:radial-gradient(1100px 500px at 80% -8%,rgba(105,212,224,.09),transparent 60%),radial-gradient(900px 460px at 5% -6%,rgba(231,210,169,.06),transparent 55%)}
-  a{color:inherit}
-  ::selection{background:rgba(105,212,224,.28)}
-  .wrap{max-width:1120px;margin:0 auto;padding:clamp(20px,3.5vw,40px) 20px 90px}
-  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-  input,select{font:inherit}
+  a{color:inherit}::selection{background:rgba(105,212,224,.28)}
+  .wrap{max-width:1160px;margin:0 auto;padding:clamp(18px,3vw,36px) 20px 90px}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}input,select{font:inherit}
   .brand{display:flex;align-items:center;gap:11px}
-  .brand img{height:26px}
-  .brand b{font-weight:700;font-size:13px;letter-spacing:.28em;padding-left:.28em}
+  .brand img{height:26px}.brand b{font-weight:700;font-size:13px;letter-spacing:.28em;padding-left:.28em}
   .brand b i{font-style:normal;color:var(--champagne)}
-  h1{font-size:1.55rem;font-weight:800;letter-spacing:-.015em}
+  h1{font-size:1.5rem;font-weight:800;letter-spacing:-.015em}
+  h2{font-size:1.05rem;font-weight:700;letter-spacing:-.01em;margin-bottom:2px}
   .sub{color:var(--muted);font-size:12.5px;margin-top:3px}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 15px;border:1px solid var(--line2);border-radius:8px;
     font-size:13px;font-weight:600;color:var(--dim);transition:border-color .2s,color .2s,background .2s,transform .1s}
-  .btn:hover{border-color:var(--cyan);color:var(--ice)}
-  .btn:active{transform:translateY(1px)}
-  .btn.primary{background:var(--champagne);color:#12100a;border-color:var(--champagne)}
-  .btn.primary:hover{filter:brightness(1.05);color:#12100a}
+  .btn:hover{border-color:var(--cyan);color:var(--ice)}.btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--champagne);color:#12100a;border-color:var(--champagne)}.btn.primary:hover{filter:brightness(1.05);color:#12100a}
   .btn.ghost{border-color:var(--line);color:var(--muted)}
   .btn.sm{min-height:32px;padding:0 11px;font-size:12px;border-radius:7px}
 
@@ -42,25 +38,41 @@
   .gate .brand{justify-content:center;margin-bottom:22px}
   .gate h1{margin-bottom:8px}.gate p{color:var(--muted);margin-bottom:22px;font-size:14px}
   .gate input{width:100%;background:var(--surface);border:1px solid var(--line2);color:var(--ice);padding:14px 16px;border-radius:10px;margin-bottom:12px}
-  .gate input:focus{outline:none;border-color:var(--cyan)}
-  .gate .btn{width:100%;min-height:50px}
+  .gate input:focus{outline:none;border-color:var(--cyan)}.gate .btn{width:100%;min-height:50px}
   .err{color:var(--red);font-size:13px;margin-top:10px;min-height:18px}
 
-  /* top bar */
+  /* top bar + nav */
   .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-    padding:14px 0 16px;margin-bottom:8px;background:linear-gradient(180deg,var(--base) 62%,transparent);backdrop-filter:blur(6px)}
+    padding:14px 0 14px;background:linear-gradient(180deg,var(--base) 62%,transparent);backdrop-filter:blur(6px)}
   .top .r{display:flex;align-items:center;gap:10px}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(99,208,138,.16);display:inline-block}
+  .nav{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 22px;border-bottom:1px solid var(--line);padding-bottom:14px}
+  .nav .n{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:10px;font-size:14px;font-weight:600;color:var(--muted);transition:.2s}
+  .nav .n:hover{color:var(--ice);background:var(--surface)}
+  .nav .n.active{background:var(--ice);color:#0c1116}
+  .nav .n .ic{font-size:15px}
 
-  /* stats */
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:6px 0 22px}
+  /* stats grid */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 22px}
   .stat{position:relative;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--surface),var(--base2));padding:16px 18px;overflow:hidden}
   .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);opacity:.5}
-  .stat.warn::before{background:var(--champagne)} .stat.ok::before{background:var(--green)} .stat.red::before{background:var(--red)} .stat.rev::before{background:var(--cyan)}
-  .stat .n{font-size:1.9rem;font-weight:800;line-height:1;font-feature-settings:"tnum" 1;letter-spacing:-.02em}
+  .stat.warn::before{background:var(--champagne)}.stat.ok::before{background:var(--green)}.stat.red::before{background:var(--red)}
+  .stat .n{font-size:1.85rem;font-weight:800;line-height:1;font-feature-settings:"tnum" 1;letter-spacing:-.02em}
   .stat .l{color:var(--muted);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;margin-top:7px;font-weight:600}
-  .stat.warn .n{color:var(--champagne)} .stat.ok .n{color:var(--green)} .stat.red .n{color:var(--red)}
+  .stat.warn .n{color:var(--champagne)}.stat.ok .n{color:var(--green)}.stat.red .n{color:var(--red)}
   .stat .k{position:absolute;right:12px;top:12px;font-size:15px;opacity:.35}
+  .stat .d{font-size:11.5px;color:var(--muted);margin-top:4px}
+  .stat .d.up{color:var(--green)}.stat .d.down{color:var(--red)}
+
+  /* panels + charts */
+  .panel{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,var(--surface),var(--base2));padding:20px;margin-bottom:16px}
+  .panel .ph{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .panel .ph .t2{color:var(--muted);font-size:12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  .chartbox{position:relative;height:260px}
+  .chartbox.sm{height:230px}
+  .chln{color:var(--muted);font-size:13px;text-align:center;padding:40px 0}
 
   /* controls */
   .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
@@ -70,34 +82,29 @@
   .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5}
   select{background:var(--surface);border:1px solid var(--line);color:var(--dim);padding:10px 14px;border-radius:9px;cursor:pointer}
   select:focus{outline:none;border-color:var(--cyan)}
-  .tabs{display:flex;gap:8px;flex-wrap:wrap}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
   .tab{padding:8px 15px;border-radius:100px;border:1px solid var(--line2);font-size:13px;font-weight:600;color:var(--muted);transition:.2s}
   .tab .c{display:inline-block;min-width:18px;padding:0 5px;margin-left:6px;font-size:11px;border-radius:100px;background:rgba(190,214,226,.14);color:var(--dim)}
-  .tab.active{background:var(--ice);color:#0c1116;border-color:var(--ice)}
-  .tab.active .c{background:rgba(12,17,22,.16);color:#0c1116}
+  .tab.active{background:var(--ice);color:#0c1116;border-color:var(--ice)}.tab.active .c{background:rgba(12,17,22,.16);color:#0c1116}
 
   /* order card */
   .order{position:relative;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--surface),var(--base2));padding:20px;margin-bottom:14px;
     animation:rise .35s cubic-bezier(.22,.61,.36,1) both}
   @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .order::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:3px;background:var(--champagne);opacity:.55}
-  .order.beh::before{background:var(--green)} .order.overdue::before{background:var(--red);opacity:1}
+  .order.beh::before{background:var(--green)}.order.overdue::before{background:var(--red);opacity:1}
   .order.overdue{border-color:rgba(233,134,111,.4)}
   .oh{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
   .who b{font-size:1.18rem;font-weight:700;letter-spacing:-.01em}
   .who .em{display:inline-flex;align-items:center;gap:7px;margin-top:3px}
-  .who a{color:var(--cyan);font-size:13.5px;text-decoration:none}
-  .who a:hover{text-decoration:underline}
+  .who a{color:var(--cyan);font-size:13.5px;text-decoration:none}.who a:hover{text-decoration:underline}
   .copy{opacity:.55;font-size:12px}.copy:hover{opacity:1;color:var(--cyan)}
   .rt{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
   .badge{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:100px;white-space:nowrap}
-  .badge.ubeh{background:rgba(231,210,169,.16);color:var(--champagne)}
-  .badge.beh{background:rgba(99,208,138,.16);color:var(--green)}
-  .badge.avv{background:rgba(138,154,167,.16);color:var(--muted)}
+  .badge.ubeh{background:rgba(231,210,169,.16);color:var(--champagne)}.badge.beh{background:rgba(99,208,138,.16);color:var(--green)}.badge.avv{background:rgba(138,154,167,.16);color:var(--muted)}
   .pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
   .pill{font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;border:1px solid var(--line2);color:var(--dim)}
-  .pill.exp{border-color:rgba(231,184,114,.4);color:var(--amber)}
-  .pill.both{border-color:rgba(105,212,224,.4);color:var(--cyan)}
+  .pill.exp{border-color:rgba(231,184,114,.4);color:var(--amber)}.pill.both{border-color:rgba(105,212,224,.4);color:var(--cyan)}
   .meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin:15px 0 4px;color:var(--dim);font-size:13.5px}
   .meta .lab{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:1px}
   .meta b{color:var(--ice);font-weight:600}
@@ -112,8 +119,18 @@
   .photos img{width:100%;height:100%;object-fit:cover;display:block}
   .none{color:var(--muted);font-size:13px;font-style:italic}
   .oa{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
-  .empty{text-align:center;color:var(--muted);padding:70px 20px}
-  .empty .big{font-size:34px;margin-bottom:10px;opacity:.5}
+  .empty{text-align:center;color:var(--muted);padding:70px 20px}.empty .big{font-size:34px;margin-bottom:10px;opacity:.5}
+
+  /* customers table */
+  .ctable{width:100%;border-collapse:collapse;font-size:14px}
+  .ctable th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line)}
+  .ctable td{padding:12px;border-bottom:1px solid var(--line)}
+  .ctable tr:hover td{background:rgba(190,214,226,.03)}
+  .ctable .nm{font-weight:700}.ctable .em{color:var(--cyan);font-size:13px}
+  .ctable .sp{font-weight:700;text-align:right;font-feature-settings:"tnum" 1}
+  .ctable .num{text-align:center;color:var(--dim)}
+  @media(max-width:640px){.ctable .hidesm{display:none}}
+
   .spin{width:22px;height:22px;border:2px solid var(--line);border-top-color:var(--cyan);border-radius:50%;animation:s 1s linear infinite;display:inline-block}
   @keyframes s{to{transform:rotate(360deg)}}
   .hide{display:none!important}
@@ -122,13 +139,11 @@
   .lb{position:fixed;inset:0;z-index:60;background:rgba(6,9,12,.94);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
   .lb img{max-width:92vw;max-height:82vh;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
   .lb .x{position:absolute;top:18px;right:22px;font-size:26px;color:var(--ice);opacity:.7}.lb .x:hover{opacity:1}
-  .lb .nav{position:absolute;top:50%;transform:translateY(-50%);font-size:40px;color:var(--ice);opacity:.55;padding:20px;user-select:none}.lb .nav:hover{opacity:1}
+  .lb .nav2{position:absolute;top:50%;transform:translateY(-50%);font-size:40px;color:var(--ice);opacity:.55;padding:20px;user-select:none}.lb .nav2:hover{opacity:1}
   .lb .prev{left:6px}.lb .next{right:6px}
   .lb .cap{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center;color:var(--dim);font-size:13px}
-  .lb .cap a{color:var(--cyan);text-decoration:none;border:1px solid var(--line2);padding:6px 12px;border-radius:8px}
-  .lb .cap a:hover{border-color:var(--cyan)}
+  .lb .cap a{color:var(--cyan);text-decoration:none;border:1px solid var(--line2);padding:6px 12px;border-radius:8px}.lb .cap a:hover{border-color:var(--cyan)}
 
-  /* toast */
   .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface2);border:1px solid var(--line2);
     color:var(--ice);padding:11px 18px;border-radius:10px;font-size:13.5px;font-weight:600;opacity:0;transition:.3s;z-index:80;box-shadow:0 12px 40px rgba(0,0,0,.5)}
   .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -139,7 +154,7 @@
 <!-- Password gate -->
 <div id="gate" class="gate">
   <div class="brand"><img src="img/logo-mono.png" alt=""><b>STAY<i>MOTION</i></b></div>
-  <h1>Bestillinger</h1>
+  <h1>Dashbord</h1>
   <p>Skriv inn admin-passordet.</p>
   <input id="key" type="password" placeholder="Passord" autocomplete="current-password">
   <button class="btn primary" id="enter">Logg inn</button>
@@ -149,222 +164,325 @@
 <!-- Dashboard -->
 <div id="dash" class="wrap hide">
   <div class="top">
-    <div>
-      <div class="brand" style="margin-bottom:9px"><img src="img/logo-mono.png" alt=""><b>STAY<i>MOTION</i></b></div>
-      <h1>Bestillinger</h1>
-      <div class="sub"><span class="dot"></span> <span id="updated"></span></div>
-    </div>
+    <div class="brand"><img src="img/logo-mono.png" alt=""><b>STAY<i>MOTION</i></b></div>
     <div class="r">
-      <button class="btn ghost" id="logout">Logg ut</button>
+      <span class="sub"><span class="dot"></span> <span id="updated"></span></span>
       <button class="btn" id="refresh">↻ Oppdater</button>
+      <button class="btn ghost" id="logout">Logg ut</button>
     </div>
   </div>
 
-  <div class="stats" id="stats"></div>
-
-  <div class="controls">
-    <label class="search">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="q" type="search" placeholder="Søk navn, e-post, pakke …" autocomplete="off">
-    </label>
-    <select id="sort">
-      <option value="ny">Nyeste først</option>
-      <option value="frist">Frist snarest</option>
-      <option value="belop">Høyest beløp</option>
-    </select>
+  <div class="nav" id="nav">
+    <button class="n active" data-v="oversikt"><span class="ic">◈</span> Oversikt</button>
+    <button class="n" data-v="bestillinger"><span class="ic">▤</span> Bestillinger</button>
+    <button class="n" data-v="statistikk"><span class="ic">📈</span> Statistikk</button>
+    <button class="n" data-v="kunder"><span class="ic">☺</span> Kunder</button>
   </div>
 
-  <div class="tabs" id="tabs" style="margin-bottom:18px">
-    <button class="tab active" data-f="ubehandlet">Ubehandlet<span class="c" id="c-ubeh">0</span></button>
-    <button class="tab" data-f="behandlet">Behandlet<span class="c" id="c-beh">0</span></button>
-    <button class="tab" data-f="alle">Alle<span class="c" id="c-all">0</span></button>
-  </div>
+  <!-- OVERSIKT -->
+  <section id="v-oversikt">
+    <div class="stats" id="ov-stats"></div>
+    <div class="panel">
+      <div class="ph"><h2>Omsetning siste 30 dager</h2><span class="t2" id="ov-revsum"></span></div>
+      <div class="chartbox"><canvas id="ch-ov"></canvas><div class="chln hide" id="ln-ov"></div></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h2>Siste bestillinger</h2><button class="btn sm ghost" data-goto="bestillinger">Se alle →</button></div>
+      <div id="ov-recent"></div>
+    </div>
+  </section>
 
-  <div id="list"></div>
+  <!-- BESTILLINGER -->
+  <section id="v-bestillinger" class="hide">
+    <div class="controls">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="q" type="search" placeholder="Søk navn, e-post, pakke …" autocomplete="off">
+      </label>
+      <select id="sort">
+        <option value="ny">Nyeste først</option>
+        <option value="frist">Frist snarest</option>
+        <option value="belop">Høyest beløp</option>
+      </select>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-f="ubehandlet">Ubehandlet<span class="c" id="c-ubeh">0</span></button>
+      <button class="tab" data-f="behandlet">Behandlet<span class="c" id="c-beh">0</span></button>
+      <button class="tab" data-f="alle">Alle<span class="c" id="c-all">0</span></button>
+    </div>
+    <div id="list"></div>
+  </section>
+
+  <!-- STATISTIKK -->
+  <section id="v-statistikk" class="hide">
+    <div class="stats" id="st-stats"></div>
+    <div class="panel">
+      <div class="ph"><h2>Omsetning per dag</h2><span class="t2">Siste 30 dager</span></div>
+      <div class="chartbox"><canvas id="ch-rev"></canvas><div class="chln hide" id="ln-rev"></div></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h2>Bestillinger per uke</h2><span class="t2">Siste 8 uker</span></div>
+      <div class="chartbox"><canvas id="ch-week"></canvas><div class="chln hide" id="ln-week"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><div class="ph"><h2>Fordeling per pakke</h2></div><div class="chartbox sm"><canvas id="ch-pkg"></canvas><div class="chln hide" id="ln-pkg"></div></div></div>
+      <div class="panel"><div class="ph"><h2>Fordeling format</h2></div><div class="chartbox sm"><canvas id="ch-fmt"></canvas><div class="chln hide" id="ln-fmt"></div></div></div>
+    </div>
+  </section>
+
+  <!-- KUNDER -->
+  <section id="v-kunder" class="hide">
+    <div class="controls">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="cq" type="search" placeholder="Søk kunde …" autocomplete="off">
+      </label>
+    </div>
+    <div class="panel" style="padding:8px 10px"><div style="overflow-x:auto"><table class="ctable" id="ctable"></table></div></div>
+  </section>
 </div>
 
 <div id="toast" class="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-  var KEY='', ORDERS=[], FILTER='ubehandlet', SORT='ny', Q='';
+  var KEY='', ORDERS=[], VIEW='oversikt', FILTER='ubehandlet', SORT='ny', Q='', CQ='';
   var $=function(id){return document.getElementById(id);};
+  var C={cyan:'#69D4E0',champagne:'#E7D2A9',green:'#63D08A',amber:'#E7B872',red:'#E9866F',muted:'#8A9AA7',dim:'#C7D3DB',line:'rgba(190,214,226,.12)'};
+  var charts={};
 
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function kr(n){return n!=null?Number(n).toLocaleString('no-NO')+' kr':'—';}
   function fmtDate(ts){return ts?new Date(ts).toLocaleString('no-NO',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'—';}
-  function ago(ts){ if(!ts)return''; var s=(Date.now()-ts)/1000;
-    if(s<60)return'nå nettopp'; if(s<3600)return Math.floor(s/60)+' min siden';
-    if(s<86400)return Math.floor(s/3600)+' t siden'; return Math.floor(s/86400)+' d siden'; }
-  function countdown(ts){ if(!ts)return{t:'—',c:''}; var d=ts-Date.now(); var over=d<0; var a=Math.abs(d);
-    var h=Math.floor(a/3600000), m=Math.floor((a%3600000)/60000); var days=Math.floor(h/24);
-    var txt=days>=1?(days+'d '+(h%24)+'t'):(h+'t '+m+'m');
-    if(over)return{t:'Over frist · '+txt,c:'over'};
-    if(d<6*3600000)return{t:txt+' igjen',c:'soon'};
-    return{t:txt+' igjen',c:'ok'}; }
-
-  function toast(msg){ var t=$('toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(t._x); t._x=setTimeout(function(){t.classList.remove('on');},1900); }
+  function ago(ts){if(!ts)return'';var s=(Date.now()-ts)/1000;if(s<60)return'nå nettopp';if(s<3600)return Math.floor(s/60)+' min siden';if(s<86400)return Math.floor(s/3600)+' t siden';return Math.floor(s/86400)+' d siden';}
+  function countdown(ts){if(!ts)return{t:'—',c:''};var d=ts-Date.now();var over=d<0;var a=Math.abs(d);var h=Math.floor(a/3600000),m=Math.floor((a%3600000)/60000);var days=Math.floor(h/24);var txt=days>=1?(days+'d '+(h%24)+'t'):(h+'t '+m+'m');if(over)return{t:'Over frist · '+txt,c:'over'};if(d<6*3600000)return{t:txt+' igjen',c:'soon'};return{t:txt+' igjen',c:'ok'};}
+  function toast(msg){var t=$('toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._x);t._x=setTimeout(function(){t.classList.remove('on');},1900);}
+  function statusOf(o){return o.status||'ubehandlet';}
+  function paid(o){return statusOf(o)!=='avventer';}
 
   async function load(){
     try{
       var r=await fetch('/api/admin-orders?key='+encodeURIComponent(KEY));
       if(r.status===401){logout('Feil passord.');return;}
-      var d=await r.json(); ORDERS=d.orders||[];
+      var d=await r.json();ORDERS=d.orders||[];
       $('updated').textContent='Oppdatert '+new Date().toLocaleTimeString('no-NO');
-      render();
+      renderAll();
     }catch(e){ $('list').innerHTML='<div class="empty"><div class="big">⚠</div>Kunne ikke hente bestillinger.</div>'; }
   }
-  function statusOf(o){return o.status||'ubehandlet';}
-  function paid(o){return statusOf(o)!=='avventer';}
 
-  function render(){
+  function renderAll(){ renderOversikt(); renderBestillinger(); renderStatistikk(); renderKunder(); }
+
+  /* ---------- shared stat cards ---------- */
+  function metrics(){
     var now=Date.now();
     var ubeh=ORDERS.filter(function(o){return statusOf(o)==='ubehandlet';});
     var beh=ORDERS.filter(function(o){return statusOf(o)==='behandlet';});
     var overdue=ubeh.filter(function(o){return o.deadline&&o.deadline<now;});
-    var paidOrders=ORDERS.filter(paid);
-    var rev=paidOrders.reduce(function(a,o){return a+(o.amountKr||0);},0);
-    var mStart=new Date(); mStart.setDate(1); mStart.setHours(0,0,0,0);
-    var revM=paidOrders.filter(function(o){return o.created&&o.created>=mStart.getTime();}).reduce(function(a,o){return a+(o.amountKr||0);},0);
-
-    $('stats').innerHTML=
-      '<div class="stat warn"><span class="k">◔</span><div class="n">'+ubeh.length+'</div><div class="l">Ubehandlet</div></div>'+
-      '<div class="stat red"><span class="k">⚠</span><div class="n">'+overdue.length+'</div><div class="l">Over frist</div></div>'+
-      '<div class="stat ok"><span class="k">✓</span><div class="n">'+beh.length+'</div><div class="l">Behandlet</div></div>'+
-      '<div class="stat rev"><span class="k">◆</span><div class="n">'+kr(revM)+'</div><div class="l">Omsetning i mnd</div></div>'+
-      '<div class="stat"><span class="k">∑</span><div class="n">'+kr(rev)+'</div><div class="l">Omsetning totalt</div></div>';
-
-    $('c-ubeh').textContent=ubeh.length;
-    $('c-beh').textContent=beh.length;
-    $('c-all').textContent=ORDERS.filter(paid).length;
-
-    var rows=ORDERS.filter(function(o){
-      var s=statusOf(o);
-      if(FILTER==='alle'){ if(!paid(o))return false; } else if(s!==FILTER) return false;
-      if(Q){ var hay=((o.navn||'')+' '+(o.email||'')+' '+(o.pakke||o.pkg||'')+' '+(o.format||'')).toLowerCase(); if(hay.indexOf(Q)<0)return false; }
-      return true;
-    });
-    rows.sort(function(a,b){
-      if(SORT==='frist')return (a.deadline||9e15)-(b.deadline||9e15);
-      if(SORT==='belop')return (b.amountKr||0)-(a.amountKr||0);
-      return (b.created||0)-(a.created||0);
-    });
-    // within ubehandlet + default sort, float overdue to top
-    if(FILTER==='ubehandlet'&&SORT==='ny'){ rows.sort(function(a,b){
-      var ao=a.deadline&&a.deadline<now?1:0, bo=b.deadline&&b.deadline<now?1:0;
-      if(ao!==bo)return bo-ao; return (b.created||0)-(a.created||0); }); }
-
-    if(!rows.length){ $('list').innerHTML='<div class="empty"><div class="big">'+(Q?'🔍':'✧')+'</div>'+(Q?'Ingen treff på «'+esc(Q)+'».':'Ingen bestillinger her ennå.')+'</div>'; return; }
-
-    $('list').innerHTML=rows.map(function(o,i){
-      var s=statusOf(o); var over=s==='ubehandlet'&&o.deadline&&o.deadline<now;
-      var badge=s==='behandlet'?'<span class="badge beh">Behandlet</span>':s==='avventer'?'<span class="badge avv">Avventer</span>':'<span class="badge ubeh">Ubehandlet</span>';
-      var pills=(o.express?'<span class="pill exp">Express</span>':'')+(o.both?'<span class="pill both">Begge formater</span>':'');
-      var cd=countdown(o.deadline);
-      var photos=(o.photos&&o.photos.length)
-        ? o.photos.map(function(p,pi){return '<button data-oid="'+esc(o.id)+'" data-pi="'+pi+'"><img src="'+esc(p.url)+'" alt="" loading="lazy"></button>';}).join('')
-        : '<span class="none">Ingen bilder lastet opp ennå</span>';
-      var dlAll=(o.photos&&o.photos.length)?'<button class="btn sm ghost" data-dl="'+esc(o.id)+'">⤓ Last ned alle ('+o.photos.length+')</button>':'';
-      return '<div class="order '+(over?'overdue':s)+'">'+
-        '<div class="oh">'+
-          '<div class="who"><b>'+esc(o.navn||'Ukjent')+'</b>'+
-            '<div class="em"><a href="mailto:'+esc(o.email)+'">'+esc(o.email||'')+'</a>'+
-            (o.email?'<button class="copy" data-cp="'+esc(o.email)+'" title="Kopier e-post">⧉</button>':'')+'</div>'+
-          '</div>'+
-          '<div class="rt">'+badge+(pills?'<div class="pills">'+pills+'</div>':'')+'</div>'+
-        '</div>'+
-        '<div class="meta">'+
-          '<span><span class="lab">Pakke</span><b>'+esc(o.pakke||o.pkg||'—')+'</b></span>'+
-          '<span><span class="lab">Format</span><b>'+esc(o.format||'—')+'</b></span>'+
-          '<span><span class="lab">Beløp</span><b>'+kr(o.amountKr)+'</b></span>'+
-          '<span><span class="lab">Bestilt</span><b>'+fmtDate(o.created)+'</b> · '+ago(o.created)+'</span>'+
-          '<span><span class="lab">Frist</span><span class="cd '+cd.c+'" data-deadline="'+(o.deadline||'')+'">'+cd.t+'</span></span>'+
-        '</div>'+
-        (o.melding?('<div class="msg"><span class="lab">Melding fra kunde</span>'+esc(o.melding)+'</div>'):'')+
-        '<div class="phead"><span class="t">Bilder'+(o.photos&&o.photos.length?' ('+o.photos.length+')':'')+'</span>'+dlAll+'</div>'+
-        '<div class="photos">'+photos+'</div>'+
-        '<div class="oa">'+
-          (s==='behandlet'
-            ? '<button class="btn ghost" data-id="'+esc(o.id)+'" data-s="ubehandlet">↩ Merk ubehandlet</button>'
-            : '<button class="btn primary" data-id="'+esc(o.id)+'" data-s="behandlet">✓ Merk behandlet</button>')+
-          '<a class="btn ghost" href="mailto:'+esc(o.email)+'?subject='+encodeURIComponent('StayMotion — bestillingen din')+'">✉ Svar kunde</a>'+
-        '</div>'+
-      '</div>';
-    }).join('');
-    wire();
+    var paidO=ORDERS.filter(paid);
+    var rev=paidO.reduce(function(a,o){return a+(o.amountKr||0);},0);
+    var mStart=new Date();mStart.setDate(1);mStart.setHours(0,0,0,0);
+    var revM=paidO.filter(function(o){return o.created&&o.created>=mStart.getTime();}).reduce(function(a,o){return a+(o.amountKr||0);},0);
+    var avg=paidO.length?Math.round(rev/paidO.length):0;
+    return {ubeh:ubeh,beh:beh,overdue:overdue,paidO:paidO,rev:rev,revM:revM,avg:avg};
   }
 
-  function wire(){
-    var l=$('list');
+  /* ---------- OVERSIKT ---------- */
+  function renderOversikt(){
+    var m=metrics();
+    $('ov-stats').innerHTML=
+      '<div class="stat warn"><span class="k">◔</span><div class="n">'+m.ubeh.length+'</div><div class="l">Ubehandlet</div></div>'+
+      '<div class="stat red"><span class="k">⚠</span><div class="n">'+m.overdue.length+'</div><div class="l">Over frist</div></div>'+
+      '<div class="stat"><span class="k">◆</span><div class="n">'+kr(m.revM)+'</div><div class="l">Omsetning i mnd</div></div>'+
+      '<div class="stat ok"><span class="k">∑</span><div class="n">'+kr(m.rev)+'</div><div class="l">Omsetning totalt</div></div>'+
+      '<div class="stat"><span class="k">⌀</span><div class="n">'+kr(m.avg)+'</div><div class="l">Snitt per ordre</div></div>';
+    // recent 5
+    var recent=ORDERS.filter(paid).slice().sort(function(a,b){return (b.created||0)-(a.created||0);}).slice(0,5);
+    $('ov-recent').innerHTML=recent.length?recent.map(orderCard).join(''):'<div class="empty"><div class="big">✧</div>Ingen bestillinger ennå.</div>';
+    wireList($('ov-recent'));
+    // chart
+    var days=dayBuckets(30);
+    var sum=days.reduce(function(a,d){return a+d.rev;},0);
+    $('ov-revsum').textContent=kr(sum)+' totalt';
+    lineChart('ch-ov','ln-ov',days.map(function(d){return d.label;}),days.map(function(d){return d.rev;}),'Omsetning');
+  }
+
+  /* ---------- BESTILLINGER ---------- */
+  function orderCard(o){
+    var now=Date.now();var s=statusOf(o);var over=s==='ubehandlet'&&o.deadline&&o.deadline<now;
+    var badge=s==='behandlet'?'<span class="badge beh">Behandlet</span>':s==='avventer'?'<span class="badge avv">Avventer</span>':'<span class="badge ubeh">Ubehandlet</span>';
+    var pills=(o.express?'<span class="pill exp">Express</span>':'')+(o.both?'<span class="pill both">Begge formater</span>':'');
+    var cd=countdown(o.deadline);
+    var photos=(o.photos&&o.photos.length)?o.photos.map(function(p,pi){return '<button data-oid="'+esc(o.id)+'" data-pi="'+pi+'"><img src="'+esc(p.url)+'" alt="" loading="lazy"></button>';}).join(''):'<span class="none">Ingen bilder lastet opp ennå</span>';
+    var dlAll=(o.photos&&o.photos.length)?'<button class="btn sm ghost" data-dl="'+esc(o.id)+'">⤓ Last ned alle ('+o.photos.length+')</button>':'';
+    return '<div class="order '+(over?'overdue':s)+'">'+
+      '<div class="oh"><div class="who"><b>'+esc(o.navn||'Ukjent')+'</b>'+
+        '<div class="em"><a href="mailto:'+esc(o.email)+'">'+esc(o.email||'')+'</a>'+(o.email?'<button class="copy" data-cp="'+esc(o.email)+'" title="Kopier">⧉</button>':'')+'</div></div>'+
+        '<div class="rt">'+badge+(pills?'<div class="pills">'+pills+'</div>':'')+'</div></div>'+
+      '<div class="meta">'+
+        '<span><span class="lab">Pakke</span><b>'+esc(o.pakke||o.pkg||'—')+'</b></span>'+
+        '<span><span class="lab">Format</span><b>'+esc(o.format||'—')+'</b></span>'+
+        '<span><span class="lab">Beløp</span><b>'+kr(o.amountKr)+'</b></span>'+
+        '<span><span class="lab">Bestilt</span><b>'+fmtDate(o.created)+'</b> · '+ago(o.created)+'</span>'+
+        '<span><span class="lab">Frist</span><span class="cd '+cd.c+'" data-deadline="'+(o.deadline||'')+'">'+cd.t+'</span></span>'+
+      '</div>'+
+      (o.melding?('<div class="msg"><span class="lab">Melding fra kunde</span>'+esc(o.melding)+'</div>'):'')+
+      '<div class="phead"><span class="t">Bilder'+(o.photos&&o.photos.length?' ('+o.photos.length+')':'')+'</span>'+dlAll+'</div>'+
+      '<div class="photos">'+photos+'</div>'+
+      '<div class="oa">'+
+        (s==='behandlet'?'<button class="btn ghost" data-id="'+esc(o.id)+'" data-s="ubehandlet">↩ Merk ubehandlet</button>':'<button class="btn primary" data-id="'+esc(o.id)+'" data-s="behandlet">✓ Merk behandlet</button>')+
+        '<a class="btn ghost" href="mailto:'+esc(o.email)+'?subject='+encodeURIComponent('StayMotion — bestillingen din')+'">✉ Svar kunde</a>'+
+      '</div></div>';
+  }
+  function renderBestillinger(){
+    var now=Date.now();var m=metrics();
+    $('c-ubeh').textContent=m.ubeh.length;$('c-beh').textContent=m.beh.length;$('c-all').textContent=m.paidO.length;
+    var rows=ORDERS.filter(function(o){
+      var s=statusOf(o);
+      if(FILTER==='alle'){if(!paid(o))return false;}else if(s!==FILTER)return false;
+      if(Q){var hay=((o.navn||'')+' '+(o.email||'')+' '+(o.pakke||o.pkg||'')+' '+(o.format||'')).toLowerCase();if(hay.indexOf(Q)<0)return false;}
+      return true;
+    });
+    rows.sort(function(a,b){if(SORT==='frist')return (a.deadline||9e15)-(b.deadline||9e15);if(SORT==='belop')return (b.amountKr||0)-(a.amountKr||0);return (b.created||0)-(a.created||0);});
+    if(FILTER==='ubehandlet'&&SORT==='ny'){rows.sort(function(a,b){var ao=a.deadline&&a.deadline<now?1:0,bo=b.deadline&&b.deadline<now?1:0;if(ao!==bo)return bo-ao;return (b.created||0)-(a.created||0);});}
+    if(!rows.length){$('list').innerHTML='<div class="empty"><div class="big">'+(Q?'🔍':'✧')+'</div>'+(Q?'Ingen treff på «'+esc(Q)+'».':'Ingen bestillinger her ennå.')+'</div>';return;}
+    $('list').innerHTML=rows.map(orderCard).join('');
+    wireList($('list'));
+  }
+
+  function wireList(l){
     [].forEach.call(l.querySelectorAll('[data-id]'),function(b){b.onclick=function(){setStatus(b.getAttribute('data-id'),b.getAttribute('data-s'),b);};});
-    [].forEach.call(l.querySelectorAll('[data-cp]'),function(b){b.onclick=function(){ navigator.clipboard&&navigator.clipboard.writeText(b.getAttribute('data-cp')); toast('E-post kopiert'); };});
+    [].forEach.call(l.querySelectorAll('[data-cp]'),function(b){b.onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(b.getAttribute('data-cp'));toast('E-post kopiert');};});
     [].forEach.call(l.querySelectorAll('[data-oid]'),function(b){b.onclick=function(){openLB(b.getAttribute('data-oid'),+b.getAttribute('data-pi'));};});
     [].forEach.call(l.querySelectorAll('[data-dl]'),function(b){b.onclick=function(){downloadAll(b.getAttribute('data-dl'),b);};});
   }
-
   async function setStatus(id,status,btn){
-    btn.disabled=true; var old=btn.textContent; btn.textContent='…';
+    btn.disabled=true;var old=btn.textContent;btn.textContent='…';
     try{
       await fetch('/api/admin-orders?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,status:status})});
-      var o=ORDERS.filter(function(x){return x.id===id;})[0]; if(o)o.status=status;
-      toast(status==='behandlet'?'Markert behandlet ✓':'Flyttet til ubehandlet'); render();
-    }catch(e){ btn.disabled=false; btn.textContent=old; toast('Noe gikk galt'); }
+      var o=ORDERS.filter(function(x){return x.id===id;})[0];if(o)o.status=status;
+      toast(status==='behandlet'?'Markert behandlet ✓':'Flyttet til ubehandlet');renderAll();
+    }catch(e){btn.disabled=false;btn.textContent=old;toast('Noe gikk galt');}
   }
-
   async function downloadAll(id,btn){
-    var o=ORDERS.filter(function(x){return x.id===id;})[0]; if(!o||!o.photos)return;
-    var old=btn.textContent; btn.textContent='Laster …';
-    for(var i=0;i<o.photos.length;i++){ var p=o.photos[i];
-      try{ var r=await fetch(p.url); var bl=await r.blob(); var u=URL.createObjectURL(bl);
-        var a=document.createElement('a'); a.href=u; a.download=(p.name||('bilde-'+(i+1))); document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u);
-      }catch(e){ window.open(p.url,'_blank'); }
+    var o=ORDERS.filter(function(x){return x.id===id;})[0];if(!o||!o.photos)return;var old=btn.textContent;btn.textContent='Laster …';
+    for(var i=0;i<o.photos.length;i++){var p=o.photos[i];
+      try{var r=await fetch(p.url);var bl=await r.blob();var u=URL.createObjectURL(bl);var a=document.createElement('a');a.href=u;a.download=(p.name||('bilde-'+(i+1)));document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);}catch(e){window.open(p.url,'_blank');}
     }
-    btn.textContent=old; toast('Lastet ned '+o.photos.length+' bilder');
+    btn.textContent=old;toast('Lastet ned '+o.photos.length+' bilder');
   }
 
-  /* lightbox */
+  /* ---------- STATISTIKK ---------- */
+  function dayBuckets(n){
+    var out=[];var d=new Date();d.setHours(0,0,0,0);
+    var map={};ORDERS.filter(paid).forEach(function(o){if(!o.created)return;var k=new Date(o.created);k.setHours(0,0,0,0);var key=k.getTime();if(!map[key])map[key]={rev:0,count:0};map[key].rev+=(o.amountKr||0);map[key].count++;});
+    for(var i=n-1;i>=0;i--){var day=new Date(d);day.setDate(d.getDate()-i);var key=day.getTime();var e=map[key]||{rev:0,count:0};out.push({label:day.toLocaleDateString('no-NO',{day:'2-digit',month:'2-digit'}),rev:e.rev,count:e.count});}
+    return out;
+  }
+  function weekBuckets(n){
+    var out=[];var now=new Date();now.setHours(0,0,0,0);var monday=new Date(now);var wd=(now.getDay()+6)%7;monday.setDate(now.getDate()-wd);
+    for(var i=n-1;i>=0;i--){var start=new Date(monday);start.setDate(monday.getDate()-i*7);var end=new Date(start);end.setDate(start.getDate()+7);
+      var c=ORDERS.filter(paid).filter(function(o){return o.created&&o.created>=start.getTime()&&o.created<end.getTime();}).length;
+      out.push({label:'u.'+isoWeek(start),count:c});}
+    return out;
+  }
+  function isoWeek(d){var t=new Date(d);t.setHours(0,0,0,0);t.setDate(t.getDate()+3-((t.getDay()+6)%7));var w1=new Date(t.getFullYear(),0,4);return 1+Math.round(((t-w1)/86400000-3+((w1.getDay()+6)%7))/7);}
+
+  function renderStatistikk(){
+    var m=metrics();
+    var expShare=m.paidO.length?Math.round(m.paidO.filter(function(o){return o.express;}).length/m.paidO.length*100):0;
+    var photosTot=ORDERS.reduce(function(a,o){return a+((o.photos&&o.photos.length)||0);},0);
+    $('st-stats').innerHTML=
+      '<div class="stat"><span class="k">∑</span><div class="n">'+m.paidO.length+'</div><div class="l">Bestillinger totalt</div></div>'+
+      '<div class="stat ok"><span class="k">◆</span><div class="n">'+kr(m.rev)+'</div><div class="l">Omsetning totalt</div></div>'+
+      '<div class="stat"><span class="k">⌀</span><div class="n">'+kr(m.avg)+'</div><div class="l">Snitt per ordre</div></div>'+
+      '<div class="stat warn"><span class="k">⚡</span><div class="n">'+expShare+'%</div><div class="l">Express-andel</div></div>'+
+      '<div class="stat"><span class="k">▦</span><div class="n">'+photosTot+'</div><div class="l">Bilder mottatt</div></div>';
+    var days=dayBuckets(30);
+    lineChart('ch-rev','ln-rev',days.map(function(d){return d.label;}),days.map(function(d){return d.rev;}),'Omsetning');
+    var weeks=weekBuckets(8);
+    barChart('ch-week','ln-week',weeks.map(function(w){return w.label;}),weeks.map(function(w){return w.count;}),'Bestillinger');
+    // package distribution
+    var pkgMap={};m.paidO.forEach(function(o){var k=o.pakke||o.pkg||'Ukjent';pkgMap[k]=(pkgMap[k]||0)+1;});
+    donut('ch-pkg','ln-pkg',Object.keys(pkgMap),Object.keys(pkgMap).map(function(k){return pkgMap[k];}));
+    // format distribution
+    var fmtMap={};m.paidO.forEach(function(o){var k=o.format||'—';fmtMap[k]=(fmtMap[k]||0)+1;});
+    donut('ch-fmt','ln-fmt',Object.keys(fmtMap),Object.keys(fmtMap).map(function(k){return fmtMap[k];}));
+  }
+
+  function noChart(){return typeof Chart==='undefined';}
+  function baseOpts(){return {responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{grid:{color:C.line},ticks:{color:C.muted,maxRotation:0,autoSkip:true,maxTicksLimit:8}},y:{grid:{color:C.line},ticks:{color:C.muted},beginAtZero:true}}};}
+  function lineChart(cid,lid,labels,data,label){
+    if(noChart()){$(lid).classList.remove('hide');$(lid).textContent='Grafer kunne ikke lastes.';return;}
+    var cv=$(cid);if(charts[cid])charts[cid].destroy();
+    var ctx=cv.getContext('2d');var g=ctx.createLinearGradient(0,0,0,240);g.addColorStop(0,'rgba(105,212,224,.35)');g.addColorStop(1,'rgba(105,212,224,0)');
+    charts[cid]=new Chart(ctx,{type:'line',data:{labels:labels,datasets:[{label:label,data:data,borderColor:C.cyan,backgroundColor:g,fill:true,tension:.35,borderWidth:2,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:C.cyan}]},
+      options:Object.assign(baseOpts(),{plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return kr(c.parsed.y);}}}}})});
+  }
+  function barChart(cid,lid,labels,data,label){
+    if(noChart()){$(lid).classList.remove('hide');$(lid).textContent='Grafer kunne ikke lastes.';return;}
+    var cv=$(cid);if(charts[cid])charts[cid].destroy();
+    charts[cid]=new Chart(cv.getContext('2d'),{type:'bar',data:{labels:labels,datasets:[{label:label,data:data,backgroundColor:'rgba(231,210,169,.55)',hoverBackgroundColor:C.champagne,borderRadius:6,maxBarThickness:34}]},options:baseOpts()});
+  }
+  function donut(cid,lid,labels,data){
+    if(noChart()){$(lid).classList.remove('hide');$(lid).textContent='Grafer kunne ikke lastes.';return;}
+    var cv=$(cid);if(charts[cid])charts[cid].destroy();
+    if(!data.length||data.reduce(function(a,b){return a+b;},0)===0){$(lid).classList.remove('hide');$(lid).textContent='Ingen data ennå.';cv.classList.add('hide');return;}
+    cv.classList.remove('hide');$(lid).classList.add('hide');
+    var cols=[C.cyan,C.champagne,C.green,C.amber,C.red,'#9aa9b5'];
+    charts[cid]=new Chart(cv.getContext('2d'),{type:'doughnut',data:{labels:labels,datasets:[{data:data,backgroundColor:cols,borderColor:'#0E1620',borderWidth:2}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'bottom',labels:{color:C.dim,padding:14,font:{size:12}}}}}});
+  }
+
+  /* ---------- KUNDER ---------- */
+  function renderKunder(){
+    var map={};
+    ORDERS.filter(paid).forEach(function(o){var k=(o.email||'ukjent').toLowerCase();
+      if(!map[k])map[k]={navn:o.navn||'—',email:o.email||'',count:0,spend:0,last:0};
+      map[k].count++;map[k].spend+=(o.amountKr||0);if((o.created||0)>map[k].last){map[k].last=o.created;map[k].navn=o.navn||map[k].navn;}});
+    var rows=Object.keys(map).map(function(k){return map[k];});
+    if(CQ){rows=rows.filter(function(c){return (c.navn+' '+c.email).toLowerCase().indexOf(CQ)>=0;});}
+    rows.sort(function(a,b){return b.spend-a.spend;});
+    if(!rows.length){$('ctable').innerHTML='<tr><td class="empty" style="padding:50px;text-align:center">Ingen kunder ennå.</td></tr>';return;}
+    $('ctable').innerHTML='<thead><tr><th>Kunde</th><th class="num">Bestillinger</th><th class="hidesm">Siste</th><th style="text-align:right">Brukt totalt</th></tr></thead><tbody>'+
+      rows.map(function(c){return '<tr><td><div class="nm">'+esc(c.navn)+'</div><a class="em" href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a></td>'+
+        '<td class="num">'+c.count+'</td><td class="hidesm" style="color:var(--muted);font-size:13px">'+(c.last?ago(c.last):'—')+'</td>'+
+        '<td class="sp">'+kr(c.spend)+'</td></tr>';}).join('')+'</tbody>';
+  }
+
+  /* ---------- lightbox ---------- */
   var LB={photos:[],i:0};
-  function openLB(oid,pi){ var o=ORDERS.filter(function(x){return x.id===oid;})[0]; if(!o||!o.photos)return; LB.photos=o.photos; LB.i=pi||0; drawLB(); }
-  function drawLB(){
-    var p=LB.photos[LB.i]; if(!p)return;
-    var el=$('lb'); if(!el){ el=document.createElement('div'); el.id='lb'; el.className='lb'; document.body.appendChild(el);
-      el.addEventListener('click',function(e){ if(e.target===el)closeLB(); }); }
-    el.innerHTML='<span class="x">✕</span>'+
-      (LB.photos.length>1?'<span class="nav prev">‹</span><span class="nav next">›</span>':'')+
-      '<img src="'+esc(p.url)+'" alt="">'+
-      '<div class="cap">'+(LB.i+1)+' / '+LB.photos.length+' <a href="'+esc(p.url)+'" download="'+esc(p.name||'bilde')+'" target="_blank">⤓ Last ned</a></div>';
-    el.querySelector('.x').onclick=closeLB;
-    var pv=el.querySelector('.prev'), nx=el.querySelector('.next');
+  function openLB(oid,pi){var o=ORDERS.filter(function(x){return x.id===oid;})[0];if(!o||!o.photos)return;LB.photos=o.photos;LB.i=pi||0;drawLB();}
+  function drawLB(){var p=LB.photos[LB.i];if(!p)return;var el=$('lb');if(!el){el=document.createElement('div');el.id='lb';el.className='lb';document.body.appendChild(el);el.addEventListener('click',function(e){if(e.target===el)closeLB();});}
+    el.innerHTML='<span class="x">✕</span>'+(LB.photos.length>1?'<span class="nav2 prev">‹</span><span class="nav2 next">›</span>':'')+'<img src="'+esc(p.url)+'" alt="">'+'<div class="cap">'+(LB.i+1)+' / '+LB.photos.length+' <a href="'+esc(p.url)+'" download="'+esc(p.name||'bilde')+'" target="_blank">⤓ Last ned</a></div>';
+    el.querySelector('.x').onclick=closeLB;var pv=el.querySelector('.prev'),nx=el.querySelector('.next');
     if(pv)pv.onclick=function(e){e.stopPropagation();LB.i=(LB.i-1+LB.photos.length)%LB.photos.length;drawLB();};
-    if(nx)nx.onclick=function(e){e.stopPropagation();LB.i=(LB.i+1)%LB.photos.length;drawLB();};
+    if(nx)nx.onclick=function(e){e.stopPropagation();LB.i=(LB.i+1)%LB.photos.length;drawLB();};}
+  function closeLB(){var el=$('lb');if(el)el.remove();}
+  document.addEventListener('keydown',function(e){if(!$('lb'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowLeft'){LB.i=(LB.i-1+LB.photos.length)%LB.photos.length;drawLB();}if(e.key==='ArrowRight'){LB.i=(LB.i+1)%LB.photos.length;drawLB();}});
+
+  /* ---------- nav + controls ---------- */
+  function showView(v){
+    VIEW=v;
+    ['oversikt','bestillinger','statistikk','kunder'].forEach(function(x){$('v-'+x).classList.toggle('hide',x!==v);});
+    [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.classList.toggle('active',n.getAttribute('data-v')===v);});
+    window.scrollTo(0,0);
   }
-  function closeLB(){ var el=$('lb'); if(el)el.remove(); }
-  document.addEventListener('keydown',function(e){ if(!$('lb'))return;
-    if(e.key==='Escape')closeLB(); if(e.key==='ArrowLeft'){LB.i=(LB.i-1+LB.photos.length)%LB.photos.length;drawLB();} if(e.key==='ArrowRight'){LB.i=(LB.i+1)%LB.photos.length;drawLB();} });
+  [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.onclick=function(){showView(n.getAttribute('data-v'));};});
+  document.addEventListener('click',function(e){var g=e.target.closest&&e.target.closest('[data-goto]');if(g)showView(g.getAttribute('data-goto'));});
+  [].forEach.call(document.querySelectorAll('.tab'),function(t){t.onclick=function(){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});t.classList.add('active');FILTER=t.getAttribute('data-f');renderBestillinger();};});
+  $('q').addEventListener('input',function(){Q=this.value.trim().toLowerCase();renderBestillinger();});
+  $('sort').addEventListener('change',function(){SORT=this.value;renderBestillinger();});
+  $('cq').addEventListener('input',function(){CQ=this.value.trim().toLowerCase();renderKunder();});
+  $('refresh').onclick=load;$('logout').onclick=function(){logout('');};
 
-  /* live countdown ticker */
-  setInterval(function(){ [].forEach.call(document.querySelectorAll('.cd[data-deadline]'),function(el){
-    var ts=+el.getAttribute('data-deadline'); if(!ts)return; var cd=countdown(ts); el.textContent=cd.t; el.className='cd '+cd.c; }); },30000);
-  /* auto refresh */
-  setInterval(function(){ if(!$('dash').classList.contains('hide'))load(); },60000);
+  setInterval(function(){[].forEach.call(document.querySelectorAll('.cd[data-deadline]'),function(el){var ts=+el.getAttribute('data-deadline');if(!ts)return;var cd=countdown(ts);el.textContent=cd.t;el.className='cd '+cd.c;});},30000);
+  setInterval(function(){if(!$('dash').classList.contains('hide'))load();},60000);
 
-  /* controls */
-  [].forEach.call(document.querySelectorAll('.tab'),function(t){t.onclick=function(){
-    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');}); t.classList.add('active'); FILTER=t.getAttribute('data-f'); render(); };});
-  $('q').addEventListener('input',function(){ Q=this.value.trim().toLowerCase(); render(); });
-  $('sort').addEventListener('change',function(){ SORT=this.value; render(); });
-  $('refresh').onclick=load;
-  $('logout').onclick=function(){logout('');};
-
-  function enter(){
-    KEY=$('key').value.trim();
-    if(!KEY){$('gerr').textContent='Skriv inn passord.';return;}
-    try{sessionStorage.setItem('sm_admin',KEY);}catch(e){}
-    $('gate').classList.add('hide'); $('dash').classList.remove('hide'); load();
-  }
-  function logout(msg){ try{sessionStorage.removeItem('sm_admin');}catch(e){} KEY=''; $('dash').classList.add('hide'); $('gate').classList.remove('hide'); $('gerr').textContent=msg||''; $('key').value=''; }
-  $('enter').onclick=enter;
-  $('key').addEventListener('keydown',function(e){if(e.key==='Enter')enter();});
-  (function(){var k;try{k=sessionStorage.getItem('sm_admin');}catch(e){} if(k){$('key').value=k;enter();}})();
+  function enter(){KEY=$('key').value.trim();if(!KEY){$('gerr').textContent='Skriv inn passord.';return;}try{sessionStorage.setItem('sm_admin',KEY);}catch(e){}$('gate').classList.add('hide');$('dash').classList.remove('hide');load();}
+  function logout(msg){try{sessionStorage.removeItem('sm_admin');}catch(e){}KEY=''; $('dash').classList.add('hide');$('gate').classList.remove('hide');$('gerr').textContent=msg||'';$('key').value='';}
+  $('enter').onclick=enter;$('key').addEventListener('keydown',function(e){if(e.key==='Enter')enter();});
+  (function(){var k;try{k=sessionStorage.getItem('sm_admin');}catch(e){}if(k){$('key').value=k;enter();}})();
 </script>
 </body>
 </html>
