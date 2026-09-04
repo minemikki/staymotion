@@ -186,10 +186,17 @@
   @keyframes rise{to{opacity:1;transform:none}}
 
   /* ---------- MICRO-TRUST STRIP ---------- */
-  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--base-2)}
-  .strip .wrap{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 32px;padding-top:22px;padding-bottom:22px}
-  .strip span{display:inline-flex;align-items:center;gap:13px;font-size:13px;letter-spacing:.06em;color:var(--ice-dim);font-weight:500}
-  .strip span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px rgba(105,212,224,.7);flex:none}
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--base-2),#0B141C)}
+  .strip .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+  @media(max-width:760px){.strip .wrap{grid-template-columns:1fr}}
+  .strip-item{display:flex;align-items:center;gap:16px;justify-content:center;position:relative;
+    padding:clamp(28px,3.6vw,40px) clamp(16px,2.2vw,32px)}
+  .strip-item + .strip-item::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;background:var(--line)}
+  @media(max-width:760px){.strip-item{justify-content:flex-start}.strip-item + .strip-item::before{left:clamp(16px,2.2vw,32px);right:clamp(16px,2.2vw,32px);top:0;bottom:auto;width:auto;height:1px}}
+  .strip-ic{width:30px;height:30px;flex:none;color:var(--cyan);opacity:.95}
+  .strip-item .tx b{display:block;font-family:var(--display);font-weight:600;font-size:15.5px;color:var(--ice);letter-spacing:.005em;line-height:1.2}
+  .strip-item .tx span{display:block;margin-top:4px;font-size:12.5px;color:var(--muted);letter-spacing:.01em;line-height:1.3}
 
   /* ---------- TRANSFORMATION (signature) ---------- */
   .xform{padding:clamp(80px,11vw,140px) 0}
@@ -457,9 +464,18 @@
 <!-- 02 · MICRO-TRUST STRIP -->
 <section class="strip" aria-label="Slik funker det">
   <div class="wrap">
-    <span>Ingen ny filming</span>
-    <span>Bruk bildene du har</span>
-    <span>Klar for reels, annonser &amp; nett</span>
+    <div class="strip-item">
+      <svg class="strip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M15 10.5V7a1 1 0 0 0-1-1H8.5"/><path d="M4.5 6A1 1 0 0 0 4 7v10a1 1 0 0 0 1 1h9a1 1 0 0 0 .9-.6"/><path d="M15 13.5l6-3.5v8"/></svg>
+      <div class="tx"><b>Ingen ny filming</b><span>Ingen filmedag, ingen filmteam</span></div>
+    </div>
+    <div class="strip-item">
+      <svg class="strip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-4-5 4-3-2-5 3"/></svg>
+      <div class="tx"><b>Bruk bildene du har</b><span>Send oss 6–15 bilder</span></div>
+    </div>
+    <div class="strip-item">
+      <svg class="strip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M10 8.5l5 3.5-5 3.5z" fill="currentColor" stroke="none"/></svg>
+      <div class="tx"><b>Klar for alle kanaler</b><span>Reels, annonser &amp; nett — 9:16 og 16:9</span></div>
+    </div>
   </div>
 </section>
 
