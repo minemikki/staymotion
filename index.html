@@ -261,6 +261,12 @@
   .film video{z-index:1;opacity:0;transition:opacity 1s var(--ease)}
   .film.playing video{opacity:1}
   .film-16{aspect-ratio:16/9}
+  .film-916{aspect-ratio:9/16}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:clamp(28px,3.5vw,44px)}
+  @media(max-width:640px){.pf-grid{grid-template-columns:1fr;gap:14px}}
+  .pf-reels{max-width:640px;margin-left:auto;margin-right:auto}
+  .film-lbl{position:absolute;left:16px;bottom:14px;z-index:3;font-family:var(--display);font-weight:600;font-size:15px;color:var(--ice);letter-spacing:.005em}
+  .film-lbl small{display:block;font-weight:500;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-top:3px}
   .film-grad{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,transparent 55%,rgba(9,13,18,.5))}
   .film-tag{position:absolute;top:16px;left:16px;z-index:3;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
     padding:7px 12px;border:1px solid var(--line-strong);border-radius:100px;color:var(--cyan);background:rgba(9,13,18,.42);backdrop-filter:blur(6px)}
@@ -526,7 +532,7 @@
   <div class="wrap">
     <div class="work-head rv">
       <div>
-        <span class="kick" data-en="Selected work">Utvalgt arbeid</span>
+        <span class="kick" data-en="Portfolio">Portefølje</span>
         <h2 data-en="Film that sells the place.">Film som selger stedet.</h2>
       </div>
       <p class="lead" data-en="Real cinematic productions — made from photos, not a film crew. Demo and concept work.">Ekte cinematiske produksjoner — laget av bilder, ikke av et filmteam. Demo- og konseptarbeid.</p>
@@ -544,6 +550,40 @@
           <span class="film-tag">Demo</span>
         </div>
         <p class="proj-under" data-en="An ordinary property photo lifted into a cinematic flythrough — same cabin, same view, just alive. Ready for Finn, web and reels.">Et vanlig eiendomsbilde løftet til en cinematisk gjennomflygning — samme hytte, samme utsikt, bare levende. Klar for Finn, nettside og reels.</p>
+      </div>
+
+      <div class="pf-grid pf-reels rv d1">
+        <div class="film film-916" data-mp4="video/eiendom.mp4">
+          <div class="poster" style="background-image:url('img/poster-eiendom.jpg')"></div>
+          <video muted loop playsinline preload="none" poster="img/poster-eiendom.jpg"></video>
+          <div class="film-grad"></div>
+          <span class="film-tag">Demo</span>
+          <div class="film-lbl">Eiendom<small>Stående · 9:16</small></div>
+        </div>
+        <div class="film film-916" data-mp4="video/restaurant.mp4">
+          <div class="poster" style="background-image:url('img/poster-restaurant.jpg')"></div>
+          <video muted loop playsinline preload="none" poster="img/poster-restaurant.jpg"></video>
+          <div class="film-grad"></div>
+          <span class="film-tag">Demo</span>
+          <div class="film-lbl">Restaurant<small>Stående · 9:16</small></div>
+        </div>
+      </div>
+
+      <div class="pf-grid pf-wide rv d1">
+        <div class="film film-16" data-mp4="video/hytte.mp4">
+          <div class="poster" style="background-image:url('img/poster-hytte.jpg')"></div>
+          <video muted loop playsinline preload="none" poster="img/poster-hytte.jpg"></video>
+          <div class="film-grad"></div>
+          <span class="film-tag">Demo</span>
+          <div class="film-lbl">Airbnb &amp; Hytter<small>Liggende · 16:9</small></div>
+        </div>
+        <div class="film film-16" data-mp4="video/hotell.mp4">
+          <div class="poster" style="background-image:url('img/poster-hotell.jpg')"></div>
+          <video muted loop playsinline preload="none" poster="img/poster-hotell.jpg"></video>
+          <div class="film-grad"></div>
+          <span class="film-tag">Demo</span>
+          <div class="film-lbl">Hotell<small>Liggende · 16:9</small></div>
+        </div>
       </div>
     </div>
   </div>
