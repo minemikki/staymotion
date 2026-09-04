@@ -405,7 +405,7 @@
   }
   function renderBestillinger(){
     var now=Date.now();var m=metrics();
-    $('c-ubeh').textContent=m.ubeh.length;$('c-beh').textContent=m.beh.length;$('c-all').textContent=m.paidO.length;
+    $('c-ubeh').textContent=m.ubeh.length;$('c-beh').textContent=m.beh.length;$('c-all').textContent=ORDERS.length;
     var rows=ORDERS.filter(function(o){
       var s=statusOf(o);
       if(FILTER==='alle'){/* show all incl. avventer (påbegynte/ubetalte) */}else if(s!==FILTER)return false;
