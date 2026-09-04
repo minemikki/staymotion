@@ -56,24 +56,24 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
     const ferdig = order?.deadline ? new Date(order.deadline).toLocaleString('no-NO', dO) : '—';
     const belop = (amountKr != null ? amountKr : (order?.amountKr || 0)).toLocaleString('no-NO');
     const isVid = /9:16|16:9/.test(order?.format || '');
-    const irow = (icon, label, value, sub, accent) => `<tr>
-        <td width="42" valign="top" style="padding:13px 0"><img src="${origin}/img/${icon}.png" width="24" height="24" alt="" style="display:block;border:0"></td>
-        <td valign="middle" style="${F}padding:13px 0;font-size:14px;color:#71808A">${label}</td>
-        <td valign="middle" align="right" style="padding:13px 0">
-          <div style="${F}font-size:15px;font-weight:600;color:${accent ? '#1597A8' : '#111820'}">${value}</div>
+    const irow = (icon, label, value, sub, accent, nowrap) => `<tr>
+        <td width="34" valign="top" style="padding:12px 0"><img src="${origin}/img/${icon}.png" width="22" height="22" alt="" style="display:block;border:0"></td>
+        <td valign="middle" style="${F}padding:12px 0;font-size:13.5px;color:#71808A">${label}</td>
+        <td valign="middle" align="right" style="padding:12px 0">
+          <div style="${F}font-size:15px;font-weight:600;color:${accent ? '#1597A8' : '#111820'}${nowrap ? ';white-space:nowrap' : ''}">${value}</div>
           ${sub ? `<div style="${F}font-size:12px;color:#8C99A2;margin-top:3px">${sub}</div>` : ''}
         </td></tr>`;
     const srow = (l, v) => `<tr>
-        <td></td>
+        <td width="34"></td>
         <td style="${F}padding:5px 0;font-size:12px;color:#8C99A2">${l}</td>
-        <td align="right" style="${F}padding:5px 0;font-size:12px;color:#8C99A2">${v}</td></tr>`;
+        <td align="right" style="${F}padding:5px 0;font-size:12px;color:#8C99A2;white-space:nowrap">${v}</td></tr>`;
     const box = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:26px 0 4px"><tr>
         <td style="background:#F3F7F9;background-color:#F3F7F9;border:1px solid #DCE5E9;border-radius:14px;padding:14px 24px 18px">
           <div style="${F}font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9AA6AE;padding:8px 0 4px">Bestillingsdetaljer</div>
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             ${irow('ic-order', 'Bestilling', order?.pakke || '—')}
             ${irow('ic-format', 'Format', order?.format || '9:16', isVid ? 'Perfekt for TikTok, Instagram og Facebook' : '')}
-            ${irow('ic-time', 'Ferdig innen', ferdig, 'Vi gir deg beskjed så snart videoen er klar.', true)}
+            ${irow('ic-time', 'Ferdig innen', ferdig, 'Vi gir deg beskjed så snart videoen er klar.', true, true)}
             ${irow('ic-pay', 'Betalt', belop + ' kr')}
             <tr><td colspan="3" style="padding:6px 0"><div style="border-top:1px solid #DCE5E9;font-size:0;line-height:0">&nbsp;</div></td></tr>
             ${srow('Bestilt', bestilt)}
@@ -103,7 +103,7 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
                 <td align="center" bgcolor="#101820" style="border-radius:9px">
                   <a href="${portalUrl}" style="${F}display:inline-block;padding:16px 36px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;border-radius:9px">Følg bestillingen din &rarr;</a>
                 </td></tr></table>
-              <p style="${F}margin:22px 0 0;font-size:13.5px;line-height:1.6;color:#71808A">Har du spørsmål?<br>Send oss en melding på <a href="mailto:${owner}" style="color:#1597A8;text-decoration:none">${owner}</a></p>
+              <p style="${F}margin:22px 0 0;font-size:13.5px;line-height:1.6;color:#71808A">Har du spørsmål? Bare svar på denne e-posten, så hjelper vi deg.</p>
             </td></tr>
             <tr><td style="padding:24px 8px 0">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
