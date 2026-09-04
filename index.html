@@ -137,6 +137,14 @@
   .nav-cta{opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
   .nav.scrolled .nav-cta{opacity:1;transform:none;pointer-events:auto}
   .nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .nav-right{display:flex;align-items:center;gap:16px}
+  /* language toggle */
+  .lang{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:100px;padding:3px;flex:none}
+  .lang button{font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted);
+    padding:5px 10px;border-radius:100px;line-height:1;transition:color .3s,background .3s}
+  .lang button:hover{color:var(--ice-dim)}
+  html[lang="no"] .lang [data-lang="no"],html[lang="en"] .lang [data-lang="en"]{color:#0c1116;background:var(--ice)}
+  @media(max-width:560px){.brand b{display:none}}
   .brand{display:flex;align-items:center;gap:13px;min-height:44px}
   .brand img{height:32px;width:auto}
   .brand b{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.3em;padding-left:.3em;color:var(--ice)}
@@ -288,10 +296,7 @@
     background:linear-gradient(180deg,transparent,rgba(9,13,18,.8))}
   .flow-card.plain .fl{color:var(--muted)}
   .flow-card.film-out .fl{color:var(--champagne)}
-  .flow-card.film-out::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;
-    width:56px;height:56px;border-radius:50%;border:1px solid rgba(238,243,246,.6);background:rgba(9,13,18,.32);backdrop-filter:blur(6px)}
-  .flow-card.film-out::before{content:"";position:absolute;top:50%;left:calc(50% + 3px);transform:translate(-50%,-50%);z-index:3;
-    border-left:14px solid var(--ice);border-top:9px solid transparent;border-bottom:9px solid transparent}
+  .flow-card.film-out{box-shadow:0 30px 70px -40px rgba(105,212,224,.3)}
   .flow .mid{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;border:1px solid var(--line-strong);
     background:var(--surface);margin:0 auto}
   .flow .mid img{height:26px;width:auto}
@@ -433,13 +438,19 @@
       <b>STAYMOTION</b>
     </a>
     <nav class="nav-links">
-      <a href="#arbeid">Arbeid</a>
-      <a href="#prosess">Prosess</a>
-      <a href="#priser">Priser</a>
-      <a href="#kontakt">Kontakt</a>
+      <a href="#arbeid" data-en="Work">Arbeid</a>
+      <a href="#prosess" data-en="Process">Prosess</a>
+      <a href="#priser" data-en="Pricing">Priser</a>
+      <a href="#kontakt" data-en="Contact">Kontakt</a>
     </nav>
-    <div class="nav-cta">
-      <a class="btn sm" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span>Få et gratis eksempel</span></a>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Språk / Language">
+        <button type="button" data-lang="no">NO</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <div class="nav-cta">
+        <a class="btn sm" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span data-en="Get a free example">Få et gratis eksempel</span></a>
+      </div>
     </div>
   </div>
 </header>
@@ -453,15 +464,15 @@
     <div class="grain"></div>
   </div>
   <div class="wrap hero-in">
-    <span class="kick rise r1">Cinematisk studio</span>
-    <h1 class="rise r2" id="heroHeadline" data-variant="a">Stillbildet er<br>bare <em>starten.</em></h1>
-    <p class="rise r3">Vi gjør bildene du allerede har om til cinematiske videoer — uten ny filming.</p>
+    <span class="kick rise r1" data-en="Cinematic studio">Cinematisk studio</span>
+    <h1 class="rise r2" id="heroHeadline" data-variant="a" data-en="The still image is<br>only the <em>start.</em>">Stillbildet er<br>bare <em>starten.</em></h1>
+    <p class="rise r3" data-en="We turn the photos you already have into cinematic videos — no new filming.">Vi gjør bildene du allerede har om til cinematiske videoer — uten ny filming.</p>
     <div class="ctas rise r4">
-      <a class="btn" data-cta="primary" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span>Få et gratis eksempel</span></a>
-      <a class="btn ghost" data-cta="secondary" href="#arbeid">Se arbeidet</a>
+      <a class="btn" data-cta="primary" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span data-en="Get a free example">Få et gratis eksempel</span></a>
+      <a class="btn ghost" data-cta="secondary" href="#arbeid" data-en="See the work">Se arbeidet</a>
     </div>
   </div>
-  <div class="scroll-cue" aria-hidden="true"><span>Se transformasjonen</span><span class="rail"></span></div>
+  <div class="scroll-cue" aria-hidden="true"><span data-en="See the transformation">Se transformasjonen</span><span class="rail"></span></div>
 </section>
 
 <!-- 02 · MICRO-TRUST STRIP -->
@@ -469,15 +480,15 @@
   <div class="wrap">
     <div class="strip-item">
       <svg class="strip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M15 10.5V7a1 1 0 0 0-1-1H8.5"/><path d="M4.5 6A1 1 0 0 0 4 7v10a1 1 0 0 0 1 1h9a1 1 0 0 0 .9-.6"/><path d="M15 13.5l6-3.5v8"/></svg>
-      <div class="tx"><b>Ingen ny filming</b><span>Ingen filmedag, ingen filmteam</span></div>
+      <div class="tx"><b data-en="No new filming">Ingen ny filming</b><span data-en="No shoot day, no film crew">Ingen filmedag, ingen filmteam</span></div>
     </div>
     <div class="strip-item">
       <svg class="strip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-4-5 4-3-2-5 3"/></svg>
-      <div class="tx"><b>Bruk bildene du har</b><span>Send oss 6–15 bilder</span></div>
+      <div class="tx"><b data-en="Use the photos you have">Bruk bildene du har</b><span data-en="Send us 6–15 photos">Send oss 6–15 bilder</span></div>
     </div>
     <div class="strip-item">
       <svg class="strip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M10 8.5l5 3.5-5 3.5z" fill="currentColor" stroke="none"/></svg>
-      <div class="tx"><b>Klar for alle kanaler</b><span>Reels, annonser &amp; nett — 9:16 og 16:9</span></div>
+      <div class="tx"><b data-en="Ready for every channel">Klar for alle kanaler</b><span data-en="Reels, ads &amp; web — 9:16 and 16:9">Reels, annonser &amp; nett — 9:16 og 16:9</span></div>
     </div>
   </div>
 </section>
@@ -486,16 +497,16 @@
 <section class="band xform" id="xform">
   <div class="wrap">
     <div class="xform-head rv">
-      <span class="kick">Fra stillbilde til film</span>
-      <h2>Et bilde viser rommet.<br>En video får folk til å <em>ville være der.</em></h2>
-      <p class="lead">Samme rom, samme utsikt — bare med lyset, dybden og den rolige bevegelsen som gjør at folk stopper opp. Se det skje:</p>
+      <span class="kick" data-en="From still image to film">Fra stillbilde til film</span>
+      <h2 data-en="A photo shows the room.<br>A video makes people <em>want to be there.</em>">Et bilde viser rommet.<br>En video får folk til å <em>ville være der.</em></h2>
+      <p class="lead" data-en="Same room, same view — just with the light, depth and calm motion that makes people stop. Watch it happen:">Samme rom, samme utsikt — bare med lyset, dybden og den rolige bevegelsen som gjør at folk stopper opp. Se det skje:</p>
     </div>
     <div class="stage rv d1">
       <div class="still" style="background-image:url('img/poster-tour.jpg')"></div>
       <video id="xformVideo" muted loop playsinline preload="none" poster="img/poster-tour.jpg" data-mp4="video/tour.mp4"></video>
       <div class="stage-grad"></div>
-      <div class="stage-lbl"><span class="dot"></span><span class="t1">Stillbilde</span><span class="t2">StayMotion</span></div>
-      <div class="stage-hint">Scroll ↓</div>
+      <div class="stage-lbl"><span class="dot"></span><span class="t1" data-en="Still image">Stillbilde</span><span class="t2">StayMotion</span></div>
+      <div class="stage-hint" data-en="Scroll ↓">Scroll ↓</div>
     </div>
   </div>
 </section>
@@ -505,15 +516,15 @@
   <div class="wrap">
     <div class="work-head rv">
       <div>
-        <span class="kick">Utvalgt arbeid</span>
-        <h2>Film som selger stedet.</h2>
+        <span class="kick" data-en="Selected work">Utvalgt arbeid</span>
+        <h2 data-en="Film that sells the place.">Film som selger stedet.</h2>
       </div>
-      <p class="lead">Ekte cinematiske produksjoner — laget av bilder, ikke av et filmteam. Demo- og konseptarbeid.</p>
+      <p class="lead" data-en="Real cinematic productions — made from photos, not a film crew. Demo and concept work.">Ekte cinematiske produksjoner — laget av bilder, ikke av et filmteam. Demo- og konseptarbeid.</p>
     </div>
     <div class="work">
       <div class="proj rv">
         <div class="proj-top">
-          <span class="proj-title">Kysthytte ved fjorden</span>
+          <span class="proj-title" data-en="Coastal cabin by the fjord">Kysthytte ved fjorden</span>
           <span class="proj-meta">Ryfylke · Drone</span>
         </div>
         <div class="film film-16" data-mp4="video/hero.mp4">
@@ -522,7 +533,7 @@
           <div class="film-grad"></div>
           <span class="film-tag">Demo</span>
         </div>
-        <p class="proj-under">Et vanlig eiendomsbilde løftet til en cinematisk gjennomflygning — samme hytte, samme utsikt, bare levende. Klar for Finn, nettside og reels.</p>
+        <p class="proj-under" data-en="An ordinary property photo lifted into a cinematic flythrough — same cabin, same view, just alive. Ready for Finn, web and reels.">Et vanlig eiendomsbilde løftet til en cinematisk gjennomflygning — samme hytte, samme utsikt, bare levende. Klar for Finn, nettside og reels.</p>
       </div>
     </div>
   </div>
@@ -532,29 +543,25 @@
 <section class="band" id="tjenester">
   <div class="wrap">
     <div class="ind-head rv">
-      <span class="kick">Laget for</span>
-      <h2>For alle som lever av et godt førsteinntrykk.</h2>
+      <span class="kick" data-en="Made for">Laget for</span>
+      <h2 data-en="For anyone who lives on a great first impression.">For alle som lever av et godt førsteinntrykk.</h2>
     </div>
     <div class="ind-grid rv d1">
-      <a class="ind" data-mp4="video/eiendom.mp4" href="mailto:hello@staymotion.no?subject=Eiendom">
+      <a class="ind" href="mailto:hello@staymotion.no?subject=Eiendom">
         <div class="poster" style="background-image:url('img/poster-eiendom.jpg')"></div>
-        <video muted loop playsinline preload="none" poster="img/poster-eiendom.jpg"></video>
-        <div class="ind-cap"><b>Eiendom</b><span>Få et eksempel →</span></div>
+        <div class="ind-cap"><b data-en="Real estate">Eiendom</b><span data-en="Get an example →">Få et eksempel →</span></div>
       </a>
-      <a class="ind" data-mp4="video/hytte.mp4" href="mailto:hello@staymotion.no?subject=Airbnb%20%26%20Hytter">
+      <a class="ind" href="mailto:hello@staymotion.no?subject=Airbnb%20%26%20Hytter">
         <div class="poster" style="background-image:url('img/poster-hytte.jpg')"></div>
-        <video muted loop playsinline preload="none" poster="img/poster-hytte.jpg"></video>
-        <div class="ind-cap"><b>Airbnb &amp; Hytter</b><span>Få et eksempel →</span></div>
+        <div class="ind-cap"><b data-en="Airbnb &amp; cabins">Airbnb &amp; Hytter</b><span data-en="Get an example →">Få et eksempel →</span></div>
       </a>
-      <a class="ind" data-mp4="video/hotell.mp4" href="mailto:hello@staymotion.no?subject=Hotell">
+      <a class="ind" href="mailto:hello@staymotion.no?subject=Hotell">
         <div class="poster" style="background-image:url('img/poster-hotell.jpg')"></div>
-        <video muted loop playsinline preload="none" poster="img/poster-hotell.jpg"></video>
-        <div class="ind-cap"><b>Hotell</b><span>Få et eksempel →</span></div>
+        <div class="ind-cap"><b data-en="Hotel">Hotell</b><span data-en="Get an example →">Få et eksempel →</span></div>
       </a>
-      <a class="ind" data-mp4="video/restaurant.mp4" href="mailto:hello@staymotion.no?subject=Restaurant">
+      <a class="ind" href="mailto:hello@staymotion.no?subject=Restaurant">
         <div class="poster" style="background-image:url('img/poster-restaurant.jpg')"></div>
-        <video muted loop playsinline preload="none" poster="img/poster-restaurant.jpg"></video>
-        <div class="ind-cap"><b>Restaurant</b><span>Få et eksempel →</span></div>
+        <div class="ind-cap"><b data-en="Restaurant">Restaurant</b><span data-en="Get an example →">Få et eksempel →</span></div>
       </a>
     </div>
   </div>
@@ -563,24 +570,21 @@
 <!-- 06 · IMAGINE YOURS -->
 <section class="band alt imagine">
   <div class="wrap">
-    <span class="kick warm rv" style="justify-content:center">Se det for deg</span>
-    <h2 class="rv d1">Hva kunne bildene dine blitt?</h2>
-    <p class="lead rv d1">Du sitter allerede på råmaterialet. Send oss noen bilder, så viser vi deg det — gratis.</p>
+    <span class="kick warm rv" style="justify-content:center" data-en="Picture it">Se det for deg</span>
+    <h2 class="rv d1" data-en="What could your photos become?">Hva kunne bildene dine blitt?</h2>
+    <p class="lead rv d1" data-en="You already have the raw material. Send us a few photos and we'll show you — free.">Du sitter allerede på råmaterialet. Send oss noen bilder, så viser vi deg det — gratis.</p>
     <div class="flow rv d2">
       <div class="flow-card plain">
         <div class="poster" style="background-image:url('img/statement-room.jpg')"></div>
-        <div class="fl">Dine bilder</div>
+        <div class="fl" data-en="Your photos">Dine bilder</div>
       </div>
       <div class="arrow">→</div>
       <div class="mid"><img src="img/logo-mono.png" alt="StayMotion"></div>
       <div class="arrow">→</div>
       <div class="flow-card film-out">
         <div class="poster" style="background-image:url('img/statement-room.jpg')"></div>
-        <div class="fl">Din film</div>
+        <div class="fl" data-en="Your film">Din film</div>
       </div>
-    </div>
-    <div class="ctas rv d2">
-      <a class="btn" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span>Få et gratis eksempel</span></a>
     </div>
   </div>
 </section>
@@ -589,18 +593,18 @@
 <section class="band" id="prosess">
   <div class="wrap">
     <div class="how-head rv">
-      <span class="kick">Slik funker det</span>
-      <h2>Tre steg. Ingen produksjonsdag.</h2>
+      <span class="kick" data-en="How it works">Slik funker det</span>
+      <h2 data-en="Three steps. No production day.">Tre steg. Ingen produksjonsdag.</h2>
     </div>
     <div class="steps">
-      <div class="step rv d1"><span class="no">01</span><h3>Send bildene</h3><p>Du sender 6–15 bilder du allerede har av objektet.</p></div>
-      <div class="step rv d2"><span class="no">02</span><h3>Vi skaper bevegelsen</h3><p>Vi velger de beste og gjør hvert bilde om til et cinematisk shot.</p></div>
-      <div class="step rv d3"><span class="no">03</span><h3>Du får ferdig video</h3><p>Publiseringsklare videoer i alle formater — klare til å gå live samme dag.</p></div>
+      <div class="step rv d1"><span class="no">01</span><h3 data-en="Send the photos">Send bildene</h3><p data-en="You send 6–15 photos you already have of the property.">Du sender 6–15 bilder du allerede har av objektet.</p></div>
+      <div class="step rv d2"><span class="no">02</span><h3 data-en="We create the motion">Vi skaper bevegelsen</h3><p data-en="We pick the best and turn each photo into a cinematic shot.">Vi velger de beste og gjør hvert bilde om til et cinematisk shot.</p></div>
+      <div class="step rv d3"><span class="no">03</span><h3 data-en="You get finished video">Du får ferdig video</h3><p data-en="Publish-ready videos in every format — ready to go live the same day.">Publiseringsklare videoer i alle formater — klare til å gå live samme dag.</p></div>
     </div>
     <div class="how-note rv d3">
-      <span>Ingen filming</span>
-      <span>Ingen filmteam</span>
-      <span>Ingen produksjonsdag</span>
+      <span data-en="No filming">Ingen filming</span>
+      <span data-en="No film crew">Ingen filmteam</span>
+      <span data-en="No production day">Ingen produksjonsdag</span>
     </div>
   </div>
 </section>
@@ -609,29 +613,29 @@
 <section class="band alt">
   <div class="wrap">
     <div class="why-head rv">
-      <span class="kick">Hvorfor StayMotion</span>
-      <h2>Produksjon <em>uten</em> produksjonsdagen.</h2>
-      <p class="lead">Samme wow-effekt som et filmteam — uten regningen, riggen eller ventingen.</p>
+      <span class="kick" data-en="Why StayMotion">Hvorfor StayMotion</span>
+      <h2 data-en="Production <em>without</em> the production day.">Produksjon <em>uten</em> produksjonsdagen.</h2>
+      <p class="lead" data-en="The same wow as a film crew — without the invoice, the rig or the wait.">Samme wow-effekt som et filmteam — uten regningen, riggen eller ventingen.</p>
     </div>
     <div class="vs">
       <div class="vs-card old rv d1">
-        <div class="vt">Tradisjonell video</div>
+        <div class="vt" data-en="Traditional video">Tradisjonell video</div>
         <ul>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>Filmteam og utstyr</li>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>Befaring på stedet</li>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>Planlegging og logistikk</li>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>En hel produksjonsdag</li>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>15 000–40 000 kr per dag</li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-en="Film crew and equipment">Filmteam og utstyr</span></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-en="On-site visit">Befaring på stedet</span></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-en="Planning and logistics">Planlegging og logistikk</span></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-en="A whole production day">En hel produksjonsdag</span></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-en="15,000–40,000 kr per day">15 000–40 000 kr per dag</span></li>
         </ul>
       </div>
       <div class="vs-card us rv d2">
         <div class="vt">StayMotion</div>
         <ul>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>Bruker bildene du allerede har</li>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>Ingen filmedag, ingen befaring</li>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>Levert digitalt, hvor du enn er</li>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>Ferdig på 48 timer</li>
-          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>Fra 990 kr — gjenbrukbart innhold</li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg><span data-en="Uses the photos you already have">Bruker bildene du allerede har</span></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg><span data-en="No shoot day, no site visit">Ingen filmedag, ingen befaring</span></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg><span data-en="Delivered digitally, wherever you are">Levert digitalt, hvor du enn er</span></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg><span data-en="Ready in 48 hours">Ferdig på 48 timer</span></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg><span data-en="From 990 kr — reusable content">Fra 990 kr — gjenbrukbart innhold</span></li>
         </ul>
       </div>
     </div>
@@ -642,72 +646,72 @@
 <section class="band" id="priser">
   <div class="wrap">
     <div class="price-head rv">
-      <span class="kick">Priser</span>
-      <h2>Én fast pris. Null overraskelser.</h2>
-      <p class="lead">Du sender bildene du allerede har — vi leverer ferdige, cinematiske bilder og videoer klare til å publiseres.</p>
+      <span class="kick" data-en="Pricing">Priser</span>
+      <h2 data-en="One fixed price. Zero surprises.">Én fast pris. Null overraskelser.</h2>
+      <p class="lead" data-en="You send the photos you already have — we deliver finished, cinematic images and videos ready to publish.">Du sender bildene du allerede har — vi leverer ferdige, cinematiske bilder og videoer klare til å publiseres.</p>
       <div class="price-anchor">
-        <span class="old">Filmteam med rigg: 15 000–40 000 kr per dag</span>
+        <span class="old" data-en="Film crew with rig: 15,000–40,000 kr per day">Filmteam med rigg: 15 000–40 000 kr per dag</span>
         <span class="arrow">→</span>
-        <span class="new">StayMotion: fra <b>990 kr</b></span>
+        <span class="new" data-en="StayMotion: from <b>990 kr</b>">StayMotion: fra <b>990 kr</b></span>
       </div>
     </div>
     <div class="price-grid">
       <div class="plan rv">
-        <div class="pname">Bilder</div>
-        <div class="amt"><i class="pre">fra</i>990<small> kr</small></div>
-        <p class="pdesc">Bildene dine løftet til cinematisk kvalitet.</p>
+        <div class="pname" data-en="Images">Bilder</div>
+        <div class="amt"><i class="pre" data-en="from">fra</i>990<small> kr</small></div>
+        <p class="pdesc" data-en="Your photos lifted to cinematic quality.">Bildene dine løftet til cinematisk kvalitet.</p>
         <ul>
-          <li>Opptil 10 cinematiske bilder</li>
-          <li>Løftet lys, farge og dybde</li>
-          <li>Perfekt til Finn &amp; nettannonse</li>
-          <li>Levering på ca. 24 timer</li>
+          <li data-en="Up to 10 cinematic images">Opptil 10 cinematiske bilder</li>
+          <li data-en="Lifted light, colour and depth">Løftet lys, farge og dybde</li>
+          <li data-en="Perfect for Finn &amp; web listings">Perfekt til Finn &amp; nettannonse</li>
+          <li data-en="Delivered in ~24 hours">Levering på ca. 24 timer</li>
         </ul>
-        <a class="btn line" href="/bestill.html?pkg=bilder"><span>Bestill bilder</span></a>
+        <a class="btn line" href="/bestill.html?pkg=bilder"><span data-en="Order images">Bestill bilder</span></a>
       </div>
       <div class="plan rv d1">
-        <div class="pname">Enkelt</div>
+        <div class="pname" data-en="Single">Enkelt</div>
         <div class="amt">1 990<small> kr</small></div>
-        <p class="pdesc">Én cinematisk reel av objektet ditt.</p>
+        <p class="pdesc" data-en="One cinematic reel of your property.">Én cinematisk reel av objektet ditt.</p>
         <ul>
-          <li>1 ferdig video (15–25 sek)</li>
-          <li>Levert i 9:16 og 16:9</li>
-          <li>Klar for Finn, nett og SoMe</li>
-          <li>Levering på ca. 48 timer</li>
+          <li data-en="1 finished video (15–25 sec)">1 ferdig video (15–25 sek)</li>
+          <li data-en="Delivered in 9:16 and 16:9">Levert i 9:16 og 16:9</li>
+          <li data-en="Ready for Finn, web and social">Klar for Finn, nett og SoMe</li>
+          <li data-en="Delivered in ~48 hours">Levering på ca. 48 timer</li>
         </ul>
-        <a class="btn line" href="/bestill.html?pkg=enkelt"><span>Bestill Enkelt</span></a>
+        <a class="btn line" href="/bestill.html?pkg=enkelt"><span data-en="Order Single">Bestill Enkelt</span></a>
       </div>
       <div class="plan feat rv d2">
-        <span class="badge">★ Mest valgt</span>
+        <span class="badge" data-en="★ Most popular">★ Mest valgt</span>
         <div class="pname">Signatur</div>
         <div class="amt">3 490<small> kr</small></div>
-        <p class="pdesc">Tre reels — nok til en hel kampanje. Best verdi per video.</p>
+        <p class="pdesc" data-en="Three reels — enough for a whole campaign. Best value per video.">Tre reels — nok til en hel kampanje. Best verdi per video.</p>
         <ul>
-          <li>3 ferdige videoer</li>
-          <li>Levert i 9:16 og 16:9</li>
-          <li>Ulike vinkler og rom</li>
-          <li>Prioritert levering</li>
+          <li data-en="3 finished videos">3 ferdige videoer</li>
+          <li data-en="Delivered in 9:16 and 16:9">Levert i 9:16 og 16:9</li>
+          <li data-en="Different angles and rooms">Ulike vinkler og rom</li>
+          <li data-en="Priority delivery">Prioritert levering</li>
         </ul>
-        <a class="btn" href="/bestill.html?pkg=signatur"><span>Bestill Signatur</span></a>
+        <a class="btn" href="/bestill.html?pkg=signatur"><span data-en="Order Signature">Bestill Signatur</span></a>
       </div>
       <div class="plan rv d3">
-        <div class="pname">Månedlig</div>
-        <div class="amt"><i class="pre">fra</i>4 990<small> kr/mnd</small></div>
-        <p class="pdesc">Løpende innhold for deg som publiserer jevnt.</p>
+        <div class="pname" data-en="Monthly">Månedlig</div>
+        <div class="amt"><i class="pre" data-en="from">fra</i>4 990<small> kr/mnd</small></div>
+        <p class="pdesc" data-en="Ongoing content for those who publish regularly.">Løpende innhold for deg som publiserer jevnt.</p>
         <ul>
-          <li>Flere reels hver måned</li>
-          <li>Fast leveringsrytme</li>
-          <li>Prioritert kø</li>
-          <li>Ingen binding</li>
+          <li data-en="Several reels every month">Flere reels hver måned</li>
+          <li data-en="Fixed delivery rhythm">Fast leveringsrytme</li>
+          <li data-en="Priority queue">Prioritert kø</li>
+          <li data-en="No lock-in">Ingen binding</li>
         </ul>
-        <a class="btn line" href="mailto:hello@staymotion.no?subject=M%C3%A5nedlig%20avtale"><span>Snakk med oss</span></a>
+        <a class="btn line" href="mailto:hello@staymotion.no?subject=M%C3%A5nedlig%20avtale"><span data-en="Talk to us">Snakk med oss</span></a>
       </div>
     </div>
     <div class="price-trust rv d1">
-      <span>Betal trygt med Vipps eller kort</span>
-      <span>Levering på 24–48 timer</span>
-      <span>Fast pris — du vet hva du betaler</span>
+      <span data-en="Pay securely with Vipps or card">Betal trygt med Vipps eller kort</span>
+      <span data-en="Delivery in 24–48 hours">Levering på 24–48 timer</span>
+      <span data-en="Fixed price — you know what you pay">Fast pris — du vet hva du betaler</span>
     </div>
-    <p class="price-note rv d1"><b>Express:</b> trenger du det raskere? Vi halverer leveringstiden mot et påslag på 50 %.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Kun et fåtall nye objekter hver måned.</b>&nbsp;&nbsp;·&nbsp;&nbsp;<b>Byrå &amp; management:</b> egne retainer-avtaler fra 9 990 kr/mnd.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Introtilbud:</b> første reel fra 990 kr for de aller første kundene.</p>
+    <p class="price-note rv d1" data-en="<b>Express:</b> need it faster? We halve the delivery time for a 50% surcharge.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Only a handful of new properties each month.</b>&nbsp;&nbsp;·&nbsp;&nbsp;<b>Agency &amp; management:</b> dedicated retainers from 9,990 kr/mo.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Intro offer:</b> first reel from 990 kr for our very first clients."><b>Express:</b> trenger du det raskere? Vi halverer leveringstiden mot et påslag på 50 %.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Kun et fåtall nye objekter hver måned.</b>&nbsp;&nbsp;·&nbsp;&nbsp;<b>Byrå &amp; management:</b> egne retainer-avtaler fra 9 990 kr/mnd.&nbsp;&nbsp;·&nbsp;&nbsp;<b>Introtilbud:</b> første reel fra 990 kr for de aller første kundene.</p>
   </div>
 </section>
 
@@ -715,33 +719,33 @@
 <section class="band alt" id="faq">
   <div class="wrap">
     <div class="faq-head rv">
-      <span class="kick">Vanlige spørsmål</span>
-      <h2>Alt du lurer på.</h2>
+      <span class="kick" data-en="FAQ">Vanlige spørsmål</span>
+      <h2 data-en="Everything you're wondering.">Alt du lurer på.</h2>
     </div>
     <div class="faq rv d1">
       <details>
-        <summary>Trenger dere å komme til eiendommen?</summary>
-        <div class="a">Nei. Vi jobber utelukkende fra bildene du allerede har. Ingen befaring, ingen filmedag, ingen filmteam.</div>
+        <summary data-en="Do you need to come to the property?">Trenger dere å komme til eiendommen?</summary>
+        <div class="a" data-en="No. We work entirely from the photos you already have. No site visit, no shoot day, no film crew.">Nei. Vi jobber utelukkende fra bildene du allerede har. Ingen befaring, ingen filmedag, ingen filmteam.</div>
       </details>
       <details>
-        <summary>Kan dere bruke bildene vi allerede har?</summary>
-        <div class="a">Ja — det er hele poenget. Send oss 6–15 bilder du allerede har av objektet, så velger vi de beste og gjør dem om til cinematiske videoer.</div>
+        <summary data-en="Can you use the photos we already have?">Kan dere bruke bildene vi allerede har?</summary>
+        <div class="a" data-en="Yes — that's the whole point. Send us 6–15 photos you already have of the property, and we pick the best and turn them into cinematic videos.">Ja — det er hele poenget. Send oss 6–15 bilder du allerede har av objektet, så velger vi de beste og gjør dem om til cinematiske videoer.</div>
       </details>
       <details>
-        <summary>Endrer AI hvordan eiendommen faktisk ser ut?</summary>
-        <div class="a">Nei. Rom, møbler, proporsjoner og utsikt bevares nøyaktig slik de er. Vi gir bildet liv i bevegelse — vi finner ikke opp rom eller detaljer som ikke finnes. Det du viser fram, er ekte.</div>
+        <summary data-en="Does AI change how the property actually looks?">Endrer AI hvordan eiendommen faktisk ser ut?</summary>
+        <div class="a" data-en="No. Rooms, furniture, proportions and views are kept exactly as they are. We bring the photo to life in motion — we don't invent rooms or details that don't exist. What you show is real.">Nei. Rom, møbler, proporsjoner og utsikt bevares nøyaktig slik de er. Vi gir bildet liv i bevegelse — vi finner ikke opp rom eller detaljer som ikke finnes. Det du viser fram, er ekte.</div>
       </details>
       <details>
-        <summary>Hvor lang tid tar det?</summary>
-        <div class="a">Vanligvis rundt 48 timer etter at vi har fått bildene. Haster det, tilbyr vi Express med halvert leveringstid.</div>
+        <summary data-en="How long does it take?">Hvor lang tid tar det?</summary>
+        <div class="a" data-en="Usually around 48 hours after we get the photos. In a hurry? We offer Express with half the delivery time.">Vanligvis rundt 48 timer etter at vi har fått bildene. Haster det, tilbyr vi Express med halvert leveringstid.</div>
       </details>
       <details>
-        <summary>Hvilke formater får vi?</summary>
-        <div class="a">Du får videoene i både 9:16 og 16:9 — klare for Finn, nettside, Instagram, TikTok og Facebook.</div>
+        <summary data-en="Which formats do we get?">Hvilke formater får vi?</summary>
+        <div class="a" data-en="You get the videos in both 9:16 and 16:9 — ready for Finn, web, Instagram, TikTok and Facebook.">Du får videoene i både 9:16 og 16:9 — klare for Finn, nettside, Instagram, TikTok og Facebook.</div>
       </details>
       <details>
-        <summary>Kan vi be om endringer?</summary>
-        <div class="a">Ja. Vi lager gjerne et gratis eksempel av ditt eget objekt først, så du ser resultatet før du bestiller. Ingen binding, ingen risiko.</div>
+        <summary data-en="Can we ask for changes?">Kan vi be om endringer?</summary>
+        <div class="a" data-en="Yes. We're happy to make a free example of your own property first, so you see the result before you order. No lock-in, no risk.">Ja. Vi lager gjerne et gratis eksempel av ditt eget objekt først, så du ser resultatet før du bestiller. Ingen binding, ingen risiko.</div>
       </details>
     </div>
   </div>
@@ -752,14 +756,14 @@
   <div class="final-bg" style="background-image:url('img/interior.jpg')" data-parallax></div>
   <div class="final-tint"></div>
   <div class="wrap">
-    <span class="kick rv" style="justify-content:center">Klar når du er</span>
-    <h2 class="rv d1">Vil du se hva bildene dine kan bli?</h2>
-    <p class="sub rv d2">Send oss noen bilder. Vi lager et kort eksempel av ditt eget objekt — helt gratis.</p>
+    <span class="kick rv" style="justify-content:center" data-en="Ready when you are">Klar når du er</span>
+    <h2 class="rv d1" data-en="Want to see what your photos can become?">Vil du se hva bildene dine kan bli?</h2>
+    <p class="sub rv d2" data-en="Send us a few photos. We'll make a short example of your own property — completely free.">Send oss noen bilder. Vi lager et kort eksempel av ditt eget objekt — helt gratis.</p>
     <div class="ctas rv d2">
-      <a class="btn" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span>Få et gratis eksempel</span></a>
+      <a class="btn" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel"><span data-en="Get a free example">Få et gratis eksempel</span></a>
     </div>
-    <p class="fine rv d3">Ingen filming · Ingen binding · Kun et fåtall objekter i måneden</p>
-    <p class="price rv d3">Produksjoner fra 1 990 kr · <a href="#priser">Se pakker og priser</a></p>
+    <p class="fine rv d3" data-en="No filming · No lock-in · Only a handful of properties a month">Ingen filming · Ingen binding · Kun et fåtall objekter i måneden</p>
+    <p class="price rv d3" data-en="Productions from 1,990 kr · <a href=&quot;#priser&quot;>See packages and pricing</a>">Produksjoner fra 1 990 kr · <a href="#priser">Se pakker og priser</a></p>
   </div>
 </section>
 
@@ -769,14 +773,14 @@
     <div><img src="img/logo.png" alt="StayMotion"></div>
     <div class="r">
       <nav class="foot-nav">
-        <a href="#arbeid">Arbeid</a>
-        <a href="#prosess">Prosess</a>
-        <a href="#priser">Priser</a>
+        <a href="#arbeid" data-en="Work">Arbeid</a>
+        <a href="#prosess" data-en="Process">Prosess</a>
+        <a href="#priser" data-en="Pricing">Priser</a>
         <a href="#faq">FAQ</a>
-        <a href="/personvern.html">Personvern</a>
+        <a href="/personvern.html" data-en="Privacy">Personvern</a>
       </nav>
       <a class="mail" href="mailto:hello@staymotion.no?subject=Gratis%20eksempel">hello@staymotion.no</a>
-      <small>StayMotion · Leverer i hele Norden · Cinematiske videoer som selger · © 2026</small>
+      <small data-en="StayMotion · Serving all of the Nordics · Cinematic videos that sell · © 2026">StayMotion · Leverer i hele Norden · Cinematiske videoer som selger · © 2026</small>
     </div>
   </div>
 </footer>
@@ -797,7 +801,26 @@
     v.dataset.loaded='1'; v.load(); return v;
   }
 
+  // ---- Language toggle (Norwegian default, English optional) ----
+  function setLang(lang){
+    lang = lang==='en' ? 'en' : 'no';
+    root.setAttribute('lang', lang);
+    [].forEach.call(document.querySelectorAll('[data-en]'),function(el){
+      if(el.dataset.no==null) el.dataset.no = el.innerHTML;
+      el.innerHTML = lang==='en' ? el.dataset.en : el.dataset.no;
+    });
+    try{ localStorage.setItem('sm_lang', lang); }catch(e){}
+  }
+  function initLang(){
+    var saved='no'; try{ saved = localStorage.getItem('sm_lang')||'no'; }catch(e){}
+    setLang(saved);
+    [].forEach.call(document.querySelectorAll('.lang [data-lang]'),function(btn){
+      btn.addEventListener('click',function(){ setLang(btn.getAttribute('data-lang')); });
+    });
+  }
+
   function ready(){
+    initLang();
     // NAV scrolled
     var nav=document.getElementById('nav');
     function onScroll(){ if(nav) nav.classList.toggle('scrolled', window.scrollY>40); }
@@ -835,23 +858,6 @@
       films.forEach(function(f){fio.observe(f)});
     } else {
       films.forEach(function(f){ var v=attach(f); f.classList.add('playing'); play(v); });
-    }
-
-    // Industry panels — video on hover (desktop) / in view (touch)
-    var inds=[].slice.call(document.querySelectorAll('.ind'));
-    var touch=window.matchMedia&&window.matchMedia('(hover:none)').matches;
-    if(touch && 'IntersectionObserver' in window){
-      var iio=new IntersectionObserver(function(es){es.forEach(function(e){
-        var el=e.target;
-        if(e.isIntersecting){ var v=attach(el); el.classList.add('playing'); play(v); }
-        else { var vv=el.querySelector('video'); if(vv){try{vv.pause();}catch(x){}} el.classList.remove('playing'); }
-      })},{threshold:.5});
-      inds.forEach(function(el){iio.observe(el)});
-    } else {
-      inds.forEach(function(el){
-        el.addEventListener('mouseenter',function(){ var v=attach(el); el.classList.add('playing'); play(v); });
-        el.addEventListener('mouseleave',function(){ var vv=el.querySelector('video'); if(vv){try{vv.pause();}catch(x){}} el.classList.remove('playing'); });
-      });
     }
 
     // Analytics event on contact clicks
