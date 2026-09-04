@@ -48,7 +48,7 @@
   .btn-card:hover{filter:brightness(1.06);transform:translateY(-1px)}
   .secure{margin:12px 0 0;text-align:center;font-size:.82rem;color:var(--slate,#8A9AA7);letter-spacing:.01em}
   .hide{display:none!important}
-  #express{min-height:48px}
+  #express-el{min-height:48px}
   .ordiv{display:flex;align-items:center;gap:12px;color:var(--slate);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:2px 0}
   .ordiv::before,.ordiv::after{content:"";flex:1;height:1px;background:var(--line-soft)}
   .fine{margin-top:22px;font-size:12.5px;color:var(--slate);line-height:1.6}
@@ -129,7 +129,7 @@
 
     <div class="btns">
       <div id="express-wrap" class="hide">
-        <div id="express"></div>
+        <div id="express-el"></div>
         <div class="ordiv">eller</div>
       </div>
       <button class="btn btn-card" id="pay-card">Betal med kort &rarr;</button>
@@ -262,7 +262,7 @@
         else { dbg('Apple Pay: ingen lommebok tilgjengelig (ready uten metoder)'); }
       });
       ece.on('loaderror', (e)=>{ dbg('Apple Pay loaderror: ' + ((e && e.error && e.error.message) || 'ukjent')); });
-      ece.mount('#express');
+      ece.mount('#express-el');
 
       function sync(){ const a = window.__amountMinor(); if (a) elements.update({ amount:a }); }
       ['express','both'].forEach(function(id){ const el=$(id); if(el) el.addEventListener('change', sync); });
