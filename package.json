@@ -6,6 +6,7 @@
   "description": "StayMotion — marketing site + booking/payment/upload backend (Vercel functions).",
   "dependencies": {
     "@vercel/blob": "^0.27.0",
+    "ffmpeg-static": "^5.2.0",
     "stripe": "^17.5.0"
   }
 }
