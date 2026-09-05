@@ -59,13 +59,13 @@ export default async function handler(req, res) {
     inputs.forEach((f) => { args.push('-i', f); });
     let filter = '';
     inputs.forEach((_, i) => {
-      filter += `[${i}:v]scale=720:1280:force_original_aspect_ratio=decrease,pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p[v${i}];`;
+      filter += `[${i}:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p[v${i}];`;
     });
     inputs.forEach((_, i) => { filter += `[v${i}]`; });
     filter += `concat=n=${inputs.length}:v=1:a=0[out]`;
     const out = join(dir, 'reel.mp4');
     args.push('-filter_complex', filter, '-map', '[out]',
-      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23', '-pix_fmt', 'yuv420p',
+      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p',
       '-movflags', '+faststart', '-y', out);
 
     await runFfmpeg(args);
