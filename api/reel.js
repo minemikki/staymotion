@@ -18,6 +18,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import ffmpegPath from 'ffmpeg-static';
 import { put } from '@vercel/blob';
+import { sendEmail, renderEmail, emailP } from '../lib/email.js';
 
 export const config = { maxDuration: 300 };
 
@@ -83,6 +84,32 @@ export default async function handler(req, res) {
 
     const dl = saved.downloadUrl || saved.url;
     res.setHeader('Cache-Control', 'no-store, max-age=0');
+
+    // ?email=1 (or ?email=<addr>) — send the finished reel to the inbox as an
+    // attachment, so there's no download dance. Resend caps attachments ~40MB.
+    if (q.email) {
+      const to = (typeof q.email === 'string' && q.email.includes('@'))
+        ? q.email
+        : (process.env.OWNER_EMAIL || 'michael@staymotion.no');
+      const tooBig = data.length > 38 * 1024 * 1024;
+      await sendEmail({
+        to,
+        subject: 'Din StayMotion-reel er klar',
+        html: renderEmail({
+          kicker: 'Ferdig reel',
+          heading: 'Reelen er satt sammen',
+          html: emailP(files.length + ' klipp satt sammen til én video ('
+            + (data.length / 1048576).toFixed(1) + ' MB).')
+            + emailP(tooBig
+              ? 'Fila var for stor til å legge ved e-post, så bruk knappen for å laste den ned.'
+              : 'Fila ligger vedlagt denne e-posten. Du kan også bruke knappen under.'),
+          ctaText: 'Åpne reelen', ctaUrl: dl,
+        }),
+        attachments: tooBig ? [] : [{ filename: 'staymotion-reel.mp4', content: data.toString('base64') }],
+      });
+      return res.status(200).json({ ok: true, sentTo: to, klipp: files.length, bytes: data.length, attached: !tooBig, url: saved.url, downloadUrl: dl });
+    }
+
     if (q.json) return res.status(200).json({ ok: true, klipp: files.length, bytes: data.length, url: saved.url, downloadUrl: dl });
     res.setHeader('Location', dl);
     return res.status(302).end();
