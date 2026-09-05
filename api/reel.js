@@ -1,23 +1,14 @@
-// Server-side reel merger. Vercel has full network access (unlike the agent
-// sandbox), so it can fetch the clips and stitch them into ONE MP4.
-// The merged file is stored in Vercel Blob (a serverless function can't return
-// a multi-MB body — the 4.5MB response cap crashes it) and we redirect to the
-// Blob downloadUrl so the browser saves it.
-//
-//   /api/reel                          -> merge the built-in test clips
-//   /api/reel?clips=<url1>,<url2>,...  -> merge these clips in order
-//   /api/reel?json=1                   -> return {url,downloadUrl} instead of redirecting
-//
-// NOTE: clips must ALWAYS be re-encoded. Stream-copy concat produces a file
-// that only decodes the first clip when the sources differ in codec settings
-// (e.g. Veo vs Seedance) — it looks like a corrupt/frozen video.
+// Reel merger endpoint. Stitches clips into ONE 1080x1920 mp4 (24fps) on the
+// server (Vercel has full network access), stores it in Vercel Blob, and:
+//   /api/reel?clips=<u1>,<u2>          -> 302 to the merged file
+//   /api/reel?clips=...&json=1         -> {url,downloadUrl,klipp,bytes}
+//   /api/reel?clips=...&email=1        -> email the reel to OWNER_EMAIL
+//   /api/reel?clips=...&ref=<id>&final=1&key=<ADMIN_KEY>
+//        -> stitch AND attach as the order's FINAL (QC) so it lands in admin
+// Defaults to a built-in test set when no clips are given.
 
-import { spawn } from 'node:child_process';
-import { mkdtemp, writeFile, readFile, rm, chmod } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import ffmpegPath from 'ffmpeg-static';
-import { put } from '@vercel/blob';
+import { stitchToBlob } from '../lib/reel.js';
+import { buildFinal } from '../lib/production.js';
 import { sendEmail, renderEmail, emailP } from '../lib/email.js';
 
 export const config = { maxDuration: 300 };
@@ -30,94 +21,44 @@ const TEST_CLIPS = [
   'https://d8j0ntlcm91z4.cloudfront.net/user_3ICpxT3JiovisWSJepI8nxeHJvJ/hf_20260905_002725_bb205579-539f-4d7d-a79b-c4224c32686c.mp4',
 ];
 
-function runFfmpeg(args) {
-  return new Promise((resolve, reject) => {
-    const p = spawn(ffmpegPath, args, { stdio: ['ignore', 'ignore', 'pipe'] });
-    let err = '';
-    p.stderr.on('data', (d) => { err += d.toString(); if (err.length > 20000) err = err.slice(-20000); });
-    p.on('error', reject);
-    p.on('close', (code) => code === 0 ? resolve() : reject(new Error('ffmpeg exit ' + code + ': ' + err.slice(-1500))));
-  });
-}
-
 export default async function handler(req, res) {
   const q = req.query || {};
   const clips = q.clips ? String(q.clips).split(',').map((s) => s.trim()).filter(Boolean) : TEST_CLIPS;
-  const FPS = Math.min(60, Math.max(12, parseInt(q.fps, 10) || 24)); // AI clips are 24fps; forcing 30 duplicates frames -> judder
   if (!clips.length) return res.status(400).json({ error: 'ingen klipp' });
-  if (!ffmpegPath) return res.status(500).json({ error: 'ffmpeg mangler paa serveren' });
-
-  let dir;
   try {
-    try { await chmod(ffmpegPath, 0o755); } catch (e) {}
-    dir = await mkdtemp(join(tmpdir(), 'reel-'));
-
-    const files = [];
-    for (let i = 0; i < clips.length; i++) {
-      const r = await fetch(clips[i]);
-      if (!r.ok) throw new Error('kunne ikke hente klipp ' + (i + 1) + ' (HTTP ' + r.status + ')');
-      const f = join(dir, 'in' + i + '.mp4');
-      await writeFile(f, Buffer.from(await r.arrayBuffer()));
-      files.push(f);
-    }
-
-    // Always re-encode: normalise every clip to 1080x1920 / FPS, then concat.
-    const out = join(dir, 'reel.mp4');
-    const args = [];
-    files.forEach((f) => { args.push('-i', f); });
-    let filter = '';
-    files.forEach((_, i) => {
-      filter += '[' + i + ':v]scale=1080:1920:force_original_aspect_ratio=decrease,'
-        + 'pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=' + FPS + ',format=yuv420p,'
-        + 'settb=AVTB,setpts=PTS-STARTPTS[v' + i + '];';
-    });
-    files.forEach((_, i) => { filter += '[v' + i + ']'; });
-    filter += 'concat=n=' + files.length + ':v=1:a=0[out]';
-    args.push('-filter_complex', filter, '-map', '[out]',
-      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '21', '-pix_fmt', 'yuv420p',
-      '-movflags', '+faststart', '-an', '-y', out);
-    await runFfmpeg(args);
-
-    const data = await readFile(out);
-    const saved = await put('reels/staymotion-reel-' + Date.now() + '.mp4', data, {
-      access: 'public', contentType: 'video/mp4', addRandomSuffix: false,
-    });
-
-    const dl = saved.downloadUrl || saved.url;
+    const saved = await stitchToBlob(clips, { fps: q.fps });
     res.setHeader('Cache-Control', 'no-store, max-age=0');
 
-    // ?email=1 (or ?email=<addr>) — send the finished reel to the inbox as an
-    // attachment, so there's no download dance. Resend caps attachments ~40MB.
-    if (q.email) {
-      const to = (typeof q.email === 'string' && q.email.includes('@'))
-        ? q.email
-        : (process.env.OWNER_EMAIL || 'michael@staymotion.no');
-      const tooBig = data.length > 38 * 1024 * 1024;
-      await sendEmail({
-        to,
-        subject: 'Din StayMotion-reel er klar',
-        html: renderEmail({
-          kicker: 'Ferdig reel',
-          heading: 'Reelen er satt sammen',
-          html: emailP(files.length + ' klipp satt sammen til én video ('
-            + (data.length / 1048576).toFixed(1) + ' MB).')
-            + emailP(tooBig
-              ? 'Fila var for stor til å legge ved e-post, så bruk knappen for å laste den ned.'
-              : 'Fila ligger vedlagt denne e-posten. Du kan også bruke knappen under.'),
-          ctaText: 'Åpne reelen', ctaUrl: dl,
-        }),
-        attachments: tooBig ? [] : [{ filename: 'staymotion-reel.mp4', content: data.toString('base64') }],
-      });
-      return res.status(200).json({ ok: true, sentTo: to, klipp: files.length, bytes: data.length, attached: !tooBig, url: saved.url, downloadUrl: dl });
+    // Attach straight into an order as its final (QC), gated by ADMIN_KEY.
+    if (q.ref && q.final) {
+      const adminKey = process.env.ADMIN_KEY;
+      const given = q.key || req.headers['x-admin-key'];
+      if (!adminKey || given !== adminKey) return res.status(401).json({ error: 'Ikke autorisert (mangler key)' });
+      const r = await buildFinal({ orderId: q.ref, url: saved.url, name: 'staymotion_' + q.ref + '_reel.mp4' });
+      return res.status(200).json({ ok: true, attachedTo: q.ref, version: r.version, status: 'qc', ...saved });
     }
 
-    if (q.json) return res.status(200).json({ ok: true, klipp: files.length, bytes: data.length, url: saved.url, downloadUrl: dl });
-    res.setHeader('Location', dl);
+    if (q.email) {
+      const to = (typeof q.email === 'string' && q.email.includes('@')) ? q.email : (process.env.OWNER_EMAIL || 'michael@staymotion.no');
+      const tooBig = saved.bytes > 38 * 1024 * 1024;
+      let attachment = null;
+      if (!tooBig) { const r = await fetch(saved.url); attachment = Buffer.from(await r.arrayBuffer()).toString('base64'); }
+      await sendEmail({
+        to, subject: 'Din StayMotion-reel er klar',
+        html: renderEmail({ kicker: 'Ferdig reel', heading: 'Reelen er satt sammen',
+          html: emailP(saved.klipp + ' klipp satt sammen til én video (' + (saved.bytes / 1048576).toFixed(1) + ' MB).')
+            + emailP(tooBig ? 'Fila var for stor for e-post — bruk knappen for å laste ned.' : 'Fila ligger vedlagt. Du kan også bruke knappen under.'),
+          ctaText: 'Åpne reelen', ctaUrl: saved.downloadUrl }),
+        attachments: attachment ? [{ filename: 'staymotion-reel.mp4', content: attachment }] : [],
+      });
+      return res.status(200).json({ ok: true, sentTo: to, attached: !tooBig, ...saved });
+    }
+
+    if (q.json) return res.status(200).json({ ok: true, ...saved });
+    res.setHeader('Location', saved.downloadUrl);
     return res.status(302).end();
   } catch (e) {
     console.error('[reel]', e);
     return res.status(500).json({ error: 'Kunne ikke lage reelen: ' + e.message });
-  } finally {
-    if (dir) { try { await rm(dir, { recursive: true, force: true }); } catch (e) {} }
   }
 }
