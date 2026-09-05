@@ -43,6 +43,7 @@ function runFfmpeg(args) {
 export default async function handler(req, res) {
   const q = req.query || {};
   const clips = q.clips ? String(q.clips).split(',').map((s) => s.trim()).filter(Boolean) : TEST_CLIPS;
+  const FPS = Math.min(60, Math.max(12, parseInt(q.fps, 10) || 24)); // AI clips are 24fps; forcing 30 duplicates frames -> judder
   if (!clips.length) return res.status(400).json({ error: 'ingen klipp' });
   if (!ffmpegPath) return res.status(500).json({ error: 'ffmpeg mangler paa serveren' });
 
@@ -60,14 +61,14 @@ export default async function handler(req, res) {
       files.push(f);
     }
 
-    // Always re-encode: normalise every clip to 1080x1920 / 30fps, then concat.
+    // Always re-encode: normalise every clip to 1080x1920 / FPS, then concat.
     const out = join(dir, 'reel.mp4');
     const args = [];
     files.forEach((f) => { args.push('-i', f); });
     let filter = '';
     files.forEach((_, i) => {
       filter += '[' + i + ':v]scale=1080:1920:force_original_aspect_ratio=decrease,'
-        + 'pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p,'
+        + 'pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=' + FPS + ',format=yuv420p,'
         + 'settb=AVTB,setpts=PTS-STARTPTS[v' + i + '];';
     });
     files.forEach((_, i) => { filter += '[v' + i + ']'; });
