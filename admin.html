@@ -337,6 +337,10 @@
     .otab{padding:9px 6px 11px;font-size:12px;gap:4px}
     .otab .tn{min-width:15px;padding:0 4px}
   }
+  .reelbuild{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px;background:rgba(105,212,224,.03)}
+  .rb-h{font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--cyan);margin-bottom:8px}
+  .reelurls{width:100%;min-height:74px;background:var(--surface);border:1px solid var(--line);border-radius:9px;color:var(--ice);padding:10px 12px;font-family:inherit;font-size:12.5px;resize:vertical;margin-bottom:10px}
+  .reelurls:focus{outline:none;border-color:var(--cyan)}
 </style>
 </head>
 <body>
@@ -749,8 +753,11 @@
       '<div class="phead"><span class="t">'+plist.length+' bilder'+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?'<button class="btn sm claudebtn" data-claude="'+id+'">📤 Send til Claude</button>':'')+dlAll+'</div>'+
       '<div class="photos">'+photos+'</div></div>';
     var pProd='<div class="opanel hide" data-p="prod">'+
-      '<button class="btn sm primary" data-reel="'+id+'" style="margin-bottom:12px">🎬 Bygg reel fra klipp-URLer</button>'+
-      (prod||'<div class="tnull">Ingen produksjon ennå. Lim inn klipp-URLer over, eller bruk «Send til Claude».</div>')+'</div>';
+      '<div class="reelbuild"><div class="rb-h">Bygg reel til levering</div>'+
+        '<textarea class="reelurls" placeholder="Lim inn klipp-URLene her — én per linje. Serveren setter dem sammen (30fps) og legger reelen i Final levering."></textarea>'+
+        '<button class="btn sm primary" data-reel="'+id+'">🎬 Bygg reel</button>'+
+      '</div>'+
+      (prod||'<div class="tnull">Ingen genererte shots ennå.</div>')+'</div>';
     var pChat='<div class="opanel hide" data-p="chat">'+
       '<button class="btn ghost chatbtn'+(lastKunde?' unread':'')+'" data-chat="'+id+'" style="width:100%">💬 Åpne samtale'+(thread.length?' ('+thread.length+')':'')+'</button>'+
       (thread.length?'<div class="lastmsg"><span class="lab">Siste</span>'+esc((thread[thread.length-1].text||'').slice(0,140))+'</div>':'<div class="tnull">Ingen meldinger ennå.</div>')+'</div>';
@@ -836,9 +843,10 @@
       '</div></div>';
   }
   async function buildReel(id,b){
-    var raw=prompt('Lim inn klipp-URLene i rekkefølge (én per linje, eller kommaseparert):');
-    if(raw===null)return; var clips=raw.split(/[\n,]+/).map(function(x){return x.trim();}).filter(Boolean);
-    if(!clips.length)return;
+    var box=b.closest('.reelbuild'); var ta=box&&box.querySelector('.reelurls');
+    var raw=ta?ta.value:'';
+    var clips=raw.split(/[\s,]+/).map(function(x){return x.trim();}).filter(Boolean);
+    if(!clips.length){ toast('Lim inn minst én klipp-URL først'); if(ta)ta.focus(); return; }
     b&&(b.disabled=true); toast('Bygger reel av '+clips.length+' klipp … (kan ta et halvt minutt)');
     try{
       var r=await fetch('/api/admin-production?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId:id,action:'reel',clips:clips})});
