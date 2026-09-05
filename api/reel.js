@@ -78,8 +78,11 @@ export default async function handler(req, res) {
       access: 'public', contentType: 'video/mp4', addRandomSuffix: false,
     });
 
-    if (q.json) return res.status(200).json({ ok: true, url: saved.url, bytes: data.length });
-    res.setHeader('Location', saved.url);
+    // downloadUrl carries a Content-Disposition: attachment, so the browser
+    // saves the file instead of playing it inline.
+    const dl = saved.downloadUrl || saved.url;
+    if (q.json) return res.status(200).json({ ok: true, url: saved.url, downloadUrl: dl, bytes: data.length });
+    res.setHeader('Location', dl);
     return res.status(302).end();
   } catch (e) {
     console.error('[reel]', e);
