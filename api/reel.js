@@ -66,7 +66,8 @@ export default async function handler(req, res) {
     let filter = '';
     files.forEach((_, i) => {
       filter += '[' + i + ':v]scale=1080:1920:force_original_aspect_ratio=decrease,'
-        + 'pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p[v' + i + '];';
+        + 'pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p,'
+        + 'settb=AVTB,setpts=PTS-STARTPTS[v' + i + '];';
     });
     files.forEach((_, i) => { filter += '[v' + i + ']'; });
     filter += 'concat=n=' + files.length + ':v=1:a=0[out]';
@@ -81,7 +82,8 @@ export default async function handler(req, res) {
     });
 
     const dl = saved.downloadUrl || saved.url;
-    if (q.json) return res.status(200).json({ ok: true, url: saved.url, downloadUrl: dl, bytes: data.length });
+    res.setHeader('Cache-Control', 'no-store, max-age=0');
+    if (q.json) return res.status(200).json({ ok: true, klipp: files.length, bytes: data.length, url: saved.url, downloadUrl: dl });
     res.setHeader('Location', dl);
     return res.status(302).end();
   } catch (e) {
