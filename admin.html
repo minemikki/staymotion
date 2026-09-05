@@ -317,6 +317,26 @@
   .bf.ok{color:var(--green)}.bf.qc{color:var(--amber)}.bf.wait{color:var(--champagne)}.bf.over{color:var(--red)}.bf.soon{color:var(--amber)}
   .order.flash{animation:flash 1.6s ease}
   @keyframes flash{0%,100%{box-shadow:none}25%{box-shadow:0 0 0 2px var(--cyan)}}
+  /* tabbed order card */
+  .otabs{display:flex;gap:4px;margin:14px 0 0;border-bottom:1px solid var(--line);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .otab{flex:1 1 auto;background:0;border:0;color:var(--muted);font-family:inherit;font-size:13px;font-weight:600;padding:9px 8px 11px;cursor:pointer;position:relative;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:5px}
+  .otab:hover{color:var(--ice)}
+  .otab.on{color:var(--cyan)}
+  .otab.on::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2px;background:var(--cyan);border-radius:2px}
+  .otab .tn{font-size:10.5px;font-weight:700;min-width:17px;text-align:center;background:rgba(255,255,255,.08);color:var(--dim);border-radius:100px;padding:0 5px;line-height:16px}
+  .otab.on .tn{background:rgba(105,212,224,.16);color:var(--cyan)}
+  .opanels{padding-top:14px}
+  .tnull{color:var(--muted);font-size:13px;padding:14px 2px;text-align:center;opacity:.7}
+  .metaline{color:var(--muted);font-size:12px;margin:2px 0 12px}
+  .lastmsg{margin-top:10px;font-size:13px;color:var(--dim);border-left:2px solid var(--line);padding:6px 0 6px 12px}
+  .lastmsg .lab{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  .oa-foot{justify-content:flex-end;border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+  @media(max-width:640px){
+    .order{padding:14px}
+    .meta{gap:8px 14px}
+    .otab{padding:9px 6px 11px;font-size:12px;gap:4px}
+    .otab .tn{min-width:15px;padding:0 4px}
+  }
 </style>
 </head>
 <body>
@@ -702,23 +722,40 @@
       + '</div></div>'):'';
     var prod=prodBlock(o,id);
     var fin=finalBlock(o,id);
-    return '<div class="order '+(over?'overdue':s)+'" id="ord-'+id+'">'+
-      '<div class="oh"><div class="who"><b>'+esc(o.navn||'Ukjent')+'</b>'+
+    var header='<div class="oh"><div class="who"><b>'+esc(o.navn||'Ukjent')+'</b>'+
         '<div class="em"><a href="mailto:'+esc(o.email)+'">'+esc(o.email||'')+'</a>'+(o.email?'<button class="copy" data-cp="'+esc(o.email)+'" title="Kopier">⧉</button>':'')+'</div></div>'+
-        '<div class="rt">'+badge+(pills?'<div class="pills">'+pills+'</div>':'')+'</div></div>'+
-      signal+
-      '<div class="meta">'+
-        '<span><span class="lab">Pakke</span><b>'+esc(o.pakke||o.pkg||'—')+'</b></span>'+
+        '<div class="rt">'+badge+(pills?'<div class="pills">'+pills+'</div>':'')+'</div></div>';
+    var metaRow='<div class="meta">'+
+        '<span><span class="lab">Pakke</span><b>'+esc((o.pakke||o.pkg||'—').split('—')[0].trim()||'—')+'</b></span>'+
         '<span><span class="lab">Format</span><b>'+esc(o.format||'—')+'</b></span>'+
         '<span><span class="lab">Beløp</span><b>'+kr(o.amountKr)+'</b></span>'+
-        '<span><span class="lab">Bestilt</span><b>'+fmtDate(o.created)+'</b> · '+ago(o.created)+'</span>'+
         '<span><span class="lab">Frist</span><span class="cd '+cd.c+'" data-deadline="'+(o.deadline||'')+'">'+cd.t+'</span></span>'+
-      '</div>'+
+      '</div>';
+    // unpaid: minimal card, no tabs
+    if(!isPaid){
+      return '<div class="order '+(over?'overdue':s)+'" id="ord-'+id+'">'+header+metaRow+
+        '<div class="oa"><button class="btn primary" data-paid="'+id+'">✓ Bekreft betalt</button>'+
+        '<button class="btn ghost del" data-del="'+id+'" title="Slett bestilling">🗑 Slett</button></div></div>';
+    }
+    var nShots=((o.production&&o.production.shots)||[]).length;
+    var tab=function(k,label,n){return '<button class="otab" data-tc="'+id+'" data-tab="'+k+'">'+label+(n?'<span class="tn">'+n+'</span>':'')+'</button>';};
+    var tabs='<div class="otabs">'+tab('oversikt','Oversikt',0)+tab('bilder','Bilder',plist.length)+
+      tab('prod','Prod.',nShots)+tab('chat','Chat',thread.length)+tab('lev','Levering',0)+'</div>';
+    var pOversikt='<div class="opanel" data-p="oversikt">'+
       (o.melding?('<div class="msg"><span class="lab">Melding fra kunde</span>'+esc(o.melding)+'</div>'):'')+
-      '<div class="phead"><span class="t">Bilder'+(plist.length?' ('+plist.length+')':'')+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?'<button class="btn sm claudebtn" data-claude="'+id+'">📤 Send til Claude</button>':'')+dlAll+'</div>'+
-      '<div class="photos">'+photos+'</div>'+
-      prod+fin+
-      '<div class="oa">'+chatBtn+statusCtl+'<button class="btn ghost del" data-del="'+id+'" title="Slett bestilling">🗑 Slett</button></div></div>';
+      '<div class="metaline"><span>Bestilt '+fmtDate(o.created)+' · '+ago(o.created)+'</span></div>'+
+      '<div class="oa">'+statusCtl+'</div></div>';
+    var pBilder='<div class="opanel hide" data-p="bilder">'+
+      '<div class="phead"><span class="t">'+plist.length+' bilder'+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?'<button class="btn sm claudebtn" data-claude="'+id+'">📤 Send til Claude</button>':'')+dlAll+'</div>'+
+      '<div class="photos">'+photos+'</div></div>';
+    var pProd='<div class="opanel hide" data-p="prod">'+(prod||'<div class="tnull">Ingen produksjon ennå. Bruk «Send til Claude» eller MCP.</div>')+'</div>';
+    var pChat='<div class="opanel hide" data-p="chat">'+
+      '<button class="btn ghost chatbtn'+(lastKunde?' unread':'')+'" data-chat="'+id+'" style="width:100%">💬 Åpne samtale'+(thread.length?' ('+thread.length+')':'')+'</button>'+
+      (thread.length?'<div class="lastmsg"><span class="lab">Siste</span>'+esc((thread[thread.length-1].text||'').slice(0,140))+'</div>':'<div class="tnull">Ingen meldinger ennå.</div>')+'</div>';
+    var pLev='<div class="opanel hide" data-p="lev">'+(fin||'<div class="tnull">Ingen final ennå.</div>')+'</div>';
+    return '<div class="order '+(over?'overdue':s)+'" id="ord-'+id+'">'+header+signal+metaRow+tabs+
+      '<div class="opanels">'+pOversikt+pBilder+pProd+pChat+pLev+'</div>'+
+      '<div class="oa oa-foot"><button class="btn ghost del" data-del="'+id+'" title="Slett bestilling">🗑 Slett</button></div></div>';
   }
   var SHOTST={not_started:['Ikke startet','ns'],generating:['Genererer','gen'],generated:['Generert','gd'],approved:['Godkjent','ap'],rejected:['Avvist','rj']};
   function prodBlock(o,id){
@@ -854,6 +891,13 @@
     [].forEach.call(l.querySelectorAll('[data-regen]'),function(b){b.onclick=function(){regenShot(b.getAttribute('data-regen'),b);};});
     [].forEach.call(l.querySelectorAll('[data-buildfinal]'),function(b){b.onclick=function(){buildFinalFromUrl(b.getAttribute('data-buildfinal'),b);};});
     [].forEach.call(l.querySelectorAll('[data-approvedel]'),function(b){b.onclick=function(){approveDelivery(b.getAttribute('data-approvedel'),b);};});
+    [].forEach.call(l.querySelectorAll('.otab'),function(b){b.onclick=function(){
+      var card=b.closest('.order'); if(!card)return; var k=b.getAttribute('data-tab');
+      [].forEach.call(card.querySelectorAll('.otab'),function(x){x.classList.toggle('on',x===b);});
+      [].forEach.call(card.querySelectorAll('.opanel'),function(pnl){pnl.classList.toggle('hide',pnl.getAttribute('data-p')!==k);});
+    };});
+    // default active tab per card = first tab
+    [].forEach.call(l.querySelectorAll('.order'),function(card){var t=card.querySelector('.otab');if(t&&!card.querySelector('.otab.on'))t.classList.add('on');});
     [].forEach.call(l.querySelectorAll('.qc'),function(box){var boxes=[].slice.call(box.querySelectorAll('.qcx'));var btn=box.parentNode.querySelector('[data-approvedel]');function upd(){if(btn)btn.disabled=!boxes.every(function(c){return c.checked;});}boxes.forEach(function(c){c.addEventListener('change',upd);});upd();});
   }
   // Copy everything Claude needs to produce the video for one order:
