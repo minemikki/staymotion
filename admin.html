@@ -748,7 +748,9 @@
     var pBilder='<div class="opanel hide" data-p="bilder">'+
       '<div class="phead"><span class="t">'+plist.length+' bilder'+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?'<button class="btn sm claudebtn" data-claude="'+id+'">📤 Send til Claude</button>':'')+dlAll+'</div>'+
       '<div class="photos">'+photos+'</div></div>';
-    var pProd='<div class="opanel hide" data-p="prod">'+(prod||'<div class="tnull">Ingen produksjon ennå. Bruk «Send til Claude» eller MCP.</div>')+'</div>';
+    var pProd='<div class="opanel hide" data-p="prod">'+
+      '<button class="btn sm primary" data-reel="'+id+'" style="margin-bottom:12px">🎬 Bygg reel fra klipp-URLer</button>'+
+      (prod||'<div class="tnull">Ingen produksjon ennå. Lim inn klipp-URLer over, eller bruk «Send til Claude».</div>')+'</div>';
     var pChat='<div class="opanel hide" data-p="chat">'+
       '<button class="btn ghost chatbtn'+(lastKunde?' unread':'')+'" data-chat="'+id+'" style="width:100%">💬 Åpne samtale'+(thread.length?' ('+thread.length+')':'')+'</button>'+
       (thread.length?'<div class="lastmsg"><span class="lab">Siste</span>'+esc((thread[thread.length-1].text||'').slice(0,140))+'</div>':'<div class="tnull">Ingen meldinger ennå.</div>')+'</div>';
@@ -833,6 +835,17 @@
         '<button class="btn ghost" data-buildfinal="'+id+'">↻ Erstatt final</button>'+
       '</div></div>';
   }
+  async function buildReel(id,b){
+    var raw=prompt('Lim inn klipp-URLene i rekkefølge (én per linje, eller kommaseparert):');
+    if(raw===null)return; var clips=raw.split(/[\n,]+/).map(function(x){return x.trim();}).filter(Boolean);
+    if(!clips.length)return;
+    b&&(b.disabled=true); toast('Bygger reel av '+clips.length+' klipp … (kan ta et halvt minutt)');
+    try{
+      var r=await fetch('/api/admin-production?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId:id,action:'reel',clips:clips})});
+      var j=await r.json(); if(!r.ok||j.error)throw new Error(j.error||'feil');
+      toast('✓ Reel bygget (v'+j.version+') — ligger i Final levering'); LASTSIG=''; load(false);
+    }catch(e){toast('Feil: '+e.message);b&&(b.disabled=false);}
+  }
   async function buildFinalFromUrl(id,b){
     var url=prompt('Lim inn URL til den ferdige videoen (f.eks. reel-URL fra /api/reel):');
     if(!url)return; url=url.trim(); if(!url)return;
@@ -890,6 +903,7 @@
     [].forEach.call(l.querySelectorAll('[data-delt]'),function(b){b.onclick=function(){delTake(b.getAttribute('data-delt'),b);};});
     [].forEach.call(l.querySelectorAll('[data-regen]'),function(b){b.onclick=function(){regenShot(b.getAttribute('data-regen'),b);};});
     [].forEach.call(l.querySelectorAll('[data-buildfinal]'),function(b){b.onclick=function(){buildFinalFromUrl(b.getAttribute('data-buildfinal'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-reel]'),function(b){b.onclick=function(){buildReel(b.getAttribute('data-reel'),b);};});
     [].forEach.call(l.querySelectorAll('[data-approvedel]'),function(b){b.onclick=function(){approveDelivery(b.getAttribute('data-approvedel'),b);};});
     [].forEach.call(l.querySelectorAll('.otab'),function(b){b.onclick=function(){
       var card=b.closest('.order'); if(!card)return; var k=b.getAttribute('data-tab');

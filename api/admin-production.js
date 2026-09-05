@@ -5,6 +5,7 @@
 //     { orderId, action:'status',   shotId, status }
 
 import { approveTake, deleteTake, setShotStatus, buildFinal, approveDelivery } from '../lib/production.js';
+import { stitchToBlob } from '../lib/reel.js';
 
 export const config = { maxDuration: 300 };
 
@@ -26,6 +27,13 @@ export default async function handler(req, res) {
     else if (b.action === 'delete') r = await deleteTake(b.orderId, b.shotId, b.take);
     else if (b.action === 'status') r = await setShotStatus(b.orderId, b.shotId, b.status);
     else if (b.action === 'final') r = await buildFinal({ orderId: b.orderId, url: b.url, name: b.name });
+    else if (b.action === 'reel') {
+      const clips = Array.isArray(b.clips) ? b.clips.map((c) => String(c).trim()).filter(Boolean) : [];
+      if (!clips.length) return res.status(400).json({ error: 'ingen klipp' });
+      const saved = await stitchToBlob(clips, {});
+      r = await buildFinal({ orderId: b.orderId, url: saved.url, name: 'staymotion_' + b.orderId + '_reel.mp4' });
+      r.klipp = saved.klipp;
+    }
     else if (b.action === 'approve_delivery') r = await approveDelivery(b.orderId, req.headers.host);
     else return res.status(400).json({ error: 'ukjent action' });
     res.json({ ok: true, ...r });
