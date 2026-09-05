@@ -20,6 +20,8 @@ export default async function handler(req, res) {
       pkg: o.pakke || o.pkg || '',
       format: o.format || '',
       status: o.status || 'ubehandlet',
+      paid: !!(o.paid || o.paidAt),
+      finalStatus: o.final ? (o.final.status || null) : null,
       created: o.created || null,
       deadline: o.deadline || null,
       melding: o.melding || '',
