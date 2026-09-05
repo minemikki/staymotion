@@ -1,6 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
+  "functions": {
+    "api/reel.js": { "includeFiles": "node_modules/ffmpeg-static/**" }
+  },
   "headers": [
     {
       "source": "/video/(.*)",

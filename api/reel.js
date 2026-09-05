@@ -1,22 +1,22 @@
 // Server-side reel merger. Vercel has full network access (unlike the agent
-// sandbox), so it can fetch the Higgsfield clips and stitch them with ffmpeg
-// into ONE downloadable MP4. Open in a browser to download the merged reel.
+// sandbox), so it can fetch the Higgsfield clips and stitch them into ONE MP4.
+// The merged file is stored in Vercel Blob (Vercel functions can't return a
+// multi-MB body — the 4.5MB response cap crashes them) and we redirect the
+// browser to that public URL to download.
 //
-//   /api/reel?clips=<url1>,<url2>,...        (comma-separated clip URLs, in order)
-//   /api/reel                                 (falls back to the test clips below)
-//
-// Silent clips (no audio) are normalised to 1080x1920, 30fps and concatenated
-// with hard cuts. Add music/transitions afterwards if wanted.
+//   /api/reel                          → merge the built-in test clips
+//   /api/reel?clips=<url1>,<url2>,...   → merge these clips in order
+//   /api/reel?json=1                   → return {url} instead of redirecting
 
 import { spawn } from 'node:child_process';
-import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, writeFile, readFile, rm, chmod } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import ffmpegPath from 'ffmpeg-static';
+import { put } from '@vercel/blob';
 
 export const config = { maxDuration: 300 };
 
-// Michael's 10B apartment reel (default test set).
 const TEST_CLIPS = [
   'https://d8j0ntlcm91z4.cloudfront.net/user_3ICpxT3JiovisWSJepI8nxeHJvJ/hf_20260905_002700_232dfefd-2b3d-4466-aba5-d9b2f02cd0fa.mp4',
   'https://d8j0ntlcm91z4.cloudfront.net/user_3ICpxT3JiovisWSJepI8nxeHJvJ/hf_20260905_001200_c0461909-f991-484d-a56c-1012fe37fbd1.mp4',
@@ -31,7 +31,7 @@ function runFfmpeg(args) {
     let err = '';
     p.stderr.on('data', (d) => { err += d.toString(); if (err.length > 20000) err = err.slice(-20000); });
     p.on('error', reject);
-    p.on('close', (code) => code === 0 ? resolve() : reject(new Error('ffmpeg exit ' + code + '\n' + err.slice(-2000))));
+    p.on('close', (code) => code === 0 ? resolve() : reject(new Error('ffmpeg exit ' + code + ': ' + err.slice(-1500))));
   });
 }
 
@@ -39,44 +39,51 @@ export default async function handler(req, res) {
   const q = req.query || {};
   const clips = q.clips ? String(q.clips).split(',').map((s) => s.trim()).filter(Boolean) : TEST_CLIPS;
   if (!clips.length) return res.status(400).json({ error: 'ingen klipp' });
+  if (!ffmpegPath) return res.status(500).json({ error: 'ffmpeg mangler paa serveren' });
 
   let dir;
   try {
+    try { await chmod(ffmpegPath, 0o755); } catch (e) {}
     dir = await mkdtemp(join(tmpdir(), 'reel-'));
-    // download each clip
-    const inputs = [];
+
+    const files = [];
     for (let i = 0; i < clips.length; i++) {
       const r = await fetch(clips[i]);
       if (!r.ok) throw new Error('kunne ikke hente klipp ' + (i + 1) + ' (HTTP ' + r.status + ')');
-      const buf = Buffer.from(await r.arrayBuffer());
       const f = join(dir, 'in' + i + '.mp4');
-      await writeFile(f, buf);
-      inputs.push(f);
+      await writeFile(f, Buffer.from(await r.arrayBuffer()));
+      files.push(f);
     }
 
-    // build a concat filter: normalise every clip to 1080x1920/30fps, then concat
-    const args = [];
-    inputs.forEach((f) => { args.push('-i', f); });
-    let filter = '';
-    inputs.forEach((_, i) => {
-      filter += `[${i}:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p[v${i}];`;
-    });
-    inputs.forEach((_, i) => { filter += `[v${i}]`; });
-    filter += `concat=n=${inputs.length}:v=1:a=0[out]`;
     const out = join(dir, 'reel.mp4');
-    args.push('-filter_complex', filter, '-map', '[out]',
-      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p',
-      '-movflags', '+faststart', '-y', out);
+    // Fast path: stream-copy concat (no re-encode) — keeps native 1080p, instant.
+    const listPath = join(dir, 'list.txt');
+    await writeFile(listPath, files.map((f) => "file '" + f + "'").join('\n'));
+    try {
+      await runFfmpeg(['-f', 'concat', '-safe', '0', '-i', listPath, '-c', 'copy', '-movflags', '+faststart', '-y', out]);
+    } catch (copyErr) {
+      // Fallback: re-encode + normalise to 1080x1920 (handles mixed codecs/sizes).
+      const args = [];
+      files.forEach((f) => { args.push('-i', f); });
+      let filter = '';
+      files.forEach((_, i) => { filter += `[${i}:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p[v${i}];`; });
+      files.forEach((_, i) => { filter += `[v${i}]`; });
+      filter += `concat=n=${files.length}:v=1:a=0[out]`;
+      args.push('-filter_complex', filter, '-map', '[out]', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-y', out);
+      await runFfmpeg(args);
+    }
 
-    await runFfmpeg(args);
     const data = await readFile(out);
-    res.setHeader('Content-Type', 'video/mp4');
-    res.setHeader('Content-Disposition', 'attachment; filename="staymotion-reel.mp4"');
-    res.setHeader('Content-Length', String(data.length));
-    res.status(200).end(data);
+    const saved = await put('reels/staymotion-reel-' + Date.now() + '.mp4', data, {
+      access: 'public', contentType: 'video/mp4', addRandomSuffix: false,
+    });
+
+    if (q.json) return res.status(200).json({ ok: true, url: saved.url, bytes: data.length });
+    res.setHeader('Location', saved.url);
+    return res.status(302).end();
   } catch (e) {
     console.error('[reel]', e);
-    res.status(500).json({ error: 'Kunne ikke lage reelen: ' + e.message });
+    return res.status(500).json({ error: 'Kunne ikke lage reelen: ' + e.message });
   } finally {
     if (dir) { try { await rm(dir, { recursive: true, force: true }); } catch (e) {} }
   }
