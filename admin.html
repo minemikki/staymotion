@@ -261,6 +261,19 @@
   .tk-a{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
   .tk-a .btn{flex:1;min-width:0;text-align:center;text-decoration:none}
   .regen{margin-top:2px}
+.finalb{margin:14px 0 4px;padding:14px;border:1px solid rgba(126,224,138,.28);border-radius:12px;background:rgba(126,224,138,.04)}
+  .fin-empty{color:var(--muted);font-size:12.5px;margin:2px 0 10px}
+  .fin-v{width:210px;max-width:60%;aspect-ratio:9/16;border-radius:9px;background:#000;display:block;object-fit:cover;margin-bottom:10px}
+  .fin-meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin:0 0 12px}
+  .fin-meta span{display:flex;flex-direction:column;gap:2px}
+  .fin-meta .lab{font-size:10px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted)}
+  .fin-meta b{font-size:12.5px}
+  .fin-a{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .fin-a .btn{text-decoration:none}
+  .fin-ok{color:#7ee08a;font-weight:600;font-size:13px}
+  .revs{margin:0 0 12px;padding:10px 12px;border:1px solid rgba(224,126,126,.35);background:rgba(224,126,126,.07);border-radius:9px}
+  .rev-h{font-size:11.5px;font-weight:700;color:#e07e7e;margin-bottom:6px}
+  .rev{font-size:12.5px;margin:3px 0}
 </style>
 </head>
 <body>
@@ -530,6 +543,7 @@
         '<button class="sbtn'+(s==='behandlet'?' on':'')+'" data-id="'+id+'" data-s="behandlet">Ferdig</button>'+
       '</div>'):'<button class="btn primary" data-paid="'+id+'">✓ Bekreft betalt</button>';
     var prod=prodBlock(o,id);
+    var fin=finalBlock(o,id);
     return '<div class="order '+(over?'overdue':s)+'">'+
       '<div class="oh"><div class="who"><b>'+esc(o.navn||'Ukjent')+'</b>'+
         '<div class="em"><a href="mailto:'+esc(o.email)+'">'+esc(o.email||'')+'</a>'+(o.email?'<button class="copy" data-cp="'+esc(o.email)+'" title="Kopier">⧉</button>':'')+'</div></div>'+
@@ -544,7 +558,7 @@
       (o.melding?('<div class="msg"><span class="lab">Melding fra kunde</span>'+esc(o.melding)+'</div>'):'')+
       '<div class="phead"><span class="t">Bilder'+(plist.length?' ('+plist.length+')':'')+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?'<button class="btn sm claudebtn" data-claude="'+id+'">📤 Send til Claude</button>':'')+dlAll+'</div>'+
       '<div class="photos">'+photos+'</div>'+
-      prod+
+      prod+fin+
       '<div class="oa">'+chatBtn+statusCtl+'<button class="btn ghost del" data-del="'+id+'" title="Slett bestilling">🗑 Slett</button></div></div>';
   }
   var SHOTST={not_started:['Ikke startet','ns'],generating:['Genererer','gen'],generated:['Generert','gd'],approved:['Godkjent','ap'],rejected:['Avvist','rj']};
@@ -559,7 +573,7 @@
           '<video class="tk-v" src="'+esc(t.preview&&t.preview.url||'')+'" poster="'+esc(t.poster&&t.poster.url||'')+'" preload="none" controls playsinline></video>'+
           '<div class="tk-a">'+
             (t.approved?'':'<button class="btn sm primary" data-appr="'+id+'|'+esc(sh.id)+'|'+esc(t.take)+'">Godkjenn</button>')+
-            '<a class="btn sm ghost" href="'+esc(t.master&&t.master.url||'')+'" download title="Last ned master">⤓ Master</a>'+
+            '<a class="btn sm ghost" href="'+esc(t.master&&(t.master.dlUrl||t.master.url)||'')+'" download title="Last ned master">⤓ Master</a>'+
             '<button class="btn sm ghost" data-delt="'+id+'|'+esc(sh.id)+'|'+esc(t.take)+'">Slett</button>'+
           '</div></div>';
       }).join('');
@@ -585,6 +599,59 @@
       var r=await fetch('/api/admin-production?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId:a[0],action:'status',shotId:a[1],status:'generating'})});
       var j=await r.json(); if(!r.ok||j.error)throw new Error(j.error||'feil'); toast('Merket for ny generering — be Claude lage ny take'); LASTSIG=''; load(false);
     }catch(e){toast('Feil: '+e.message);b&&(b.disabled=false);}}
+  function fmtDur(sec){ if(!sec)return '—'; var m=Math.floor(sec/60),x=Math.round(sec%60); return m?(m+' min '+x+' s'):(x+' s'); }
+  function fmtSize(b){ if(!b)return '—'; if(b>1048576)return (b/1048576).toFixed(1)+' MB'; return Math.round(b/1024)+' kB'; }
+  var FINST={qc:['QC — venter godkjenning','gen'],delivered:['Levert','ap'],revision_requested:['Endring ønsket','rj']};
+  function finalBlock(o,id){
+    if(!paid(o)) return '';
+    var f=o.final;
+    var revs=(o.revisions||[]).filter(function(r){return !r.handled;});
+    var revHtml=revs.length?('<div class="revs"><div class="rev-h">✏️ Endringsforespørsel'+(revs.length>1?' ('+revs.length+')':'')+'</div>'+
+        revs.map(function(r){return '<div class="rev">'+esc(r.text)+'</div>';}).join('')+'</div>'):'';
+    if(!f){
+      return '<div class="finalb"><div class="prod-h">🎬 Final levering</div>'+revHtml+
+        '<div class="fin-empty">Ingen final lastet opp ennå.</div>'+
+        '<button class="btn sm ghost" data-buildfinal="'+id+'">⤴ Bygg final fra URL</button></div>';
+    }
+    var st=FINST[f.status]||FINST.qc;
+    var reso=(f.width&&f.height)?(f.width+'×'+f.height):(f.format||'—');
+    var meta='<div class="fin-meta">'+
+      '<span><span class="lab">Fil</span><b>'+esc(f.name||'final.mp4')+'</b></span>'+
+      '<span><span class="lab">Format</span><b>'+esc(f.format||o.format||'—')+'</b></span>'+
+      '<span><span class="lab">Oppløsning</span><b>'+esc(reso)+'</b></span>'+
+      '<span><span class="lab">Lengde</span><b>'+fmtDur(f.durationSec)+'</b></span>'+
+      '<span><span class="lab">Størrelse</span><b>'+fmtSize(f.master&&f.master.bytes)+'</b></span>'+
+      '<span><span class="lab">Versjon</span><b>v'+(f.version||1)+'</b></span>'+
+    '</div>';
+    var primary=f.approved?'<span class="fin-ok">✓ Levert til kunde'+(f.deliveredAt?(' · '+ago(f.deliveredAt)):'')+'</span>':
+      '<button class="btn primary" data-approvedel="'+id+'">✓ Godkjenn levering</button>';
+    return '<div class="finalb"><div class="prod-h">🎬 Final levering<span class="shot-st '+st[1]+'" style="margin-left:8px">'+st[0]+'</span></div>'+
+      revHtml+
+      '<video class="fin-v" src="'+esc(f.preview&&f.preview.url||'')+'" poster="'+esc(f.poster&&f.poster.url||'')+'" preload="none" controls playsinline></video>'+
+      meta+
+      '<div class="fin-a">'+primary+
+        '<a class="btn ghost" href="'+esc(f.master&&(f.master.dlUrl||f.master.url)||'')+'" download title="Last ned master">⤓ Master</a>'+
+        '<button class="btn ghost" data-buildfinal="'+id+'">↻ Erstatt final</button>'+
+      '</div></div>';
+  }
+  async function buildFinalFromUrl(id,b){
+    var url=prompt('Lim inn URL til den ferdige videoen (f.eks. reel-URL fra /api/reel):');
+    if(!url)return; url=url.trim(); if(!url)return;
+    b&&(b.disabled=true); toast('Bygger final … (henter + lager preview)');
+    try{
+      var r=await fetch('/api/admin-production?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId:id,action:'final',url:url})});
+      var j=await r.json(); if(!r.ok||j.error)throw new Error(j.error||'feil');
+      toast('Final v'+j.version+' klar for godkjenning'); LASTSIG=''; load(false);
+    }catch(e){toast('Feil: '+e.message);b&&(b.disabled=false);}
+  }
+  async function approveDelivery(id,b){
+    if(!confirm('Godkjenne levering? Kunden får e-post og ser videoen på Min side.'))return;
+    b&&(b.disabled=true); try{
+      var r=await fetch('/api/admin-production?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId:id,action:'approve_delivery'})});
+      var j=await r.json(); if(!r.ok||j.error)throw new Error(j.error||'feil');
+      toast('✓ Levert! Kunden er varslet.'); LASTSIG=''; load(false);
+    }catch(e){toast('Feil: '+e.message);b&&(b.disabled=false);}
+  }
   function renderBestillinger(){
     var now=Date.now();var m=metrics();
     var cn=$('c-nye');if(cn)cn.textContent=m.nye.length;
@@ -618,6 +685,8 @@
     [].forEach.call(l.querySelectorAll('[data-appr]'),function(b){b.onclick=function(){apprTake(b.getAttribute('data-appr'),b);};});
     [].forEach.call(l.querySelectorAll('[data-delt]'),function(b){b.onclick=function(){delTake(b.getAttribute('data-delt'),b);};});
     [].forEach.call(l.querySelectorAll('[data-regen]'),function(b){b.onclick=function(){regenShot(b.getAttribute('data-regen'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-buildfinal]'),function(b){b.onclick=function(){buildFinalFromUrl(b.getAttribute('data-buildfinal'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-approvedel]'),function(b){b.onclick=function(){approveDelivery(b.getAttribute('data-approvedel'),b);};});
   }
   // Copy everything Claude needs to produce the video for one order:
   // context (package/format/message) + every photo's direct link.

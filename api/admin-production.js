@@ -4,7 +4,9 @@
 //     { orderId, action:'delete',   shotId, take }
 //     { orderId, action:'status',   shotId, status }
 
-import { approveTake, deleteTake, setShotStatus } from '../lib/production.js';
+import { approveTake, deleteTake, setShotStatus, buildFinal, approveDelivery } from '../lib/production.js';
+
+export const config = { maxDuration: 300 };
 
 function authed(req) {
   const key = process.env.ADMIN_KEY;
@@ -23,6 +25,8 @@ export default async function handler(req, res) {
     if (b.action === 'approve') r = await approveTake(b.orderId, b.shotId, b.take);
     else if (b.action === 'delete') r = await deleteTake(b.orderId, b.shotId, b.take);
     else if (b.action === 'status') r = await setShotStatus(b.orderId, b.shotId, b.status);
+    else if (b.action === 'final') r = await buildFinal({ orderId: b.orderId, url: b.url, name: b.name });
+    else if (b.action === 'approve_delivery') r = await approveDelivery(b.orderId, req.headers.host);
     else return res.status(400).json({ error: 'ukjent action' });
     res.json({ ok: true, ...r });
   } catch (e) {

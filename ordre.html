@@ -120,6 +120,14 @@
       <!-- Finished delivery -->
       <div id="delivery" class="card hide">
         <h2>🎬 Videoen din er klar</h2>
+        <div id="finalHero" class="hide">
+          <video id="finalVid" controls playsinline preload="metadata" style="width:100%;max-width:340px;aspect-ratio:9/16;border-radius:12px;background:#000;display:block;margin:0 auto 14px"></video>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+            <a id="finalDl" class="btn" style="background:var(--cyan);color:#04222a;font-weight:700">⤓ Last ned video</a>
+            <button id="revBtn" class="btn ghost">Be om en endring</button>
+          </div>
+          <p id="revInfo" class="muted" style="text-align:center;margin:12px 0 0;font-size:12.5px"></p>
+        </div>
         <div id="deliverList"></div>
       </div>
 
@@ -172,7 +180,7 @@
   const PKG = { bilder:'Cinematiske bilder', enkelt:'Enkelt — 1 reel', signatur:'Signatur — 3 reels' };
 
   let lastSig='', busy=false, polling=false;
-  function sigOf(d){ return (d.status||'')+'|'+((d.replies||[]).length)+'|'+((d.notes||[]).length)+'|'+((d.deliverables||[]).length)+'|'+((d.photos||[]).length); }
+  function sigOf(d){ var f=d.final?('F'+d.final.version+d.final.deliveredAt):'0'; return (d.status||'')+'|'+((d.replies||[]).length)+'|'+((d.notes||[]).length)+'|'+((d.deliverables||[]).length)+'|'+((d.photos||[]).length)+'|'+f+'|'+(d.revisionsRemaining!=null?d.revisionsRemaining:'')+'|'+(d.revisionPending?1:0); }
   async function load(){
     if(!ref || !t){ show('denied'); return; }
     try{
@@ -200,7 +208,7 @@
   function show(id){ $('loading').classList.add('hide'); $(id).classList.remove('hide'); }
 
   function stage(){
-    if((data.deliverables||[]).length) return 3;           // video levert
+    if(data.final || (data.deliverables||[]).length) return 3;  // video levert
     var s = data.status||'';
     if(s==='under_arbeid' || s==='behandlet') return 2;     // vi klipper nå
     return 1;                                               // mottatt / i kø
@@ -228,8 +236,19 @@
     const fill = document.getElementById('trackFill');
     if(fill){ setTimeout(()=>{ fill.style.width = ((st-1)/2*100) + '%'; }, 120); }
 
-    // delivery
-    if((data.deliverables||[]).length){
+    // delivery — prefer the approved final (premium hero), fall back to legacy deliverables
+    if(data.final){
+      $('delivery').classList.remove('hide');
+      $('finalHero').classList.remove('hide');
+      const v=$('finalVid'); if(v.getAttribute('data-src')!==data.final.preview){ v.src=data.final.preview||''; v.poster=data.final.poster||''; v.setAttribute('data-src', data.final.preview||''); }
+      $('finalDl').href='/api/order-download?ref='+encodeURIComponent(ref)+'&t='+encodeURIComponent(t)+'&which=master';
+      const rem=data.revisionsRemaining;
+      const rb=$('revBtn');
+      if(data.revisionPending){ $('revInfo').textContent='Endringsforespørselen din er mottatt — vi er i gang. ✏️'; rb.disabled=true; rb.textContent='Endring bestilt'; }
+      else if(rem>0){ $('revInfo').textContent = rem+' endring'+(rem>1?'er':'')+' inkludert.'; rb.disabled=false; }
+      else { $('revInfo').textContent='Ønsker du en endring? Ta kontakt så finner vi ut av det.'; rb.disabled=false; }
+      $('deliverList').innerHTML='';
+    } else if((data.deliverables||[]).length){
       $('delivery').classList.remove('hide');
       const box = $('deliverList'); box.innerHTML='';
       data.deliverables.forEach(d=>{
@@ -328,6 +347,23 @@
       $('sendNote').disabled=false;
     }catch(e){ $('noteStatus').textContent='Kunne ikke sende – prøv igjen.'; $('noteStatus').className='err muted'; $('sendNote').disabled=false; }
   });
+
+  // revision request
+  var revBound=false;
+  function bindRev(){ if(revBound)return; var b=document.getElementById('revBtn'); if(!b)return; revBound=true;
+    b.addEventListener('click', async ()=>{
+      var txt=prompt('Hva ønsker du endret på videoen? Beskriv så konkret du kan:');
+      if(txt===null)return; txt=txt.trim(); if(!txt)return;
+      b.disabled=true; var old=b.textContent; b.textContent='Sender …';
+      try{
+        var r=await fetch('/api/order-revision',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ref,t,text:txt}) });
+        var j=await r.json(); if(!r.ok||j.error) throw new Error(j.error||'feil');
+        alert('Takk! Endringsforespørselen er sendt. Vi er i gang. ✏️');
+        lastSig=''; load();
+      }catch(e){ b.disabled=false; b.textContent=old; alert('Kunne ikke sende: '+e.message); }
+    });
+  }
+  bindRev();
 
   load();
 </script>
