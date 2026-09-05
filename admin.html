@@ -274,6 +274,26 @@
   .revs{margin:0 0 12px;padding:10px 12px;border:1px solid rgba(224,126,126,.35);background:rgba(224,126,126,.07);border-radius:9px}
   .rev-h{font-size:11.5px;font-weight:700;color:#e07e7e;margin-bottom:6px}
   .rev{font-size:12.5px;margin:3px 0}
+  /* clarity layer */
+  .signal{margin:12px 0 4px}
+  .klar{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;color:#04222a;background:linear-gradient(100deg,var(--cyan),#8fe6ef);border-radius:10px;padding:11px 14px;margin-bottom:9px;box-shadow:0 6px 20px rgba(105,212,224,.25);letter-spacing:.01em}
+  .narow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .na{font-weight:700;font-size:13px;padding:6px 12px;border-radius:100px;border:1px solid var(--line)}
+  .na-work{color:var(--cyan);border-color:rgba(105,212,224,.4);background:rgba(105,212,224,.08)}
+  .na-act{color:var(--amber);border-color:rgba(231,184,114,.45);background:rgba(231,184,114,.1)}
+  .na-wait{color:var(--muted);background:rgba(138,154,167,.1)}
+  .na-deliver{color:#04222a;background:var(--cyan);border-color:var(--cyan)}
+  .na-done{color:var(--green);border-color:rgba(99,208,138,.4);background:rgba(99,208,138,.08)}
+  .na-idle{color:var(--muted)}
+  .chip{font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:100px;border:1px solid var(--line);color:var(--dim)}
+  .chip.wait{color:var(--champagne);border-color:rgba(231,210,169,.35);background:rgba(231,210,169,.08)}
+  .chip.unread{color:var(--red);border-color:rgba(233,134,111,.4);background:rgba(233,134,111,.08)}
+  .chip.prog{color:var(--cyan);border-color:rgba(105,212,224,.3)}
+  /* QC checklist */
+  .qc{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02)}
+  .qc-h{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .qc-i{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--dim);padding:4px 0;cursor:pointer}
+  .qc-i input{width:16px;height:16px;accent-color:var(--cyan);cursor:pointer}
 </style>
 </head>
 <body>
@@ -329,6 +349,7 @@
         <input id="q" type="search" placeholder="Søk navn, e-post, pakke …" autocomplete="off">
       </label>
       <select id="sort">
+        <option value="prioritet">Prioritet</option>
         <option value="ny">Nyeste først</option>
         <option value="frist">Frist snarest</option>
         <option value="belop">Høyest beløp</option>
@@ -421,7 +442,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-  var KEY='', ORDERS=[], VIEW='oversikt', FILTER='nye', SORT='ny', Q='', CQ='', SEEN=0, LASTSIG='';
+  var KEY='', ORDERS=[], VIEW='oversikt', FILTER='nye', SORT='prioritet', Q='', CQ='', SEEN=0, LASTSIG='';
   var $=function(id){return document.getElementById(id);};
   var C={cyan:'#69D4E0',champagne:'#E7D2A9',green:'#63D08A',amber:'#E7B872',red:'#E9866F',muted:'#8A9AA7',dim:'#C7D3DB',line:'rgba(190,214,226,.12)'};
   var charts={};
@@ -479,6 +500,41 @@
   function renderAll(){ renderOversikt(); renderBestillinger(); renderStatistikk(); renderKunder(); updateBell(); if(CHAT_ID&&!$('chat').classList.contains('hide'))renderChat(); }
 
   /* ---------- shared stat cards ---------- */
+  // --- clarity layer: priority + next action + comms ---
+  function lastMsg(o){ var th=threadOf(o); return th.length?th[th.length-1]:null; }
+  function unanswered(o){ var m=lastMsg(o); return !!(m && m.who==='kunde'); }
+  function waitingCustomer(o){ return paid(o) && ((o.photos||[]).length===0 || !!o.revisionPending); }
+  function finalQC(o){ return !!(o.final && o.final.status==='qc'); }
+  function delivered(o){ return statusOf(o)==='behandlet' || !!(o.final && o.final.approved); }
+  // 0 overdue, 1 deadline soon, 2 venter på kunde, 3 klar til levering, 4 normal, 5 levert, 6 påbegynt
+  function priorityRank(o){
+    if(!paid(o)) return 6;
+    if(delivered(o)) return 5;
+    var now=Date.now();
+    if(o.deadline && o.deadline<now) return 0;
+    if(o.deadline && (o.deadline-now)<6*3600000) return 1;
+    if(waitingCustomer(o)) return 2;
+    if(finalQC(o)) return 3;
+    return 4;
+  }
+  function nextAction(o){
+    if(!paid(o)) return {t:'Avventer betaling', k:'idle'};
+    if(delivered(o)) return {t:'Levert ✓', k:'done'};
+    if((o.photos||[]).length===0) return {t:'Venter på bilder fra kunde', k:'wait'};
+    if(o.revisionPending) return {t:'Lag ny versjon (endring ønsket)', k:'act'};
+    if(finalQC(o)) return {t:'QC → Godkjenn levering', k:'deliver'};
+    if(unanswered(o)) return {t:'Svar kunde', k:'act'};
+    var shots=(o.production&&o.production.shots)||[];
+    if(shots.length) return {t:'Fortsett produksjon', k:'work'};
+    if(statusOf(o)==='under_arbeid') return {t:'Fortsett produksjon', k:'work'};
+    return {t:'Lag shot-plan / start', k:'work'};
+  }
+  function prodProgress(o){
+    var shots=(o.production&&o.production.shots)||[];
+    if(!shots.length) return null;
+    var done=shots.filter(function(s){return s.status==='approved';}).length;
+    return done+' / '+shots.length+' shots klare';
+  }
   function metrics(){
     var now=Date.now();
     var ubeh=ORDERS.filter(function(o){return paid(o)&&statusOf(o)!=='behandlet';});
@@ -542,12 +598,21 @@
         '<button class="sbtn'+(s==='under_arbeid'?' on':'')+'" data-id="'+id+'" data-s="under_arbeid">Under arbeid</button>'+
         '<button class="sbtn'+(s==='behandlet'?' on':'')+'" data-id="'+id+'" data-s="behandlet">Ferdig</button>'+
       '</div>'):'<button class="btn primary" data-paid="'+id+'">✓ Bekreft betalt</button>';
+    var na=nextAction(o); var prog=prodProgress(o);
+    var signal=isPaid?('<div class="signal">'
+      + (finalQC(o)?'<div class="klar">🎬 Klar til levering — kjør QC og godkjenn</div>':'')
+      + '<div class="narow"><span class="na na-'+na.k+'">▸ Neste: '+esc(na.t)+'</span>'
+      + ((waitingCustomer(o)&&!finalQC(o))?'<span class="chip wait">⏳ Venter på kunde</span>':'')
+      + (unanswered(o)?'<span class="chip unread">● Ny melding fra kunde</span>':'')
+      + (prog?'<span class="chip prog">'+esc(prog)+'</span>':'')
+      + '</div></div>'):'';
     var prod=prodBlock(o,id);
     var fin=finalBlock(o,id);
     return '<div class="order '+(over?'overdue':s)+'">'+
       '<div class="oh"><div class="who"><b>'+esc(o.navn||'Ukjent')+'</b>'+
         '<div class="em"><a href="mailto:'+esc(o.email)+'">'+esc(o.email||'')+'</a>'+(o.email?'<button class="copy" data-cp="'+esc(o.email)+'" title="Kopier">⧉</button>':'')+'</div></div>'+
         '<div class="rt">'+badge+(pills?'<div class="pills">'+pills+'</div>':'')+'</div></div>'+
+      signal+
       '<div class="meta">'+
         '<span><span class="lab">Pakke</span><b>'+esc(o.pakke||o.pkg||'—')+'</b></span>'+
         '<span><span class="lab">Format</span><b>'+esc(o.format||'—')+'</b></span>'+
@@ -623,12 +688,15 @@
       '<span><span class="lab">Størrelse</span><b>'+fmtSize(f.master&&f.master.bytes)+'</b></span>'+
       '<span><span class="lab">Versjon</span><b>v'+(f.version||1)+'</b></span>'+
     '</div>';
+    var qcItems=['Riktig format ('+esc(f.format||o.format||'9:16')+')','Riktig lengde','Ingen visuelle feil','Riktig bolig / ingen feil detaljer','Ingen manglende shots','Final-fil lastet opp'];
+    var qc=f.approved?'':('<div class="qc"><div class="qc-h">QC før levering</div>'+
+      qcItems.map(function(it,qi){return '<label class="qc-i"><input type="checkbox" class="qcx" data-qc="'+id+'"> '+it+'</label>';}).join('')+'</div>');
     var primary=f.approved?'<span class="fin-ok">✓ Levert til kunde'+(f.deliveredAt?(' · '+ago(f.deliveredAt)):'')+'</span>':
-      '<button class="btn primary" data-approvedel="'+id+'">✓ Godkjenn levering</button>';
+      '<button class="btn primary" data-approvedel="'+id+'" disabled>✓ Godkjenn levering</button>';
     return '<div class="finalb"><div class="prod-h">🎬 Final levering<span class="shot-st '+st[1]+'" style="margin-left:8px">'+st[0]+'</span></div>'+
       revHtml+
       '<video class="fin-v" src="'+esc(f.preview&&f.preview.url||'')+'" poster="'+esc(f.poster&&f.poster.url||'')+'" preload="none" controls playsinline></video>'+
-      meta+
+      meta+qc+
       '<div class="fin-a">'+primary+
         '<a class="btn ghost" href="'+esc(f.master&&(f.master.dlUrl||f.master.url)||'')+'" download title="Last ned master">⤓ Master</a>'+
         '<button class="btn ghost" data-buildfinal="'+id+'">↻ Erstatt final</button>'+
@@ -666,7 +734,12 @@
       if(Q){var hay=((o.navn||'')+' '+(o.email||'')+' '+(o.pakke||o.pkg||'')+' '+(o.format||'')).toLowerCase();if(hay.indexOf(Q)<0)return false;}
       return true;
     });
-    rows.sort(function(a,b){if(SORT==='frist')return (a.deadline||9e15)-(b.deadline||9e15);if(SORT==='belop')return (b.amountKr||0)-(a.amountKr||0);return (b.created||0)-(a.created||0);});
+    rows.sort(function(a,b){
+      if(SORT==='frist')return (a.deadline||9e15)-(b.deadline||9e15);
+      if(SORT==='belop')return (b.amountKr||0)-(a.amountKr||0);
+      if(SORT==='prioritet'){var pa=priorityRank(a),pb=priorityRank(b);if(pa!==pb)return pa-pb;return (a.deadline||9e15)-(b.deadline||9e15);}
+      return (b.created||0)-(a.created||0);
+    });
     if((FILTER==='ubehandlet'||FILTER==='nye')&&SORT==='ny'){rows.sort(function(a,b){var ao=a.deadline&&a.deadline<now?1:0,bo=b.deadline&&b.deadline<now?1:0;if(ao!==bo)return bo-ao;return (b.created||0)-(a.created||0);});}
     if(!rows.length){var em=Q?'Ingen treff på «'+esc(Q)+'».':FILTER==='nye'?'Ingen nye bestillinger siden sist. 🎉':FILTER==='avventer'?'Ingen påbegynte (ubetalte) bestillinger.':'Ingen bestillinger her ennå.';$('list').innerHTML='<div class="empty"><div class="big">'+(Q?'🔍':'✧')+'</div>'+em+'</div>';return;}
     $('list').innerHTML=rows.map(orderCard).join('');
@@ -687,6 +760,7 @@
     [].forEach.call(l.querySelectorAll('[data-regen]'),function(b){b.onclick=function(){regenShot(b.getAttribute('data-regen'),b);};});
     [].forEach.call(l.querySelectorAll('[data-buildfinal]'),function(b){b.onclick=function(){buildFinalFromUrl(b.getAttribute('data-buildfinal'),b);};});
     [].forEach.call(l.querySelectorAll('[data-approvedel]'),function(b){b.onclick=function(){approveDelivery(b.getAttribute('data-approvedel'),b);};});
+    [].forEach.call(l.querySelectorAll('.qc'),function(box){var boxes=[].slice.call(box.querySelectorAll('.qcx'));var btn=box.parentNode.querySelector('[data-approvedel]');function upd(){if(btn)btn.disabled=!boxes.every(function(c){return c.checked;});}boxes.forEach(function(c){c.addEventListener('change',upd);});upd();});
   }
   // Copy everything Claude needs to produce the video for one order:
   // context (package/format/message) + every photo's direct link.
