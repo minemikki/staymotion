@@ -27,6 +27,19 @@ export default async function handler(req, res) {
       replies: Array.isArray(o.replies) ? o.replies : [],
       photos: o.photos || [],
       deliverables: o.deliverables || [],
+      // Only expose the final once it's approved & delivered. Never expose
+      // internal generated shots or admin files.
+      final: (o.final && o.final.approved) ? {
+        version: o.final.version,
+        poster: o.final.poster && o.final.poster.url || null,
+        preview: o.final.preview && o.final.preview.url || null,
+        durationSec: o.final.durationSec || null,
+        width: o.final.width || null,
+        height: o.final.height || null,
+        deliveredAt: o.final.deliveredAt || null,
+      } : null,
+      revisionsRemaining: Math.max(0, (typeof o.revisionsIncluded === 'number' ? o.revisionsIncluded : 1) - ((o.revisions || []).length)),
+      revisionPending: !!(o.revisions || []).some((r) => !r.handled),
     });
   } catch (e) {
     console.error('[order-view]', e);
