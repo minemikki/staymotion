@@ -290,6 +290,22 @@
   .chip.wait{color:var(--champagne);border-color:rgba(231,210,169,.35);background:rgba(231,210,169,.08)}
   .chip.unread{color:var(--red);border-color:rgba(233,134,111,.4);background:rgba(233,134,111,.08)}
   .chip.prog{color:var(--cyan);border-color:rgba(105,212,224,.3)}
+  /* project workspace */
+  .pj{margin:12px 0 4px;display:grid;gap:12px}
+  .pj-box{padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
+  .pj-h{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+  .pj-h a{color:var(--cyan);font-weight:600;letter-spacing:0;text-transform:none;font-size:12px}
+  .pj-row{display:flex;gap:8px;align-items:center}
+  .pj-in{flex:1;min-width:0;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:9px;color:var(--ice);padding:10px 12px;font-family:inherit;font-size:13px}
+  .pj-in:focus{outline:none;border-color:var(--cyan)}
+  textarea.pj-in{min-height:70px;resize:vertical}
+  .pj-help{color:var(--muted);font-size:12px;margin-top:8px;line-height:1.45}
+  .stage-lab{font-size:11px;font-weight:700;padding:5px 11px;border-radius:100px;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+  .stage-lab.strategi{background:rgba(138,154,167,.16);color:var(--dim)} .stage-lab.design,.stage-lab.bygg{background:rgba(105,212,224,.16);color:var(--cyan)}
+  .stage-lab.review{background:rgba(231,184,114,.16);color:var(--amber)} .stage-lab.lansert{background:rgba(99,208,138,.16);color:var(--green)}
+  .stagectl .sbtn.on.review{background:var(--amber);color:#1a1206} .stagectl .sbtn.on.lansert{background:var(--green);color:#03170b}
+  .btn:disabled{opacity:.42;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+  .legacy{margin-top:10px;font-size:12px;color:var(--muted)} .legacy summary{cursor:pointer;color:var(--dim)}
   /* QC checklist */
   .qc{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02)}
   .qc-h{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
@@ -372,7 +388,7 @@
 
   <div class="nav" id="nav">
     <button class="n active" data-v="oversikt"><span class="ic">◈</span> Oversikt</button>
-    <button class="n" data-v="bestillinger"><span class="ic">▤</span> Bestillinger</button>
+    <button class="n" data-v="bestillinger"><span class="ic">▤</span> Prosjekter</button>
     <button class="n" data-v="statistikk"><span class="ic">📈</span> Statistikk</button>
     <button class="n" data-v="kunder"><span class="ic">☺</span> Kunder</button>
     <button class="n" data-v="leads"><span class="ic">◎</span> Leads</button>
@@ -382,7 +398,7 @@
   <section id="v-oversikt">
     <div class="stats" id="ov-stats"></div>
     <div class="panel board-panel">
-      <div class="ph"><h2>Produksjonsflyt</h2><button class="btn sm ghost" data-goto="bestillinger">Åpne bestillinger →</button></div>
+      <div class="ph"><h2>Prosjektflyt</h2><button class="btn sm ghost" data-goto="bestillinger">Åpne prosjekter →</button></div>
       <div class="board" id="ov-board"></div>
     </div>
     <div class="panel">
@@ -390,7 +406,7 @@
       <div class="chartbox"><canvas id="ch-ov"></canvas><div class="chln hide" id="ln-ov"></div></div>
     </div>
     <div class="panel">
-      <div class="ph"><h2>Siste bestillinger</h2><button class="btn sm ghost" data-goto="bestillinger">Se alle →</button></div>
+      <div class="ph"><h2>Siste prosjekter</h2><button class="btn sm ghost" data-goto="bestillinger">Se alle →</button></div>
       <div id="ov-recent"></div>
     </div>
   </section>
@@ -400,7 +416,7 @@
     <div class="controls">
       <label class="search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input id="q" type="search" placeholder="Søk navn, e-post, pakke …" autocomplete="off">
+        <input id="q" type="search" placeholder="Søk kunde, e-post, pakke …" autocomplete="off">
       </label>
       <select id="sort">
         <option value="prioritet">Prioritet</option>
@@ -411,10 +427,10 @@
     </div>
     <div class="tabs" id="tabs">
       <button class="tab active" data-f="nye">Nye<span class="c" id="c-nye">0</span></button>
-      <button class="tab" data-f="ubehandlet">Ubehandlet<span class="c" id="c-ubeh">0</span></button>
-      <button class="tab" data-f="behandlet">Behandlet<span class="c" id="c-beh">0</span></button>
+      <button class="tab" data-f="ubehandlet">Aktive<span class="c" id="c-ubeh">0</span></button>
+      <button class="tab" data-f="behandlet">Lansert<span class="c" id="c-beh">0</span></button>
       <button class="tab" data-f="alle">Alle<span class="c" id="c-all">0</span></button>
-      <button class="tab" data-f="avventer">Påbegynt<span class="c" id="c-avv">0</span></button>
+      <button class="tab" data-f="avventer">Ubetalt<span class="c" id="c-avv">0</span></button>
     </div>
     <div id="list"></div>
   </section>
@@ -427,12 +443,12 @@
       <div class="chartbox"><canvas id="ch-rev"></canvas><div class="chln hide" id="ln-rev"></div></div>
     </div>
     <div class="panel">
-      <div class="ph"><h2>Bestillinger per uke</h2><span class="t2">Siste 8 uker</span></div>
+      <div class="ph"><h2>Nye prosjekter per uke</h2><span class="t2">Siste 8 uker</span></div>
       <div class="chartbox"><canvas id="ch-week"></canvas><div class="chln hide" id="ln-week"></div></div>
     </div>
     <div class="grid2">
       <div class="panel"><div class="ph"><h2>Fordeling per pakke</h2></div><div class="chartbox sm"><canvas id="ch-pkg"></canvas><div class="chln hide" id="ln-pkg"></div></div></div>
-      <div class="panel"><div class="ph"><h2>Fordeling format</h2></div><div class="chartbox sm"><canvas id="ch-fmt"></canvas><div class="chln hide" id="ln-fmt"></div></div></div>
+      <div class="panel"><div class="ph"><h2>Prosjekter per fase</h2></div><div class="chartbox sm"><canvas id="ch-fmt"></canvas><div class="chln hide" id="ln-fmt"></div></div></div>
     </div>
   </section>
 
@@ -557,9 +573,20 @@
   // --- clarity layer: priority + next action + comms ---
   function lastMsg(o){ var th=threadOf(o); return th.length?th[th.length-1]:null; }
   function unanswered(o){ var m=lastMsg(o); return !!(m && m.who==='kunde'); }
-  function waitingCustomer(o){ return paid(o) && ((o.photos||[]).length===0 || !!o.revisionPending); }
+  function waitingCustomer(o){ return paid(o) && ((o.photos||[]).length===0 || !!o.revisionPending || projStage(o)==='review'); }
   function finalQC(o){ return !!(o.final && o.final.status==='qc'); }
-  function delivered(o){ return statusOf(o)==='behandlet' || !!(o.final && o.final.approved); }
+  function delivered(o){ return projStage(o)==='lansert'; }
+  // Web-project stage. Admin-set stage wins; legacy orders fall back to status.
+  var STAGE_ORDER=['strategi','design','bygg','review','lansert'];
+  var STAGE_LABEL={strategi:'Strategi',design:'Design',bygg:'Bygg',review:'Review',lansert:'Lansert'};
+  function projStage(o){
+    var p=o.project||{}; if(p.stage&&STAGE_LABEL[p.stage]) return p.stage;
+    if(statusOf(o)==='behandlet' || (o.final&&o.final.approved)) return 'lansert';
+    if(finalQC(o)) return 'review';
+    if(statusOf(o)==='under_arbeid') return 'design';
+    return 'strategi';
+  }
+  var LAUNCH_CHK=[['mobil','Testet på mobil og desktop'],['lenker','Skjema, knapper og lenker testet'],['seo','Titler, beskrivelser og OG-bilde satt'],['analyse','Analyse / sporing installert'],['ytelse','Ytelse sjekket — bilder og hastighet'],['domene','Domene, DNS og SSL på plass'],['godkjent','Kunden har godkjent utkastet']];
   // 0 overdue, 1 deadline soon, 2 venter på kunde, 3 klar til levering, 4 normal, 5 levert, 6 påbegynt
   function priorityRank(o){
     if(!paid(o)) return 6;
@@ -572,22 +599,21 @@
     return 4;
   }
   function nextAction(o){
-    if(!paid(o)) return {t:'Avventer betaling', k:'idle'};
-    if(delivered(o)) return {t:'Levert ✓', k:'done'};
-    if((o.photos||[]).length===0) return {t:'Venter på innhold fra kunde', k:'wait'};
-    if(o.revisionPending) return {t:'Lag ny versjon (endring ønsket)', k:'act'};
-    if(finalQC(o)) return {t:'QC → Godkjenn levering', k:'deliver'};
+    if(!paid(o)) return {t:'Avventer depositum', k:'idle'};
+    var st=projStage(o);
+    if(st==='lansert') return {t:'Lansert ✓ — følg opp om Care', k:'done'};
+    if(o.revisionPending) return {t:'Kunden ba om endring — juster og send på nytt', k:'act'};
     if(unanswered(o)) return {t:'Svar kunde', k:'act'};
-    var shots=(o.production&&o.production.shots)||[];
-    if(shots.length) return {t:'Fortsett produksjon', k:'work'};
-    if(statusOf(o)==='under_arbeid') return {t:'Fortsett produksjon', k:'work'};
-    return {t:'Lag shot-plan / start', k:'work'};
+    if((o.photos||[]).length===0 && st==='strategi') return {t:'Venter på innhold fra kunde', k:'wait'};
+    if(st==='review') return {t:'Venter på kundens godkjenning', k:'wait'};
+    if(st==='bygg') return {t:'Fullfør bygg → send til gjennomgang', k:'work'};
+    if(st==='design') return {t:'Fortsett design', k:'work'};
+    return {t:'Start strategi og struktur', k:'work'};
   }
   function prodProgress(o){
-    var shots=(o.production&&o.production.shots)||[];
-    if(!shots.length) return null;
-    var done=shots.filter(function(s){return s.status==='approved';}).length;
-    return done+' / '+shots.length+' shots klare';
+    var p=o.project||{}, chk=p.checklist||{}; var done=LAUNCH_CHK.filter(function(c){return chk[c[0]];}).length;
+    if(!done) return null;
+    return done+' / '+LAUNCH_CHK.length+' lanseringspunkter';
   }
   function metrics(){
     var now=Date.now();
@@ -616,11 +642,11 @@
   }
   function boardStage(o){
     if(!paid(o)) return null;
-    if(delivered(o)) return 'klar';
-    if(finalQC(o)) return 'qc';
+    var st=projStage(o);
+    if(st==='lansert') return 'klar';
+    if(st==='review') return 'qc';
     if(o.revisionPending) return 'venter';
-    var shots=(o.production&&o.production.shots)||[];
-    if(shots.length || statusOf(o)==='under_arbeid') return 'produseres';
+    if(st==='design'||st==='bygg') return 'produseres';
     if((o.photos||[]).length===0) return 'venter';
     if((o.created||0) > SEEN) return 'nye';
     return 'klarprod';
@@ -631,21 +657,21 @@
   ];
   function boardFoot(o,stg){
     var cd=countdown(o.deadline);
-    if(stg==='klar') return '<span class="bf ok">✓ Levert</span>';
-    if(stg==='qc') return '<span class="bf qc">Venter godkjenning</span>';
+    if(stg==='klar') return '<span class="bf ok">✓ Lansert</span>';
+    if(stg==='qc') return '<span class="bf qc">Til gjennomgang hos kunde</span>';
     if(stg==='venter') return '<span class="bf wait">'+(o.revisionPending?'Endring ønsket':(o.photos&&o.photos.length? 'Venter på svar':'Venter på innhold'))+'</span>';
     if(stg==='nye') return '<span class="bf">'+ago(o.created)+'</span>';
-    if(stg==='produseres'){ var sh=(o.production&&o.production.shots)||[]; var done=sh.filter(function(x){return x.status==='approved';}).length; return '<span class="bf '+cd.c+'">'+(sh.length?(done+'/'+sh.length+' shots · '):'')+cd.t+'</span>'; }
+    if(stg==='produseres'){ return '<span class="bf '+cd.c+'">'+STAGE_LABEL[projStage(o)]+' · '+cd.t+'</span>'; }
     return '<span class="bf '+cd.c+'">'+cd.t+'</span>';
   }
   function bcard(o){
     var stg=boardStage(o);
     var thumb=(o.photos&&o.photos[0]&&o.photos[0].url)||'';
-    var th=thumb?('<img src="'+esc(thumb)+'" loading="lazy" decoding="async" alt="">'):'<span class="noimg">🏠</span>';
+    var th=thumb?('<img src="'+esc(thumb)+'" loading="lazy" decoding="async" alt="">'):'<span class="noimg">◫</span>';
     return '<button class="bcard" data-open="'+esc(o.id)+'">'+
       '<span class="bthumb">'+th+'</span>'+
       '<span class="bbody"><b>'+esc(o.navn||'Ukjent')+'</b>'+
-        '<span class="bmeta">'+esc((o.pakke||o.pkg||'').split('—')[0].trim()||'Enkelt')+' · '+reelsLabel(o)+'</span>'+
+        '<span class="bmeta">'+esc(reelsLabel(o))+'</span>'+
         '<span class="bmeta">'+((o.photos||[]).length)+' filer</span>'+
         boardFoot(o,stg)+
       '</span></button>';
@@ -677,15 +703,15 @@
     ORDERS.forEach(function(o){var st=boardStage(o);if(st&&bc[st]!=null)bc[st]++;});
     $('ov-stats').innerHTML=
       '<div class="stat"><span class="k">▤</span><div class="n">'+(bc.nye+bc.klarprod)+'</div><div class="l">Nye prosjekter</div></div>'+
-      '<div class="stat"><span class="k">▶</span><div class="n">'+bc.produseres+'</div><div class="l">I produksjon</div></div>'+
+      '<div class="stat"><span class="k">▶</span><div class="n">'+bc.produseres+'</div><div class="l">Design & bygg</div></div>'+
       '<div class="stat warn"><span class="k">◷</span><div class="n">'+bc.venter+'</div><div class="l">Venter på kunde</div></div>'+
-      '<div class="stat ok"><span class="k">✓</span><div class="n">'+bc.qc+'</div><div class="l">Klar for levering</div></div>'+
+      '<div class="stat ok"><span class="k">✓</span><div class="n">'+bc.qc+'</div><div class="l">Til gjennomgang</div></div>'+
       '<div class="stat red"><span class="k">⚠</span><div class="n">'+m.overdue.length+'</div><div class="l">Over frist</div></div>'+
       '<div class="stat"><span class="k">◆</span><div class="n">'+kr(m.revM)+'</div><div class="l">Omsetning i mnd</div></div>';
     renderBoard();
     // recent 5
     var recent=ORDERS.filter(paid).slice().sort(function(a,b){return (b.created||0)-(a.created||0);}).slice(0,5);
-    $('ov-recent').innerHTML=recent.length?recent.map(orderCard).join(''):'<div class="empty"><div class="big">✧</div>Ingen bestillinger ennå.</div>';
+    $('ov-recent').innerHTML=recent.length?recent.map(orderCard).join(''):'<div class="empty"><div class="big">✧</div>Ingen prosjekter ennå.</div>';
     wireList($('ov-recent'));
     // chart
     var days=dayBuckets(30);
@@ -698,11 +724,11 @@
   var MAXTHUMB=8;
   function orderCard(o){
     var now=Date.now();var s=statusOf(o);var isPaid=paid(o);var id=esc(o.id);
-    var over=isPaid&&s!=='behandlet'&&(!(o.deliverables&&o.deliverables.length))&&o.deadline&&o.deadline<now;
-    var badge=!isPaid?'<span class="badge avv">Påbegynt</span>':(s==='behandlet'?'<span class="badge beh">Ferdig</span>':s==='under_arbeid'?'<span class="badge ubeh" style="background:rgba(105,212,224,.16);color:var(--cyan)">Under arbeid</span>':'<span class="badge ubeh">Ubehandlet</span>');
-    var pills=(o.express?'<span class="pill exp">Express</span>':'')+(o.both?'<span class="pill both">Begge formater</span>':'');
+    var st=projStage(o); var pj=o.project||{}; var chk=pj.checklist||{};
+    var over=isPaid&&st!=='lansert'&&o.deadline&&o.deadline<now;
+    var badge=!isPaid?'<span class="badge avv">Ubetalt</span>':'<span class="stage-lab '+st+'">'+STAGE_LABEL[st]+'</span>';
     var cd=countdown(o.deadline);
-    // photos: cap thumbnails for performance; flag ones sent after the order was placed
+    // files from the customer (logo, text, images); flag ones sent after the order was placed
     var plist=o.photos||[]; var lateCut=(o.created||0)+120000;
     var lateCount=plist.filter(function(p){return p.uploadedAt&&p.uploadedAt>lateCut;}).length;
     var shown=plist.slice(0,MAXTHUMB); var extra=plist.length-shown.length;
@@ -710,66 +736,75 @@
         var late=p.uploadedAt&&p.uploadedAt>lateCut;
         return '<button class="'+(late?'late':'')+'" data-oid="'+id+'" data-pi="'+pi+'"><img src="'+esc(p.url)+'" alt="" loading="lazy" decoding="async" width="74" height="74"></button>';
       }).join('')+(extra>0?'<button class="morep" data-oid="'+id+'" data-pi="'+MAXTHUMB+'">+'+extra+'</button>':''))
-      :'<span class="none">Ingen filer lastet opp ennå</span>';
+      :'<span class="none">Ingen filer lastet opp ennå — logo, tekst og bilder kommer hit.</span>';
     var dlAll=plist.length?'<button class="btn sm ghost" data-dl="'+id+'">⤓ Last ned alle ('+plist.length+')</button>':'';
-    // conversation summary for the card's chat button
     var thread=threadOf(o);
     var lastKunde=thread.length&&thread[thread.length-1].who==='kunde';
-    var chatBtn=isPaid?('<button class="btn ghost chatbtn'+(lastKunde?' unread':'')+'" data-chat="'+id+'">💬 Snakk med kunde'+(thread.length?' <span class="cbadge">'+thread.length+'</span>':'')+'</button>'):'';
-    var statusCtl=isPaid?('<span class="slab">Status kunden ser</span><div class="statusctl">'+
-        '<button class="sbtn'+(s!=='under_arbeid'&&s!=='behandlet'?' on':'')+'" data-id="'+id+'" data-s="ubehandlet">I kø</button>'+
-        '<button class="sbtn'+(s==='under_arbeid'?' on':'')+'" data-id="'+id+'" data-s="under_arbeid">Under arbeid</button>'+
-        '<button class="sbtn'+(s==='behandlet'?' on':'')+'" data-id="'+id+'" data-s="behandlet">Ferdig</button>'+
-      '</div>'):'<button class="btn primary" data-paid="'+id+'">✓ Bekreft betalt</button>';
     var na=nextAction(o); var prog=prodProgress(o);
     var signal=isPaid?('<div class="signal">'
-      + (finalQC(o)?'<div class="klar">🎬 Klar til levering — kjør QC og godkjenn</div>':'')
+      + (st==='review'&&!o.revisionPending?'<div class="klar">🔍 Utkast hos kunden — venter på godkjenning</div>':'')
       + '<div class="narow"><span class="na na-'+na.k+'">▸ Neste: '+esc(na.t)+'</span>'
-      + ((waitingCustomer(o)&&!finalQC(o))?'<span class="chip wait">⏳ Venter på kunde</span>':'')
+      + ((waitingCustomer(o)&&st!=='review')?'<span class="chip wait">⏳ Venter på kunde</span>':'')
       + (unanswered(o)?'<span class="chip unread">● Ny melding fra kunde</span>':'')
       + (prog?'<span class="chip prog">'+esc(prog)+'</span>':'')
       + '</div></div>'):'';
-    var prod=prodBlock(o,id);
-    var fin=finalBlock(o,id);
     var header='<div class="oh"><div class="who"><b>'+esc(o.navn||'Ukjent')+'</b>'+
         '<div class="em"><a href="mailto:'+esc(o.email)+'">'+esc(o.email||'')+'</a>'+(o.email?'<button class="copy" data-cp="'+esc(o.email)+'" title="Kopier">⧉</button>':'')+'</div></div>'+
-        '<div class="rt">'+badge+(pills?'<div class="pills">'+pills+'</div>':'')+'</div></div>';
+        '<div class="rt">'+badge+'</div></div>';
     var metaRow='<div class="meta">'+
-        '<span><span class="lab">Pakke</span><b>'+esc((o.pakke||o.pkg||'—').split('—')[0].trim()||'—')+'</b></span>'+
-        '<span><span class="lab">Format</span><b>'+esc(o.format||'—')+'</b></span>'+
-        '<span><span class="lab">Beløp</span><b>'+kr(o.amountKr)+'</b></span>'+
-        '<span><span class="lab">Frist</span><span class="cd '+cd.c+'" data-deadline="'+(o.deadline||'')+'">'+cd.t+'</span></span>'+
+        '<span><span class="lab">Pakke</span><b>'+esc(reelsLabel(o))+'</b></span>'+
+        '<span><span class="lab">'+(isPaid?'Betalt':'Beløp')+'</span><b>'+kr(o.amountKr)+'</b></span>'+
+        (pj.liveUrl?('<span><span class="lab">Live</span><b><a href="'+esc(pj.liveUrl)+'" target="_blank" rel="noopener" style="color:var(--cyan)">'+esc(pj.liveUrl.replace(/^https?:\/\//,''))+'</a></b></span>'):'')+
+        '<span><span class="lab">'+(st==='lansert'?'Lansert':'Lansering senest')+'</span>'+(st==='lansert'?'<b>'+(pj.launchedAt?fmtDate(pj.launchedAt):'—')+'</b>':'<span class="cd '+cd.c+'" data-deadline="'+(o.deadline||'')+'">'+cd.t+'</span>')+'</span>'+
       '</div>';
-    // unpaid: minimal card, no tabs
     if(!isPaid){
       return '<div class="order '+(over?'overdue':s)+'" id="ord-'+id+'">'+header+metaRow+
         '<div class="oa"><button class="btn primary" data-paid="'+id+'">✓ Bekreft betalt</button>'+
-        '<button class="btn ghost del" data-del="'+id+'" title="Slett bestilling">🗑 Slett</button></div></div>';
+        '<button class="btn ghost del" data-del="'+id+'" title="Slett prosjekt">🗑 Slett</button></div></div>';
     }
-    var nShots=((o.production&&o.production.shots)||[]).length;
+    // stage control — also what the customer sees in the portal
+    var stageCtl='<span class="slab">Fase</span><div class="statusctl stagectl">'+STAGE_ORDER.map(function(k){
+      return '<button class="sbtn'+(k===st?' on '+k:'')+'" data-stage="'+id+'" data-k="'+k+'">'+STAGE_LABEL[k]+'</button>';}).join('')+'</div>';
     var tab=function(k,label,n){return '<button class="otab" data-tc="'+id+'" data-tab="'+k+'">'+label+(n?'<span class="tn">'+n+'</span>':'')+'</button>';};
+    var chkDone=LAUNCH_CHK.filter(function(c){return chk[c[0]];}).length;
     var tabs='<div class="otabs">'+tab('oversikt','Oversikt',0)+tab('bilder','Filer',plist.length)+
-      tab('prod','Prod.',nShots)+tab('chat','Chat',thread.length)+tab('lev','Levering',0)+'</div>';
+      tab('prod','Prosjekt',0)+tab('chat','Meldinger',thread.length)+tab('lev','Lansering',chkDone)+'</div>';
     var pOversikt='<div class="opanel" data-p="oversikt">'+
-      (o.melding?('<div class="msg"><span class="lab">Melding fra kunde</span>'+esc(o.melding)+'</div>'):'')+
-      '<div class="metaline"><span>Bestilt '+fmtDate(o.created)+' · '+ago(o.created)+'</span></div>'+
-      '<div class="oa">'+statusCtl+'</div></div>';
+      (o.melding?('<div class="msg"><span class="lab">Brief fra kunde</span>'+esc(o.melding)+'</div>'):'<div class="tnull">Ingen brief skrevet ved bestilling.</div>')+
+      '<div class="metaline"><span>Bestilt '+fmtDate(o.created)+' · '+ago(o.created)+(pj.updatedAt?(' · sist oppdatert '+ago(pj.updatedAt)):'')+'</span></div>'+
+      '<div class="oa">'+stageCtl+'</div></div>';
     var pBilder='<div class="opanel hide" data-p="bilder">'+
-      '<div class="phead"><span class="t">'+plist.length+' filer'+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?'<button class="btn sm claudebtn" data-claude="'+id+'">📤 Send til Claude</button>':'')+dlAll+'</div>'+
+      '<div class="phead"><span class="t">'+plist.length+' filer'+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+dlAll+'</div>'+
       '<div class="photos">'+photos+'</div></div>';
-    var pProd='<div class="opanel hide" data-p="prod">'+
-      '<div class="reelbuild"><div class="rb-h">Bygg reel til levering</div>'+
-        '<textarea class="reelurls" placeholder="Lim inn klipp-URLene her — én per linje. Serveren setter dem sammen (30fps) og legger reelen i Final levering."></textarea>'+
-        '<button class="btn sm primary" data-reel="'+id+'">🎬 Bygg reel</button>'+
-      '</div>'+
-      (prod||'<div class="tnull">Ingen genererte shots ennå.</div>')+'</div>';
+    var legacy=(prodBlock(o,id)?('<details class="legacy"><summary>Eldre medieproduksjon (video)</summary>'+prodBlock(o,id)+'</details>'):'');
+    var pProd='<div class="opanel hide" data-p="prod"><div class="pj">'+
+      '<div class="pj-box"><div class="pj-h"><span>Forhåndsvisning (staging)</span>'+(pj.stagingUrl?'<a href="'+esc(pj.stagingUrl)+'" target="_blank" rel="noopener">Åpne ↗</a>':'')+'</div>'+
+        '<div class="pj-row"><input class="pj-in" type="url" placeholder="https://utkast.vercel.app" value="'+esc(pj.stagingUrl||'')+'" data-f="stagingUrl"><button class="btn sm ghost" data-psave="'+id+'" data-f="stagingUrl">Lagre</button></div>'+
+        '<div class="pj-help">Lenken kunden ser i portalen når prosjektet står i Review. <b>Send til gjennomgang</b> varsler kunden på e-post.</div>'+
+        '<div class="oa" style="margin-top:12px;padding-top:12px"><button class="btn sm primary" data-review="'+id+'"'+(pj.stagingUrl?'':' disabled')+'>🔍 Send til gjennomgang</button></div></div>'+
+      '<div class="pj-box"><div class="pj-h"><span>Interne notater</span></div>'+
+        '<textarea class="pj-in" placeholder="Sidestruktur, fargevalg, ting å huske … (kunden ser ikke dette)" data-f="notes">'+esc(pj.notes||'')+'</textarea>'+
+        '<div class="pj-row" style="margin-top:8px;justify-content:flex-end"><button class="btn sm ghost" data-psave="'+id+'" data-f="notes">Lagre notat</button></div></div>'+
+      legacy+'</div></div>';
     var pChat='<div class="opanel hide" data-p="chat">'+
       '<button class="btn ghost chatbtn'+(lastKunde?' unread':'')+'" data-chat="'+id+'" style="width:100%">💬 Åpne samtale'+(thread.length?' ('+thread.length+')':'')+'</button>'+
       (thread.length?'<div class="lastmsg"><span class="lab">Siste</span>'+esc((thread[thread.length-1].text||'').slice(0,140))+'</div>':'<div class="tnull">Ingen meldinger ennå.</div>')+'</div>';
-    var pLev='<div class="opanel hide" data-p="lev">'+(fin||'<div class="tnull">Ingen final ennå.</div>')+'</div>';
+    var allChk=chkDone===LAUNCH_CHK.length;
+    var fin=o.final?finalBlock(o,id):'';
+    var pLev='<div class="opanel hide" data-p="lev"><div class="pj">'+
+      '<div class="pj-box"><div class="pj-h"><span>Lanseringssjekk</span><span style="letter-spacing:0;text-transform:none">'+chkDone+' / '+LAUNCH_CHK.length+'</span></div>'+
+        LAUNCH_CHK.map(function(c){return '<label class="qc-i"><input type="checkbox" data-chk="'+id+'" data-k="'+c[0]+'"'+(chk[c[0]]?' checked':'')+'> '+c[1]+'</label>';}).join('')+'</div>'+
+      '<div class="pj-box"><div class="pj-h"><span>Live-URL</span>'+(pj.liveUrl?'<a href="'+esc(pj.liveUrl)+'" target="_blank" rel="noopener">Åpne ↗</a>':'')+'</div>'+
+        '<div class="pj-row"><input class="pj-in" type="url" placeholder="https://kundensdomene.no" value="'+esc(pj.liveUrl||'')+'" data-f="liveUrl"><button class="btn sm ghost" data-psave="'+id+'" data-f="liveUrl">Lagre</button></div>'+
+        '<div class="oa" style="margin-top:12px;padding-top:12px">'+(st==='lansert'
+          ?'<span class="chip prog">✓ Lansert '+(pj.launchedAt?fmtDate(pj.launchedAt):'')+'</span>'
+          :'<button class="btn primary" data-launch="'+id+'"'+((pj.liveUrl&&allChk)?'':' disabled')+'>🚀 Marker som lansert</button>'+
+           (!allChk?'<span class="pj-help" style="margin:0">Fullfør sjekklisten først.</span>':(!pj.liveUrl?'<span class="pj-help" style="margin:0">Legg inn live-URL først.</span>':'')))+
+        '</div></div>'+
+      (fin?('<details class="legacy"><summary>Eldre videolevering</summary>'+fin+'</details>'):'')+'</div></div>';
     return '<div class="order '+(over?'overdue':s)+'" id="ord-'+id+'">'+header+signal+metaRow+tabs+
       '<div class="opanels">'+pOversikt+pBilder+pProd+pChat+pLev+'</div>'+
-      '<div class="oa oa-foot"><button class="btn ghost del" data-del="'+id+'" title="Slett bestilling">🗑 Slett</button></div></div>';
+      '<div class="oa oa-foot"><button class="btn ghost del" data-del="'+id+'" title="Slett prosjekt">🗑 Slett</button></div></div>';
   }
   var SHOTST={not_started:['Ikke startet','ns'],generating:['Genererer','gen'],generated:['Generert','gd'],approved:['Godkjent','ap'],rejected:['Avvist','rj']};
   function prodBlock(o,id){
@@ -877,6 +912,38 @@
       toast('✓ Levert! Kunden er varslet.'); LASTSIG=''; load(false);
     }catch(e){toast('Feil: '+e.message);b&&(b.disabled=false);}
   }
+  /* ---------- PROJECT ACTIONS ---------- */
+  function applyProject(id,j){ var o=ORDERS.filter(function(x){return x.id===id;})[0]; if(o){ if(j.project)o.project=j.project; if(j.status)o.status=j.status; if(j.stage){o.project=o.project||{};o.project.stage=j.stage;} if(j.liveUrl){o.project.liveUrl=j.liveUrl;} if(j.stagingUrl){o.project.stagingUrl=j.stagingUrl;} } LASTSIG=''; }
+  async function projectPost(body){
+    var r=await fetch('/api/admin-project?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    var j=await r.json(); if(!r.ok||j.error) throw new Error(j.error||'feil'); return j;
+  }
+  async function setStage(id,k,btn){
+    btn.disabled=true; try{ var j=await projectPost({orderId:id,action:'update',stage:k}); applyProject(id,j); toast('Fase: '+STAGE_LABEL[k]+' — kunden ser dette i portalen ✓'); renderAll(); }
+    catch(e){ btn.disabled=false; toast('Feil: '+e.message); }
+  }
+  async function saveProjectField(id,f,btn){
+    var card=btn.closest('.order'); var inp=card&&card.querySelector('[data-f="'+f+'"].pj-in'); if(!inp)return;
+    var body={orderId:id,action:'update'}; body[f]=inp.value;
+    btn.disabled=true; var old=btn.textContent; btn.textContent='…';
+    try{ var j=await projectPost(body); applyProject(id,j); toast('Lagret ✓'); renderAll(); }
+    catch(e){ btn.disabled=false; btn.textContent=old; toast('Feil: '+e.message); }
+  }
+  async function toggleChk(id,k,on,box){
+    var patch={}; patch[k]=!!on;
+    try{ var j=await projectPost({orderId:id,action:'update',checklist:patch}); applyProject(id,j); renderAll(); }
+    catch(e){ box.checked=!on; toast('Feil: '+e.message); }
+  }
+  async function sendReview(id,btn){
+    if(!confirm('Sende utkastet til kunden for gjennomgang? Kunden får e-post og ser lenken i portalen.'))return;
+    btn.disabled=true; try{ var j=await projectPost({orderId:id,action:'review'}); applyProject(id,j); toast('✓ Sendt til gjennomgang — kunden er varslet'); renderAll(); }
+    catch(e){ btn.disabled=false; toast('Feil: '+e.message); }
+  }
+  async function launchProject(id,btn){
+    if(!confirm('Markere prosjektet som lansert? Kunden får e-post med lenke til den nye nettsiden.'))return;
+    btn.disabled=true; try{ var j=await projectPost({orderId:id,action:'launch'}); applyProject(id,j); toast('🚀 Lansert! Kunden er varslet.'); renderAll(); }
+    catch(e){ btn.disabled=false; toast('Feil: '+e.message); }
+  }
   function renderBestillinger(){
     var now=Date.now();var m=metrics();
     var cn=$('c-nye');if(cn)cn.textContent=m.nye.length;
@@ -888,7 +955,7 @@
       else if(FILTER==='alle'){ if(!p)return false; }           // alle ekte ordre
       else if(FILTER==='behandlet'){ if(!p||s!=='behandlet')return false; }
       else { if(!p||s==='behandlet')return false; }             // ubehandlet = ekte ordre som ikke er ferdig
-      if(Q){var hay=((o.navn||'')+' '+(o.email||'')+' '+(o.pakke||o.pkg||'')+' '+(o.format||'')).toLowerCase();if(hay.indexOf(Q)<0)return false;}
+      if(Q){var hay=((o.navn||'')+' '+(o.email||'')+' '+(o.pakke||o.pkg||'')+' '+((o.project&&o.project.liveUrl)||'')).toLowerCase();if(hay.indexOf(Q)<0)return false;}
       return true;
     });
     rows.sort(function(a,b){
@@ -898,7 +965,7 @@
       return (b.created||0)-(a.created||0);
     });
     if((FILTER==='ubehandlet'||FILTER==='nye')&&SORT==='ny'){rows.sort(function(a,b){var ao=a.deadline&&a.deadline<now?1:0,bo=b.deadline&&b.deadline<now?1:0;if(ao!==bo)return bo-ao;return (b.created||0)-(a.created||0);});}
-    if(!rows.length){var em=Q?'Ingen treff på «'+esc(Q)+'».':FILTER==='nye'?'Ingen nye bestillinger siden sist. 🎉':FILTER==='avventer'?'Ingen påbegynte (ubetalte) bestillinger.':'Ingen bestillinger her ennå.';$('list').innerHTML='<div class="empty"><div class="big">'+(Q?'🔍':'✧')+'</div>'+em+'</div>';return;}
+    if(!rows.length){var em=Q?'Ingen treff på «'+esc(Q)+'».':FILTER==='nye'?'Ingen nye prosjekter siden sist. 🎉':FILTER==='avventer'?'Ingen ubetalte prosjekter.':'Ingen prosjekter her ennå.';$('list').innerHTML='<div class="empty"><div class="big">'+(Q?'🔍':'✧')+'</div>'+em+'</div>';return;}
     $('list').innerHTML=rows.map(orderCard).join('');
     wireList($('list'));
   }
@@ -911,7 +978,11 @@
     [].forEach.call(l.querySelectorAll('[data-dl]'),function(b){b.onclick=function(){downloadAll(b.getAttribute('data-dl'),b);};});
     [].forEach.call(l.querySelectorAll('[data-chat]'),function(b){b.onclick=function(){openChat(b.getAttribute('data-chat'));};});
     [].forEach.call(l.querySelectorAll('[data-del]'),function(b){b.onclick=function(){delOrder(b.getAttribute('data-del'),b);};});
-    [].forEach.call(l.querySelectorAll('[data-claude]'),function(b){b.onclick=function(){copyForClaude(b.getAttribute('data-claude'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-stage]'),function(b){b.onclick=function(){setStage(b.getAttribute('data-stage'),b.getAttribute('data-k'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-psave]'),function(b){b.onclick=function(){saveProjectField(b.getAttribute('data-psave'),b.getAttribute('data-f'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-chk]'),function(c){c.onchange=function(){toggleChk(c.getAttribute('data-chk'),c.getAttribute('data-k'),c.checked,c);};});
+    [].forEach.call(l.querySelectorAll('[data-review]'),function(b){b.onclick=function(){sendReview(b.getAttribute('data-review'),b);};});
+    [].forEach.call(l.querySelectorAll('[data-launch]'),function(b){b.onclick=function(){launchProject(b.getAttribute('data-launch'),b);};});
     [].forEach.call(l.querySelectorAll('[data-appr]'),function(b){b.onclick=function(){apprTake(b.getAttribute('data-appr'),b);};});
     [].forEach.call(l.querySelectorAll('[data-delt]'),function(b){b.onclick=function(){delTake(b.getAttribute('data-delt'),b);};});
     [].forEach.call(l.querySelectorAll('[data-regen]'),function(b){b.onclick=function(){regenShot(b.getAttribute('data-regen'),b);};});
@@ -927,36 +998,16 @@
     [].forEach.call(l.querySelectorAll('.order'),function(card){var t=card.querySelector('.otab');if(t&&!card.querySelector('.otab.on'))t.classList.add('on');});
     [].forEach.call(l.querySelectorAll('.qc'),function(box){var boxes=[].slice.call(box.querySelectorAll('.qcx'));var btn=box.parentNode.querySelector('[data-approvedel]');function upd(){if(btn)btn.disabled=!boxes.every(function(c){return c.checked;});}boxes.forEach(function(c){c.addEventListener('change',upd);});upd();});
   }
-  // Copy everything Claude needs to produce the video for one order:
-  // context (package/format/message) + every photo's direct link.
-  async function copyForClaude(id,btn){
-    var o=ORDERS.filter(function(x){return x.id===id;})[0]; if(!o)return;
-    var lines=[];
-    lines.push('StayMotion-bestilling '+String(o.id).toUpperCase());
-    lines.push('Kunde: '+(o.navn||'—')+(o.email?(' ('+o.email+')'):''));
-    lines.push('Pakke: '+(o.pakke||o.pkg||'—')+' · Format: '+(o.format||'9:16')+(o.express?' · EXPRESS':'')+(o.both?' · begge formater':''));
-    if(o.melding) lines.push('Melding fra kunde: "'+o.melding+'"');
-    var notes=(o.notes||[]).map(function(n){return n.text;}).filter(Boolean);
-    if(notes.length) lines.push('Ettersendte meldinger: '+notes.map(function(t){return '"'+t+'"';}).join('  '));
-    lines.push('');
-    lines.push('Bilder ('+((o.photos||[]).length)+'):');
-    (o.photos||[]).forEach(function(p){lines.push(p.url);});
-    lines.push('');
-    lines.push('Oppgave: lag Signature Flythrough-video(er) fra disse bildene (ekte/filmet look, ikke AI/animert). Behold rommene 100% sant.');
-    var text=lines.join('\n');
-    try{ await navigator.clipboard.writeText(text); toast('Kopiert ✓ — lim inn til Claude'); }
-    catch(e){ window.prompt('Kopier teksten (Ctrl/Cmd+C):', text); }
-  }
   async function delOrder(id,btn){
     var o=ORDERS.filter(function(x){return x.id===id;})[0];
-    if(!confirm('Slette bestillingen'+(o&&o.navn?(' fra '+o.navn):'')+'?\n\nDette sletter ordren og alle bildene permanent. Kan ikke angres.')) return;
+    if(!confirm('Slette bestillingen'+(o&&o.navn?(' fra '+o.navn):'')+'?\n\nDette sletter prosjektet og alle filene permanent. Kan ikke angres.')) return;
     btn.disabled=true;var old=btn.textContent;btn.textContent='Sletter …';
     try{
       var r=await fetch('/api/admin-orders?key='+encodeURIComponent(KEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,delete:true})});
       if(!r.ok) throw 0;
       ORDERS=ORDERS.filter(function(x){return x.id!==id;}); LASTSIG='';
       if(CHAT_ID===id) closeChat();
-      toast('Bestilling slettet');renderAll();
+      toast('Prosjekt slettet');renderAll();
     }catch(e){btn.disabled=false;btn.textContent=old;toast('Kunne ikke slette');}
   }
   /* ---------- CHAT POPUP ---------- */
@@ -989,7 +1040,7 @@
     }catch(e){ toast('Kunne ikke sende – prøv igjen.'); }
     btn.disabled=false;
   }
-  var STLABEL={ubehandlet:'I kø',under_arbeid:'Under arbeid',behandlet:'Ferdig'};
+  var STLABEL={ubehandlet:'Strategi',under_arbeid:'Under arbeid',behandlet:'Lansert'};
   async function setStatus(id,status,btn){
     btn.disabled=true;var old=btn.textContent;btn.textContent='…';
     try{
@@ -1032,24 +1083,24 @@
 
   function renderStatistikk(){
     var m=metrics();
-    var expShare=m.paidO.length?Math.round(m.paidO.filter(function(o){return o.express;}).length/m.paidO.length*100):0;
-    var photosTot=ORDERS.reduce(function(a,o){return a+((o.photos&&o.photos.length)||0);},0);
+    var launched=m.paidO.filter(function(o){return projStage(o)==='lansert';}).length;
+    var filesTot=ORDERS.reduce(function(a,o){return a+((o.photos&&o.photos.length)||0);},0);
     $('st-stats').innerHTML=
-      '<div class="stat"><span class="k">∑</span><div class="n">'+m.paidO.length+'</div><div class="l">Bestillinger totalt</div></div>'+
+      '<div class="stat"><span class="k">∑</span><div class="n">'+m.paidO.length+'</div><div class="l">Prosjekter totalt</div></div>'+
       '<div class="stat ok"><span class="k">◆</span><div class="n">'+kr(m.rev)+'</div><div class="l">Omsetning totalt</div></div>'+
-      '<div class="stat"><span class="k">⌀</span><div class="n">'+kr(m.avg)+'</div><div class="l">Snitt per ordre</div></div>'+
-      '<div class="stat warn"><span class="k">⚡</span><div class="n">'+expShare+'%</div><div class="l">Express-andel</div></div>'+
-      '<div class="stat"><span class="k">▦</span><div class="n">'+photosTot+'</div><div class="l">Bilder mottatt</div></div>';
+      '<div class="stat"><span class="k">⌀</span><div class="n">'+kr(m.avg)+'</div><div class="l">Snitt per prosjekt</div></div>'+
+      '<div class="stat ok"><span class="k">🚀</span><div class="n">'+launched+'</div><div class="l">Lansert</div></div>'+
+      '<div class="stat"><span class="k">▦</span><div class="n">'+filesTot+'</div><div class="l">Filer mottatt</div></div>';
     var days=dayBuckets(30);
     lineChart('ch-rev','ln-rev',days.map(function(d){return d.label;}),days.map(function(d){return d.rev;}),'Omsetning');
     var weeks=weekBuckets(8);
-    barChart('ch-week','ln-week',weeks.map(function(w){return w.label;}),weeks.map(function(w){return w.count;}),'Bestillinger');
+    barChart('ch-week','ln-week',weeks.map(function(w){return w.label;}),weeks.map(function(w){return w.count;}),'Prosjekter');
     // package distribution
     var pkgMap={};m.paidO.forEach(function(o){var k=o.pakke||o.pkg||'Ukjent';pkgMap[k]=(pkgMap[k]||0)+1;});
     donut('ch-pkg','ln-pkg',Object.keys(pkgMap),Object.keys(pkgMap).map(function(k){return pkgMap[k];}));
-    // format distribution
-    var fmtMap={};m.paidO.forEach(function(o){var k=o.format||'—';fmtMap[k]=(fmtMap[k]||0)+1;});
-    donut('ch-fmt','ln-fmt',Object.keys(fmtMap),Object.keys(fmtMap).map(function(k){return fmtMap[k];}));
+    // projects per stage
+    var stMap={};STAGE_ORDER.forEach(function(k){stMap[k]=0;});m.paidO.forEach(function(o){stMap[projStage(o)]++;});
+    donut('ch-fmt','ln-fmt',STAGE_ORDER.map(function(k){return STAGE_LABEL[k];}),STAGE_ORDER.map(function(k){return stMap[k];}));
   }
 
   function noChart(){return typeof Chart==='undefined';}
@@ -1087,7 +1138,7 @@
     if(CQ){rows=rows.filter(function(c){return (c.navn+' '+c.email).toLowerCase().indexOf(CQ)>=0;});}
     rows.sort(function(a,b){return b.spend-a.spend;});
     if(!rows.length){$('ctable').innerHTML='<tr><td class="empty" style="padding:50px;text-align:center">Ingen kunder ennå.</td></tr>';return;}
-    $('ctable').innerHTML='<thead><tr><th>Kunde</th><th class="num">Bestillinger</th><th class="hidesm">Siste</th><th style="text-align:right">Brukt totalt</th></tr></thead><tbody>'+
+    $('ctable').innerHTML='<thead><tr><th>Kunde</th><th class="num">Prosjekter</th><th class="hidesm">Siste</th><th style="text-align:right">Brukt totalt</th></tr></thead><tbody>'+
       rows.map(function(c){return '<tr><td><div class="nm">'+esc(c.navn)+'</div><a class="em" href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a></td>'+
         '<td class="num">'+c.count+'</td><td class="hidesm" style="color:var(--muted);font-size:13px">'+(c.last?ago(c.last):'—')+'</td>'+
         '<td class="sp">'+kr(c.spend)+'</td></tr>';}).join('')+'</tbody>';
