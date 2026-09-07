@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Min bestilling · StayMotion</title>
+<title>Ditt prosjekt · StayMotion</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -164,9 +164,9 @@
     </div>
 
     <div id="view" class="hide">
-      <span class="kick">Min bestilling</span>
+      <span class="kick">Ditt prosjekt</span>
       <h1 id="title">Bestillingen din</h1>
-      <p class="lead" id="lead">Vi jobber med videoen din.</p>
+      <p class="lead" id="lead">Vi jobber med nettsiden din.</p>
       <div class="ordline" id="ordline"></div>
 
       <!-- STATUS (dominant) -->
@@ -181,10 +181,10 @@
       <div class="card">
         <div class="steps">
           <div class="track"><div class="track-fill" id="trackFill"></div></div>
-          <div class="step" data-s="1"><div class="dot">1</div><div class="lbl">Mottatt</div></div>
-          <div class="step" data-s="2"><div class="dot">2</div><div class="lbl">Produksjon</div></div>
-          <div class="step" data-s="3"><div class="dot">3</div><div class="lbl">Kvalitetssjekk</div></div>
-          <div class="step" data-s="4"><div class="dot">4</div><div class="lbl">Klar</div></div>
+          <div class="step" data-s="1"><div class="dot">1</div><div class="lbl">Strategi</div></div>
+          <div class="step" data-s="2"><div class="dot">2</div><div class="lbl">Design</div></div>
+          <div class="step" data-s="3"><div class="dot">3</div><div class="lbl">Bygg</div></div>
+          <div class="step" data-s="4"><div class="dot">4</div><div class="lbl">Lansert</div></div>
         </div>
       </div>
 
@@ -193,23 +193,23 @@
         <div class="ic" id="nowIc">✨</div>
         <div class="tx">
           <h2>Hva skjer nå?</h2>
-          <p id="nowText">Vi jobber med videoen din nå.</p>
-          <button class="btn cyan cta hide" id="nowCta">Last opp bilder</button>
+          <p id="nowText">Vi jobber med nettsiden din nå.</p>
+          <button class="btn cyan cta hide" id="nowCta">Last opp innhold</button>
         </div>
       </div>
 
       <!-- Delivery hero (when ready) -->
       <div class="card delivery hide" id="delivery">
-        <div class="dk">Din video</div>
-        <h2>Videoen din er klar 🎬</h2>
+        <div class="dk">Din leveranse</div>
+        <h2>Leveransen din er klar 🚀</h2>
         <video id="finalVid" class="fvid" controls playsinline preload="metadata"></video>
         <div class="fmeta" id="finalMeta"></div>
         <div class="dbtns">
-          <a id="finalDl" class="btn cyan">⤓ Last ned video</a>
+          <a id="finalDl" class="btn cyan">⤓ Åpne / last ned</a>
           <button id="revBtn" class="btn line">Be om en endring</button>
         </div>
         <div class="revinfo" id="revInfo"></div>
-        <div class="rvmore">Trenger du en annen størrelse? <a href="mailto:support@staymotion.no" style="color:var(--cyan)">Kontakt oss</a>.</div>
+        <div class="rvmore">Spørsmål om lanseringen? <a href="mailto:michael@staymotion.no" style="color:var(--cyan)">Kontakt oss</a>.</div>
         <div id="deliverList" style="margin-top:14px"></div>
       </div>
 
@@ -218,15 +218,15 @@
 
       <!-- photos -->
       <div class="card">
-        <div class="phead"><h2 style="margin:0">Bildene dine</h2><span class="n" id="photoCount"></span></div>
+        <div class="phead"><h2 style="margin:0">Filer og innhold</h2><span class="n" id="photoCount"></span></div>
         <div class="grid" id="photoGrid"></div>
-        <p class="muted" id="noPhotos">Ingen bilder lastet opp ennå.</p>
-        <label class="drop" id="drop" for="more">+ <span id="dropLabel">Legg til flere bilder</span></label>
-        <input id="more" type="file" accept="image/*" multiple>
+        <p class="muted" id="noPhotos">Ingen filer lastet opp ennå — logo, bilder og tekst kan legges her.</p>
+        <label class="drop" id="drop" for="more">+ <span id="dropLabel">Last opp filer</span></label>
+        <input id="more" type="file" accept="image/*,.pdf,.doc,.docx,.txt,.svg,.zip" multiple>
         <div class="pending" id="pending"></div>
         <div class="qcount hide" id="qcount"></div>
-        <button class="btn cta hide" id="sendPhotos" style="margin-top:12px">Send nye bilder</button>
-        <div class="sent-ok hide" id="photoOk">✓ Takk! Bildene er sendt inn og mottatt.</div>
+        <button class="btn cta hide" id="sendPhotos" style="margin-top:12px">Send filer</button>
+        <div class="sent-ok hide" id="photoOk">✓ Takk! Filene er mottatt.</div>
         <p class="muted" id="upStatus" style="margin-top:8px"></p>
       </div>
 
@@ -242,7 +242,7 @@
 
       <div class="support">
         Har du spørsmål?<br>
-        Skriv til oss i chatten eller <a href="mailto:support@staymotion.no">support@staymotion.no</a>
+        Skriv til oss i chatten eller <a href="mailto:michael@staymotion.no">michael@staymotion.no</a>
       </div>
       <p class="back"><a href="/">&larr; Til forsiden</a></p>
     </div>
@@ -277,7 +277,7 @@
   const t = q.get('t') || '';
   let data = null, lastSig='', busy=false, polling=false;
 
-  const PKG = { bilder:'Cinematiske bilder', enkelt:'Enkelt — 1 cinematisk reel', signatur:'Signatur — 3 reels' };
+  const PKG = { launch:'StayMotion Launch', growth:'StayMotion Growth', signature:'StayMotion Signature', care:'StayMotion Care', bilder:'Launch', enkelt:'Growth', signatur:'Signature' };
   const MONTHS=['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
   function esc(s){ return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
   function fmtDay(ms){ try{ const d=new Date(ms); return d.getDate()+'. '+MONTHS[d.getMonth()]; }catch(e){ return ''; } }
@@ -314,7 +314,7 @@
     if(s==='under_arbeid' || data.finalStatus==='revision_requested') return 2;
     return 1;                                                    // mottatt
   }
-  const STAGE_NAME=['','Mottatt','I produksjon','Kvalitetssjekk','Klar'];
+  const STAGE_NAME=['','Strategi','Design','Bygg','Lansert'];
 
   function render(){
     show('view');
@@ -324,16 +324,16 @@
     const needImages = ph.length===0;
 
     $('title').textContent = first ? ('Hei '+first+'!') : 'Bestillingen din';
-    $('lead').textContent = st===4 ? 'Videoen din er klar.' : needImages ? 'Vi mangler bildene dine for å starte.' : 'Vi jobber med videoen din.';
+    $('lead').textContent = st===4 ? 'Nettsiden din er lansert.' : needImages ? 'Vi trenger innhold fra deg for å starte.' : 'Vi jobber med nettsiden din.';
     $('ordline').innerHTML = '<span><b>'+esc(PKG[data.pkg]||data.pkg||'Bestilling')+'</b></span>'
       + (data.format?('<span>'+esc(data.format)+'</span>'):'')
       + '<span>Ordre <b>'+esc(ref.toUpperCase())+'</b></span>';
 
     // STATUS card
     const big=$('statusBig'); big.textContent=STAGE_NAME[st]; big.classList.toggle('klar', st===4);
-    if(st===4 && data.final && data.final.deliveredAt){ $('delivLab').textContent='Levert'; $('delivDate').innerHTML=fmtDay(data.final.deliveredAt); }
-    else if(data.deadline){ $('delivLab').textContent='Levering senest'; $('delivDate').innerHTML=fmtDayTime(data.deadline); }
-    else { $('delivLab').textContent='Levering'; $('delivDate').textContent='Snart'; }
+    if(st===4 && data.final && data.final.deliveredAt){ $('delivLab').textContent='Lansert'; $('delivDate').innerHTML=fmtDay(data.final.deliveredAt); }
+    else if(data.deadline){ $('delivLab').textContent='Lansering senest'; $('delivDate').innerHTML=fmtDayTime(data.deadline); }
+    else { $('delivLab').textContent='Lansering'; $('delivDate').textContent='Avtales'; }
 
     // steps
     [].forEach.call(document.querySelectorAll('.step'), el=>{
@@ -348,23 +348,23 @@
     cta.classList.add('hide'); nc.classList.remove('act');
     if(needImages){
       nc.classList.add('act'); $('nowIc').textContent='📸';
-      $('nowText').textContent='Vi trenger bildene dine før vi kan sette i gang.';
-      cta.textContent='Last opp bilder'; cta.classList.remove('hide');
+      $('nowText').textContent='Vi trenger innhold fra deg før vi kan sette i gang — logo, bilder og tekst.';
+      cta.textContent='Last opp innhold'; cta.classList.remove('hide');
     } else if(data.revisionPending){
       $('nowIc').textContent='✏️';
       $('nowText').textContent='Vi har mottatt endringsønsket ditt og lager en ny versjon. Vi sier fra når den er klar.';
     } else if(st===1){
       $('nowIc').textContent='✅';
-      $('nowText').textContent='Vi har alt vi trenger. Vi setter i gang med videoen din – du trenger ikke gjøre noe.';
+      $('nowText').textContent='Vi har alt vi trenger og legger strategi og retning for siden. Du trenger ikke gjøre noe nå.';
     } else if(st===2){
       $('nowIc').textContent='🎬';
-      $('nowText').textContent='Vi jobber med videoen din nå. Du trenger ikke gjøre noe – vi sender deg beskjed så snart den er klar.';
+      $('nowText').textContent='Vi designer sidene dine nå. Du får se utkast og kan gi tilbakemelding i chatten før vi bygger.';
     } else if(st===3){
       $('nowIc').textContent='🔍';
-      $('nowText').textContent='Videoen din er inne til siste kvalitetssjekk. Nesten i mål.';
+      $('nowText').textContent='Siden bygges og testes. Neste steg er din gjennomgang før lansering.';
     } else {
       $('nowIc').textContent='🎉';
-      $('nowText').textContent='Videoen din er klar til nedlasting – se under.';
+      $('nowText').textContent='Nettsiden din er live. Leveransen finner du under.';
     }
 
     // delivery hero
@@ -372,11 +372,11 @@
       $('delivery').classList.remove('hide');
       const v=$('finalVid'); if(v.getAttribute('data-src')!==data.final.preview){ v.src=data.final.preview||''; v.poster=data.final.poster||''; v.setAttribute('data-src',data.final.preview||''); }
       const res=(data.final.width&&data.final.height)?(data.final.width+' × '+data.final.height):'1080 × 1920';
-      $('finalMeta').textContent='StayMotion Reel · '+res+' · MP4';
+      $('finalMeta').textContent='Leveranse · v'+(data.final.version||1);
       $('finalDl').href='/api/order-download?ref='+encodeURIComponent(ref)+'&t='+encodeURIComponent(t)+'&which=master';
       const rem=data.revisionsRemaining, rb=$('revBtn');
       if(data.revisionPending){ $('revInfo').textContent='Endringen din er mottatt – vi er i gang. ✏️'; rb.disabled=true; rb.textContent='Endring bestilt'; }
-      else if(rem>0){ $('revInfo').textContent=rem+' revisjon'+(rem>1?'er':'')+' inkludert.'; rb.disabled=false; rb.textContent='Be om en endring'; }
+      else if(rem>0){ $('revInfo').textContent=rem+' revisjonsrunde'+(rem>1?'r':'')+' inkludert.'; rb.disabled=false; rb.textContent='Be om en endring'; }
       else { $('revInfo').textContent='Ønsker du en endring? Ta kontakt.'; rb.disabled=false; rb.textContent='Be om en endring'; }
     } else if((data.deliverables||[]).length){
       $('delivery').classList.remove('hide');
@@ -393,8 +393,8 @@
     // confidence strip
     const conf=[
       {on:!!data.paid, t:'Betaling mottatt'},
-      {on:ph.length>0, t: ph.length>0 ? (ph.length+' bilder mottatt') : 'Bilder mangler'},
-      {on:true, t: data.deadline ? ('Levering senest '+fmtDay(data.deadline)) : 'Levering snart'},
+      {on:ph.length>0, t: ph.length>0 ? (ph.length+' filer mottatt') : 'Innhold mangler'},
+      {on:true, t: data.deadline ? ('Lansering senest '+fmtDay(data.deadline)) : 'Lansering avtales'},
     ];
     $('conf').innerHTML=conf.map(c=>'<div class="c'+(c.on?'':' off')+'"><span class="k">'+(c.on?'✓':'○')+'</span>'+esc(c.t)+'</div>').join('');
 
@@ -403,7 +403,7 @@
     const g=$('photoGrid');
     if(ph.length){ $('noPhotos').classList.add('hide'); g.innerHTML=''; ph.forEach((p,i)=>{ const im=document.createElement('img'); im.src=p.url; im.loading='lazy'; im.onclick=()=>openLB(p.url); g.appendChild(im); }); }
     else { $('noPhotos').classList.remove('hide'); g.innerHTML=''; }
-    $('dropLabel').textContent = ph.length ? 'Legg til flere bilder' : 'Last opp bilder';
+    $('dropLabel').textContent = ph.length ? 'Last opp flere filer' : 'Last opp innhold';
 
     // messages entry + thread
     const msgs=[]
@@ -432,14 +432,14 @@
   const input=$('more'); let queue=[];
   $('drop').addEventListener('click',()=>input.click());
   input.addEventListener('change', ()=>{
-    const imgs=[].slice.call(input.files).filter(f=>f.type.startsWith('image/'));
+    const imgs=[].slice.call(input.files);
     if(!imgs.length) return; queue=queue.concat(imgs); input.value=''; renderQueue();
   });
   function renderQueue(){
     const box=$('pending'); box.innerHTML='';
-    queue.forEach(f=>{ const i=document.createElement('img'); i.src=URL.createObjectURL(f); box.appendChild(i); });
+    queue.forEach(f=>{ const i=document.createElement('img'); if(f.type.startsWith('image/')){ i.src=URL.createObjectURL(f); } else { i.alt=f.name; i.style.background='rgba(105,212,224,.12)'; } box.appendChild(i); });
     const btn=$('sendPhotos'), qc=$('qcount');
-    if(queue.length){ btn.classList.remove('hide'); btn.textContent='Send '+queue.length+' nytt bilde'+(queue.length>1?'r':''); qc.classList.remove('hide'); qc.textContent=queue.length+' nye bilder klare'; $('photoOk').classList.add('hide'); }
+    if(queue.length){ btn.classList.remove('hide'); btn.textContent='Send '+queue.length+' fil'+(queue.length>1?'er':''); qc.classList.remove('hide'); qc.textContent=queue.length+' filer klare til sending'; $('photoOk').classList.add('hide'); }
     else { btn.classList.add('hide'); qc.classList.add('hide'); }
   }
   $('sendPhotos').addEventListener('click', async ()=>{
@@ -478,7 +478,7 @@
 
   // revision + nowCta
   $('revBtn').addEventListener('click', async ()=>{
-    const b=$('revBtn'); const txt=prompt('Hva ønsker du endret på videoen? Beskriv så konkret du kan:');
+    const b=$('revBtn'); const txt=prompt('Hva ønsker du endret på nettsiden? Beskriv så konkret du kan:');
     if(txt===null) return; const text=txt.trim(); if(!text) return;
     b.disabled=true; const old=b.textContent; b.textContent='Sender …';
     try{

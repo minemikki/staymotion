@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Start prosjekt · StayMotion</title>
+<meta name="description" content="Fortell oss om prosjektet på to minutter. Vi går gjennom det og kommer tilbake med et tydelig neste steg.">
+<meta name="theme-color" content="#0A0E13">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0E13;--panel:#111922;--panel2:#141D27;--ink:#EEF3F6;--ink2:#C6D2DB;--muted:#8393A0;--faint:#5C6B77;--cyan:#69D4E0;--petrol:#1597A8;--champ:#E8D3A6;--line:rgba(190,214,226,.10);--line2:rgba(190,214,226,.18);--f:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif;--ease:cubic-bezier(.22,.61,.36,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(900px 500px at 70% -10%,rgba(21,151,168,.16),transparent 60%),var(--bg);color:var(--ink);font-family:var(--f);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100svh}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;align-items:center;padding:20px clamp(18px,4vw,40px)}
+.brand{display:flex;align-items:center;gap:10px}.brand img{height:24px}.brand b{font-size:12px;letter-spacing:.34em;font-weight:700;padding-left:.34em}
+.close{color:var(--muted);font-size:13.5px;display:inline-flex;gap:8px;align-items:center}
+.close:hover{color:var(--ink)}
+.wrap{width:min(720px,calc(100% - 36px));margin:0 auto;padding:clamp(20px,5vw,60px) 0 120px}
+.prog{display:flex;gap:6px;margin-bottom:34px}
+.prog i{flex:1;height:3px;border-radius:2px;background:var(--line2);overflow:hidden;position:relative}
+.prog i::after{content:"";position:absolute;inset:0;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.prog i.on::after{transform:scaleX(1)}
+.stepn{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);font-weight:700;margin-bottom:14px}
+h1{font-weight:800;letter-spacing:-.025em;line-height:1.06;font-size:clamp(1.9rem,5.2vw,3rem);margin-bottom:10px}
+.hint{color:var(--muted);font-size:15px;margin-bottom:30px}
+.step{display:none;animation:in .5s var(--ease)}
+.step.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;padding:18px 18px;border:1px solid var(--line2);border-radius:14px;background:var(--panel);text-align:left;color:var(--ink);font-size:15.5px;font-weight:600;transition:border-color .2s,background .2s,transform .3s var(--ease)}
+.opt:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.opt.on{border-color:var(--cyan);background:linear-gradient(180deg,rgba(105,212,224,.12),var(--panel))}
+.opt .ic{width:36px;height:36px;border-radius:10px;background:rgba(105,212,224,.1);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+.opt small{display:block;color:var(--muted);font-weight:400;font-size:12.5px;margin-top:2px}
+.opt.w{grid-column:1/-1}
+@media(max-width:560px){.opts{grid-template-columns:1fr}}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.field input,.field textarea,.field select{width:100%;background:var(--panel);border:1px solid var(--line2);border-radius:12px;color:var(--ink);padding:15px 16px;font-family:inherit;font-size:16px;transition:border-color .2s}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--cyan)}
+.field textarea{min-height:110px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border-radius:12px;font-weight:700;font-size:15px;border:1px solid transparent;transition:transform .25s var(--ease),box-shadow .25s}
+.btn.c{background:var(--cyan);color:#04252a}.btn.c:hover{transform:translateY(-2px);box-shadow:0 18px 40px -14px rgba(105,212,224,.55)}
+.btn.g{background:transparent;color:var(--ink2);border-color:var(--line2)}.btn.g:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.err{color:#ff9f9f;font-size:13.5px;min-height:20px;margin-top:10px}
+.sum{border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:22px;background:var(--panel);display:grid;gap:8px;font-size:14px}
+.sum div{display:flex;justify-content:space-between;gap:16px;color:var(--ink2)}
+.sum span{color:var(--muted)}
+.done{text-align:center;padding:40px 0}
+.done .ok{width:64px;height:64px;border-radius:50%;background:rgba(105,212,224,.14);border:1px solid rgba(105,212,224,.4);display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--cyan);margin:0 auto 22px}
+.done p{color:var(--ink2);max-width:46ch;margin:12px auto 0;font-size:16px}
+.fine{color:var(--faint);font-size:12.5px;margin-top:22px;text-align:center}
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="brand" href="/"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
+  <a class="close" href="/">Lukk ✕</a>
+</div>
+
+<div class="wrap">
+  <div class="prog" id="prog"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <form id="f" novalidate>
+    <!-- 1 -->
+    <div class="step on" data-s="1">
+      <div class="stepn">Steg 1 av 7</div>
+      <h1>Hva trenger du?</h1>
+      <p class="hint">Velg det som passer best. Du kan alltid justere senere.</p>
+      <div class="opts" data-field="need">
+        <button type="button" class="opt" data-v="Ny nettside"><span class="ic">✦</span><span>Ny nettside<small>Vi bygger fra bunnen</small></span></button>
+        <button type="button" class="opt" data-v="Redesign"><span class="ic">↻</span><span>Redesign<small>Løft den siden du har</small></span></button>
+        <button type="button" class="opt" data-v="Landingsside"><span class="ic">◎</span><span>Landingsside<small>Én side, ett mål</small></span></button>
+        <button type="button" class="opt" data-v="Nettbutikk"><span class="ic">▣</span><span>Nettbutikk<small>Selg på nett</small></span></button>
+        <button type="button" class="opt w" data-v="Usikker"><span class="ic">?</span><span>Ikke sikker ennå<small>Vi hjelper deg å finne riktig løsning</small></span></button>
+      </div>
+    </div>
+    <!-- 2 -->
+    <div class="step" data-s="2">
+      <div class="stepn">Steg 2 av 7</div>
+      <h1>Hva slags bedrift?</h1>
+      <p class="hint">Så vi kan tenke riktig fra første skisse.</p>
+      <div class="opts" data-field="business">
+        <button type="button" class="opt" data-v="Eiendom">Eiendom / megler</button>
+        <button type="button" class="opt" data-v="Bygg / håndverk">Bygg / håndverk</button>
+        <button type="button" class="opt" data-v="Bil">Bil / bilforhandler</button>
+        <button type="button" class="opt" data-v="Klinikk / estetikk">Klinikk / estetikk</button>
+        <button type="button" class="opt" data-v="Restaurant / hotell">Restaurant / hotell</button>
+        <button type="button" class="opt" data-v="Advokat / regnskap / rådgivning">Advokat / regnskap / rådgivning</button>
+        <button type="button" class="opt" data-v="Interiør / arkitektur">Interiør / arkitektur</button>
+        <button type="button" class="opt" data-v="Trening / velvære">Trening / velvære</button>
+        <button type="button" class="opt" data-v="B2B">B2B / bedriftsmarked</button>
+        <button type="button" class="opt" data-v="Annet">Annet</button>
+      </div>
+    </div>
+    <!-- 3 -->
+    <div class="step" data-s="3">
+      <div class="stepn">Steg 3 av 7</div>
+      <h1>Har du en nettside i dag?</h1>
+      <p class="hint">Lim inn adressen så ser vi på den før vi svarer. Hopp over hvis du ikke har noen.</p>
+      <div class="field"><label for="url">Nettadresse</label><input id="url" name="url" type="url" placeholder="https://dinbedrift.no" inputmode="url" autocomplete="url"></div>
+    </div>
+    <!-- 4 -->
+    <div class="step" data-s="4">
+      <div class="stepn">Steg 4 av 7</div>
+      <h1>Hva er det viktigste målet?</h1>
+      <p class="hint">Det ene som ville gjort størst forskjell for bedriften.</p>
+      <div class="opts" data-field="goal">
+        <button type="button" class="opt" data-v="Flere henvendelser">Flere henvendelser</button>
+        <button type="button" class="opt" data-v="Se mer profesjonell ut">Se mer profesjonell ut</button>
+        <button type="button" class="opt" data-v="Selge på nett">Selge på nett</button>
+        <button type="button" class="opt" data-v="Flere bookinger">Flere bookinger</button>
+        <button type="button" class="opt" data-v="Sterkere merkevare">Sterkere merkevare</button>
+        <button type="button" class="opt" data-v="Annet">Annet</button>
+      </div>
+    </div>
+    <!-- 5 -->
+    <div class="step" data-s="5">
+      <div class="stepn">Steg 5 av 7</div>
+      <h1>Hvilket budsjett ser du for deg?</h1>
+      <p class="hint">Det hjelper oss å foreslå riktig omfang — ikke å presse prisen.</p>
+      <div class="opts" data-field="budget">
+        <button type="button" class="opt" data-v="15–25k">15 000 – 25 000 kr<small>Launch</small></button>
+        <button type="button" class="opt" data-v="25–50k">25 000 – 50 000 kr<small>Growth</small></button>
+        <button type="button" class="opt" data-v="50–100k">50 000 – 100 000 kr<small>Signature</small></button>
+        <button type="button" class="opt" data-v="100k+">100 000 kr +<small>Full rebrand</small></button>
+      </div>
+    </div>
+    <!-- 6 -->
+    <div class="step" data-s="6">
+      <div class="stepn">Steg 6 av 7</div>
+      <h1>Når vil du lansere?</h1>
+      <p class="hint">Et omtrentlig ønske er nok.</p>
+      <div class="opts" data-field="launch">
+        <button type="button" class="opt" data-v="Så fort som mulig">Så fort som mulig</button>
+        <button type="button" class="opt" data-v="Innen 1 måned">Innen 1 måned</button>
+        <button type="button" class="opt" data-v="Innen 3 måneder">Innen 3 måneder</button>
+        <button type="button" class="opt" data-v="Fleksibelt">Fleksibelt</button>
+      </div>
+    </div>
+    <!-- 7 -->
+    <div class="step" data-s="7">
+      <div class="stepn">Steg 7 av 7</div>
+      <h1>Hvem snakker vi med?</h1>
+      <p class="hint">Vi svarer personlig — som regel innen én virkedag.</p>
+      <div class="sum" id="sum"></div>
+      <div class="two">
+        <div class="field"><label for="name">Navn</label><input id="name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="company">Bedrift</label><input id="company" name="company" autocomplete="organization" required></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="email">E-post</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" required></div>
+        <div class="field"><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"></div>
+      </div>
+      <div class="field"><label for="notes">Noe mer vi bør vite? (valgfritt)</label><textarea id="notes" name="notes" placeholder="Konkurrenter du liker, sider du misliker, spesielle behov …"></textarea></div>
+      <input type="text" name="website_hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+    </div>
+
+    <div class="err" id="err"></div>
+    <div class="nav" id="navrow">
+      <button type="button" class="btn g" id="back">← Tilbake</button>
+      <button type="button" class="btn c" id="next">Neste →</button>
+    </div>
+  </form>
+
+  <div class="done" id="done" hidden>
+    <div class="ok">✓</div>
+    <h1>Takk — vi har fått prosjektet.</h1>
+    <p>Vi går gjennom det du har sendt, ser på nettsiden din hvis du la ved en, og kommer tilbake med et tydelig neste steg. Du får en bekreftelse på e-post nå.</p>
+    <p style="margin-top:26px"><a class="btn g" href="/">Til forsiden</a></p>
+  </div>
+  <p class="fine">Ingen binding. Vi deler aldri informasjonen din. <a href="/personvern.html" style="color:var(--muted);text-decoration:underline">Personvern</a></p>
+</div>
+
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s);}, $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s));};
+  var steps=$$('.step'), prog=$$('#prog i'), cur=1, total=steps.length;
+  var data={need:'',business:'',url:'',goal:'',budget:'',launch:''};
+
+  // prefill from URL (from pricing / portfolio cards)
+  var q=new URLSearchParams(location.search);
+  var pk=q.get('pakke'); if(pk==='launch')data.budget='15–25k'; if(pk==='growth')data.budget='25–50k'; if(pk==='signature')data.budget='50–100k'; if(pk==='care')data.need='Care / vedlikehold';
+  if(q.get('type')==='redesign')data.need='Redesign'; if(q.get('type')==='custom')data.need='Skreddersøm';
+  var br={bygg:'Bygg / håndverk',restaurant:'Restaurant / hotell',bil:'Bil',klinikk:'Klinikk / estetikk',eiendom:'Eiendom',b2b:'B2B'}; if(br[q.get('bransje')])data.business=br[q.get('bransje')];
+
+  function show(n){
+    cur=n; steps.forEach(function(s){ s.classList.toggle('on', +s.dataset.s===n); });
+    prog.forEach(function(p,i){ p.classList.toggle('on', i<n); });
+    $('#back').style.visibility = n===1?'hidden':'visible';
+    $('#next').textContent = n===total ? 'Send prosjektet →' : (n===3 ? (($('#url').value.trim())?'Neste →':'Hopp over →') : 'Neste →');
+    $('#err').textContent='';
+    if(n===total) renderSum();
+    // reflect prefills
+    $$('.step.on .opt').forEach(function(o){ var f=o.closest('[data-field]').dataset.field; o.classList.toggle('on', data[f]===o.dataset.v); });
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function renderSum(){
+    var rows=[['Behov',data.need],['Bedrift',data.business],['Nettside',data.url||'—'],['Mål',data.goal],['Budsjett',data.budget],['Lansering',data.launch]];
+    $('#sum').innerHTML=rows.map(function(r){return '<div><span>'+r[0]+'</span><b>'+(r[1]||'—').replace(/</g,'&lt;')+'</b></div>';}).join('');
+  }
+  // option selection — auto-advance
+  $$('.opts').forEach(function(g){
+    var f=g.dataset.field;
+    $$('.opt',g).forEach(function(o){ o.addEventListener('click', function(){
+      $$('.opt',g).forEach(function(x){x.classList.remove('on');}); o.classList.add('on'); data[f]=o.dataset.v;
+      setTimeout(function(){ if(cur<total) show(cur+1); }, 220);
+    }); });
+  });
+  $('#url').addEventListener('input', function(){ $('#next').textContent = this.value.trim()?'Neste →':'Hopp over →'; });
+
+  function valid(n){
+    var need={1:'need',2:'business',4:'goal',5:'budget',6:'launch'}[n];
+    if(need && !data[need]) return 'Velg et alternativ for å gå videre.';
+    if(n===3){ var u=$('#url').value.trim(); if(u && !/^https?:\/\//i.test(u)) { $('#url').value='https://'+u; } data.url=$('#url').value.trim(); }
+    if(n===total){
+      if(!$('#name').value.trim()||!$('#company').value.trim()) return 'Fyll inn navn og bedrift.';
+      var em=$('#email').value.trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return 'Skriv inn en gyldig e-postadresse.';
+    }
+    return '';
+  }
+  $('#back').addEventListener('click', function(){ if(cur>1) show(cur-1); });
+  $('#next').addEventListener('click', async function(){
+    var e=valid(cur); if(e){ $('#err').textContent=e; return; }
+    if(cur<total){ show(cur+1); return; }
+    // submit
+    var btn=$('#next'); btn.disabled=true; btn.textContent='Sender …';
+    var payload={ ...data, name:$('#name').value.trim(), company:$('#company').value.trim(), email:$('#email').value.trim(), phone:$('#phone').value.trim(), notes:$('#notes').value.trim(), hp:document.querySelector('[name=website_hp]').value, src:location.search };
+    try{
+      var r=await fetch('/api/project-intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      var j=await r.json(); if(!r.ok||j.error) throw new Error(j.error||'Noe gikk galt');
+      $('#f').hidden=true; $('#prog').hidden=true; $('#done').hidden=false; window.scrollTo({top:0,behavior:'smooth'});
+    }catch(err){ $('#err').textContent='Kunne ikke sende: '+err.message+' — prøv igjen, eller send e-post til michael@staymotion.no'; btn.disabled=false; btn.textContent='Send prosjektet →'; }
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Enter' && e.target.tagName!=='TEXTAREA'){ e.preventDefault(); $('#next').click(); } });
+  show(1);
+})();
+</script>
+</body>
+</html>
