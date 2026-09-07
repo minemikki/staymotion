@@ -142,8 +142,11 @@ html[lang="no"] .lang [data-lang="no"],html[lang="en"] .lang [data-lang="en"]{ba
 .dots{display:flex;gap:7px;margin-top:22px;justify-content:flex-end}
 .dots b{width:22px;height:3px;border-radius:2px;background:var(--line2);transition:background .3s}
 .dots b.on{background:var(--cyan)}
-@media(max-width:980px){.hero .wrap{grid-template-columns:1fr;gap:48px}.hero{padding:130px 0 70px}.frame{transform:none}.show:hover .frame{transform:none}.phone{right:0;bottom:-24px;width:34%;transform:rotate(3deg)}}
-@media(max-width:640px){.hero{min-height:auto;padding:118px 0 60px}.phone{width:36%;right:-6px}}
+.hero-video{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid var(--line2);background:#05080b;box-shadow:0 60px 120px -40px rgba(0,0,0,.88),0 0 0 1px rgba(255,255,255,.02) inset;isolation:isolate}
+.hero-video::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(10,14,19,.18),transparent 24%,transparent 76%,rgba(10,14,19,.12)),linear-gradient(180deg,rgba(255,255,255,.025),transparent 28%,rgba(0,0,0,.2));z-index:2}
+.hero-video video{width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.015);background:#05080b}
+@media(max-width:980px){.hero .wrap{grid-template-columns:1fr;gap:48px}.hero{padding:130px 0 70px}.frame{transform:none}.show:hover .frame{transform:none}.phone{right:0;bottom:-24px;width:34%;transform:rotate(3deg)}.hero-video{width:100%;max-width:900px;margin:0 auto}}
+@media(max-width:640px){.hero{min-height:auto;padding:118px 0 60px}.phone{width:36%;right:-6px}.hero-video{aspect-ratio:16/10;border-radius:14px}}
 
 /* ============ TRUST ============ */
 .trust{padding:0}
@@ -387,21 +390,10 @@ footer{border-top:1px solid var(--line);padding:56px 0 34px;background:var(--bg2
       </div>
       <div class="hero-line rv d4"><span>Design</span><i></i><span data-en="Development">Utvikling</span><i></i><span data-en="Conversion">Konvertering</span></div>
     </div>
-    <div class="show rv d2" id="show">
-      <div class="frame">
-        <div class="chrome"><i></i><i></i><i></i><div class="url">dinbedrift.no</div></div>
-        <div class="screen">
-          <div class="site s1 on"><div class="top"><div class="logo"></div><div class="m"><i></i><i></i><i></i></div></div><div class="h"></div><div class="h2"></div><div class="t s"></div><div class="t s" style="width:44%"></div><div class="cta"></div><div class="img"></div><div class="cards"><i></i><i></i><i></i></div></div>
-          <div class="site s2"><div class="top"><div class="logo"></div><div class="m"><i></i><i></i><i></i></div></div><div class="h"></div><div class="h2"></div><div class="t s"></div><div class="t s" style="width:40%"></div><div class="cta"></div><div class="img"></div><div class="cards"><i></i><i></i><i></i></div></div>
-          <div class="site s3"><div class="top"><div class="logo"></div><div class="m"><i></i><i></i><i></i></div></div><div class="h"></div><div class="h2"></div><div class="t s"></div><div class="t s" style="width:50%"></div><div class="cta"></div><div class="img"></div><div class="cards"><i></i><i></i><i></i></div></div>
-        </div>
-      </div>
-      <div class="phone"><div class="notch"></div><div class="pscr">
-        <div class="site s1 on"><div class="top"><div class="logo"></div></div><div class="h"></div><div class="h2"></div><div class="t s"></div><div class="t s" style="width:50%"></div><div class="cta"></div><div class="img"></div></div>
-        <div class="site s2"><div class="top"><div class="logo"></div></div><div class="h"></div><div class="h2"></div><div class="t s"></div><div class="t s" style="width:50%"></div><div class="cta"></div><div class="img"></div></div>
-        <div class="site s3"><div class="top"><div class="logo"></div></div><div class="h"></div><div class="h2"></div><div class="t s"></div><div class="t s" style="width:50%"></div><div class="cta"></div><div class="img"></div></div>
-      </div></div>
-      <div class="dots" id="dots"><b class="on"></b><b></b><b></b></div>
+    <div class="hero-video rv d2" aria-label="StayMotion cinematic website assembly">
+      <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3ICpxT3JiovisWSJepI8nxeHJvJ/hf_20260907_224929_99bdfb67-a7f0-411e-b311-549756280e46.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 </section>
@@ -726,7 +718,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 34px;background:var(--bg2
   var sites=$$('.screen .site'), psites=$$('.pscr .site'), dots=$$('#dots b'), idx=0;
   function cycle(){ idx=(idx+1)%sites.length; sites.forEach(function(s,i){ s.classList.toggle('on', i===idx); }); psites.forEach(function(s,i){ s.classList.toggle('on', i===idx); }); dots.forEach(function(d,i){ d.classList.toggle('on', i===idx); }); }
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!reduce) setInterval(cycle, 3600);
+  if(!reduce && sites.length) setInterval(cycle, 3600);
   // gentle parallax on pointer (desktop only)
   var show=$('#show');
   if(show && matchMedia('(pointer:fine)').matches && !reduce){
