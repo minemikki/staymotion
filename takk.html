@@ -63,8 +63,8 @@
         <div class="r-row"><span class="r" id="ref">—</span><button type="button" id="copyRef" class="copybtn">Kopier</button></div>
       </div>
 
-      <a class="btn" id="portal" href="#">Følg bestillingen din →</a>
-      <p class="muted">Her ser du status, kan legge til flere bilder eller sende oss en melding, og laster ned videoen når den er klar. Vi sender også en e-post når den er ferdig.</p>
+      <a class="btn" id="portal" href="#">Åpne prosjektportalen →</a>
+      <p class="muted">Her følger du prosjektet steg for steg, laster opp innhold (logo, bilder, tekst), sender oss meldinger og finner leveransen når siden er lansert. Vi varsler deg på e-post underveis.</p>
 
       <p class="back"><a href="/">&larr; Til forsiden</a></p>
     </div>
@@ -90,7 +90,7 @@
         $('ref').textContent = (ref || '').toUpperCase();
         $('portal').href = '/ordre.html?ref=' + encodeURIComponent(ref) + '&t=' + encodeURIComponent(d.token);
         if (!(d.photoCount > 0)) {
-          $('lead').textContent = 'Vi har mottatt betalingen din. Neste steg: last opp bildene på "Min bestilling"-siden, så setter vi i gang.';
+          $('lead').textContent = 'Vi har mottatt depositumet. Neste steg: last opp innhold (logo, bilder, tekst) i prosjektportalen, så setter vi i gang med strategi og design.';
         }
         $('checking').classList.add('hide');
         $('done').classList.remove('hide');

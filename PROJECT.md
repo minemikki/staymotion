@@ -1,3 +1,5 @@
+> **Pivot (sept 2026):** StayMotion er nå et premium webdesign-studio. Notatene under om video/AI-produksjon er historikk — se `docs/PIVOT_PLAN.md` og `README.md` for gjeldende retning.
+
 # StayMotion — Prosjektbrief
 
 > Skrevet 2. sep 2026. Sammen med `staymotion.html` er dette alt som trengs for

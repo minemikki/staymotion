@@ -193,7 +193,8 @@
   .lead.st-vunnet::before,.lead.st-retainer::before{background:var(--green)}
   .lead.st-tapt::before{background:var(--red)}
   .lead.st-kontaktet::before,.lead.st-svart::before{background:var(--cyan)}
-  .lead.st-tilbud::before,.lead.st-demo_sendt::before,.lead.st-demo_tilbudt::before{background:var(--champagne)}
+  .lead.st-tilbud::before,.lead.st-audit::before,.lead.st-mote::before{background:var(--champagne)}
+  .lead.st-produksjon::before,.lead.st-review::before,.lead.st-lansering::before{background:var(--cyan)}
   .lead-h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
   .lead-h .co{font-size:1.1rem;font-weight:700;letter-spacing:-.01em}
   .lead-sub{color:var(--muted);font-size:12.5px;margin-top:2px}
@@ -341,6 +342,8 @@
   .rb-h{font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--cyan);margin-bottom:8px}
   .reelurls{width:100%;min-height:74px;background:var(--surface);border:1px solid var(--line);border-radius:9px;color:var(--ice);padding:10px 12px;font-family:inherit;font-size:12.5px;resize:vertical;margin-bottom:10px}
   .reelurls:focus{outline:none;border-color:var(--cyan)}
+.intake{font-size:12px;color:var(--dim);margin:6px 0 8px;padding:8px 10px;border-left:2px solid var(--cyan);background:rgba(105,212,224,.05);border-radius:0 8px 8px 0}
+  .intake b{color:var(--cyan)}
 </style>
 </head>
 <body>
@@ -1132,9 +1135,9 @@
 
   /* ================= CRM / LEADS ================= */
   var LEADS=[], LFILTER_STAGE='', LSEG='', LSORT='score', LQ='', leadModalOpen=false, leadsLoaded=false;
-  var STAGES=[['sourced','Ny'],['kvalifisert','Kvalifisert'],['kontaktet','Kontaktet'],['svart','Svart'],['demo_tilbudt','Demo tilbudt'],['demo_sendt','Demo sendt'],['tilbud','Tilbud gitt'],['vunnet','Vunnet'],['retainer','Retainer'],['tapt','Tapt']];
+  var STAGES=[['sourced','Lead funnet'],['kvalifisert','Kvalifisert'],['audit','Audit laget'],['kontaktet','Kontaktet'],['svart','Svart'],['mote','Møte'],['tilbud','Tilbud'],['vunnet','Vunnet'],['produksjon','Produksjon'],['review','Review'],['lansering','Lansering'],['retainer','Care'],['tapt','Tapt']];
   var SEGMENTS=[['hotell','Hotell'],['hytte','Hytte/Airbnb'],['megler','Eiendomsmegler'],['property','Property manager'],['restaurant','Restaurant'],['partner','Partner'],['annet','Annet']];
-  var OPEN_STAGES=['sourced','kvalifisert','kontaktet','svart','demo_tilbudt','demo_sendt','tilbud'];
+  var OPEN_STAGES=['sourced','kvalifisert','audit','kontaktet','svart','mote','tilbud'];
   function stageLabel(s){var f=STAGES.filter(function(x){return x[0]===s;})[0];return f?f[1]:(s||'Ny');}
   function segLabel(s){var f=SEGMENTS.filter(function(x){return x[0]===s;})[0];return f?f[1]:(s||'—');}
   function naTime(l){ if(!l.nextActionDate) return 0; var t=Date.parse(l.nextActionDate); return isNaN(t)?0:t; }
@@ -1200,7 +1203,7 @@
       (l.notes?'<div class="lead-sub" style="margin-top:8px;white-space:pre-wrap">'+esc(l.notes)+'</div>':'')+
       '<div class="lead-foot">'+
         '<button class="btn sm primary" data-msg="'+esc(l.id)+'">✉ Åpne melding</button>'+
-        '<select class="stagesel" data-stage-for="'+esc(l.id)+'">'+stageOpts+'</select>'+
+        (l.need||l.budget||l.goal?('<div class="intake">'+[l.need,l.goal,l.budget,l.launch,l.proposedPackage?('→ '+l.proposedPackage):''].filter(Boolean).map(esc).join(' · ')+(l.value?(' <b>'+kr(l.value)+'</b>'):'')+'</div>'):'')+'<select class="stagesel" data-stage-for="'+esc(l.id)+'">'+stageOpts+'</select>'+
         (l.quotedPrice?'<span class="seg-pill">Tilbud: '+kr(l.quotedPrice)+'</span>':'')+
         '<button class="btn sm" data-edit="'+esc(l.id)+'">Rediger</button>'+
         '<button class="btn sm ghost" data-del="'+esc(l.id)+'">Slett</button>'+
