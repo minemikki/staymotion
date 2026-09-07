@@ -40,6 +40,11 @@ export default async function handler(req, res) {
         height: o.final.height || null,
         deliveredAt: o.final.deliveredAt || null,
       } : null,
+      // Web-project workflow (admin-controlled). Internal notes and checklist are never exposed.
+      projectStage: (o.project && o.project.stage) || null,
+      stagingUrl: (o.project && o.project.stage === 'review' && o.project.stagingUrl) || null,
+      liveUrl: (o.project && o.project.stage === 'lansert' && o.project.liveUrl) || null,
+      launchedAt: (o.project && o.project.launchedAt) || null,
       revisionsRemaining: Math.max(0, (typeof o.revisionsIncluded === 'number' ? o.revisionsIncluded : 1) - ((o.revisions || []).length)),
       revisionPending: !!(o.revisions || []).some((r) => !r.handled),
     });
