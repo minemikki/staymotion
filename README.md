@@ -18,7 +18,7 @@ Stripe + Vipps (depositum) · Resend (e-post) · signerte portal-tokens.
 | `bestill.html` | Redirect til `start.html` (gammel lenke) |
 
 ## Tilbud (`lib/packages.js`)
-Launch fra 19 900 · Growth fra 34 900 · Signature fra 59 900 · Care fra 2 990/mnd.
+Launch fra 7 900 · Growth fra 12 900 · Signature fra 19 900 · Care fra 1 490/mnd (introduksjonspriser; større prosjekter får eget tilbud).
 Checkout belaster **depositum** (50 % / 40 %). Care faktureres månedlig.
 
 ## Miljøvariabler (Vercel)
