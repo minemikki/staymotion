@@ -130,10 +130,10 @@ h1{font-weight:800;letter-spacing:-.025em;line-height:1.06;font-size:clamp(1.9re
       <h1>Hvilket budsjett ser du for deg?</h1>
       <p class="hint">Det hjelper oss å foreslå riktig omfang — ikke å presse prisen.</p>
       <div class="opts" data-field="budget">
-        <button type="button" class="opt" data-v="15–25k">15 000 – 25 000 kr<small>Launch</small></button>
-        <button type="button" class="opt" data-v="25–50k">25 000 – 50 000 kr<small>Growth</small></button>
-        <button type="button" class="opt" data-v="50–100k">50 000 – 100 000 kr<small>Signature</small></button>
-        <button type="button" class="opt" data-v="100k+">100 000 kr +<small>Full rebrand</small></button>
+        <button type="button" class="opt" data-v="Under 10k">Under 10 000 kr<small>Launch</small></button>
+        <button type="button" class="opt" data-v="10–20k">10 000 – 20 000 kr<small>Growth</small></button>
+        <button type="button" class="opt" data-v="20–40k">20 000 – 40 000 kr<small>Signature</small></button>
+        <button type="button" class="opt" data-v="40k+">40 000 kr +<small>Skreddersydd tilbud</small></button>
       </div>
     </div>
     <!-- 6 -->
@@ -190,7 +190,7 @@ h1{font-weight:800;letter-spacing:-.025em;line-height:1.06;font-size:clamp(1.9re
 
   // prefill from URL (from pricing / portfolio cards)
   var q=new URLSearchParams(location.search);
-  var pk=q.get('pakke'); if(pk==='launch')data.budget='15–25k'; if(pk==='growth')data.budget='25–50k'; if(pk==='signature')data.budget='50–100k'; if(pk==='care')data.need='Care / vedlikehold';
+  var pk=q.get('pakke'); if(pk==='launch')data.budget='Under 10k'; if(pk==='growth')data.budget='10–20k'; if(pk==='signature')data.budget='20–40k'; if(pk==='care')data.need='Care / vedlikehold';
   if(q.get('type')==='redesign')data.need='Redesign'; if(q.get('type')==='custom')data.need='Skreddersøm';
   var br={bygg:'Bygg / håndverk',restaurant:'Restaurant / hotell',bil:'Bil',klinikk:'Klinikk / estetikk',eiendom:'Eiendom',b2b:'B2B'}; if(br[q.get('bransje')])data.business=br[q.get('bransje')];
 

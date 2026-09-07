@@ -12,10 +12,10 @@ const esc = (t) => String(t).replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;
 
 // Budget range → suggested package + rough value for the pipeline.
 function suggest(budget) {
-  if (/100k/.test(budget)) return { pkg: 'Signature+', value: 100000 };
-  if (/50/.test(budget)) return { pkg: 'Signature', value: 59900 };
-  if (/25/.test(budget)) return { pkg: 'Growth', value: 34900 };
-  return { pkg: 'Launch', value: 19900 };
+  if (/40k\+/.test(budget)) return { pkg: 'Skreddersydd', value: 40000 };
+  if (/20–40/.test(budget)) return { pkg: 'Signature', value: 19900 };
+  if (/10–20/.test(budget)) return { pkg: 'Growth', value: 12900 };
+  return { pkg: 'Launch', value: 7900 };
 }
 
 export default async function handler(req, res) {

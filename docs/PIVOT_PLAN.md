@@ -23,10 +23,10 @@ performance; motion is CSS + IntersectionObserver + small vanilla JS. Revisit Ne
 
 | Offer | From | Delivery |
 |---|---|---|
-| Launch | 19 900 kr | 7–14 dager |
-| Growth (mest valgt) | 34 900 kr | 2–4 uker |
-| Signature | 59 900 kr | 4–8 uker |
-| Care | 2 990 kr/mnd | løpende |
+| Launch | 7 900 kr | ca. 7–14 dager |
+| Growth (mest valgt) | 12 900 kr | ca. 2–3 uker |
+| Signature | 19 900 kr | ca. 3–5 uker |
+| Care | 1 490 kr/mnd | løpende |
 
 Payment: Launch 50/50 · Growth/Signature 40/30/30 · Care monthly. No work before deposit.
 
