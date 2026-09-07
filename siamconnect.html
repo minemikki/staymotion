@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SiamConnect — Fra idé til komplett digital plattform · StayMotion</title>
+<meta name="description" content="Case: SiamConnect, en digital community-plattform for mennesker som bor i eller utforsker Thailand. Produktstrategi, UI/UX og utvikling — et in-house-produkt fra StayMotion.">
+<meta name="theme-color" content="#0A0E13">
+<link rel="canonical" href="https://staymotion.no/siamconnect.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="StayMotion">
+<meta property="og:title" content="SiamConnect — Fra idé til komplett digital plattform">
+<meta property="og:description" content="Produktstrategi, UI/UX og utvikling av en community-plattform med flere sammenkoblede funksjoner. In-house-produkt.">
+<meta property="og:url" content="https://staymotion.no/siamconnect.html">
+<meta property="og:image" content="https://staymotion.no/img/work/siamconnect/marketplace-d.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0E13;--bg2:#0E141B;--panel:#111922;--panel2:#141D27;
+  --ink:#EEF3F6;--ink2:#C6D2DB;--muted:#8393A0;--faint:#5C6B77;
+  --petrol:#1597A8;--cyan:#69D4E0;--champ:#E8D3A6;
+  --line:rgba(190,214,226,.10);--line2:rgba(190,214,226,.18);
+  --f:"Inter Tight",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --r:18px;--r2:12px;--ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer}
+.wrap{width:min(1180px,calc(100% - 40px));margin:0 auto}
+@media(max-width:640px){.wrap{width:calc(100% - 36px)}}
+h1,h2,h3{font-weight:800;letter-spacing:-.025em;line-height:1.04}
+h1{font-size:clamp(2.4rem,6vw,4.6rem)}
+h2{font-size:clamp(1.7rem,3.6vw,2.6rem)}
+h3{font-size:1.15rem;letter-spacing:-.015em;line-height:1.25}
+.kick{display:inline-flex;align-items:center;gap:12px;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan);font-weight:600;margin-bottom:18px}
+.kick::before{content:"";width:22px;height:1px;background:currentColor;opacity:.8}
+.sub{color:var(--ink2);font-size:clamp(1.05rem,1.6vw,1.25rem);max-width:60ch}
+section{position:relative;padding:clamp(64px,8vw,110px) 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 28px;border-radius:12px;font-weight:700;font-size:15px;border:1px solid transparent;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s,color .3s}
+.btn.p{background:var(--ink);color:#0a0e13}
+.btn.p:hover{transform:translateY(-2px);box-shadow:0 18px 40px -16px rgba(238,243,246,.45)}
+.btn.g{background:transparent;color:var(--ink);border-color:var(--line2)}
+.btn.g:hover{border-color:var(--cyan);color:var(--cyan)}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(10,14,19,.72);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.22em;font-size:13px}
+.brand img{width:26px;height:auto}
+.nav-r{display:flex;align-items:center;gap:14px}
+.lang{display:flex;border:1px solid var(--line2);border-radius:100px;padding:2px}
+.lang button{background:none;border:0;color:var(--muted);font-weight:700;font-size:11.5px;padding:6px 10px;border-radius:100px}
+.lang button.on{background:var(--ink);color:#0a0e13}
+.btn.nav-cta{min-height:42px;padding:0 18px;font-size:13.5px;border-radius:10px;white-space:nowrap}
+@media(max-width:480px){.btn.nav-cta{padding:0 12px;font-size:12.5px}.nav-r{gap:8px}.brand b{display:none}}
+.back{color:var(--muted);font-size:13.5px;display:inline-flex;gap:8px;align-items:center}
+.back:hover{color:var(--cyan)}
+@media(max-width:640px){.back span{display:none}}
+
+/* hero */
+.hero{padding:clamp(56px,8vw,110px) 0 0}
+.hero .tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--champ);border:1px solid rgba(232,211,166,.35);padding:6px 12px;border-radius:100px;margin-bottom:22px}
+.hero .tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--champ)}
+.hero h1{max-width:16ch}
+.hero .sub{margin-top:22px}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:clamp(36px,5vw,64px);padding-top:28px;border-top:1px solid var(--line)}
+.meta .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.meta .v{font-size:14.5px;color:var(--ink2);line-height:1.6}
+@media(max-width:820px){.meta{grid-template-columns:repeat(2,1fr)}}
+.shot{margin-top:clamp(36px,5vw,64px);border-radius:var(--r);overflow:hidden;border:1px solid var(--line2);box-shadow:0 60px 120px -60px rgba(0,0,0,.95);background:var(--panel)}
+.shot img{width:100%;height:auto}
+.honest{margin-top:16px;color:var(--muted);font-size:13.5px}
+.honest b{color:var(--ink2);font-weight:600}
+
+/* story */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:start}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.story p{color:var(--ink2);font-size:1.05rem;margin-bottom:16px}
+.list{display:grid;gap:12px}
+.list div{display:flex;gap:14px;padding:16px 18px;border:1px solid var(--line);border-radius:var(--r2);background:var(--panel)}
+.list b{color:var(--cyan);font-weight:800;flex:none}
+.list span{color:var(--ink2);font-size:14.5px}
+
+/* feature gallery */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.feat{grid-template-columns:1fr}}
+.fc{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden;transition:transform .5s var(--ease),border-color .3s}
+.fc:hover{transform:translateY(-6px);border-color:var(--line2)}
+.fc .im{aspect-ratio:16/10;overflow:hidden;background:#fff;border-bottom:1px solid var(--line)}
+.fc .im img{width:100%;height:100%;object-fit:cover;object-position:top}
+.fc .tx{padding:22px 24px 26px}
+.fc .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.fc p{color:var(--ink2);font-size:14.5px;margin-top:8px}
+
+/* mobile row */
+.mob{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;align-items:end}
+@media(max-width:640px){.mob{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 18px 18px;margin:0 -18px;-webkit-overflow-scrolling:touch}.mob::-webkit-scrollbar{display:none}.mob .ph{flex:0 0 66%;scroll-snap-align:center}.mob .ph:nth-child(2){transform:none}}
+.ph{border-radius:26px;border:1px solid rgba(255,255,255,.14);background:#0b0f14;padding:8px;box-shadow:0 40px 80px -40px rgba(0,0,0,.95)}
+.ph img{border-radius:20px;width:100%;height:auto}
+.mob .ph:nth-child(2){transform:translateY(-22px)}
+.cap{color:var(--muted);font-size:13.5px;text-align:center;margin-top:22px}
+
+/* stack */
+.stack{display:flex;flex-wrap:wrap;gap:10px}
+.stack span{border:1px solid var(--line2);border-radius:100px;padding:8px 14px;font-size:13px;color:var(--ink2);font-weight:600}
+
+/* cta */
+.cta{background:linear-gradient(180deg,var(--bg2),var(--bg));border-top:1px solid var(--line)}
+.cta .box{text-align:center;max-width:720px;margin:0 auto}
+.cta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.cta .sub{margin:16px auto 0}
+
+footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a:hover{color:var(--cyan)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="StayMotion"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
+    <a class="back" href="/#arbeid">← <span data-en="Back to work">Tilbake til arbeid</span></a>
+    <div class="nav-r">
+      <div class="lang"><button type="button" data-lang="no" class="on">NO</button><button type="button" data-lang="en">EN</button></div>
+      <a class="btn p nav-cta" href="/start.html" data-en="Start project">Start prosjekt</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="tag rv" data-en="In-house product · Founder project">In-house-produkt · Eget prosjekt</span>
+    <span class="kick rv d1" data-en="Case · Digital platform">Case · Digital plattform</span>
+    <h1 class="rv d1" data-en="From idea to a complete digital platform.">Fra idé til komplett digital plattform.</h1>
+    <p class="sub rv d2" data-en="Product strategy, UI/UX and development of a community platform with several interconnected features.">Produktstrategi, UI/UX og utvikling av en community-plattform med flere sammenkoblede funksjoner.</p>
+
+    <div class="meta rv d3">
+      <div><div class="k" data-en="Project">Prosjekt</div><div class="v">SiamConnect</div></div>
+      <div><div class="k" data-en="Category">Kategori</div><div class="v" data-en="Digital platform / community app">Digital plattform / community-app</div></div>
+      <div><div class="k" data-en="Role">Rolle</div><div class="v" data-en="Product strategy · UI/UX · Web application · Design system · Frontend · Platform architecture">Produktstrategi · UI/UX · Webapplikasjon · Designsystem · Frontend · Plattformarkitektur</div></div>
+      <div><div class="k" data-en="Technology">Teknologi</div><div class="v">React · Vite · Tailwind · Supabase · Vercel</div></div>
+    </div>
+
+    <div class="shot rv">
+      <img src="img/work/siamconnect/marketplace-d.jpg" alt="SiamConnect Marketplace — desktop" width="1280" height="800" loading="eager">
+    </div>
+    <p class="honest rv" data-en="<b>Honest labelling:</b> SiamConnect is built and owned by StayMotion's founder. It is not a client engagement — it is shown as proof of what we can design and build."><b>Ærlig merket:</b> SiamConnect er bygget og eid av StayMotions gründer. Det er ikke et kundeoppdrag — det vises som bevis på hva vi kan designe og bygge.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap grid2">
+    <div class="story">
+      <span class="kick rv" data-en="The product">Produktet</span>
+      <h2 class="rv d1" data-en="One place for life in Thailand.">Ett sted for livet i Thailand.</h2>
+      <p class="rv d2" style="margin-top:18px" data-en="SiamConnect is a digital community platform built for people living in and exploring Thailand. The product combines social discovery, marketplace features, events, guides, community tools and local services in one unified experience.">SiamConnect er en digital community-plattform utviklet for mennesker som bor i eller utforsker Thailand. Produktet samler sosial oppdagelse, markedsplass, arrangementer, guider og lokale tjenester i én helhetlig opplevelse.</p>
+      <p class="rv d2" data-en="The challenge was not one page, but many connected surfaces that had to feel like a single product: a forum with cities and topics, a marketplace with categories and seller profiles, events with filters, long-form guides, tools such as a cost-of-living calculator — and one navigation that holds it all together on desktop and mobile.">Utfordringen var ikke én side, men mange sammenkoblede flater som måtte føles som ett produkt: et forum med byer og temaer, en markedsplass med kategorier og selgerprofiler, arrangementer med filtre, lange guider, verktøy som en levekostnadskalkulator — og én navigasjon som holder alt sammen på desktop og mobil.</p>
+    </div>
+    <div class="list rv d2">
+      <div><b>01</b><span data-en="Product thinking: a feature architecture where community, marketplace, events and guides share users, cities and search.">Produkttenkning: en funksjonsarkitektur der community, markedsplass, arrangementer og guider deler brukere, byer og søk.</span></div>
+      <div><b>02</b><span data-en="UX: a persistent sidebar with cities, topics and toolkit on desktop; a bottom tab bar with a primary action on mobile.">UX: fast sidemeny med byer, temaer og verktøy på desktop; bunnmeny med primærhandling på mobil.</span></div>
+      <div><b>03</b><span data-en="Visual design: a warm, editorial system — one accent colour, generous photography, clear hierarchy and honest empty states.">Visuelt design: et varmt, redaksjonelt system — én aksentfarge, rause bilder, tydelig hierarki og ærlige tomtilstander.</span></div>
+      <div><b>04</b><span data-en="Platform: authentication, roles, moderation and admin panels, SEO routes for guides and sellers, PWA manifest and service worker.">Plattform: innlogging, roller, moderering og adminpaneler, SEO-ruter for guider og selgere, PWA-manifest og service worker.</span></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <span class="kick rv" data-en="Surfaces">Flater</span>
+    <h2 class="rv d1" style="margin-bottom:34px" data-en="Several products. One experience.">Flere produkter. Én opplevelse.</h2>
+    <div class="feat">
+      <a class="fc rv" href="img/work/siamconnect/home-d.jpg" target="_blank" rel="noopener">
+        <div class="im"><img src="img/work/siamconnect/home-d.jpg" alt="SiamConnect community feed" loading="lazy"></div>
+        <div class="tx"><div class="k">Community</div><h3 data-en="Feed, cities and topics">Feed, byer og temaer</h3><p data-en="Sidebar navigation by city and topic, sort controls and a weekly leaderboard rail.">Sidemeny etter by og tema, sortering og en ukentlig topplisterail.</p></div>
+      </a>
+      <a class="fc rv d1" href="img/work/siamconnect/events-d.jpg" target="_blank" rel="noopener">
+        <div class="im"><img src="img/work/siamconnect/events-d.jpg" alt="SiamConnect events" loading="lazy"></div>
+        <div class="tx"><div class="k">Events</div><h3 data-en="Filters that stay out of the way">Filtre som ikke står i veien</h3><p data-en="Category, city and time filters in one calm row above a card grid.">Kategori-, by- og tidsfiltre i én rolig rad over et kortgrid.</p></div>
+      </a>
+      <a class="fc rv d2" href="img/work/siamconnect/guides-d.jpg" target="_blank" rel="noopener">
+        <div class="im"><img src="img/work/siamconnect/guides-d.jpg" alt="SiamConnect guides" loading="lazy"></div>
+        <div class="tx"><div class="k">Guides & tools</div><h3 data-en="Long-form content with utility">Langt innhold med nytteverdi</h3><p data-en="Editorial guide hub with calculators and finders surfaced as cards.">Redaksjonell guide-hub med kalkulatorer og verktøy løftet frem som kort.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <span class="kick rv" data-en="Mobile">Mobil</span>
+    <h2 class="rv d1" style="margin-bottom:40px" data-en="Designed for the thumb first.">Designet for tommelen først.</h2>
+    <div class="mob">
+      <div class="ph rv"><img src="img/work/siamconnect/home-m.jpg" alt="SiamConnect mobile home" loading="lazy"></div>
+      <div class="ph rv d1"><img src="img/work/siamconnect/marketplace-m.jpg" alt="SiamConnect mobile marketplace" loading="lazy"></div>
+      <div class="ph rv d2"><img src="img/work/siamconnect/events-m.jpg" alt="SiamConnect mobile events" loading="lazy"></div>
+    </div>
+    <p class="cap rv" data-en="Bottom tab bar with a floating primary action, full-width search and horizontally scrolling category chips.">Bunnmeny med flytende primærhandling, søk i full bredde og kategorichips som ruller horisontalt.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap grid2">
+    <div>
+      <span class="kick rv" data-en="What it proves">Hva det viser</span>
+      <h2 class="rv d1" data-en="More than brochure websites.">Mer enn brosjyrenettsider.</h2>
+      <p class="sub rv d2" style="margin-top:18px" data-en="Most of our clients need a strong business website. SiamConnect shows that the same team can also handle complex digital products — design systems, data, roles, search and many connected features — when a project calls for it.">De fleste kundene våre trenger en sterk bedriftsnettside. SiamConnect viser at samme team også kan håndtere komplekse digitale produkter — designsystem, data, roller, søk og mange sammenkoblede funksjoner — når et prosjekt krever det.</p>
+    </div>
+    <div>
+      <div class="kick rv" data-en="Stack">Stack</div>
+      <div class="stack rv d1">
+        <span>React</span><span>Vite</span><span>Tailwind CSS</span><span>Framer Motion</span><span>Supabase</span><span>Vercel</span><span>PWA</span><span>Playwright</span>
+      </div>
+      <p class="honest rv d2" style="margin-top:22px" data-en="No user numbers, revenue or conversion figures are shown here — the product is live and growing, and we only publish what we can stand behind.">Vi viser ingen brukertall, omsetning eller konverteringstall her — produktet er live og under utvikling, og vi publiserer bare det vi kan stå inne for.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap box">
+    <span class="kick rv" data-en="Your project">Ditt prosjekt</span>
+    <h2 class="rv d1" data-en="Need a website — or something bigger?">Trenger du en nettside — eller noe større?</h2>
+    <p class="sub rv d2" data-en="Start with a short brief. You get a clear next step within one business day.">Start med en kort brief. Du får et tydelig neste steg innen én virkedag.</p>
+    <div class="btns rv d3">
+      <a class="btn p" href="/start.html?type=redesign" data-en="Start project →">Start prosjekt →</a>
+      <a class="btn g" href="/start.html?type=custom" data-en="Ask about a custom platform">Spør om skreddersydd plattform</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>StayMotion · Org.nr 937 492 472 · Norge · © 2026</span>
+    <span><a href="/#arbeid" data-en="Work">Arbeid</a> · <a href="/#priser" data-en="Pricing">Priser</a> · <a href="mailto:michael@staymotion.no">michael@staymotion.no</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // reveal
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+  // language toggle (shared with the homepage via localStorage)
+  function setLang(l){
+    document.querySelectorAll('[data-en]').forEach(function(el){
+      if(el.dataset.no==null) el.dataset.no=el.innerHTML;
+      el.innerHTML = l==='en' ? el.dataset.en : el.dataset.no;
+    });
+    document.documentElement.lang = l==='en'?'en':'no';
+    document.querySelectorAll('[data-lang]').forEach(function(b){b.classList.toggle('on',b.dataset.lang===l);});
+    try{localStorage.setItem('sm_lang',l);}catch(e){}
+  }
+  document.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+  var saved=null; try{saved=localStorage.getItem('sm_lang');}catch(e){}
+  if(saved==='en') setLang('en');
+})();
+</script>
+</body>
+</html>
