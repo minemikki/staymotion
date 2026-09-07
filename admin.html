@@ -574,7 +574,7 @@
   function nextAction(o){
     if(!paid(o)) return {t:'Avventer betaling', k:'idle'};
     if(delivered(o)) return {t:'Levert ✓', k:'done'};
-    if((o.photos||[]).length===0) return {t:'Venter på bilder fra kunde', k:'wait'};
+    if((o.photos||[]).length===0) return {t:'Venter på innhold fra kunde', k:'wait'};
     if(o.revisionPending) return {t:'Lag ny versjon (endring ønsket)', k:'act'};
     if(finalQC(o)) return {t:'QC → Godkjenn levering', k:'deliver'};
     if(unanswered(o)) return {t:'Svar kunde', k:'act'};
@@ -608,9 +608,11 @@
   /* ---------- OVERSIKT ---------- */
   function reelsLabel(o){
     var p=String(o.pkg||o.pakke||'').toLowerCase();
-    if(p.indexOf('signatur')>=0) return '3 reels';
-    if(p.indexOf('bilder')>=0) return 'Bilder';
-    return '1 reel';
+    if(p.indexOf('signatur')>=0) return 'Signature';
+    if(p.indexOf('growth')>=0) return 'Growth';
+    if(p.indexOf('care')>=0) return 'Care';
+    if(p.indexOf('launch')>=0) return 'Launch';
+    return p||'—';
   }
   function boardStage(o){
     if(!paid(o)) return null;
@@ -624,14 +626,14 @@
     return 'klarprod';
   }
   var BOARD_COLS=[
-    ['nye','Nye ordre'],['klarprod','Klar til produksjon'],['produseres','Produseres'],
-    ['qc','QC'],['venter','Venter på kunde'],['klar','Klar']
+    ['nye','Nye prosjekter'],['klarprod','Klar for strategi'],['produseres','Design & bygg'],
+    ['qc','Review'],['venter','Venter på kunde'],['klar','Lansert']
   ];
   function boardFoot(o,stg){
     var cd=countdown(o.deadline);
     if(stg==='klar') return '<span class="bf ok">✓ Levert</span>';
     if(stg==='qc') return '<span class="bf qc">Venter godkjenning</span>';
-    if(stg==='venter') return '<span class="bf wait">'+(o.revisionPending?'Endring ønsket':(o.photos&&o.photos.length? 'Venter på svar':'Venter på bilder'))+'</span>';
+    if(stg==='venter') return '<span class="bf wait">'+(o.revisionPending?'Endring ønsket':(o.photos&&o.photos.length? 'Venter på svar':'Venter på innhold'))+'</span>';
     if(stg==='nye') return '<span class="bf">'+ago(o.created)+'</span>';
     if(stg==='produseres'){ var sh=(o.production&&o.production.shots)||[]; var done=sh.filter(function(x){return x.status==='approved';}).length; return '<span class="bf '+cd.c+'">'+(sh.length?(done+'/'+sh.length+' shots · '):'')+cd.t+'</span>'; }
     return '<span class="bf '+cd.c+'">'+cd.t+'</span>';
@@ -644,7 +646,7 @@
       '<span class="bthumb">'+th+'</span>'+
       '<span class="bbody"><b>'+esc(o.navn||'Ukjent')+'</b>'+
         '<span class="bmeta">'+esc((o.pakke||o.pkg||'').split('—')[0].trim()||'Enkelt')+' · '+reelsLabel(o)+'</span>'+
-        '<span class="bmeta">'+((o.photos||[]).length)+' bilder</span>'+
+        '<span class="bmeta">'+((o.photos||[]).length)+' filer</span>'+
         boardFoot(o,stg)+
       '</span></button>';
   }
@@ -674,7 +676,7 @@
     var bc={nye:0,klarprod:0,produseres:0,qc:0,venter:0,klar:0};
     ORDERS.forEach(function(o){var st=boardStage(o);if(st&&bc[st]!=null)bc[st]++;});
     $('ov-stats').innerHTML=
-      '<div class="stat"><span class="k">▤</span><div class="n">'+(bc.nye+bc.klarprod)+'</div><div class="l">Nye ordre</div></div>'+
+      '<div class="stat"><span class="k">▤</span><div class="n">'+(bc.nye+bc.klarprod)+'</div><div class="l">Nye prosjekter</div></div>'+
       '<div class="stat"><span class="k">▶</span><div class="n">'+bc.produseres+'</div><div class="l">I produksjon</div></div>'+
       '<div class="stat warn"><span class="k">◷</span><div class="n">'+bc.venter+'</div><div class="l">Venter på kunde</div></div>'+
       '<div class="stat ok"><span class="k">✓</span><div class="n">'+bc.qc+'</div><div class="l">Klar for levering</div></div>'+
@@ -708,7 +710,7 @@
         var late=p.uploadedAt&&p.uploadedAt>lateCut;
         return '<button class="'+(late?'late':'')+'" data-oid="'+id+'" data-pi="'+pi+'"><img src="'+esc(p.url)+'" alt="" loading="lazy" decoding="async" width="74" height="74"></button>';
       }).join('')+(extra>0?'<button class="morep" data-oid="'+id+'" data-pi="'+MAXTHUMB+'">+'+extra+'</button>':''))
-      :'<span class="none">Ingen bilder lastet opp ennå</span>';
+      :'<span class="none">Ingen filer lastet opp ennå</span>';
     var dlAll=plist.length?'<button class="btn sm ghost" data-dl="'+id+'">⤓ Last ned alle ('+plist.length+')</button>':'';
     // conversation summary for the card's chat button
     var thread=threadOf(o);
@@ -746,14 +748,14 @@
     }
     var nShots=((o.production&&o.production.shots)||[]).length;
     var tab=function(k,label,n){return '<button class="otab" data-tc="'+id+'" data-tab="'+k+'">'+label+(n?'<span class="tn">'+n+'</span>':'')+'</button>';};
-    var tabs='<div class="otabs">'+tab('oversikt','Oversikt',0)+tab('bilder','Bilder',plist.length)+
+    var tabs='<div class="otabs">'+tab('oversikt','Oversikt',0)+tab('bilder','Filer',plist.length)+
       tab('prod','Prod.',nShots)+tab('chat','Chat',thread.length)+tab('lev','Levering',0)+'</div>';
     var pOversikt='<div class="opanel" data-p="oversikt">'+
       (o.melding?('<div class="msg"><span class="lab">Melding fra kunde</span>'+esc(o.melding)+'</div>'):'')+
       '<div class="metaline"><span>Bestilt '+fmtDate(o.created)+' · '+ago(o.created)+'</span></div>'+
       '<div class="oa">'+statusCtl+'</div></div>';
     var pBilder='<div class="opanel hide" data-p="bilder">'+
-      '<div class="phead"><span class="t">'+plist.length+' bilder'+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?'<button class="btn sm claudebtn" data-claude="'+id+'">📤 Send til Claude</button>':'')+dlAll+'</div>'+
+      '<div class="phead"><span class="t">'+plist.length+' filer'+(lateCount?'<span class="latepill">+'+lateCount+' ettersendt</span>':'')+'</span>'+(plist.length?'<button class="btn sm claudebtn" data-claude="'+id+'">📤 Send til Claude</button>':'')+dlAll+'</div>'+
       '<div class="photos">'+photos+'</div></div>';
     var pProd='<div class="opanel hide" data-p="prod">'+
       '<div class="reelbuild"><div class="rb-h">Bygg reel til levering</div>'+
