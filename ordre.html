@@ -182,8 +182,8 @@
         <div class="steps">
           <div class="track"><div class="track-fill" id="trackFill"></div></div>
           <div class="step" data-s="1"><div class="dot">1</div><div class="lbl">Strategi</div></div>
-          <div class="step" data-s="2"><div class="dot">2</div><div class="lbl">Design</div></div>
-          <div class="step" data-s="3"><div class="dot">3</div><div class="lbl">Bygg</div></div>
+          <div class="step" data-s="2"><div class="dot">2</div><div class="lbl">Design &amp; bygg</div></div>
+          <div class="step" data-s="3"><div class="dot">3</div><div class="lbl">Gjennomgang</div></div>
           <div class="step" data-s="4"><div class="dot">4</div><div class="lbl">Lansert</div></div>
         </div>
       </div>
@@ -201,7 +201,7 @@
       <!-- Delivery hero (when ready) -->
       <div class="card delivery hide" id="delivery">
         <div class="dk">Din leveranse</div>
-        <h2>Leveransen din er klar 🚀</h2>
+        <h2 id="delivTitle">Leveransen din er klar 🚀</h2>
         <video id="finalVid" class="fvid" controls playsinline preload="metadata"></video>
         <div class="fmeta" id="finalMeta"></div>
         <div class="dbtns">
@@ -284,7 +284,7 @@
   function fmtDayTime(ms){ try{ const d=new Date(ms); const hh=('0'+d.getHours()).slice(-2), mm=('0'+d.getMinutes()).slice(-2); return d.getDate()+'. '+MONTHS[d.getMonth()]+' · '+hh+':'+mm; }catch(e){ return ''; } }
   function fmtTime(ms){ try{ return new Date(ms).toLocaleString('no-NO',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
 
-  function sigOf(d){ return (d.status||'')+'|'+(d.finalStatus||'')+'|'+((d.replies||[]).length)+'|'+((d.notes||[]).length)+'|'+((d.deliverables||[]).length)+'|'+((d.photos||[]).length)+'|'+(d.final?('F'+d.final.version+d.final.deliveredAt):'0')+'|'+(d.revisionsRemaining!=null?d.revisionsRemaining:'')+'|'+(d.revisionPending?1:0); }
+  function sigOf(d){ return (d.status||'')+'|'+(d.finalStatus||'')+'|'+((d.replies||[]).length)+'|'+((d.notes||[]).length)+'|'+((d.deliverables||[]).length)+'|'+((d.photos||[]).length)+'|'+(d.final?('F'+d.final.version+d.final.deliveredAt):'0')+'|'+(d.revisionsRemaining!=null?d.revisionsRemaining:'')+'|'+(d.revisionPending?1:0)+'|'+(d.projectStage||'')+'|'+(d.stagingUrl||'')+'|'+(d.liveUrl||''); }
 
   async function load(){
     if(!ref || !t){ show('denied'); return; }
@@ -307,14 +307,16 @@
   function show(id){ $('loading').classList.add('hide'); $(id).classList.remove('hide'); }
 
   // 4 customer-facing stages
+  const PSTAGE={strategi:1,design:2,bygg:2,review:3,lansert:4};
   function stage(){
+    if(data.projectStage && PSTAGE[data.projectStage]) return PSTAGE[data.projectStage];
     if(data.final || (data.deliverables||[]).length) return 4;   // klar
     if(data.finalStatus==='qc') return 3;                        // kvalitetssjekk
     const s=data.status||'';
     if(s==='under_arbeid' || data.finalStatus==='revision_requested') return 2;
     return 1;                                                    // mottatt
   }
-  const STAGE_NAME=['','Strategi','Design','Bygg','Lansert'];
+  const STAGE_NAME=['','Strategi','Design & bygg','Gjennomgang','Lansert'];
 
   function render(){
     show('view');
@@ -331,7 +333,7 @@
 
     // STATUS card
     const big=$('statusBig'); big.textContent=STAGE_NAME[st]; big.classList.toggle('klar', st===4);
-    if(st===4 && data.final && data.final.deliveredAt){ $('delivLab').textContent='Lansert'; $('delivDate').innerHTML=fmtDay(data.final.deliveredAt); }
+    if(st===4 && (data.launchedAt || (data.final && data.final.deliveredAt))){ $('delivLab').textContent='Lansert'; $('delivDate').innerHTML=fmtDay(data.launchedAt || data.final.deliveredAt); }
     else if(data.deadline){ $('delivLab').textContent='Lansering senest'; $('delivDate').innerHTML=fmtDayTime(data.deadline); }
     else { $('delivLab').textContent='Lansering'; $('delivDate').textContent='Avtales'; }
 
@@ -349,7 +351,7 @@
     if(needImages){
       nc.classList.add('act'); $('nowIc').textContent='📸';
       $('nowText').textContent='Vi trenger innhold fra deg før vi kan sette i gang — logo, bilder og tekst.';
-      cta.textContent='Last opp innhold'; cta.classList.remove('hide');
+      cta.textContent='Last opp innhold'; cta.dataset.mode='upload'; cta.classList.remove('hide');
     } else if(data.revisionPending){
       $('nowIc').textContent='✏️';
       $('nowText').textContent='Vi har mottatt endringsønsket ditt og lager en ny versjon. Vi sier fra når den er klar.';
@@ -359,16 +361,27 @@
     } else if(st===2){
       $('nowIc').textContent='🎬';
       $('nowText').textContent='Vi designer sidene dine nå. Du får se utkast og kan gi tilbakemelding i chatten før vi bygger.';
+    } else if(st===3 && data.stagingUrl){
+      nc.classList.add('act'); $('nowIc').textContent='🔍';
+      $('nowText').textContent='Et utkast av nettsiden er klart for din gjennomgang. Se det på mobil og desktop, og gi tilbakemelding i meldingene under.';
+      cta.textContent='Se utkastet ↗'; cta.dataset.mode='review'; cta.classList.remove('hide');
     } else if(st===3){
       $('nowIc').textContent='🔍';
       $('nowText').textContent='Siden bygges og testes. Neste steg er din gjennomgang før lansering.';
     } else {
       $('nowIc').textContent='🎉';
-      $('nowText').textContent='Nettsiden din er live. Leveransen finner du under.';
+      $('nowText').textContent= data.liveUrl ? 'Nettsiden din er live. Lenken finner du under.' : 'Nettsiden din er live.';
     }
 
     // delivery hero
-    if(data.final){
+    if(data.liveUrl){
+      $('delivery').classList.remove('hide');
+      $('finalVid').classList.add('hide'); $('delivTitle').textContent='Nettsiden din er live 🚀'; $('finalMeta').textContent='Lansert' + (data.launchedAt ? ' · ' + fmtDay(data.launchedAt) : '');
+      const dl=$('finalDl'); dl.textContent='Åpne nettsiden ↗'; dl.href=data.liveUrl; dl.target='_blank'; dl.rel='noopener'; dl.classList.remove('hide');
+      const rem=data.revisionsRemaining, rb=$('revBtn'); rb.classList.remove('hide');
+      if(data.revisionPending){ $('revInfo').textContent='Endringen din er mottatt – vi er i gang. ✏️'; rb.disabled=true; rb.textContent='Endring bestilt'; }
+      else { $('revInfo').textContent= rem>0 ? (rem+' justeringsrunde'+(rem>1?'r':'')+' inkludert etter lansering.') : 'Ønsker du en endring? Ta kontakt, eller spør om StayMotion Care.'; rb.disabled=false; rb.textContent='Be om en justering'; }
+    } else if(data.final){
       $('delivery').classList.remove('hide');
       const v=$('finalVid'); if(v.getAttribute('data-src')!==data.final.preview){ v.src=data.final.preview||''; v.poster=data.final.poster||''; v.setAttribute('data-src',data.final.preview||''); }
       const res=(data.final.width&&data.final.height)?(data.final.width+' × '+data.final.height):'1080 × 1920';
@@ -394,7 +407,7 @@
     const conf=[
       {on:!!data.paid, t:'Betaling mottatt'},
       {on:ph.length>0, t: ph.length>0 ? (ph.length+' filer mottatt') : 'Innhold mangler'},
-      {on:true, t: data.deadline ? ('Lansering senest '+fmtDay(data.deadline)) : 'Lansering avtales'},
+      {on:true, t: st===4 ? ('Lansert'+(data.launchedAt?(' '+fmtDay(data.launchedAt)):'')) : data.deadline ? ('Lansering senest '+fmtDay(data.deadline)) : 'Lansering avtales'},
     ];
     $('conf').innerHTML=conf.map(c=>'<div class="c'+(c.on?'':' off')+'"><span class="k">'+(c.on?'✓':'○')+'</span>'+esc(c.t)+'</div>').join('');
 
@@ -487,7 +500,7 @@
       alert('Takk! Endringsforespørselen er sendt. Vi er i gang. ✏️'); lastSig=''; load();
     }catch(e){ b.disabled=false; b.textContent=old; alert('Kunne ikke sende: '+e.message); }
   });
-  $('nowCta').addEventListener('click', ()=>{ $('drop').scrollIntoView({behavior:'smooth',block:'center'}); input.click(); });
+  $('nowCta').addEventListener('click', ()=>{ if($('nowCta').dataset.mode==='review' && data.stagingUrl){ window.open(data.stagingUrl,'_blank','noopener'); return; } $('drop').scrollIntoView({behavior:'smooth',block:'center'}); input.click(); });
 
   load();
 </script>
