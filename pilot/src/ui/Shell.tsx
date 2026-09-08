@@ -46,10 +46,11 @@ export function Shell({ children, view }: { children: (s: Session) => React.Reac
   const views = allowedViews(session.role);
   const label = { employee: 'Min dag', manager: 'Oversikt', hq: 'Kjede / HQ' } as const;
   const href = { employee: '/employee', manager: '/manager', hq: '/hq' } as const;
-  const canManageTeam = session.role !== 'employee';
+  const canManage = session.role !== 'employee';
   const navigation = [
     ...views.map((v) => ({ key: v, href: href[v], label: label[v] })),
-    ...(canManageTeam ? [{ key: 'team', href: '/team', label: 'Team' }] : []),
+    ...(canManage ? [{ key: 'handover', href: '/handover', label: 'Vaktbytte' }] : []),
+    ...(canManage ? [{ key: 'team', href: '/team', label: 'Team' }] : []),
   ];
   const where = session.locationName ? `${session.organizationName} · ${session.locationName}` : session.organizationName;
   const single = navigation.length === 1;
