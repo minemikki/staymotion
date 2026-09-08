@@ -4,15 +4,22 @@ import { LocalProvider, MemoryStorage } from './local-provider';
 
 /**
  * Provider selection. Exactly one switch:
- *   NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY present → Supabase
- *   otherwise                                                        → Local (browser storage)
- * NEXT_PUBLIC_STAYMOTION_MODE=local forces local even if env exists (useful in tests).
+ *   NEXT_PUBLIC_SUPABASE_URL + publishable key present → Supabase
+ *   otherwise                                          → Local (browser storage)
+ *
+ * Supabase recommends the new sb_publishable_* keys for browser/mobile apps.
+ * NEXT_PUBLIC_SUPABASE_ANON_KEY remains a temporary compatibility fallback.
+ * NEXT_PUBLIC_STAYMOTION_MODE=local always forces local mode (useful in CI/tests).
  */
 export type DataMode = 'local' | 'supabase';
 
+export function publicSupabaseKey(): string | undefined {
+  return process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+}
+
 export function resolveMode(): DataMode {
   if (process.env.NEXT_PUBLIC_STAYMOTION_MODE === 'local') return 'local';
-  return process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'supabase' : 'local';
+  return process.env.NEXT_PUBLIC_SUPABASE_URL && publicSupabaseKey() ? 'supabase' : 'local';
 }
 
 let cached: DataProvider | null = null;
