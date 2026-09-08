@@ -145,7 +145,7 @@ function Employee({ session }: { session: Session }) {
   ].filter(Boolean).join(' · ');
 
   return (
-    <div className="wrapN rise emp">
+    <div className="rise emp">
       <section className="hero-card" aria-label="Status for vakten">
         <div className="hero-top">
           <span className="chip live inv" title="Oppdateres live"><span className="dot" aria-hidden />{PIN}{session.locationName || session.organizationName}</span>
@@ -197,6 +197,9 @@ function Employee({ session }: { session: Session }) {
         )}
       </section>
 
+      </div>
+      </div>
+
       <section className="mine sect" id="rapporter" aria-label="Mine rapporter">
         <div className="sect-h"><h2>Mine rapporter</h2><span className="small">{mine.length ? 'oppdateres live' : ''}</span></div>
         {mine.length === 0 ? (
@@ -222,8 +225,6 @@ function Employee({ session }: { session: Session }) {
         )}
       </section>
 
-      </div>
-      </div>
 
       {capture && db && <Capture session={session} db={db} mode={capture} initial={capture === 'voice' ? initial : undefined} onClose={() => { setCapture(null); void load(db); }} onRegistered={(created) => { setPending(0); setInitial(undefined); showOutcome(created); void load(db); }} />}
     </div>
