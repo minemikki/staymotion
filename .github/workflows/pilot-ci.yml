@@ -1,0 +1,46 @@
+name: StayMotion Pilot CI
+
+on:
+  pull_request:
+    paths:
+      - 'pilot/**'
+      - 'supabase/migrations/**'
+      - '.github/workflows/pilot-ci.yml'
+  push:
+    branches:
+      - 'gpt/phase3-real-pilot-hardening'
+    paths:
+      - 'pilot/**'
+      - 'supabase/migrations/**'
+      - '.github/workflows/pilot-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: pilot
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: pilot/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit tests
+        run: npm test
+      - name: Production build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_STAYMOTION_MODE: local
