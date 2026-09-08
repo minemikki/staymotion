@@ -8,6 +8,8 @@ import { analyzeText } from '../lib/analyze-client';
 import { speechSupported, startSpeech, type SpeechHandle } from '../lib/speech';
 import { Signal, type SignalState } from './Signal';
 
+const CAM = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>;
+
 /**
  * SignalCapture — the interactive «Meld fra» organism on Employee Today.
  *
@@ -30,17 +32,26 @@ const COPY: Record<SignalState, { title: string; sub: string }> = {
   pressed: { title: 'Tar opp …', sub: 'Slipp for å stoppe' },
   listening: { title: 'StayMotion lytter', sub: 'Trykk for å stoppe' },
   analyzing: { title: 'Finner det som må følges opp', sub: 'Én ytring kan bli flere saker' },
+  found: { title: 'Sjekk forslagene', sub: 'Trykk for å fortsette' },
   confirm: { title: 'Sjekk forslaget', sub: 'Du bekrefter før noe lagres' },
   sent: { title: 'Sendt', sub: 'Lederen får beskjed' },
   critical: { title: 'Sendt som kritisk', sub: 'Skiftleder varsles nå' },
   error: { title: 'Ingen mikrofon', sub: 'Skriv i stedet' },
 };
 
-export function SignalCapture({ session, db, outcome, onAnalyzed, onBusy }: {
+export function SignalCapture({ session, db, outcome, foundCount = 0, onAnalyzed, onResume, onDiscard, onCamera, onBusy }: {
   session: Session; db: DataProvider;
   /** Set by the page after registration so the organism can show the result. */
   outcome: SignalOutcome;
+  /** Proposals waiting for confirmation — the sheet may be open or temporarily dismissed. */
+  foundCount?: number;
   onAnalyzed(result: AnalyzeResult, transcript: string, source: CaptureSource): void;
+  /** Reopen the confirmation sheet for proposals the employee stepped away from. */
+  onResume?(): void;
+  /** Throw the pending proposals away — nothing was ever stored. */
+  onDiscard?(): void;
+  /** Secondary capture route: attach a photo and tell StayMotion what you see. */
+  onCamera?(): void;
   onBusy?(busy: boolean): void;
 }) {
   const [phase, setPhase] = useState<Phase>('idle');
@@ -137,6 +148,7 @@ export function SignalCapture({ session, db, outcome, onAnalyzed, onBusy }: {
   const onDown = (e: React.PointerEvent) => {
     if (e.button !== 0 && e.pointerType === 'mouse') return;
     if (outcome || phaseRef.current === 'analyzing') return;
+    if (foundCount > 0) { onResume?.(); return; }
     if (phaseRef.current === 'listening' || phaseRef.current === 'pressed') { stopListening(); return; }
     pressedAt.current = performance.now();
     setPhaseSafe('pressed');
@@ -153,13 +165,14 @@ export function SignalCapture({ session, db, outcome, onAnalyzed, onBusy }: {
   const onKey = (e: React.KeyboardEvent) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     e.preventDefault();
+    if (foundCount > 0) { onResume?.(); return; }
     if (phaseRef.current === 'listening' || phaseRef.current === 'pressed') stopListening(); else if (phaseRef.current === 'idle') { setPhaseSafe('pressed'); startListening(); setTimeout(() => { if (phaseRef.current === 'pressed') setPhaseSafe('listening'); }, HOLD_MS); }
   };
 
-  const state: SignalState = outcome ?? phase;
+  const state: SignalState = outcome ?? (foundCount > 0 ? 'found' : phase);
   const copy = COPY[state];
   const live = phase === 'listening' || phase === 'pressed' ? (finalText || interim ? `${finalText}${interim ? ` ${interim}` : ''}` : '') : '';
-  const stepIndex = state === 'sent' || state === 'critical' ? 2 : state === 'analyzing' ? 1 : state === 'listening' || state === 'pressed' ? 0 : -1;
+  const stepIndex = state === 'sent' || state === 'critical' ? 2 : state === 'analyzing' || state === 'found' ? 1 : state === 'listening' || state === 'pressed' ? 0 : -1;
 
   return (
     <section className="signal-stage" aria-label="Meld fra til StayMotion">
@@ -169,17 +182,18 @@ export function SignalCapture({ session, db, outcome, onAnalyzed, onBusy }: {
         onPointerDown={onDown} onPointerUp={onUp} onPointerCancel={onUp} onPointerLeave={onUp}
         onKeyDown={onKey} onContextMenu={(e) => e.preventDefault()}
         aria-pressed={phase === 'listening' || phase === 'pressed'}
-        aria-label={state === 'listening' || state === 'pressed' ? 'Stopp opptak' : 'Meld fra — hold inne og fortell'}
+        aria-label={state === 'listening' || state === 'pressed' ? 'Stopp opptak' : foundCount > 0 ? `Fortsett — ${foundCount} forslag venter` : 'Meld fra — hold inne og fortell'}
         disabled={phase === 'analyzing' || !!outcome}
         data-testid="open-voice"
         data-state={state}
       >
-        <Signal ref={sigRef} state={state} size="lg" title={copy.title} subtitle={copy.sub} />
+        <Signal ref={sigRef} state={state} size="lg" title={copy.title} subtitle={copy.sub} count={foundCount} />
       </button>
 
       <div className="sig-status" role="status" aria-live="polite">
-        {state === 'listening' || state === 'pressed' ? <span className="sig-caption"><i aria-hidden />Opptak pågår</span>
+        {state === 'listening' || state === 'pressed' ? <span className="sig-caption"><i aria-hidden />Opptak pågår<span className="sig-meter" aria-hidden><b /><b /><b /><b /><b /></span></span>
           : state === 'analyzing' ? <span className="sig-caption">StayMotion tolker det du sa</span>
+          : state === 'found' ? <span className="sig-caption">{foundCount === 1 ? 'Ett forslag venter på deg' : `${foundCount} forslag venter på deg`}</span>
           : state === 'sent' || state === 'critical' ? <span className="sig-caption ok">Registrert og videresendt</span>
           : state === 'error' ? <span className="sig-caption muted">Skriv under, så tolker StayMotion teksten.</span>
           : note ? <span className="sig-caption warn">{note}</span>
@@ -189,7 +203,7 @@ export function SignalCapture({ session, db, outcome, onAnalyzed, onBusy }: {
       {live !== '' && <div className="live sig-live" data-testid="live">{finalText}{interim ? <span className="interim"> {interim}</span> : null}</div>}
       {(state === 'listening' || state === 'pressed') && live === '' && <div className="live sig-live empty" data-testid="live">Det du sier vises her …</div>}
 
-      <ol className="sig-dots" aria-label="Steg">
+      <ol className={'sig-dots' + (stepIndex < 0 ? ' resting' : '')} aria-label="Steg">
         {['Lytter', 'Finner saker', 'Sendt'].map((label, i) => <li key={label} className={i === stepIndex ? 'on' : i < stepIndex ? 'done' : ''} aria-current={i === stepIndex ? 'step' : undefined}><i aria-hidden />{label}</li>)}
       </ol>
 
@@ -203,7 +217,15 @@ export function SignalCapture({ session, db, outcome, onAnalyzed, onBusy }: {
           </div>
         </div>
       ) : (
-        <button className="linkbtn sig-typetoggle" type="button" onClick={() => setTyping(true)} disabled={phase === 'analyzing' || !!outcome} data-testid="signal-type-toggle">Skriv i stedet</button>
+        <div className="sig-links">
+          {foundCount > 0 ? (<>
+            <button className="btn ghost sm" type="button" onClick={() => onResume?.()}>Fortsett</button>
+            <button className="linkbtn danger" type="button" onClick={() => onDiscard?.()} data-testid="signal-discard">Forkast forslagene</button>
+          </>) : (<>
+            {onCamera && <button className="btn ghost sig-camera" type="button" onClick={onCamera} data-testid="open-camera"><span className="ic" aria-hidden>{CAM}</span>Ta bilde</button>}
+            <button className="linkbtn" type="button" onClick={() => setTyping(true)} disabled={phase === 'analyzing' || !!outcome} data-testid="signal-type-toggle">Skriv i stedet</button>
+          </>)}
+        </div>
       )}
     </section>
   );

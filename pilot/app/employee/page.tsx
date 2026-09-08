@@ -15,7 +15,6 @@ import { actorOf, type Session } from '@/src/session/session';
 import { incidentStatus } from '@/src/domain/incident-presentation';
 import { Icon, categoryIcon, taskIcon } from '@/src/ui/icons';
 
-const CAM = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>;
 const PIN = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" /><circle cx="12" cy="9" r="2.5" /></svg>;
 const STATUS_LABEL = { 1: 'Sendt', 2: 'Sett av leder', 3: 'Løst' } as const;
 
@@ -37,6 +36,7 @@ function Employee({ session }: { session: Session }) {
   const [capture, setCapture] = useState<null | 'voice' | 'camera'>(null);
   const [initial, setInitial] = useState<CaptureInitial | undefined>(undefined);
   const [outcome, setOutcome] = useState<SignalOutcome>(null);
+  const [pending, setPending] = useState(0); // proposals waiting in the Capture sheet — drives the Signal's «found» state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [pendingTask, setPendingTask] = useState<string | null>(null);
@@ -83,8 +83,12 @@ function Employee({ session }: { session: Session }) {
   }, [db, router]);
 
   // The Signal produced a proposal → open the confirmation panel. Nothing is stored until the employee confirms.
+  // Let the Signal show what it found for a beat before the confirmation sheet slides over it.
   const onAnalyzed = useCallback((result: AnalyzeResult, transcript: string, source: CaptureSource) => {
-    setInitial({ analysis: result, transcript, source }); setCapture('voice');
+    setInitial({ analysis: result, transcript, source });
+    setPending(result.issues.length);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.setTimeout(() => setCapture('voice'), reduce ? 0 : 700);
   }, []);
   const showOutcome = useCallback((created: Incident[]) => {
     const o: SignalOutcome = created.some((i) => i.severity === 'critical') ? 'critical' : 'sent';
@@ -126,7 +130,19 @@ function Employee({ session }: { session: Session }) {
   const stateSub = loading ? 'Et øyeblikk.' : !tasks.length ? 'Du kan fortsatt melde fra om noe.' : left === 0 ? 'Fin vakt. StayMotion sier fra hvis noe dukker opp.' : 'Ta én ting om gangen.';
   const openReports = mine.filter((i) => stepOf(i.status) < 3).length;
   const criticalOpen = mine.some((i) => i.severity === 'critical' && stepOf(i.status) < 3);
-  const allOk = left === 0 && !criticalOpen;
+  const attention = mine.filter((i) => i.status === 'needs_attention').length;
+  const allOk = left === 0 && !criticalOpen && attention === 0;
+  const heroTone = loading ? '' : criticalOpen || attention ? 'warn' : allOk ? 'ok' : 'warn';
+  const heroTitle = loading ? 'Henter dagen din …'
+    : criticalOpen ? 'Én kritisk sak følges opp'
+    : attention ? `${attention === 1 ? 'Én rapport' : `${attention} rapporter`} venter på oppfølging`
+    : left ? `${left === 1 ? 'Én ting' : `${left} ting`} før du er i mål`
+    : openReports ? `${openReports === 1 ? 'Én rapport' : `${openReports} rapporter`} er underveis`
+    : 'Alt under kontroll';
+  const heroMeta = loading ? 'Et øyeblikk.' : [
+    tasks.length ? `${doneTasks.length} av ${tasks.length} rutiner gjort` : 'Ingen rutiner lagt opp i dag',
+    openReports ? `${openReports} rapport${openReports > 1 ? 'er' : ''} underveis` : null,
+  ].filter(Boolean).join(' · ');
 
   return (
     <div className="wrapN rise emp">
@@ -137,18 +153,19 @@ function Employee({ session }: { session: Session }) {
         </div>
         <h1 className="h1">{greeting()}, {first}.</h1>
         <div className="hero-status">
-          <span className={'hero-dot ' + (loading ? '' : allOk ? 'ok' : 'warn')} aria-hidden />
-          <b>{loading ? 'Henter dagen din …' : allOk ? 'Alt under kontroll' : left ? `${left === 1 ? 'Én ting' : `${left} ting`} før du er i mål` : 'Noe følges opp for deg'}</b>
-          <span className="hero-meta">{tasks.length ? `${doneTasks.length} av ${tasks.length} rutiner gjort` : 'Ingen rutiner lagt opp i dag'}{openReports ? ` · ${openReports} rapport${openReports > 1 ? 'er' : ''} underveis` : ''}</span>
+          <span className={'hero-dot ' + heroTone} aria-hidden />
+          <b>{heroTitle}</b>
+          <span className="hero-meta">{heroMeta}</span>
         </div>
       </section>
 
-      {db && <SignalCapture session={session} db={db} outcome={outcome} onAnalyzed={onAnalyzed} />}
-      <div className="sig-secondary">
-        <button className="btn ghost sig-camera" type="button" onClick={() => { setInitial(undefined); setCapture('camera'); }} data-testid="open-camera"><span className="ic" aria-hidden>{CAM}</span>Ta bilde</button>
-      </div>
+      <div className="emp-grid">
+      <div className="emp-left">
+      {db && <SignalCapture session={session} db={db} outcome={outcome} foundCount={pending} onAnalyzed={onAnalyzed} onResume={() => setCapture('voice')} onDiscard={() => { setPending(0); setInitial(undefined); }} onCamera={() => { setInitial(undefined); setPending(0); setCapture('camera'); }} />}
 
       {error && <div className="load-error" role="alert">{error} <button className="linkbtn" onClick={() => db ? void load(db) : window.location.reload()}>Prøv igjen</button></div>}
+      </div>
+      <div className="emp-right">
 
       <section className="flow sect" id="oppgaver" aria-label="Dagens flyt">
         <div className="flow-h" aria-live="polite" data-testid="state">
@@ -205,7 +222,10 @@ function Employee({ session }: { session: Session }) {
         )}
       </section>
 
-      {capture && db && <Capture session={session} db={db} mode={capture} initial={capture === 'voice' ? initial : undefined} onClose={() => { setCapture(null); setInitial(undefined); void load(db); }} onRegistered={(created) => { showOutcome(created); void load(db); }} />}
+      </div>
+      </div>
+
+      {capture && db && <Capture session={session} db={db} mode={capture} initial={capture === 'voice' ? initial : undefined} onClose={() => { setCapture(null); void load(db); }} onRegistered={(created) => { setPending(0); setInitial(undefined); showOutcome(created); void load(db); }} />}
     </div>
   );
 }

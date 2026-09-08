@@ -159,9 +159,11 @@ function Team({ session }: { session: Session }) {
 
   return (
     <div className="wrapW rise">
+      <div className="page-head">
       <div className="eyebrow">Team · {session.locationName || session.organizationName}</div>
       <h1 className="h1">Riktige folk. Riktig tilgang.</h1>
       <p className="lead">Legg ansatte til én gang. StayMotion bruker rollen og lokasjonen til å vise bare det de faktisk trenger.</p>
+      </div>
 
       <div className="sect">
         <div className="sect-h"><h2>Legg til person</h2><span className="small">{session.locationName || 'Første lokasjon'}</span></div>

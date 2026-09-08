@@ -15,9 +15,11 @@ function Me({ session }: { session: Session }) {
   const initials = session.fullName.split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase();
   return (
     <div className="wrapN rise emp">
+      <div className="page-head">
       <div className="eyebrow">Meg</div>
       <h1 className="h1">{session.fullName}</h1>
       <p className="lead">Det du gjør i StayMotion knyttes til deg, så lederen alltid vet hvem som har sett og gjort hva.</p>
+      </div>
 
       <div className="card me-card" style={{ marginTop: 24 }}>
         <span className="av" aria-hidden>{initials}</span>

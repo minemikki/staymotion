@@ -77,9 +77,11 @@ function Handover({ session }: { session: Session }) {
 
   return (
     <div className="wrapW rise">
+      <div className="page-head">
       <div className="eyebrow">Vaktbytte · {session.locationName || session.organizationName}</div>
       <h1 className="h1">Neste skift får det de trenger.</h1>
       <p className="lead">StayMotion samler åpne saker, ferdige hendelser og rutiner fra dagens registreringer. Ingen trenger å skrive samme status på nytt.</p>
+      </div>
 
       <div className="dark calm">
         <div>

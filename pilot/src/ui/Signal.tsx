@@ -15,12 +15,13 @@ import { forwardRef } from 'react';
  *   pressed    grows slightly, rings move outward
  *   listening  ribbons + wave react to `--level`, coral thread active
  *   analyzing  the organism splits into two threads — one utterance can become several issues
+ *   found      amber, holds the number of proposals waiting for confirmation
  *   confirm    steady, used as a small indicator while the proposal panel is open
  *   sent       gathers into a mint confirmation with a check
  *   critical   coral/red core, slow pulse, never blinks — only for a real critical incident
  *   error      desaturated and still — microphone unavailable
  */
-export type SignalState = 'idle' | 'pressed' | 'listening' | 'analyzing' | 'confirm' | 'sent' | 'critical' | 'error';
+export type SignalState = 'idle' | 'pressed' | 'listening' | 'analyzing' | 'found' | 'confirm' | 'sent' | 'critical' | 'error';
 export type SignalSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export interface SignalProps {
@@ -30,23 +31,28 @@ export interface SignalProps {
   level?: number;
   title?: string;
   subtitle?: string;
+  /** Number of proposals found — rendered as a badge in the `found` state. */
+  count?: number;
   className?: string;
 }
 
-export const Signal = forwardRef<HTMLSpanElement, SignalProps>(function Signal({ state, size = 'lg', level, title, subtitle, className = '' }, ref) {
+export const Signal = forwardRef<HTMLSpanElement, SignalProps>(function Signal({ state, size = 'lg', level, title, subtitle, count, className = '' }, ref) {
   const style = level === undefined ? undefined : ({ ['--level' as string]: String(Math.max(0, Math.min(1, level))) } as React.CSSProperties);
   return (
     <span ref={ref} className={`sig sig-${state} sig-${size}${title || subtitle ? ' sig-has-text' : ''} ${className}`.trim()} style={style} data-state={state} aria-hidden>
       <svg className="sig-svg" viewBox="0 0 400 400" focusable="false">
         <defs>
           <radialGradient id="sigCore" cx="34%" cy="30%" r="80%">
-            <stop offset="0" stopColor="#6E93FF" /><stop offset=".48" stopColor="#2457F5" /><stop offset="1" stopColor="#1436A8" />
+            <stop offset="0" stopColor="#7FA0FF" /><stop offset=".42" stopColor="#2457F5" /><stop offset="1" stopColor="#0D2472" />
           </radialGradient>
           <radialGradient id="sigCoreMint" cx="34%" cy="30%" r="80%">
-            <stop offset="0" stopColor="#8DF0C8" /><stop offset=".5" stopColor="#22C48A" /><stop offset="1" stopColor="#0E7A55" />
+            <stop offset="0" stopColor="#9CF5D3" /><stop offset=".45" stopColor="#22C48A" /><stop offset="1" stopColor="#076343" />
+          </radialGradient>
+          <radialGradient id="sigCoreFound" cx="34%" cy="30%" r="80%">
+            <stop offset="0" stopColor="#FFD68A" /><stop offset=".45" stopColor="#F59E0B" /><stop offset="1" stopColor="#8A5200" />
           </radialGradient>
           <radialGradient id="sigCoreCritical" cx="34%" cy="30%" r="80%">
-            <stop offset="0" stopColor="#FF9C8A" /><stop offset=".5" stopColor="#E8553A" /><stop offset="1" stopColor="#A3251F" />
+            <stop offset="0" stopColor="#FFAD9C" /><stop offset=".45" stopColor="#E8553A" /><stop offset="1" stopColor="#8A1A15" />
           </radialGradient>
           <linearGradient id="sigRibbonA" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stopColor="#A9C4FF" stopOpacity=".85" /><stop offset="1" stopColor="#3D6BFF" stopOpacity=".38" />
@@ -94,14 +100,15 @@ export const Signal = forwardRef<HTMLSpanElement, SignalProps>(function Signal({
         {/* core */}
         <circle className="sig-core" cx="200" cy="200" r="102" fill="url(#sigCore)" />
         <circle className="sig-core sig-core-mint" cx="200" cy="200" r="102" fill="url(#sigCoreMint)" />
+        <circle className="sig-core sig-core-found" cx="200" cy="200" r="102" fill="url(#sigCoreFound)" />
         <circle className="sig-core sig-core-critical" cx="200" cy="200" r="102" fill="url(#sigCoreCritical)" />
         <circle className="sig-rim" cx="200" cy="200" r="101" />
-        <ellipse className="sig-gloss" cx="172" cy="140" rx="50" ry="24" fill="url(#sigGloss)" />
+        <ellipse className="sig-gloss" cx="174" cy="146" rx="44" ry="21" fill="url(#sigGloss)" />
 
         {/* glass petals in front of the core — light passes through them */}
         <g className="sig-ribbons sig-ribbons-front">
-          <g className="rb-wrap rb-wrap-c"><path className="rb rb-c" d="M200 92C280 92 308 120 308 200C308 280 280 308 200 308C120 308 92 280 92 200C92 120 120 92 200 92Z" /></g>
-          <g className="rb-wrap rb-wrap-d"><path className="rb rb-d" d="M118 206C112 134 168 92 240 92C304 92 324 148 286 200C246 254 200 310 134 308C92 306 122 258 118 206Z" /></g>
+          <g className="rb-wrap rb-wrap-c"><path className="rb rb-c" d="M200 112C264 112 288 136 288 200C288 264 264 288 200 288C136 288 112 264 112 200C112 136 136 112 200 112Z" /></g>
+          <g className="rb-wrap rb-wrap-d"><path className="rb rb-d" d="M200 104C270 104 296 130 296 200C296 270 270 296 200 296C130 296 104 270 104 200C104 130 130 104 200 104Z" /></g>
         </g>
 
         {/* live wave — reads --level, drawn across the core */}
@@ -112,6 +119,7 @@ export const Signal = forwardRef<HTMLSpanElement, SignalProps>(function Signal({
       </svg>
       {(title || subtitle) && (
         <span className="sig-text">
+          {state === 'found' && count ? <span className="sig-count">{count}</span> : null}
           {title && <b>{title}</b>}
           {subtitle && <small>{subtitle}</small>}
         </span>
