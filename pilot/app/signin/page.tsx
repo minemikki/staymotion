@@ -18,6 +18,15 @@ export default function SignIn() {
   return mode === 'supabase' ? <EmailSignIn /> : <PersonaSignIn />;
 }
 
+function friendlyAuthError(x: unknown, fallback: string) {
+  const raw = (x as Error)?.message || fallback;
+  if (/rate limit/i.test(raw)) return 'Det er sendt mange e-poster på kort tid. Vent litt før du prøver igjen.';
+  if (/database error saving new user/i.test(raw)) return 'Vi klarte ikke å opprette brukeren akkurat nå. Prøv igjen om et øyeblikk.';
+  if (/token.*expired|otp.*expired|expired.*token/i.test(raw)) return 'Koden er utløpt. Be om en ny kode.';
+  if (/invalid.*token|token.*invalid|otp.*invalid/i.test(raw)) return 'Koden stemmer ikke. Sjekk e-posten og prøv igjen.';
+  return raw;
+}
+
 function EmailSignIn() {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -25,25 +34,37 @@ function EmailSignIn() {
   const [code, setCode] = useState('');
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
 
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
+  useEffect(() => {
+    if (!cooldown) return;
+    const id = window.setInterval(() => setCooldown((v) => Math.max(0, v - 1)), 1000);
+    return () => window.clearInterval(id);
+  }, [cooldown > 0]);
+
+  async function sendCode() {
     setErr('');
     setBusy(true);
     try {
       const { createBrowserSupabase } = await import('@/src/data/supabase-provider');
       const sb = createBrowserSupabase();
       const { error } = await sb.auth.signInWithOtp({
-        email,
+        email: email.trim().toLowerCase(),
         options: { emailRedirectTo: `${location.origin}/` },
       });
       if (error) throw error;
       setSent(true);
+      setCooldown(60);
     } catch (x) {
-      setErr((x as Error).message || 'Kunne ikke sende innlogging');
+      setErr(friendlyAuthError(x, 'Kunne ikke sende innlogging'));
     } finally {
       setBusy(false);
     }
+  }
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    await sendCode();
   }
 
   async function verify(e: React.FormEvent) {
@@ -54,7 +75,7 @@ function EmailSignIn() {
       const { createBrowserSupabase } = await import('@/src/data/supabase-provider');
       const sb = createBrowserSupabase();
       const { error } = await sb.auth.verifyOtp({
-        email,
+        email: email.trim().toLowerCase(),
         token: code.trim(),
         type: 'email',
       });
@@ -62,7 +83,7 @@ function EmailSignIn() {
       router.replace('/');
       router.refresh();
     } catch (x) {
-      setErr((x as Error).message || 'Ugyldig eller utløpt kode');
+      setErr(friendlyAuthError(x, 'Ugyldig eller utløpt kode'));
     } finally {
       setBusy(false);
     }
@@ -93,7 +114,8 @@ function EmailSignIn() {
           </label>
           {err && <div className="warn-note">{err}</div>}
           <button className="btn primary block" type="submit" disabled={busy || !code.trim()}>{busy ? 'Logger inn…' : 'Logg inn'}</button>
-          <button className="btn ghost block" type="button" disabled={busy} onClick={() => { setSent(false); setCode(''); setErr(''); }}>Bruk en annen e-post</button>
+          <button className="btn soft block" type="button" disabled={busy || cooldown > 0} onClick={() => void sendCode()}>{cooldown > 0 ? `Send ny kode om ${cooldown}s` : 'Send ny kode'}</button>
+          <button className="btn ghost block" type="button" disabled={busy} onClick={() => { setSent(false); setCode(''); setErr(''); setCooldown(0); }}>Bruk en annen e-post</button>
           <p className="small" style={{ marginTop: 2 }}>Har e-posten en innloggingslenke i stedet, kan du fortsatt bruke den.</p>
         </form>
       ) : (
