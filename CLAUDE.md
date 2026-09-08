@@ -21,8 +21,30 @@ The current mobile demo already supports:
 - camera/photo capture from iPhone
 - employee / manager / chain-HQ views
 - a working demo preview through Netlify/Vercel
+- confirmed iPhone behavior where one natural spoken sentence is split into two proposed operational issues
+
+Fresh iPhone proof from Michael:
+`Det lekker vann fra fryseboksen på kjøkkenet og den står på 1 grad.`
+
+The current prototype correctly produced:
+1. `Vannlekkasje oppdaget` → `Vedlikehold` → `Fryseboks` → `Varsle vedlikehold`
+2. `Temperatur må kontrolleres` → `Temperaturavvik` → `Fryseboks` → `1 °C` → `Varsle skiftleder`
+
+This exact capability is now a proven product moment. Preserve it and make it feel dramatically better rather than replacing it with a weaker abstraction.
 
 Do not regress these flows.
+
+## Fresh iPhone UX observations from real testing
+The latest screenshots reveal several concrete issues to fix during the overnight pass:
+- top content/modal headings can sit too close to or partially under mobile browser chrome
+- the floating StayMotion header can visually collide with content near the top of the viewport
+- bottom role switcher sits close to browser controls and needs safer bottom spacing / safe-area handling
+- long capture results need comfortable scroll behavior without feeling like a giant form
+- after a successful registration, success feedback should remain visible without hiding important context
+- the two-issue result is functionally strong but should feel more elegant, compact and consumer-grade
+- preserve readability in bright kitchen environments; do not make the employee flow overly dark
+
+Primary device target tonight: iPhone Safari / in-app browser-sized viewport around 390×844 CSS px, including dynamic browser chrome and safe areas.
 
 ## UX doctrine
 The employee should need almost no training.
@@ -84,6 +106,8 @@ Polish the modal/sheet:
 - visible confidence/uncertainty only when useful
 - explicit confirmation before compliance-critical registration
 - great success state
+- robust vertical scrolling on small iPhones
+- top and bottom spacing that remains correct under browser chrome and safe areas
 
 ### 3. Support one speech report → multiple operational issues
 Example:
@@ -160,6 +184,7 @@ Mobile Safari is the primary test target. Desktop should still look premium.
 - no critical meaning communicated only by color
 - respect `prefers-reduced-motion`
 - safe-area spacing on iPhone
+- account for dynamic browser chrome rather than assuming a fixed visual viewport
 
 ### 9. Code quality
 The current prototype can remain static HTML/CSS/JS tonight; do not force a framework migration just to look sophisticated.
@@ -210,8 +235,10 @@ Avoid overexplaining AI.
 7. Open camera flow and attach a photo.
 8. Verify the photo can coexist with spoken context in the report flow.
 9. Check Manager and Kjede/HQ views at mobile and desktop widths.
-10. Ensure no console errors in normal flows.
-11. Ensure Netlify/Vercel preview still builds.
+10. Verify no top content is hidden under mobile browser chrome and no bottom action/role switcher collides with browser controls.
+11. Test a long capture result on a small iPhone viewport and ensure scrolling is smooth and obvious.
+12. Ensure no console errors in normal flows.
+13. Ensure Netlify/Vercel preview still builds.
 
 ## Finish protocol
 Work autonomously through the above rather than stopping after one cosmetic pass.
