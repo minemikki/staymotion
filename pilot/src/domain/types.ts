@@ -181,23 +181,35 @@ export interface AIUsage {
   organizationId?: string;
   locationId?: string;
   requestedBy?: string;
-  provider: string;
+  actionType: 'extract_issues' | 'transcribe' | 'vision' | 'aggregate';
+  provider: string; // 'local-rules' | 'anthropic' | ...
   model: string;
-  operation: string;
-  inputTokens?: number;
-  outputTokens?: number;
-  estimatedCostNok?: number;
-  durationMs?: number;
-  success: boolean;
+  inputModality: 'text' | 'audio' | 'image' | 'image+text';
+  latencyMs: number;
+  units?: { inputTokens?: number; outputTokens?: number; audioSeconds?: number; images?: number };
+  estimatedCostNok?: number; // only when actually known
+  fallbackUsed: boolean;
   createdAt: string;
+}
+
+export interface RoutineTemplate {
+  key: string;
+  title: string;
+  description: string;
+  cadence: 'daily_open' | 'daily_close' | 'daily' | 'weekly' | 'on_demand';
+  department: string;
+  estimatedMinutes: number;
+  category: IncidentCategory | 'routine';
+  defaultOn: boolean;
 }
 
 export interface LocationHealth {
   locationId: string;
-  locationName: string;
-  score: number;
+  name: string;
+  score: number; // 0–100, computed, not invented
   openIncidents: number;
-  criticalIncidents: number;
   needsAttention: number;
-  taskCompletion: number;
+  criticalIncidents: number;
+  taskCompletion: number; // 0–1
+  recurring: { key: string; count: number; label: string }[];
 }
