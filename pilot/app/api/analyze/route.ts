@@ -97,7 +97,7 @@ export async function POST(req: Request) {
   if (!auth) return NextResponse.json({ error: 'Logg inn på nytt for å fortsette.' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
 
   // Close the "invited after signup" gap before deriving membership context.
-  await auth.sb.rpc('claim_pending_invitations').catch(() => undefined);
+  await auth.sb.rpc('claim_pending_invitations');
   const { data: sessionData, error: sessionError } = await auth.sb.rpc('get_my_session_context');
   if (sessionError) return NextResponse.json({ error: 'Kunne ikke kontrollere tilgangen din.' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
   if (!sessionData) return NextResponse.json({ error: 'Du er ikke lagt til i en bedrift ennå.' }, { status: 403, headers: { 'Cache-Control': 'no-store' } });
