@@ -10,6 +10,7 @@ import type { Session } from '../session/session';
 import { actorOf } from '../session/session';
 import { useToast } from './Toast';
 import { Signal, type SignalState } from './Signal';
+import { Icon, categoryIcon } from './icons';
 import { analyzeText } from '../lib/analyze-client';
 
 /**
@@ -180,14 +181,16 @@ export function Capture({ session, db, mode, initial, onClose, onRegistered }: {
   const open = issues.filter((x) => !x.confirmed);
   const needChk = open.some((x) => x.requiresConfirmation && !x.checked);
   const n = issues.length;
-  const stepLabel = stage === 'done' ? 'Ferdig' : photo ? 'Bilde + tale' : mode === 'camera' ? 'Rapporter med bilde' : initial ? 'Meld fra' : 'Fortell StayMotion';
-  const title = stage === 'done' ? 'Takk, det er registrert' : stage === 'review' ? 'Sjekk før du registrerer' : photo ? 'Fortell hva du ser' : mode === 'camera' ? 'Ta eller velg et bilde' : 'Hva har skjedd?';
+  const words = ['ingen', 'én', 'to', 'tre', 'fire', 'fem'];
+  const foundTitle = n === 0 ? 'Ingen saker igjen' : `StayMotion fant ${words[n] ?? n} ting`;
+  const stepLabel = stage === 'done' ? 'Ferdig' : stage === 'review' ? 'Sjekk før du registrerer' : photo ? 'Bilde + tale' : mode === 'camera' ? 'Rapporter med bilde' : 'Fortell StayMotion';
+  const title = stage === 'done' ? 'Takk, det er registrert' : stage === 'review' ? foundTitle : photo ? 'Fortell hva du ser' : mode === 'camera' ? 'Ta eller velg et bilde' : 'Hva har skjedd?';
 
   return (
     <div className="sheetback" ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="sheetTitle" onClick={(e) => { if (e.target === e.currentTarget) close(); }}>
       <div className={'sheet' + (stage === 'done' ? ' done' : '')}>
-        <div className="sheet-h">
-          <div><span className="step">{stepLabel}</span><h2 id="sheetTitle">{title}</h2></div>
+        <div className={'sheet-h' + (stage === 'review' ? ' dark-h' : '')}>
+          <div><span className="step">{stepLabel}</span><h2 id="sheetTitle" data-testid={stage === 'review' ? 'found' : undefined}>{title}</h2></div>
           <button className="iconbtn" type="button" disabled={busy} onClick={close} aria-label="Lukk">{X}</button>
         </div>
         <div className="sheet-b" ref={bodyRef} data-testid="sheet-body">
@@ -200,7 +203,7 @@ export function Capture({ session, db, mode, initial, onClose, onRegistered }: {
               {stage !== 'done' && <button className="iconbtn rm" type="button" onClick={removePhoto} aria-label="Fjern bilde">{X}</button>}
             </div>
           )}
-          {photo && stage !== 'done' && <div className="photonote"><span aria-hidden>◐</span><span><b>{session.mode === 'local' ? 'Demo:' : 'Merk:'}</b> bildeanalyse er ikke koblet på ennå. Bildet {session.mode === 'supabase' ? 'lagres privat med saken' : 'legges ved saken'} — fortell hva du ser, så tolker StayMotion ordene dine.</span></div>}
+          {photo && stage !== 'done' && <div className="photonote"><Icon name="camera" /><span><b>Bildet følger saken.</b> Fortell hva du ser, så tolker StayMotion ordene dine{session.mode === 'supabase' ? ' — bildet lagres privat.' : '.'}</span></div>}
 
           {stage === 'record' && (
             <div className="rec">
@@ -230,10 +233,6 @@ export function Capture({ session, db, mode, initial, onClose, onRegistered }: {
                   <button className="linkbtn" type="button" onClick={retake}>Snakk igjen</button>
                 </div>
               </>)}
-              <div className="found">
-                <strong data-testid="found">{n === 0 ? 'Ingen saker igjen' : n === 1 ? 'Jeg fant én ting' : `Jeg fant ${n === 2 ? 'to' : n} ting`}</strong>
-                <span className="demo" title={analysis.source === 'local-rules' ? 'Lokal regelbasert tolkning' : analysis.model}>{analysis.source === 'local-rules' ? 'demo · regler' : 'StayMotion AI'}</span>
-              </div>
               {analysis.warnings?.map((w, i) => <div key={i} className="warn-note">{w}</div>)}
               {n === 0 && <div className="empty">Ingen forslag. <button className="linkbtn" type="button" onClick={retake}>Snakk igjen</button></div>}
               <div className="issues">
@@ -272,28 +271,41 @@ export function Capture({ session, db, mode, initial, onClose, onRegistered }: {
   );
 }
 
+const SEVERITY_LABEL: Record<ProposedIssue['severity'], string> = { critical: 'Kritisk', high: 'Høy', medium: 'Middels', low: 'Lav' };
+
 function IssueCard({ x, i, many, onEdit, onSave, onRemove, onCheck, onOne }: { x: Local; i: number; many: boolean; onEdit(): void; onSave(v: { title?: string; equipment?: string; suggestedAction?: string; measure?: string }): void; onRemove(): void; onCheck(c: boolean): void; onOne(): void }) {
   const [t, setT] = useState(x.title); const [eq, setEq] = useState(x.equipment); const [me, setMe] = useState(x.measurement?.raw || ''); const [ac, setAc] = useState(x.suggestedAction);
-  const unsure = x.confidence !== 'high' ? <span className="unsure" title="Usikker tolkning">◔ sjekk</span> : null;
+  const unsure = x.confidence !== 'high' ? <span className="unsure" title="Usikker tolkning">sjekk</span> : null;
   const save = () => onSave({ title: t, equipment: eq, suggestedAction: ac, measure: me });
+  const critical = x.severity === 'critical';
   return (
-    <article className={'issue' + (x.confirmed ? ' confirmed' : '')} data-testid="issue">
-      <div className="top"><span className="n" aria-hidden>{i + 1}</span><div className="ttl">
-        {x.editing ? <div className="fld"><label>Hva</label><input value={t} onChange={(e) => setT(e.target.value)} aria-label="Hva" onKeyDown={(e) => e.key === 'Enter' && save()} /></div> : <strong>{x.title}</strong>}
-        <div className={'type ' + x.category}><span className="dot" aria-hidden />{CATEGORY_LABEL[x.category]}</div>
-      </div></div>
+    <article className={'issue' + (x.confirmed ? ' confirmed' : '') + (critical ? ' critical' : '')} data-testid="issue">
+      <div className="top">
+        <span className={'issue-ico ico-' + x.category} aria-hidden><Icon name={categoryIcon(x.category)} size={20} /></span>
+        <div className="ttl">
+          {x.editing ? <div className="fld"><label>Hva</label><input value={t} onChange={(e) => setT(e.target.value)} aria-label="Hva" onKeyDown={(e) => e.key === 'Enter' && save()} /></div> : <strong>{x.title}</strong>}
+          <div className="tags">
+            <span className={'pill ' + (critical ? 'bad' : x.severity === 'high' ? 'warn' : '')}>{SEVERITY_LABEL[x.severity]}</span>
+            <span className={'type ' + x.category}>{CATEGORY_LABEL[x.category]}</span>
+          </div>
+        </div>
+        <span className="n" aria-hidden>{i + 1}</span>
+      </div>
+      {x.measurement?.raw && !x.editing && (
+        <div className={'measure' + (critical ? ' bad' : '')}><b>{x.measurement.raw}</b><span>Målt{x.equipment ? ` · ${x.equipment}` : ''}</span></div>
+      )}
       <div className="fields">
         <div className="fld"><label>Utstyr / område</label>{x.editing ? <input value={eq} onChange={(e) => setEq(e.target.value)} aria-label="Utstyr / område" data-testid="edit-equipment" /> : <b>{x.equipment}{unsure}</b>}</div>
-        <div className="fld"><label>Måling</label>{x.editing ? <input value={me} onChange={(e) => setMe(e.target.value)} aria-label="Måling" /> : <b>{x.measurement?.raw || '—'}</b>}</div>
-        <div className="fld wide"><label>Oppfølging</label>{x.editing ? <input value={ac} onChange={(e) => setAc(e.target.value)} aria-label="Oppfølging" /> : <b>{x.suggestedAction}</b>}</div>
+        {(x.editing || !x.measurement?.raw) && <div className="fld"><label>Måling</label>{x.editing ? <input value={me} onChange={(e) => setMe(e.target.value)} aria-label="Måling" /> : <b>{x.measurement?.raw || '—'}</b>}</div>}
+        <div className="fld wide"><label>Anbefalt oppfølging</label>{x.editing ? <input value={ac} onChange={(e) => setAc(e.target.value)} aria-label="Oppfølging" /> : <b className="follow"><Icon name="routine" size={16} />{x.suggestedAction}</b>}</div>
       </div>
       {x.requiresConfirmation && !x.confirmed && (
         <label className="confirmrow"><input type="checkbox" checked={x.checked} onChange={(e) => onCheck(e.target.checked)} data-testid="confirm-check" /> {x.category === 'temperature' ? 'Jeg bekrefter at målingen er lest av på enheten' : 'Jeg bekrefter at dette er riktig'}</label>
       )}
       {x.confirmed ? <div className="donestrip">✓ Registrert · {x.suggestedAction}</div> : (
         <div className="acts">
-          {x.editing ? <button className="btn sm primary" type="button" onClick={save} data-testid="save-edit">Lagre</button> : <button className="btn sm soft" type="button" onClick={onEdit} data-testid="edit">Endre</button>}
-          <button className="btn sm danger" type="button" onClick={onRemove} data-testid="remove">Fjern</button>
+          {x.editing ? <button className="btn sm primary" type="button" onClick={save} data-testid="save-edit">Lagre</button> : <button className="linkbtn sm" type="button" onClick={onEdit} data-testid="edit">Endre</button>}
+          <button className="linkbtn sm danger" type="button" onClick={onRemove} data-testid="remove">Fjern</button>
           <span className="spacer" />
           {many && <button className="btn sm ghost" type="button" disabled={x.requiresConfirmation && !x.checked} onClick={onOne} data-testid="register-one">Registrer denne</button>}
         </div>

@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { Shell } from '@/src/ui/Shell';
 import { useToast } from '@/src/ui/Toast';
 import { Signal } from '@/src/ui/Signal';
+import { Icon, categoryIcon } from '@/src/ui/icons';
 import { getProvider } from '@/src/data';
 import type { DataProvider } from '@/src/data/provider';
 import type { AuditEvent, Incident, Profile, Task } from '@/src/domain/types';
@@ -141,10 +142,10 @@ function Manager({ session }: { session: Session }) {
               const overdue = !!(i.dueAt && Date.parse(i.dueAt) <= now);
               return (
                 <article className={'need-i' + (i.severity === 'critical' ? ' critical' : '') + (leaving === i.id ? ' leaving' : '')} key={i.id} data-testid="need-item" aria-busy={busy === i.id}>
-                  <div className={'ic ' + (i.severity === 'critical' ? 'bad' : overdue ? 'warn' : 'info')} aria-hidden>{i.severity === 'critical' ? '!' : overdue ? '⏱' : '↗'}</div>
+                  <div className={'ic ' + (i.severity === 'critical' ? 'bad' : overdue ? 'warn' : 'info')} aria-hidden><Icon name={categoryIcon(i.category)} /></div>
                   <div>
                     <strong>{i.equipment ? `${i.equipment} · ` : ''}{i.title}</strong>
-                    <p>Meldt av {name(i.reportedBy)} {ago(i.createdAt)}{i.measurement?.raw ? ` · ${i.measurement.raw}` : ''} · eier: <Owner i={i} /></p>
+                    <p>Meldt av {name(i.reportedBy)} {ago(i.createdAt)}{session.locationName ? ` · ${session.locationName}` : ''}{i.measurement?.raw ? ` · ${i.measurement.raw}` : ''} · eier: <Owner i={i} /></p>
                     {i.transcript && <div className="said">«{i.transcript}»</div>}
                     <div className="meta">
                       <span className={'pill ' + (i.severity === 'critical' ? 'bad' : i.severity === 'high' ? 'warn' : '')}>{severityLabel[i.severity]}</span>
@@ -159,7 +160,7 @@ function Manager({ session }: { session: Session }) {
                     <fieldset className="acts action-group" disabled={busy !== null}>
                       {i.status === 'open' || i.status === 'needs_attention' ? <button className="btn sm primary" type="button" onClick={() => act('ack', i)} data-testid="ack">Jeg tar den</button> : null}
                       <button className="btn sm soft" type="button" onClick={() => act('assign', i)}>Send videre</button>
-                      <button className={'btn sm ' + (i.status === 'open' || i.status === 'needs_attention' ? 'ghost' : 'primary')} type="button" onClick={() => act('resolve', i)} data-testid="resolve">Merk som løst</button>
+                      <button className={'btn sm ' + (i.status === 'open' || i.status === 'needs_attention' ? 'mintline' : 'mint')} type="button" onClick={() => act('resolve', i)} data-testid="resolve">Merk som løst</button>
                     </fieldset>
                     <div className="notebox"><input className="input" placeholder="Kort notat (valgfritt) …" value={note[i.id] || ''} onChange={(e) => setNote({ ...note, [i.id]: e.target.value })} aria-label="Notat" maxLength={500} /></div>
                   </div>
@@ -175,13 +176,13 @@ function Manager({ session }: { session: Session }) {
         {watching.length === 0 ? <div className="empty"><b>Ingen saker under oppfølging.</b>Saker du har tatt eller sendt videre vises her til de er løst.</div> : (
           <div className="need">{watching.map((i) => (
             <article className={'need-i' + (leaving === i.id ? ' leaving' : '')} key={i.id} aria-busy={busy === i.id}>
-              <div className="ic ok" aria-hidden>✓</div>
+              <div className="ic ok" aria-hidden><Icon name={categoryIcon(i.category)} /></div>
               <div>
                 <strong>{i.equipment ? `${i.equipment} · ` : ''}{i.title}</strong>
                 <p>Eier: <Owner i={i} /> · {roleLabel(i.ownerRole)} følger opp{i.dueAt ? ` · frist ${fmtT(i.dueAt)}` : ''}</p>
                 <div className="meta"><span className={'type ' + i.category}>{CATEGORY_LABEL[i.category]}</span><span className="pill">{severityLabel[i.severity]}</span><span className="pill">{deadlineText(i, now)}</span></div>
                 <fieldset className="acts action-group" disabled={busy !== null}>
-                  <button className="btn sm primary" type="button" onClick={() => act('resolve', i)}>Merk som løst</button>
+                  <button className="btn sm mint" type="button" onClick={() => act('resolve', i)}>Merk som løst</button>
                   <button className="btn sm soft" type="button" onClick={() => act('assign', i)}>Send videre</button>
                 </fieldset>
               </div>
@@ -223,7 +224,7 @@ function Manager({ session }: { session: Session }) {
         </div>
         {rec.length > 0 && (
           <div className="insight-card" style={{ marginTop: 12 }} data-testid="pattern">
-            <span className="pill ai"><span className="dot" aria-hidden />Mønster</span>
+            <span className="pill info"><span className="dot" aria-hidden />Mønster</span>
             <h3>{rec[0].label} · {rec[0].count} ganger på 30 dager</h3>
             <p>Gjentatte avvik på samme enhet er som regel billigere å løse med service enn med matsvinn.</p>
             <div className="rec"><b>Anbefalt:</b><span>Bestill et servicebesøk på enheten, og bekreft neste temperaturavlesning i appen.</span></div>

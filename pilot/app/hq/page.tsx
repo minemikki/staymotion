@@ -43,15 +43,16 @@ function HQ({ session }: { session: Session }) {
 
   return (
     <div className="wrapW rise">
-      <div className="eyebrow">Kjede / HQ · {session.organizationName}</div>
-      <h1 className="h1">{headline}</h1>
-      <p className="lead">Du ser unntak og mønstre, ikke hundrevis av små hendelser.</p>
-
-      <div className="ops-metrics" aria-label="Kjedeoversikt" style={{ marginTop: 22 }}>
-        <div className="m-now"><span>Åpne saker</span><strong>{totalOpen}</strong><small>på tvers av {health.length} lokasjon{health.length === 1 ? '' : 'er'}</small></div>
-        <div className={totalCritical ? 'm-now' : 'm-done'}><span>Kritiske</span><strong>{totalCritical}</strong><small>venter på beslutning</small></div>
-        <div className="m-watch"><span>Over frist</span><strong>{totalLate}</strong><small>løftet automatisk</small></div>
-      </div>
+      <section className="hero-card hq-hero" aria-label="Kjedestatus">
+        <div className="eyebrow">Kjede / HQ · {session.organizationName}</div>
+        <h1 className="h1">{headline}</h1>
+        <p className="lead">Du ser unntak og mønstre, ikke hundrevis av små hendelser.</p>
+        <div className="hero-stats">
+          <div><b>{totalOpen}</b><span>åpne saker · {health.length} lokasjon{health.length === 1 ? '' : 'er'}</span></div>
+          <div className={totalCritical ? 'bad' : 'ok'}><b>{totalCritical}</b><span>kritiske venter</span></div>
+          <div className={totalLate ? 'warn' : ''}><b>{totalLate}</b><span>over frist</span></div>
+        </div>
+      </section>
 
       <section className="sect" id="risiko" aria-labelledby="h-risk">
         <div className="sect-h"><h2 id="h-risk">Risiko</h2><span className="small">hvor trengs hjelp</span></div>
@@ -79,7 +80,7 @@ function HQ({ session }: { session: Session }) {
           <div className="hq-grid">
             {patterns.slice(0, 4).map((p) => (
               <div className="insight-card" key={`${p.loc}-${p.label}`}>
-                <span className="pill ai"><span className="dot" aria-hidden />{p.loc}</span>
+                <span className="pill info"><span className="dot" aria-hidden />{p.loc}</span>
                 <h3>{p.label}</h3>
                 <p>{p.count} ganger på 30 dager. Gjentatte avvik på samme enhet er som regel billigere å løse med service enn med matsvinn.</p>
                 <div className="rec"><b>Anbefalt:</b><span>Bestill service og be lokasjonen bekrefte neste avlesning i appen.</span></div>

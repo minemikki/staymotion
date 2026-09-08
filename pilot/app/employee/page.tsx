@@ -13,9 +13,11 @@ import type { CaptureSource } from '@/src/domain/types';
 import { CATEGORY_LABEL } from '@/src/ai/rules-adapter';
 import { actorOf, type Session } from '@/src/session/session';
 import { incidentStatus } from '@/src/domain/incident-presentation';
+import { Icon, categoryIcon, taskIcon } from '@/src/ui/icons';
 
 const CAM = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>;
 const PIN = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" /><circle cx="12" cy="9" r="2.5" /></svg>;
+const STATUS_LABEL = { 1: 'Sendt', 2: 'Sett av leder', 3: 'Løst' } as const;
 
 function greeting() { const h = new Date().getHours(); return h < 10 ? 'God morgen' : h < 17 ? 'Hei' : 'God kveld'; }
 /** Where a report is on its way: Sendt → Sett av leder → Løst. */
@@ -123,18 +125,23 @@ function Employee({ session }: { session: Session }) {
   const stateTitle = loading ? 'Henter dagen din …' : !tasks.length ? 'Ingen rutiner lagt opp.' : left === 0 ? 'Alt er gjort.' : left === 1 ? 'Én ting igjen.' : `${left} ting igjen.`;
   const stateSub = loading ? 'Et øyeblikk.' : !tasks.length ? 'Du kan fortsatt melde fra om noe.' : left === 0 ? 'Fin vakt. StayMotion sier fra hvis noe dukker opp.' : 'Ta én ting om gangen.';
   const openReports = mine.filter((i) => stepOf(i.status) < 3).length;
+  const criticalOpen = mine.some((i) => i.severity === 'critical' && stepOf(i.status) < 3);
+  const allOk = left === 0 && !criticalOpen;
 
   return (
     <div className="wrapN rise emp">
-      <div className="emp-top">
-        <span className="chip live" title="Oppdateres live"><span className="dot" aria-hidden />{PIN}{session.locationName || session.organizationName}</span>
-        <span className="small">{new Date().toLocaleDateString('nb-NO', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
-      </div>
-
-      <div className="emp-hero">
+      <section className="hero-card" aria-label="Status for vakten">
+        <div className="hero-top">
+          <span className="chip live inv" title="Oppdateres live"><span className="dot" aria-hidden />{PIN}{session.locationName || session.organizationName}</span>
+          <span className="hero-date">{new Date().toLocaleDateString('nb-NO', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
+        </div>
         <h1 className="h1">{greeting()}, {first}.</h1>
-        <p className="lead">{loading ? 'Henter dagen din …' : left === 0 && openReports === 0 ? 'Alt ser bra ut. Meld fra hvis noe skjer.' : left ? `${left === 1 ? 'Én ting' : `${left} ting`} står igjen i dag.` : `${openReports} rapport${openReports > 1 ? 'er' : ''} følges opp for deg.`}</p>
-      </div>
+        <div className="hero-status">
+          <span className={'hero-dot ' + (loading ? '' : allOk ? 'ok' : 'warn')} aria-hidden />
+          <b>{loading ? 'Henter dagen din …' : allOk ? 'Alt under kontroll' : left ? `${left === 1 ? 'Én ting' : `${left} ting`} før du er i mål` : 'Noe følges opp for deg'}</b>
+          <span className="hero-meta">{tasks.length ? `${doneTasks.length} av ${tasks.length} rutiner gjort` : 'Ingen rutiner lagt opp i dag'}{openReports ? ` · ${openReports} rapport${openReports > 1 ? 'er' : ''} underveis` : ''}</span>
+        </div>
+      </section>
 
       {db && <SignalCapture session={session} db={db} outcome={outcome} onAnalyzed={onAnalyzed} />}
       <div className="sig-secondary">
@@ -161,6 +168,7 @@ function Employee({ session }: { session: Session }) {
                 <div key={t.id} className={'tl-item' + (done ? ' done' : current ? ' current' : '')} data-testid="task" data-index={idx}>
                   <button className="check" type="button" disabled={pendingTask !== null} aria-busy={pendingTask === t.id} onClick={() => toggle(t)} aria-pressed={done} aria-label={`Merk «${t.title}» som ${done ? 'ikke gjort' : 'gjort'}`}>{pendingTask === t.id ? '…' : done ? '✓' : ''}</button>
                   <div className="tl-card">
+                    <span className={'tl-ico ico-' + taskIcon(t.automationKey)} aria-hidden><Icon name={taskIcon(t.automationKey)} /></span>
                     <div><strong>{t.title}</strong><span className="sub">{[t.description, t.estimatedMinutes ? `ca. ${t.estimatedMinutes} min` : null].filter(Boolean).join(' · ')}</span></div>
                     <span className="tl-when">{done ? 'Gjort' : current ? 'Nå' : 'Neste'}</span>
                   </div>
@@ -177,21 +185,20 @@ function Employee({ session }: { session: Session }) {
         {mine.length === 0 ? (
           <div className="empty"><b>Ingen rapporter ennå.</b>Det du melder fra om havner her, med status hele veien til det er løst.</div>
         ) : (
-          <div className="card" data-testid="mine">
+          <div className="reps" data-testid="mine">
             {mine.map((i) => {
-              const s = stepOf(i.status);
+              const st = stepOf(i.status);
               return (
-                <div className="rep" key={i.id}>
+                <article className={`rep rep-s${st}` + (i.severity === 'critical' && st < 3 ? ' critical' : '')} key={i.id}>
                   <div className="rep-h">
+                    <span className={'rep-ico ico-' + i.category} aria-hidden><Icon name={categoryIcon(i.category)} /></span>
                     <div><b>{i.title}</b><div className="small">{i.equipment}{i.measurement?.raw ? ` · ${i.measurement.raw}` : ''} · {CATEGORY_LABEL[i.category]}</div></div>
-                    <span className={'pill ' + (s === 3 ? 'ok' : i.status === 'needs_attention' ? 'warn' : 'info')}>{incidentStatus(i.status)}</span>
+                    <span className={'pill ' + (st === 3 ? 'ok' : i.status === 'needs_attention' ? 'warn' : 'info')}>{incidentStatus(i.status)}</span>
                   </div>
-                  <div className="stepper" aria-hidden>
-                    <span className={'step' + (s >= 1 ? ' on' : '')}><i />Sendt</span>
-                    <span className={'step' + (s >= 2 ? ' on' : '')}><i />Sett av leder</span>
-                    <span className={'step final' + (s >= 3 ? ' on' : '')}><i />Løst</span>
-                  </div>
-                </div>
+                  <ol className="stepper" aria-label="Status">
+                    {([1, 2, 3] as const).map((n) => <li key={n} className={'step' + (st >= n ? ' on' : '') + (n === 3 ? ' final' : '')} aria-current={st === n ? 'step' : undefined}><i />{STATUS_LABEL[n]}</li>)}
+                  </ol>
+                </article>
               );
             })}
           </div>

@@ -246,7 +246,7 @@ test('15 photo + typed context registers with the image attached', async ({ page
   await page.getByTestId('open-camera').click();
   await page.getByTestId('camera-input').setInputFiles({ name: 'fryser.png', mimeType: 'image/png', buffer: PNG });
   await expect(page.getByTestId('photo')).toBeVisible();
-  await expect(page.getByRole('dialog')).toContainText('Demo:'); // honest: no computer vision
+  await expect(page.getByRole('dialog')).toContainText('Bildet følger saken'); // honest: no computer vision claimed
   await typeInSheet(page, 'Den lekker her, og displayet viser 1 grad.');
   await expect(page.getByTestId('issue')).toHaveCount(2);
   await expect(page.getByTestId('issue').first()).toContainText('Se vedlagt bilde');
