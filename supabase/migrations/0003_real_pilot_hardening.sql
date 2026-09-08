@@ -87,6 +87,14 @@ begin
 
   if v_mem.location_id is not null then
     select * into v_loc from public.locations where id = v_mem.location_id;
+  else
+    -- HQ/owner memberships are intentionally organization-wide. A default
+    -- location is still useful for the manager view and capture context.
+    select * into v_loc
+    from public.locations
+    where organization_id = v_mem.organization_id and active = true
+    order by created_at asc
+    limit 1;
   end if;
 
   return jsonb_build_object(
@@ -158,6 +166,7 @@ declare
   v_uid uuid := auth.uid();
   v_mem public.memberships;
   v_org public.organizations;
+  v_effective_location uuid;
   v_window_count integer := 0;
   v_day_cost numeric := 0;
   v_request_id uuid;
@@ -166,6 +175,9 @@ declare
   v_retry_after integer := 600;
 begin
   if v_uid is null then raise exception 'not authenticated'; end if;
+
+  -- Prevent concurrent requests from racing through the same per-user window.
+  perform pg_advisory_xact_lock(hashtext(v_uid::text || ':' || coalesce(p_action_type, 'unknown'))::bigint);
 
   select * into v_mem
   from public.memberships
@@ -182,6 +194,14 @@ begin
   end if;
 
   select * into v_org from public.organizations where id = v_mem.organization_id;
+  v_effective_location := v_mem.location_id;
+  if v_effective_location is null then
+    select id into v_effective_location
+    from public.locations
+    where organization_id = v_mem.organization_id and active = true
+    order by created_at asc
+    limit 1;
+  end if;
 
   begin
     v_max_requests := greatest(5, least(300, coalesce((v_org.settings #>> '{aiLimits,requestsPer10m}')::integer, 30)));
@@ -237,7 +257,7 @@ begin
     organization_id, location_id, user_id, action_type, input_chars,
     input_modality, estimated_cost_nok
   ) values (
-    v_mem.organization_id, v_mem.location_id, v_uid, left(coalesce(p_action_type, 'unknown'), 80),
+    v_mem.organization_id, v_effective_location, v_uid, left(coalesce(p_action_type, 'unknown'), 80),
     least(greatest(coalesce(p_input_chars, 0), 0), 100000),
     left(coalesce(p_input_modality, 'text'), 40),
     greatest(coalesce(p_estimated_cost_nok, 0), 0)
@@ -247,7 +267,7 @@ begin
     'allowed', true,
     'requestId', v_request_id,
     'organizationId', v_mem.organization_id,
-    'locationId', v_mem.location_id,
+    'locationId', v_effective_location,
     'userId', v_uid,
     'limit', v_max_requests,
     'remaining', greatest(v_max_requests - v_window_count - 1, 0),
