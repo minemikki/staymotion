@@ -38,9 +38,9 @@ function EmailSignIn() {
 
   useEffect(() => {
     if (!cooldown) return;
-    const id = window.setInterval(() => setCooldown((v) => Math.max(0, v - 1)), 1000);
-    return () => window.clearInterval(id);
-  }, [cooldown > 0]);
+    const id = window.setTimeout(() => setCooldown((v) => Math.max(0, v - 1)), 1000);
+    return () => window.clearTimeout(id);
+  }, [cooldown]);
 
   async function sendCode() {
     setErr('');
