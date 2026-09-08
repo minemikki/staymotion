@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Shell } from '@/src/ui/Shell';
 import { Capture } from '@/src/ui/Capture';
 import { useToast } from '@/src/ui/Toast';
@@ -13,6 +13,9 @@ const MIC = <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="
 const CAM = <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>;
 
 function greeting() { const h = new Date().getHours(); return h < 10 ? 'God morgen' : h < 17 ? 'Hei' : 'God kveld'; }
+function statusText(i: Incident) {
+  return i.status === 'resolved' ? 'Løst' : i.status === 'acknowledged' ? 'Sett av leder' : i.status === 'needs_attention' ? 'Følges opp' : i.status === 'in_progress' ? 'Under arbeid' : 'Sendt';
+}
 
 export default function EmployeePage() {
   return <Shell view="employee">{(s) => <Employee session={s} />}</Shell>;
@@ -25,14 +28,48 @@ function Employee({ session }: { session: Session }) {
   const [mine, setMine] = useState<Incident[]>([]);
   const [showAll, setShowAll] = useState(false);
   const [capture, setCapture] = useState<null | 'voice' | 'camera'>(null);
+  const statusRef = useRef<Record<string, Incident['status']>>({});
   const actor = useMemo(() => actorOf(session), [session]); // stable per session, so load/effects don't loop
 
-  const load = useCallback(async (p: DataProvider) => {
+  const load = useCallback(async (p: DataProvider, announce = false) => {
     if (!session.locationId) return;
-    const [t, i] = await Promise.all([p.listTasks(actor, session.locationId), p.listIncidents(actor, { organizationId: session.organizationId, locationId: session.locationId })]);
-    setTasks(t); setMine(i.filter((x) => x.reportedBy === session.userId).slice(0, 5));
-  }, [actor, session]);
+    const [t, i] = await Promise.all([
+      p.listTasks(actor, session.locationId),
+      p.listIncidents(actor, { organizationId: session.organizationId, locationId: session.locationId }),
+    ]);
+    const nextMine = i.filter((x) => x.reportedBy === session.userId).slice(0, 5);
+    if (announce) {
+      for (const inc of nextMine) {
+        const before = statusRef.current[inc.id];
+        if (!before || before === inc.status) continue;
+        if (inc.status === 'acknowledged') toast(`Lederen har sett «${inc.title}».`);
+        else if (inc.status === 'resolved') toast(`«${inc.title}» er løst.`);
+        else if (inc.status === 'needs_attention') toast(`«${inc.title}» følges opp videre.`);
+      }
+    }
+    statusRef.current = Object.fromEntries(nextMine.map((x) => [x.id, x.status]));
+    setTasks(t);
+    setMine(nextMine);
+  }, [actor, session, toast]);
+
   useEffect(() => { getProvider().then(async (p) => { setDb(p); await load(p); }); }, [load]);
+
+  // Employee gets the same live loop as the manager: when a leader acknowledges or
+  // resolves one of their reports, realtime is only used as an invalidation signal;
+  // the row is re-read through RLS before the UI changes.
+  useEffect(() => {
+    if (!db?.subscribeIncidentChanges || !session.locationId) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const stop = db.subscribeIncidentChanges(
+      actor,
+      { organizationId: session.organizationId, locationId: session.locationId },
+      () => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => { void load(db, true); }, 80);
+      },
+    );
+    return () => { if (timer) clearTimeout(timer); stop(); };
+  }, [db, actor, session.organizationId, session.locationId, load]);
 
   async function toggle(t: Task) {
     if (!db) return;
@@ -87,11 +124,11 @@ function Employee({ session }: { session: Session }) {
 
       {mine.length > 0 && (
         <div className="card pad mine" data-testid="mine">
-          <div className="sect-h" style={{ marginBottom: 4 }}><h2>Dine rapporter</h2><span className="small">i dag</span></div>
+          <div className="sect-h" style={{ marginBottom: 4 }}><h2>Dine rapporter</h2><span className="small">oppdateres live</span></div>
           {mine.map((i) => (
             <div className="row" key={i.id}>
               <div><b>{i.title}</b><div className="small">{i.equipment}{i.measurement?.raw ? ` · ${i.measurement.raw}` : ''} · {CATEGORY_LABEL[i.category]}</div></div>
-              <span className={'pill ' + (i.status === 'resolved' ? 'ok' : i.status === 'needs_attention' ? 'warn' : '')}>{i.status === 'resolved' ? 'Løst' : i.status === 'acknowledged' ? 'Sett av leder' : i.status === 'needs_attention' ? 'Følges opp' : 'Sendt'}</span>
+              <span className={'pill ' + (i.status === 'resolved' ? 'ok' : i.status === 'needs_attention' ? 'warn' : '')}>{statusText(i)}</span>
             </div>
           ))}
         </div>
