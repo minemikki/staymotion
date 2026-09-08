@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
-import { getProvider } from '@/src/data';
+import { useEffect, useMemo, useState } from 'react';
+import { getProvider, resolveMode } from '@/src/data';
 import { BUSINESS_TYPE_LABEL, DEFAULT_DEPARTMENTS, ROUTINE_TEMPLATES } from '@/src/domain/templates';
 import type { BusinessType, Role } from '@/src/domain/types';
 import { roleLabel } from '@/src/domain/followup';
@@ -9,18 +9,22 @@ import { setSession } from '@/src/session/session';
 
 /**
  * First-run onboarding — five screens, every one pre-filled so "Neste" five times
- * produces a working restaurant. Skippable where safe.
+ * produces a working location. In real mode employee emails are stored on pending
+ * memberships so the correct person can claim the role when they sign in.
  */
 const STEPS = ['Bedrift', 'Lokasjon', 'Avdelinger', 'Rutiner', 'Folk'] as const;
-type Emp = { name: string; role: Role; department?: string };
+type Emp = { name: string; role: Role; department?: string; email?: string };
+const emailOk = (v?: string) => !!v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
 export default function Onboarding() {
   const router = useRouter();
+  const real = resolveMode() === 'supabase';
   const [step, setStep] = useState(0);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const [name, setName] = useState('');
   const [ownerName, setOwnerName] = useState('');
+  const [ownerEmail, setOwnerEmail] = useState('');
   const [type, setType] = useState<BusinessType>('restaurant');
   const [locName, setLocName] = useState('');
   const [city, setCity] = useState('');
@@ -28,7 +32,24 @@ export default function Onboarding() {
   const [newDep, setNewDep] = useState('');
   const [tpl, setTpl] = useState<string[]>(ROUTINE_TEMPLATES.filter((t) => t.defaultOn).map((t) => t.key));
   const [emps, setEmps] = useState<Emp[]>([]);
-  const [emp, setEmp] = useState<Emp>({ name: '', role: 'employee' });
+  const [emp, setEmp] = useState<Emp>({ name: '', role: 'employee', email: '' });
+
+  useEffect(() => {
+    if (!real) return;
+    let alive = true;
+    (async () => {
+      try {
+        const { createBrowserSupabase } = await import('@/src/data/supabase-provider');
+        const sb = createBrowserSupabase();
+        const { data } = await sb.auth.getSession();
+        if (!alive || !data.session?.user) return;
+        setOwnerEmail(data.session.user.email || '');
+        const n = String(data.session.user.user_metadata?.full_name || '').trim();
+        if (n) setOwnerName((old) => old || n);
+      } catch { /* auth guard will handle missing session on submit */ }
+    })();
+    return () => { alive = false; };
+  }, [real]);
 
   const canNext = useMemo(() => {
     if (step === 0) return name.trim().length >= 2 && ownerName.trim().length >= 2;
@@ -44,10 +65,27 @@ export default function Onboarding() {
     setBusy(true); setErr('');
     try {
       const db = await getProvider();
-      const res = await db.createOrganization({ name, businessType: type, location: { name: locName, city }, departments: deps, ownerName, employees: emps.filter((e) => e.name.trim()), templateKeys: tpl });
-      setSession({ mode: db.mode, userId: res.owner.id, fullName: res.owner.fullName, role: 'owner', organizationId: res.organization.id, organizationName: res.organization.name, locationId: res.location.id, locationName: res.location.name });
+      const res = await db.createOrganization({
+        name,
+        businessType: type,
+        location: { name: locName, city },
+        departments: deps,
+        ownerName,
+        ownerEmail: ownerEmail || undefined,
+        employees: emps.filter((e) => e.name.trim()),
+        templateKeys: tpl,
+      });
+      if (db.mode === 'local') {
+        setSession({ mode: 'local', userId: res.owner.id, fullName: res.owner.fullName, role: 'owner', organizationId: res.organization.id, organizationName: res.organization.name, locationId: res.location.id, locationName: res.location.name });
+      }
       router.push('/manager?welcome=1');
     } catch (x) { setErr((x as Error).message || 'Noe gikk galt'); setBusy(false); }
+  }
+
+  function addEmployee() {
+    if (!emp.name.trim() || (real && !emailOk(emp.email))) return;
+    setEmps([...emps, { ...emp, name: emp.name.trim(), email: emp.email?.trim() || undefined }]);
+    setEmp({ name: '', role: 'employee', email: '' });
   }
 
   return (
@@ -105,18 +143,20 @@ export default function Onboarding() {
 
         {step === 4 && (<>
           <h1 className="h1">Legg til noen folk</h1>
-          <p className="lead">Valgfritt nå. De får ingen e-post ennå — dette er for at vaktene skal ha riktige navn.</p>
+          <p className="lead">{real ? 'Valgfritt nå. E-posten kobler riktig person til riktig rolle når de logger inn i StayMotion.' : 'Valgfritt nå. Dette er for at vaktene skal ha riktige navn.'}</p>
           <div className="emp-row" style={{ marginTop: 20 }}>
             <input className="input" placeholder="Navn" value={emp.name} onChange={(e) => setEmp({ ...emp, name: e.target.value })} data-testid="emp-name" />
+            {real && <input className="input" type="email" placeholder="E-post" value={emp.email || ''} onChange={(e) => setEmp({ ...emp, email: e.target.value })} aria-label="E-post" data-testid="emp-email" />}
             <select className="input" value={emp.role} onChange={(e) => setEmp({ ...emp, role: e.target.value as Role })} aria-label="Rolle">
               {(['employee', 'shift_lead', 'location_manager'] as Role[]).map((r) => <option key={r} value={r}>{roleLabel(r)}</option>)}
             </select>
             <select className="input" value={emp.department || ''} onChange={(e) => setEmp({ ...emp, department: e.target.value || undefined })} aria-label="Avdeling">
               <option value="">Avdeling (valgfritt)</option>{deps.map((d) => <option key={d} value={d}>{d}</option>)}
             </select>
-            <button type="button" className="btn ghost" disabled={!emp.name.trim()} onClick={() => { setEmps([...emps, emp]); setEmp({ name: '', role: 'employee' }); }} data-testid="emp-add">Legg til</button>
+            <button type="button" className="btn ghost" disabled={!emp.name.trim() || (real && !emailOk(emp.email))} onClick={addEmployee} data-testid="emp-add">Legg til</button>
           </div>
-          {emps.length > 0 && <div className="emp-list">{emps.map((e, i) => <div key={i}><span><b>{e.name}</b> · {roleLabel(e.role)}{e.department ? ` · ${e.department}` : ''}</span><button type="button" className="linkbtn" onClick={() => setEmps(emps.filter((_, j) => j !== i))}>Fjern</button></div>)}</div>}
+          {real && emp.name.trim() && !emailOk(emp.email) && <div className="small" style={{ marginTop: 8 }}>Legg inn en gyldig e-post for å kunne koble personen sikkert til rollen.</div>}
+          {emps.length > 0 && <div className="emp-list">{emps.map((e, i) => <div key={i}><span><b>{e.name}</b> · {roleLabel(e.role)}{e.department ? ` · ${e.department}` : ''}{e.email ? ` · ${e.email}` : ''}</span><button type="button" className="linkbtn" onClick={() => setEmps(emps.filter((_, j) => j !== i))}>Fjern</button></div>)}</div>}
         </>)}
 
         {err && <div className="warn-note" style={{ marginTop: 16 }}>{err}</div>}
