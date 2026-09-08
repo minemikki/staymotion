@@ -3,924 +3,904 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>StayMotion — Nettsider som ser dyre ut, og faktisk selger</title>
-<meta name="description" content="StayMotion er et premium webdesign-studio for norske bedrifter. Vi designer moderne nettsider som bygger tillit, ser profesjonelle ut og konverterer besøkende til kunder.">
-<meta name="theme-color" content="#0A0E13">
+<title>StayMotion — Nettsider folk stopper for, og handler fra</title>
+<meta name="description" content="StayMotion er et selvstendig norsk webdesignstudio i Stavanger. Vi designer og bygger nettsider med tydelig uttrykk, ekte dybde og en enklere vei til neste kunde.">
+<meta name="theme-color" content="#f5f5f2">
 <link rel="canonical" href="https://staymotion.no/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="StayMotion">
-<meta property="og:title" content="StayMotion — Nettsider som ser dyre ut, og faktisk selger">
-<meta property="og:description" content="Premium webdesign og digitale opplevelser for bedrifter som har vokst ut av det ordinære.">
+<meta property="og:title" content="StayMotion — Nettsider folk stopper for, og handler fra">
+<meta property="og:description" content="Selvstendig norsk webdesignstudio. Tydelig uttrykk, ekte dybde, en enklere vei til neste kunde.">
 <meta property="og:url" content="https://staymotion.no/">
 <meta property="og:locale" content="nb_NO">
 <meta property="og:image" content="https://staymotion.no/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ProfessionalService","name":"StayMotion","description":"Premium webdesign og digitale opplevelser for norske bedrifter.","url":"https://staymotion.no/","email":"michael@staymotion.no","areaServed":"NO","priceRange":"7900 NOK - 60000 NOK","serviceType":["Webdesign","UI/UX","Webutvikling","Konverteringsoptimalisering"]}
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"StayMotion","description":"Selvstendig norsk webdesignstudio. Nettsider, motion og digitale opplevelser for bedrifter.","url":"https://staymotion.no/","email":"michael@staymotion.no","areaServed":"NO","address":{"@type":"PostalAddress","addressLocality":"Stavanger","addressCountry":"NO"},"priceRange":"7900 NOK - 60000 NOK","serviceType":["Webdesign","UI/UX","Webutvikling","Motion design","3D","Konverteringsoptimalisering"]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/hero-art.webp" type="image/webp">
 <style>
-/* ============ TOKENS — Nordic digital atelier ============ */
+/* ================= TOKENS — North Star 02 · Cobalt in Motion ================= */
 :root{
-  --bg:#0A0E13;--bg2:#0E141B;--panel:#111922;--panel2:#141D27;
-  --ink:#EEF3F6;--ink2:#C6D2DB;--muted:#8393A0;--faint:#5C6B77;
-  --petrol:#1597A8;--cyan:#69D4E0;--cyan-soft:rgba(105,212,224,.14);
-  --champ:#E8D3A6;--line:rgba(190,214,226,.10);--line2:rgba(190,214,226,.18);
-  --f:"Inter Tight",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  --r:18px;--r2:12px;--ease:cubic-bezier(.22,.61,.36,1);
+  --pearl:#f5f5f2;--pearl2:#ecece8;--ink:#151619;--ink2:#2c2e33;--muted:#61636b;--faint:#8c8f97;
+  --cobalt:#1248ff;--cobalt2:#0038ec;--cobalt-deep:#1034b1;--obsidian:#121316;--obsidian2:#191b1f;
+  --silver:#c3c6cc;--silver2:#e6e7ea;--line:#d7d8d9;--line-dark:#34363d;
+  --on-dark:#f5f5f2;--on-dark-muted:#bfc0c8;
+  --f:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --gutter:clamp(22px,4.1vw,72px);--max:1600px;
+  --ease:cubic-bezier(.22,1,.36,1);--r:10px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--f);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--pearl);color:var(--ink);font:16px/1.55 var(--f);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--cobalt);color:#fff}
+h1,h2,h3,h4,p,figure,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
 a{color:inherit;text-decoration:none}
-img,svg,video{display:block;max-width:100%}
-button{font-family:inherit;cursor:pointer}
-::selection{background:var(--petrol);color:#fff}
-.wrap{width:min(1180px,calc(100% - 40px));margin:0 auto}
-@media(max-width:640px){.wrap{width:calc(100% - 36px)}}
+button,input{font:inherit}
+button{cursor:pointer;background:none;border:0;color:inherit;padding:0}
+img{display:block;max-width:100%}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--cobalt);outline-offset:5px;border-radius:2px}
+.wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
+.label{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.dark .label{color:var(--on-dark-muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip{position:fixed;z-index:99;top:-100px;left:20px;background:var(--cobalt);padding:14px 18px;color:#fff;border-radius:var(--r)}
+.skip:focus{top:12px}
+.arrow{display:inline-block;transition:transform .3s var(--ease)}
+a:hover .arrow,button:hover .arrow{transform:translate(3px,-3px)}
+.down:hover .arrow{transform:translateY(3px)}
 
-/* type */
-h1,h2,h3{font-weight:800;letter-spacing:-.025em;line-height:1.04}
-h1{font-size:clamp(2.6rem,7.2vw,5.6rem)}
-h2{font-size:clamp(2rem,4.6vw,3.4rem)}
-h3{font-size:clamp(1.15rem,2vw,1.4rem);letter-spacing:-.015em;line-height:1.2}
-.kick{display:inline-flex;align-items:center;gap:12px;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan);font-weight:600;margin-bottom:18px}
-.kick::before{content:"";width:22px;height:1px;background:currentColor;opacity:.8}
-.sub{color:var(--ink2);font-size:clamp(1.05rem,1.6vw,1.25rem);max-width:60ch}
-.muted{color:var(--muted)}
-section{position:relative;padding:clamp(80px,11vw,150px) 0}
-.sec-h{max-width:760px;margin-bottom:clamp(40px,5vw,64px)}
-.sec-h .sub{margin-top:18px}
+/* Display type — precise, not overfed */
+.h-xl{font-size:clamp(54px,5.8vw,91px);font-weight:500;line-height:.99;letter-spacing:-.075em}
+.h-l{font-size:clamp(42px,4.4vw,68px);font-weight:400;line-height:1.02;letter-spacing:-.06em}
+.h-m{font-size:clamp(30px,3vw,44px);font-weight:400;line-height:1.08;letter-spacing:-.05em}
+.lead{font-size:18px;line-height:1.6;letter-spacing:-.02em;color:var(--ink2);max-width:46ch}
+.dark .lead{color:var(--on-dark-muted)}
 
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 28px;border-radius:12px;font-weight:700;font-size:15px;border:1px solid transparent;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .2s,border-color .2s;white-space:nowrap}
-.btn.p{background:var(--ink);color:#0a0e13}
-.btn.p:hover{transform:translateY(-2px);box-shadow:0 18px 40px -16px rgba(238,243,246,.45)}
-.btn.g{background:transparent;color:var(--ink);border-color:var(--line2)}
-.btn.g:hover{border-color:var(--cyan);color:var(--cyan)}
-.btn.c{background:var(--cyan);color:#04252a}
-.btn.c:hover{transform:translateY(-2px);box-shadow:0 18px 40px -14px rgba(105,212,224,.55)}
-.btn .ar{transition:transform .25s var(--ease)}
-.btn:hover .ar{transform:translateX(4px)}
+/* Buttons */
+.primary{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;border:1px solid #3365ff;border-radius:var(--r);padding:18px 23px;background:linear-gradient(165deg,#2164ff,#0038ec 76%);box-shadow:inset 0 1px 0 #ffffff40,0 5px 12px #1646d51a;color:#fff;min-height:58px;font-size:16px;font-weight:500;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.primary:hover{transform:translateY(-3px);box-shadow:inset 0 1px 0 #ffffff55,0 10px 24px #1646d52b}
+.primary.light{background:#fff;color:var(--cobalt-deep);border-color:#fff;box-shadow:0 5px 14px #0a1c6a26}
+.primary.light:hover{box-shadow:0 12px 26px #0a1c6a33}
+.outline{border:1px solid #777b81;border-radius:50px;padding:12px 22px;display:inline-flex;gap:16px;align-items:center;font-size:14px;transition:background .2s,color .2s,border-color .2s}
+.outline:hover{background:var(--ink);color:var(--pearl);border-color:var(--ink)}
+.dark .outline{border-color:#6a6d76}
+.dark .outline:hover{background:var(--pearl);color:var(--ink);border-color:var(--pearl)}
+.text-link{display:inline-flex;align-items:center;gap:18px;border-bottom:1px solid currentColor;padding-bottom:7px;font-size:14px;white-space:nowrap;transition:color .2s}
+.text-link:hover{color:var(--cobalt)}
+.dark .text-link:hover{color:#9fb4ff}
 
-/* reveal */
-.rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.rv.in{opacity:1;transform:none}
-.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
-@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}*{animation:none!important}}
+/* Sections */
+section{position:relative}
+.pad{padding-block:clamp(64px,7vw,110px)}
+.dark{background:var(--obsidian);color:var(--on-dark)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,90px);align-items:end;margin-bottom:clamp(36px,4vw,64px)}
+.sec-head h2{margin-top:22px}
+.sec-head .lead{margin-top:10px}
+@media(max-width:900px){.sec-head{display:block}.sec-head .lead{margin-top:22px}}
 
-/* ============ NAV ============ */
-.nav{position:fixed;inset:0 0 auto 0;z-index:100;padding:14px 0;transition:background .35s,border-color .35s,padding .35s}
-.nav.sc{background:rgba(10,14,19,.72);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line);padding:10px 0}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand{display:flex;align-items:center;gap:11px}
-.brand img{height:26px}
-.brand b{font-weight:700;font-size:13px;letter-spacing:.34em;padding-left:.34em}
-.links{display:flex;gap:30px}
-.links a{font-size:14px;font-weight:500;color:var(--ink2);transition:color .2s}
-.links a:hover{color:var(--ink)}
-.nav-r{display:flex;align-items:center;gap:10px}
-.lang{display:flex;border:1px solid var(--line2);border-radius:100px;padding:2px}
-.lang button{background:0;border:0;color:var(--muted);font-weight:700;font-size:11px;padding:6px 10px;border-radius:100px;letter-spacing:.06em}
-html[lang="no"] .lang [data-lang="no"],html[lang="en"] .lang [data-lang="en"]{background:var(--ink);color:#0a0e13}
-.btn.nav-cta{min-height:42px;padding:0 18px;font-size:13.5px;border-radius:10px}
-.burger{display:none;background:0;border:1px solid var(--line2);border-radius:10px;width:42px;height:42px;color:var(--ink);font-size:18px}
-@media(max-width:900px){.links,.nav-mypage{display:none}.burger{display:inline-flex;align-items:center;justify-content:center}.btn.nav-cta{display:none}}
-.mob{position:fixed;inset:0;z-index:99;background:rgba(10,14,19,.96);backdrop-filter:blur(20px);display:none;flex-direction:column;justify-content:center;padding:40px 28px;gap:8px}
-.mob.on{display:flex}
-.mob a{font-size:clamp(1.8rem,7vw,2.6rem);font-weight:800;letter-spacing:-.02em;padding:10px 0;border-bottom:1px solid var(--line)}
-.mob .btn{margin-top:26px;width:100%}
+/* Reveal — content is visible by default; only hidden when JS is present */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .9s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+.js .rv.d1{transition-delay:.08s}.js .rv.d2{transition-delay:.16s}.js .rv.d3{transition-delay:.24s}
 
-/* ============ HERO ============ */
-.hero{min-height:100svh;display:flex;align-items:center;padding:150px 0 90px;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:-20% -10% auto -10%;height:80%;background:radial-gradient(60% 60% at 30% 30%,rgba(21,151,168,.22),transparent 60%),radial-gradient(40% 50% at 80% 20%,rgba(232,211,166,.07),transparent 60%);pointer-events:none;filter:blur(10px)}
-.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
-.hero-l h1 em{font-style:normal;color:var(--cyan)}
-.hero-l .sub{margin:26px 0 34px}
-.ctas{display:flex;gap:12px;flex-wrap:wrap}
-.hero-line{display:flex;gap:14px;align-items:center;margin-top:34px;color:var(--muted);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
-.hero-line i{width:4px;height:4px;border-radius:50%;background:var(--cyan);display:inline-block}
-/* showcase */
-.show{position:relative;perspective:1600px}
-.frame{position:relative;border-radius:16px;background:var(--panel);border:1px solid var(--line2);box-shadow:0 60px 120px -40px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.02) inset;overflow:hidden;transform:rotateY(-8deg) rotateX(4deg);transition:transform .8s var(--ease)}
-.show:hover .frame{transform:rotateY(-4deg) rotateX(2deg)}
-.chrome{height:38px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
-.chrome i{width:9px;height:9px;border-radius:50%;background:#2d3a45}
-.chrome .url{margin-left:10px;flex:1;height:20px;border-radius:6px;background:rgba(255,255,255,.05);display:flex;align-items:center;padding:0 10px;font-size:10.5px;color:var(--faint);letter-spacing:.02em}
-.screen{position:relative;aspect-ratio:16/10.4;overflow:hidden}
-.site{position:absolute;inset:0;padding:22px 26px;opacity:0;transform:translateY(12px) scale(.985);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.site.on{opacity:1;transform:none}
-.site .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
-.site .logo{width:78px;height:10px;border-radius:3px}
-.site .m{display:flex;gap:10px}
-.site .m i{width:26px;height:6px;border-radius:3px;background:rgba(255,255,255,.14)}
-.site .h{height:34px;width:72%;border-radius:6px;margin-bottom:10px}
-.site .h2{height:34px;width:48%;border-radius:6px;margin-bottom:16px}
-.site .t{height:7px;border-radius:3px;background:rgba(255,255,255,.18);margin-bottom:7px}
-.site .t.s{width:60%}
-.site .cta{width:118px;height:28px;border-radius:7px;margin-top:16px}
-.site .img{position:absolute;right:26px;top:74px;width:38%;height:56%;border-radius:12px;overflow:hidden}
-.site .cards{position:absolute;left:26px;right:26px;bottom:22px;display:flex;gap:10px}
-.site .cards i{flex:1;height:40px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
-/* concept palettes */
-.s1{background:linear-gradient(160deg,#0f1a22,#0b1117)} .s1 .logo,.s1 .cta{background:#69D4E0} .s1 .h,.s1 .h2{background:rgba(238,243,246,.92)} .s1 .img{background:linear-gradient(135deg,#1c3a45,#0f2a33)}
-.s2{background:linear-gradient(160deg,#f4f1ea,#e9e3d6);color:#111} .s2 .logo,.s2 .cta{background:#1e1e1e} .s2 .h,.s2 .h2{background:#151515} .s2 .t{background:rgba(0,0,0,.28)} .s2 .m i{background:rgba(0,0,0,.25)} .s2 .img{background:linear-gradient(135deg,#c9a77a,#8d6b45)} .s2 .cards i{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.08)}
-.s3{background:linear-gradient(160deg,#0b0d10,#15181c)} .s3 .logo,.s3 .cta{background:#E8D3A6} .s3 .h,.s3 .h2{background:#f2eee6} .s3 .img{background:linear-gradient(135deg,#3a3f47,#1a1d22)}
-.phone{position:absolute;right:-26px;bottom:-34px;width:31%;aspect-ratio:9/19;border-radius:28px;background:#0b0f14;border:1px solid var(--line2);box-shadow:0 40px 80px -30px rgba(0,0,0,.9);padding:9px;transform:rotate(4deg) translateZ(40px);transition:transform .8s var(--ease)}
-.show:hover .phone{transform:rotate(2deg) translateZ(60px)}
-.phone .pscr{width:100%;height:100%;border-radius:20px;overflow:hidden;position:relative}
-.phone .site{padding:18px 14px}
-.phone .site .h{height:20px;width:85%}.phone .site .h2{height:20px;width:60%}.phone .site .cta{width:80px;height:22px}
-.phone .site .img{right:14px;left:14px;top:auto;bottom:16px;width:auto;height:34%}
-.phone .site .cards,.phone .site .m{display:none}
-.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:36%;height:16px;background:#0b0f14;border-radius:0 0 12px 12px;z-index:2}
-.dots{display:flex;gap:7px;margin-top:22px;justify-content:flex-end}
-.dots b{width:22px;height:3px;border-radius:2px;background:var(--line2);transition:background .3s}
-.dots b.on{background:var(--cyan)}
-.hero-video{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid var(--line2);background:#05080b;box-shadow:0 60px 120px -40px rgba(0,0,0,.88),0 0 0 1px rgba(255,255,255,.02) inset;isolation:isolate}
-.hero-video::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(10,14,19,.18),transparent 24%,transparent 76%,rgba(10,14,19,.12)),linear-gradient(180deg,rgba(255,255,255,.025),transparent 28%,rgba(0,0,0,.2));z-index:2}
-.hero-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.015);background:transparent;opacity:0;transition:opacity .9s var(--ease);z-index:2}
-.hero-video.ready video{opacity:1}
-/* static fallback composition — shown until (or unless) the film can play */
-.hv-fb{position:absolute;inset:0;z-index:1;background:radial-gradient(120% 100% at 62% 8%,#12202a 0%,#0a1218 52%,#06090d 100%);overflow:hidden;transition:opacity .9s var(--ease)}
-.hero-video.ready .hv-fb{opacity:0}
-.hv-fb::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(190,214,226,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(190,214,226,.05) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(85% 80% at 50% 42%,#000 25%,transparent 80%);-webkit-mask-image:radial-gradient(85% 80% at 50% 42%,#000 25%,transparent 80%)}
-.hv-fb .win{position:absolute;left:9%;top:15%;width:74%;bottom:-6%;border-radius:10px 10px 0 0;border:1px solid rgba(190,214,226,.16);background:#0b1319;box-shadow:0 40px 80px -30px rgba(0,0,0,.9);overflow:hidden}
-.hv-fb .win .ch{height:22px;border-bottom:1px solid rgba(190,214,226,.1);display:flex;align-items:center;gap:5px;padding:0 10px}
-.hv-fb .win .ch i{width:6px;height:6px;border-radius:50%;background:rgba(190,214,226,.18)}
-.hv-fb .win .bd{padding:20px 22px}
-.hv-fb .h1{height:16px;width:58%;border-radius:5px;background:#EEF3F6;opacity:.92;margin-bottom:8px}
-.hv-fb .h2{height:16px;width:38%;border-radius:5px;background:var(--cyan);opacity:.85;margin-bottom:14px}
-.hv-fb .ln{height:5px;width:52%;border-radius:3px;background:rgba(190,214,226,.2);margin-bottom:6px}
-.hv-fb .btn2{margin-top:14px;width:98px;height:26px;border-radius:7px;background:var(--cyan);box-shadow:0 12px 26px -10px rgba(105,212,224,.5)}
-.hv-fb .card{position:absolute;right:6%;top:26%;width:30%;aspect-ratio:3/4;border-radius:14px;border:1px solid rgba(190,214,226,.18);background:linear-gradient(160deg,#16323b,#0a1219);box-shadow:0 40px 70px -30px rgba(0,0,0,.95)}
-.hv-fb .card::after{content:"";position:absolute;left:12px;right:12px;bottom:14px;height:6px;border-radius:3px;background:rgba(232,211,166,.5)}
-@media(max-width:980px){.hero .wrap{grid-template-columns:1fr;gap:48px}.hero{padding:130px 0 70px}.frame{transform:none}.show:hover .frame{transform:none}.phone{right:0;bottom:-24px;width:34%;transform:rotate(3deg)}.hero-video{width:100%;max-width:900px;margin:0 auto}}
-@media(max-width:640px){.hero{min-height:auto;padding:118px 0 60px}.phone{width:36%;right:-6px}.hero-video{aspect-ratio:16/10;border-radius:14px}}
-
-/* ============ TRUST ============ */
-.trust{padding:0}
-.trust .wrap{display:flex;gap:10px 34px;flex-wrap:wrap;justify-content:center;padding:26px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.trust span{display:inline-flex;align-items:center;gap:10px;color:var(--muted);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
-.trust span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--cyan)}
-
-/* ============ PROBLEM / BEFORE-AFTER ============ */
-.prob .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
-.pains{list-style:none;display:grid;gap:12px;margin-top:28px}
-.pains li{display:flex;gap:14px;align-items:flex-start;color:var(--ink2);font-size:15.5px}
-.pains li::before{content:"—";color:var(--cyan);font-weight:700;flex:none}
-.ba{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line2);background:var(--panel);box-shadow:0 50px 100px -40px rgba(0,0,0,.8);user-select:none}
-.ba .pane{position:absolute;inset:0}
-.ba .old{background:#f3f3f3;color:#222;padding:14px;font-family:Arial,sans-serif}
-.old .bar{background:#1c4e9a;color:#fff;font-weight:700;font-size:13px;padding:8px 10px;display:flex;justify-content:space-between}
-.old .bar span{font-weight:400;font-size:9px;opacity:.9}
-.old .ban{margin:10px 0;background:linear-gradient(90deg,#ffec3d,#ff9d00);color:#a00;font-weight:900;font-size:11px;padding:8px;text-align:center;text-transform:uppercase;letter-spacing:.02em;border:2px dashed #c00}
-.old .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.old .cols div{background:#fff;border:1px solid #bbb;padding:8px;font-size:9px;line-height:1.35}
-.old .cols b{display:block;color:#1c4e9a;font-size:10px;margin-bottom:3px;text-decoration:underline}
-.old .foot{margin-top:10px;font-size:8px;color:#666;text-align:center}
-.ba .new{background:linear-gradient(160deg,#0f1a22,#0a0e13);padding:20px 22px;clip-path:inset(0 0 0 var(--cut,50%))}
-.new .n{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
-.new .lg{width:74px;height:9px;border-radius:3px;background:var(--cyan)}
-.new .mm{display:flex;gap:10px}.new .mm i{width:24px;height:5px;border-radius:3px;background:rgba(255,255,255,.16)}
-.new .hh{height:26px;width:66%;border-radius:6px;background:rgba(238,243,246,.94);margin-bottom:9px}
-.new .hh2{height:26px;width:44%;border-radius:6px;background:rgba(238,243,246,.94);margin-bottom:14px}
-.new .tt{height:6px;border-radius:3px;background:rgba(255,255,255,.2);width:58%;margin-bottom:6px}
-.new .cc{width:104px;height:26px;border-radius:7px;background:var(--cyan);margin-top:14px}
-.new .im{position:absolute;right:22px;top:66px;width:36%;height:58%;border-radius:12px;background:linear-gradient(135deg,#1c3a45,#0f2a33)}
-.ba .handle{position:absolute;top:0;bottom:0;left:var(--cut,50%);width:2px;background:var(--ink);transform:translateX(-1px);pointer-events:none}
-.ba .handle::after{content:"⟷";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:var(--ink);color:#0a0e13;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;z-index:3}
-.ba .lab{position:absolute;top:12px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;padding:5px 10px;border-radius:100px;z-index:2}
-.ba .lab.l{left:12px;background:rgba(0,0,0,.55);color:#fff}
-.ba .lab.r{right:12px;background:var(--cyan);color:#04252a}
-.ba-wrap{aspect-ratio:16/10.5}
-@media(max-width:980px){.prob .grid{grid-template-columns:1fr;gap:36px}}
-
-/* ============ WORK ============ */
-.work{background:var(--bg2)}
-.work .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:44px;flex-wrap:wrap}
-.tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--champ);border:1px solid rgba(232,211,166,.35);padding:6px 11px;border-radius:100px}
-.wgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
-.wc{position:relative;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);overflow:hidden;transition:transform .5s var(--ease),border-color .3s,box-shadow .5s var(--ease)}
-.wc:hover{transform:translateY(-6px);border-color:var(--line2);box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
-.wc .vis{position:relative;aspect-ratio:16/10.5;overflow:hidden;padding:26px 28px 0;background:var(--pal,#0f1a22)}
-.wc .dk{position:absolute;left:26px;right:26px;top:26px;bottom:-18px;border-radius:12px 12px 0 0;background:var(--scr,#0b1117);border:1px solid rgba(255,255,255,.1);overflow:hidden;transition:transform .6s var(--ease)}
-.wc:hover .dk{transform:translateY(-6px)}
-.wc .dk .ch{height:22px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:5px;padding:0 10px}
-.wc .dk .ch i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.14)}
-.wc .dk .bd{padding:16px 18px;position:relative;height:100%}
-.wc .dk .hh{height:20px;width:60%;border-radius:5px;background:var(--hd,#eef3f6);margin-bottom:7px}
-.wc .dk .hh2{height:20px;width:38%;border-radius:5px;background:var(--hd,#eef3f6);margin-bottom:12px}
-.wc .dk .tt{height:5px;width:46%;border-radius:3px;background:var(--tx,rgba(255,255,255,.2));margin-bottom:5px}
-.wc .dk .cc{width:82px;height:22px;border-radius:6px;background:var(--ac,#69D4E0);margin-top:12px}
-.wc .dk .im{position:absolute;right:18px;top:16px;width:38%;height:62%;border-radius:10px;background:var(--im,linear-gradient(135deg,#1c3a45,#0f2a33))}
-.wc .mb{position:absolute;right:22px;bottom:-30px;width:22%;aspect-ratio:9/18;border-radius:18px;background:#0b0f14;border:1px solid rgba(255,255,255,.14);padding:6px;box-shadow:0 30px 60px -20px rgba(0,0,0,.9);transition:transform .6s var(--ease)}
-.wc:hover .mb{transform:translateY(-12px)}
-.wc .mb div{height:100%;border-radius:13px;background:var(--scr,#0b1117);padding:12px 9px}
-.wc .mb .hh{height:12px;width:80%;border-radius:4px;background:var(--hd,#eef3f6);margin-bottom:5px}
-.wc .mb .hh2{height:12px;width:55%;border-radius:4px;background:var(--hd,#eef3f6);margin-bottom:9px}
-.wc .mb .tt{height:4px;width:70%;border-radius:2px;background:var(--tx,rgba(255,255,255,.2));margin-bottom:4px}
-.wc .mb .cc{width:52px;height:14px;border-radius:4px;background:var(--ac,#69D4E0);margin-top:9px}
-.wc .meta{padding:22px 24px 24px;display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
-.wc .meta .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
-.wc .meta p{color:var(--ink2);font-size:14.5px;max-width:40ch}
-.wc .meta .go{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:.3s}
-.wc:hover .meta .go{background:var(--ink);color:#0a0e13;border-color:var(--ink)}
-.wc .ctag{position:absolute;top:14px;left:14px;z-index:3;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--champ);background:rgba(10,14,19,.7);border:1px solid rgba(232,211,166,.35);padding:4px 9px;border-radius:100px;backdrop-filter:blur(6px)}
-/* palettes per concept */
-.w1{--pal:linear-gradient(160deg,#101820,#0a0e13);--scr:#0d141b;--hd:#eef3f6;--ac:#E8D3A6;--im:linear-gradient(135deg,#3b4a52,#1c252b)}
-.w2{--pal:linear-gradient(160deg,#efe9dd,#e2d9c6);--scr:#f7f3ea;--hd:#141414;--tx:rgba(0,0,0,.3);--ac:#1a1a1a;--im:linear-gradient(135deg,#b58a5b,#7a5a3a)}
-.w3{--pal:linear-gradient(160deg,#0b0c0f,#16181c);--scr:#0f1114;--hd:#f4f4f4;--ac:#d0d4d8;--im:linear-gradient(135deg,#2a2f36,#0e1013)}
-.w4{--pal:linear-gradient(160deg,#eaf2f3,#d9e6e8);--scr:#f6fafb;--hd:#0f2a33;--tx:rgba(15,42,51,.35);--ac:#1597A8;--im:linear-gradient(135deg,#bfe0e6,#7fbcc6)}
-.w5{--pal:linear-gradient(160deg,#111a23,#0a0f15);--scr:#0f171f;--hd:#eef3f6;--ac:#69D4E0;--im:linear-gradient(135deg,#1c3a45,#0f2a33)}
-.wc.real .vis{padding:0;aspect-ratio:16/10.5;background:#0f1a22}.wc.real .vis img{width:100%;height:100%;object-fit:cover;object-position:left top;transition:transform .8s var(--ease)}.wc.real:hover .vis img{transform:scale(1.03)}
-.w6{--pal:linear-gradient(160deg,#141414,#0a0a0a);--scr:#111;--hd:#f2f2f2;--ac:#6ee7b7;--im:linear-gradient(135deg,#1f2a25,#0e1411)}
-@media(max-width:900px){.wgrid{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 22px;margin:0 -20px;-webkit-overflow-scrolling:touch}.wgrid::-webkit-scrollbar{display:none}.wc{flex:0 0 84%;scroll-snap-align:center}}
-
-/* ============ MOTION / 3D / INTERACTIVE ============ */
-.mo{background:linear-gradient(180deg,var(--bg) 0%,#080c11 34%,#080c11 66%,var(--bg) 100%);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
-.mo .wrap{position:relative}
-.mo .mo-h{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,4vw,72px);align-items:end;margin-bottom:clamp(40px,5vw,64px)}
-.mo .mo-h h2{max-width:14ch}
-.mo .mo-h h2 em{font-style:normal;color:var(--cyan)}
-.mo .mo-h p{color:var(--ink2);font-size:clamp(1rem,1.35vw,1.12rem);max-width:52ch}
-@media(max-width:900px){.mo .mo-h{grid-template-columns:1fr;align-items:start;gap:20px}}
-
-/* stage — one large cinematic frame; an interface pulled apart into layers */
-.stage{position:relative;border-radius:var(--r);border:1px solid var(--line2);background:radial-gradient(115% 105% at 50% 34%,#101b24 0%,#0a1016 46%,#05080b 100%);box-shadow:0 80px 140px -60px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.02) inset;overflow:hidden;aspect-ratio:16/7.6;perspective:1500px;perspective-origin:44% 48%}
-.stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(190,214,226,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(190,214,226,.05) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(80% 76% at 50% 48%,#000 10%,transparent 76%);-webkit-mask-image:radial-gradient(80% 76% at 50% 48%,#000 10%,transparent 76%);pointer-events:none}
-.stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:6;background:radial-gradient(72% 66% at 50% 46%,transparent 44%,rgba(4,7,10,.72) 100%)}
-.deck{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;transform:rotateY(-15deg) rotateX(5deg);transition:transform 1.1s var(--ease)}
-.pl{position:absolute;width:min(34%,384px);aspect-ratio:16/10;border-radius:11px;border:1px solid rgba(190,214,226,.18);background:rgba(11,17,23,.86);box-shadow:0 40px 70px -34px rgba(0,0,0,.92);transform-style:preserve-3d;transition:transform 1.15s var(--ease),opacity .9s var(--ease)}
-.pl::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.05),transparent 32%)}
-.mo.js .pl{opacity:0}
-.mo.js:not(.in) .pl.p1,.mo.js:not(.in) .pl.p2,.mo.js:not(.in) .pl.p3,.mo.js:not(.in) .pl.p4{transform:translate3d(0,0,0)}
-.mo.js.in .pl{opacity:1}
-.pl.p1{transform:translate3d(-76%,30%,-165px);transition-delay:.05s}
-.pl.p2{transform:translate3d(-26%,12%,-55px);transition-delay:.18s}
-.pl.p3{transform:translate3d(24%,-8%,60px);transition-delay:.31s}
-.pl.p4{transform:translate3d(74%,-28%,170px);transition-delay:.44s}
-/* 01 — structure */
-.pl.p1{background:rgba(8,13,18,.92)}
-.pl.p1 .wf{position:absolute;inset:16px;background-image:linear-gradient(rgba(190,214,226,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(190,214,226,.2) 1px,transparent 1px);background-size:26px 26px;border-radius:6px;opacity:.9}
-/* 02 — film */
-.pl.p2{overflow:hidden;border-color:rgba(190,214,226,.24);background:#0a1016}
-.pl.p2 img{width:100%;height:100%;object-fit:cover;opacity:.95;filter:saturate(.9) contrast(1.06)}
-.pl.p2::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,rgba(105,212,224,.1),rgba(6,10,14,.3) 55%,rgba(6,10,14,.66))}
-/* 03 — type */
-.pl.p3{background:rgba(12,19,26,.94);padding:9% 9%;display:flex;flex-direction:column;justify-content:center;gap:7px}
-.pl.p3 .t1{height:13px;width:66%;border-radius:4px;background:#EEF3F6;opacity:.95}
-.pl.p3 .t2{height:13px;width:44%;border-radius:4px;background:var(--cyan);opacity:.9}
-.pl.p3 .t3{height:4px;width:74%;border-radius:2px;background:rgba(190,214,226,.3);margin-top:9px}
-.pl.p3 .t4{height:4px;width:54%;border-radius:2px;background:rgba(190,214,226,.22)}
-.pl.p3 .cta{margin-top:12px;width:86px;height:24px;border-radius:6px;background:var(--cyan);box-shadow:0 12px 26px -10px rgba(105,212,224,.6)}
-/* 04 — interaction */
-.pl.p4{background:rgba(14,22,30,.94);border-color:rgba(105,212,224,.4);box-shadow:0 44px 80px -36px rgba(0,0,0,.92),0 0 0 1px rgba(105,212,224,.12) inset,0 0 60px -22px rgba(105,212,224,.4);padding:9% 9%;display:flex;flex-direction:column;gap:11px;justify-content:center}
-.pl.p4 .row{display:flex;align-items:center;gap:10px}
-.pl.p4 .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex:none;box-shadow:0 0 10px rgba(105,212,224,.9)}
-.pl.p4 .bar{height:5px;border-radius:3px;background:rgba(190,214,226,.2);flex:1}
-.pl.p4 .bar.on{background:linear-gradient(90deg,var(--cyan),rgba(105,212,224,.12))}
-.pl.p4 .cur{position:absolute;right:13%;bottom:14%;width:14px;height:14px;border-radius:50%;border:1px solid var(--champ);box-shadow:0 0 0 5px rgba(232,211,166,.1)}
-/* technical labels */
-.pl .lb{position:absolute;top:-8px;left:12px;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint);background:#070a0e;padding:2px 7px;border:1px solid var(--line);border-radius:100px;white-space:nowrap}
-.pl.p4 .lb{color:var(--champ);border-color:rgba(232,211,166,.32)}
-/* frame details */
-.stage .tick{position:absolute;width:13px;height:13px;border:1px solid rgba(232,211,166,.26);z-index:5}
-.stage .tick.tl{top:18px;left:18px;border-right:0;border-bottom:0}
-.stage .tick.tr{top:18px;right:18px;border-left:0;border-bottom:0}
-.stage .tick.bl{bottom:18px;left:18px;border-right:0;border-top:0}
-.stage .tick.br{bottom:18px;right:18px;border-left:0;border-top:0}
-.stage .scan{position:absolute;left:46px;bottom:17px;z-index:5;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);font-weight:600}
-/* capability labels */
-.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,46px);margin-top:clamp(34px,4vw,54px)}
-.cap-i{padding-top:18px;border-top:1px solid var(--line2)}
-.cap-i .n{font-size:11px;letter-spacing:.2em;color:var(--champ);font-weight:700;margin-bottom:10px}
-.cap-i h3{font-size:clamp(1rem,1.5vw,1.18rem);margin-bottom:8px}
-.cap-i p{color:var(--muted);font-size:14.5px;max-width:34ch}
-@media(max-width:820px){.caps{grid-template-columns:1fr;gap:0}.cap-i{padding:16px 0}.cap-i+.cap-i{border-top:1px solid var(--line)}.cap-i p{max-width:none}}
-@media(max-width:900px){
-  .stage{aspect-ratio:16/10.5;perspective:1100px}
-  .deck{transform:rotateY(-12deg) rotateX(4deg)}
-  .pl{width:46%}
-  .pl.p1{transform:translate3d(-64%,30%,-95px)}
-  .pl.p2{transform:translate3d(-22%,12%,-30px)}
-  .pl.p3{transform:translate3d(21%,-8%,36px)}
-  .pl.p4{transform:translate3d(62%,-28%,98px)}
+/* ================= HEADER ================= */
+.site-header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--pearl) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+.site-header.sc{border-bottom-color:var(--line)}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:88px}
+.brand{display:inline-flex;align-items:center;gap:13px;font-weight:600;letter-spacing:.15em;font-size:18px}
+.brand img{width:38px;height:auto;flex:none}
+.nav{display:flex;align-items:center;gap:30px;font-size:14px}
+.nav>a:not(.outline){padding-block:12px;position:relative}
+.nav>a:not(.outline)::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav>a:not(.outline):hover::after{transform:scaleX(1)}
+.menu-toggle{display:none;border:1px solid var(--line);border-radius:50%;width:44px;height:44px;font-size:20px;line-height:1;align-items:center;justify-content:center}
+@media(max-width:1100px){.nav{gap:20px}}
+@media(max-width:860px){
+  .hdr{min-height:74px}.brand{font-size:16px;gap:10px}.brand img{width:32px}
+  .menu-toggle{display:inline-flex}
+  .nav{display:none;position:absolute;top:74px;left:0;right:0;background:var(--pearl);padding:18px var(--gutter) 26px;border-bottom:1px solid var(--line);box-shadow:0 18px 28px #0001;align-items:stretch}
+  .nav.open{display:flex;flex-direction:column;gap:4px}
+  .nav>a:not(.outline){padding-block:14px;border-bottom:1px solid var(--line);font-size:16px}
+  .nav>a:not(.outline)::after{display:none}
+  .nav .outline{justify-content:space-between;margin-top:14px}
 }
-@media(max-width:560px){
-  .stage{aspect-ratio:1/1;border-radius:14px;perspective:760px;perspective-origin:46% 50%}
-  .deck{transform:rotateY(-9deg) rotateX(3deg)}
-  .pl{width:50%;border-radius:9px}
-  .pl .lb{font-size:7.5px;padding:2px 6px;left:9px}
-  .pl.p2 .lb,.pl.p3 .lb{display:none}
-  .pl.p1{transform:translate3d(-46%,36%,-48px)}
-  .pl.p2{transform:translate3d(-18%,14%,-16px)}
-  .pl.p3{transform:translate3d(17%,-10%,20px)}
-  .pl.p4{transform:translate3d(44%,-33%,48px)}
-  .stage .scan{display:none}
-  .stage .tick{width:10px;height:10px}
+
+/* ================= HERO ================= */
+.hero{position:relative;isolation:isolate;overflow:visible}
+.hero .grid{display:grid;grid-template-columns:46% 54%;align-items:center;min-height:620px;padding-top:26px;padding-bottom:30px}
+.hero-copy{position:relative;z-index:2;padding:26px 0 28px}
+.hero h1 span{display:block}
+.hero h1 .second{font-size:.69em;font-weight:400;letter-spacing:-.065em;line-height:1.12;margin-top:20px;color:var(--ink2)}
+.hero-description{max-width:380px;margin-top:28px;font-size:18px;line-height:1.6;letter-spacing:-.02em}
+.hero .primary{margin-top:30px}
+.hero-secondary{margin-top:27px}
+.hero-art{position:relative;width:119%;margin-left:-12%;pointer-events:none;z-index:1;aspect-ratio:1448/1086}
+.hero-art img{width:100%;height:auto;mix-blend-mode:multiply;animation:float 9s ease-in-out infinite;will-change:transform;
+  /* dissolve the artwork's rectangular edge into the pearl ground */
+  -webkit-mask-image:radial-gradient(ellipse 68% 66% at 50% 52%,#000 46%,transparent 98%);mask-image:radial-gradient(ellipse 68% 66% at 50% 52%,#000 46%,transparent 98%)}
+.hero-art .plate{position:absolute;left:10%;right:10%;bottom:6%;height:14%;border-radius:50%;background:radial-gradient(ellipse at center,#00000012,transparent 70%);z-index:-1}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-.3deg)}50%{transform:translateY(-10px) rotate(.3deg)}}
+.hero-meta{display:flex;gap:clamp(18px,3vw,44px);flex-wrap:wrap;border-top:1px solid var(--line);padding:20px 0 6px;font-size:13px;color:var(--muted)}
+.hero-meta b{color:var(--ink);font-weight:500}
+@media(min-width:1600px){.hero .grid{min-height:690px}}
+@media(max-width:1100px){.hero .grid{min-height:540px;grid-template-columns:48% 52%;padding-top:14px}.hero .h-xl{font-size:clamp(51px,6.3vw,70px)}.hero-art{width:123%;margin-left:-15%}}
+@media(max-width:760px){
+  .hero .grid{display:flex;flex-direction:column;align-items:stretch;padding-top:16px;padding-bottom:22px;min-height:0}
+  .hero-copy{padding:0}
+  .hero .h-xl{font-size:clamp(49px,10.5vw,70px);letter-spacing:-.067em;max-width:600px}
+  .hero h1 .second{font-size:.72em;margin-top:13px}
+  .hero-description{font-size:16px;line-height:1.5;margin-top:22px;max-width:320px}
+  .hero .primary{margin-top:23px;width:100%;max-width:400px;font-size:15px;padding:17px 18px;gap:12px;min-height:56px}
+  .hero-secondary{margin-top:18px}
+  .hero-art{width:calc(100% + 30px);margin:16px -15px 0}
+  .hero-meta{gap:12px 18px;font-size:12px}
 }
-@media(prefers-reduced-motion:reduce){.pl,.deck{transition:none}}
 
-/* ============ SERVICES ============ */
-.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.sv{padding:24px 22px;border:1px solid var(--line);border-radius:var(--r2);background:var(--panel);transition:transform .4s var(--ease),border-color .3s,background .3s;position:relative;overflow:hidden}
-.sv::after{content:"";position:absolute;inset:auto -30% -40% auto;width:60%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--cyan-soft),transparent 70%);opacity:0;transition:opacity .4s}
-.sv:hover{transform:translateY(-4px);border-color:var(--line2);background:var(--panel2)}
-.sv:hover::after{opacity:1}
-.sv .n{font-size:11px;color:var(--faint);letter-spacing:.14em;font-weight:700;margin-bottom:14px}
-.sv h3{font-size:1.05rem;margin-bottom:8px}
-.sv p{color:var(--muted);font-size:13.5px;line-height:1.5}
-@media(max-width:1000px){.sgrid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.sgrid{grid-template-columns:1fr 1fr;gap:10px}.sv{padding:18px 16px}.sv p{display:none}.sv h3{font-size:.95rem;overflow-wrap:anywhere;hyphens:auto}}
+/* The cobalt ribbon — visual signature. Lives at the top of the work section and
+   reaches up over the hero/work seam, staying right of the hero meta text. */
+.ribbon{position:absolute;pointer-events:none;z-index:0;left:0;right:0;top:-150px;height:420px;overflow:visible}
+.ribbon svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+@media(max-width:1100px){.ribbon{top:-120px;height:340px}}
+@media(max-width:760px){.ribbon{display:none}}
 
-/* ============ WHY ============ */
-.why{background:var(--bg2)}
-.ygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 34px}
-.y h3{margin-bottom:10px;display:flex;gap:12px;align-items:baseline}
-.y h3 b{color:var(--cyan);font-size:.85rem;letter-spacing:.06em}
-.y p{color:var(--ink2);font-size:15px}
-@media(max-width:900px){.ygrid{grid-template-columns:1fr 1fr;gap:30px 22px}}
-@media(max-width:560px){.ygrid{grid-template-columns:1fr}}
+/* ================= WORK (obsidian) ================= */
+.work{overflow:hidden}
+.work>.wrap{position:relative;z-index:1}
+.work-inner{padding-top:clamp(52px,6vw,84px);padding-bottom:40px;display:grid;grid-template-columns:30% 1fr;gap:52px;align-items:center}
+.work-copy h2{margin:30px 0 22px}
+.work-copy p{max-width:280px;color:var(--on-dark-muted);font-size:16px}
+.study{display:block;color:#a7abb5;font-size:12px;border-top:1px solid #4b4d55;margin-top:35px;padding-top:15px;max-width:260px}
+.compare-shell{min-width:0}
+.compare-labels{display:flex;justify-content:space-between;margin-bottom:13px;font-size:12px;letter-spacing:.06em;color:#c9ccd4}
+.compare{--cut:46%;height:440px;position:relative;overflow:hidden;border:1px solid #61636a;isolation:isolate;box-shadow:0 25px 65px #0004;background:#e7e7e7}
+.specimen{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.specimen-header{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;font-size:12px;gap:12px}
+.specimen-header strong{font:400 22px Georgia,"Times New Roman",serif}
+.specimen-header small{font-size:10px;letter-spacing:.1em}
+.after{background:#17191a;color:#fff}
+.after-photo{position:absolute;width:100%;height:100%;object-fit:cover;opacity:.72;inset:0}
+.after::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,#101419cc 10%,transparent 62%),linear-gradient(0deg,#10141999,transparent 50%);z-index:0}
+.after .specimen-header{position:relative;z-index:1}
+.after .specimen-copy{position:absolute;z-index:1;right:0;bottom:0;width:52%;padding:30px 30px 34px;text-align:left}
+.specimen-copy{padding:38px 30px}
+.after h3{font:400 44px/1.02 Georgia,"Times New Roman",serif;letter-spacing:-.04em;max-width:320px}
+.after .specimen-copy p{font-size:12px;margin-top:16px;color:#e8e8e8;max-width:230px}
+.sample-cta{display:inline-block;margin-top:22px;border:1px solid #fff;padding:9px 14px;font-size:11px;letter-spacing:.04em}
+.before{background:#ececeb;color:#333;clip-path:inset(0 calc(100% - var(--cut)) 0 0);z-index:2}
+.before .specimen-header{background:#fff;border-bottom:1px solid #ccc}
+.before .specimen-header strong{font:700 19px Arial,sans-serif}
+.before .specimen-copy{padding:27px 26px}
+.before h3{font:700 26px/1.2 Arial,sans-serif;margin-bottom:12px}
+.before .specimen-copy p{font-size:13px;max-width:370px;color:#666}
+.before-photo{height:150px;width:100%;object-fit:cover;filter:saturate(.5);margin-top:24px}
+.compare-line{position:absolute;z-index:3;left:var(--cut);top:0;bottom:0;width:1px;background:#fff;pointer-events:none}
+.compare-handle{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:var(--cobalt);border:2px solid #fff;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:20px;color:#fff;box-shadow:0 4px 16px #0006}
+.compare-range{position:absolute;z-index:4;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.compare:focus-within{outline:3px solid #6e91ff;outline-offset:5px}
+.compare-help{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:15px;color:#afb2bd;font-size:12px}
+.compare-buttons{display:flex;gap:8px}
+.compare-buttons button{background:transparent;color:#fff;border:1px solid #545760;padding:6px 12px;border-radius:4px;font-size:12px;transition:background .2s}
+.compare-buttons button:hover{background:#31343c}
+.compare-buttons button[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff}
+.work-footer{display:flex;justify-content:space-between;gap:24px;border-top:1px solid var(--line-dark);padding:23px 0 10px;font-size:13px;color:#a7abb5}
+.work-footer strong{color:#fff;font-weight:400}
+@media(max-width:1100px){.work-inner{gap:30px;grid-template-columns:28% 1fr}.compare{height:380px}.after h3{font-size:38px}}
+@media(max-width:760px){
+  .work-inner{padding-top:40px;padding-bottom:26px;display:block}
+  .work-copy h2{font-size:46px;margin:15px 0}.work-copy p{max-width:370px;font-size:15px}
+  .study{max-width:none;border:0;margin-top:12px;padding-top:0;font-size:11px}
+  .compare-shell{margin-top:27px}.compare{height:360px}
+  .specimen-header{padding:18px 17px}.specimen-header small{display:none}
+  .specimen-copy{padding:37px 20px}.after .specimen-copy{width:58%;padding:18px 16px 22px}.after h3{font-size:28px;max-width:230px}.after .specimen-copy p{font-size:11px;margin-top:10px}.sample-cta{margin-top:14px;padding:7px 10px;font-size:10px}
+  .before .specimen-copy{padding:25px 19px}.before h3{font-size:24px;max-width:270px}.before-photo{height:120px}
+  .compare-help{font-size:11px;gap:8px}.compare-buttons button{font-size:11px;padding:6px 9px}
+  .work-footer{font-size:11px;flex-wrap:wrap;gap:9px;padding-block:18px 6px}
+}
 
-/* ============ PROCESS ============ */
-.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.st{padding:28px 22px 30px;border-right:1px solid var(--line);background:var(--panel);position:relative;transition:background .3s}
-.st:last-child{border-right:0}
-.st:hover{background:var(--panel2)}
-.st .num{font-size:12px;color:var(--cyan);letter-spacing:.14em;font-weight:700;margin-bottom:22px}
-.st h3{font-size:1.05rem;margin-bottom:8px}
-.st p{color:var(--muted);font-size:13.5px}
-.st::after{content:"";position:absolute;left:22px;right:22px;top:0;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
-.st:hover::after{transform:scaleX(1)}
-@media(max-width:1000px){.steps{grid-template-columns:repeat(3,1fr)}.st{border-bottom:1px solid var(--line)}.st:nth-child(3n){border-right:0}}
-@media(max-width:600px){.steps{grid-template-columns:1fr 1fr}.st:nth-child(3n){border-right:1px solid var(--line)}.st:nth-child(2n){border-right:0}}
+/* Case studies — editorial */
+.cases{padding-top:clamp(56px,6vw,96px);padding-bottom:clamp(56px,6vw,96px)}
+.case{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,4vw,72px);align-items:center;padding:clamp(34px,4vw,60px) 0;border-top:1px solid var(--line-dark)}
+.case:last-child{border-bottom:1px solid var(--line-dark)}
+.case .idx{font-size:12px;letter-spacing:.14em;color:var(--on-dark-muted);display:flex;gap:14px;align-items:center}
+.case .idx i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--cobalt)}
+.case .idx.concept i{background:var(--silver)}
+.case h3{margin-top:18px}
+.case p{color:var(--on-dark-muted);margin-top:16px;max-width:44ch;font-size:16px}
+.case .go{display:inline-flex;margin-top:26px}
+.surface{position:relative;border:1px solid #3d4048;background:var(--obsidian2);box-shadow:0 34px 80px -30px #000c;overflow:hidden;transform:translateY(var(--drift,0));will-change:transform}
+.surface img{width:100%;height:100%;object-fit:cover;object-position:top}
+.surface.real{aspect-ratio:16/10}
+.surface.real .phone{position:absolute;right:6%;bottom:-4%;width:24%;aspect-ratio:9/17;border:1px solid #4a4d56;background:#0b0c0e;box-shadow:0 30px 60px -20px #000e;overflow:hidden}
+.surface.real .phone img{object-position:top}
+/* Concept surfaces — real HTML compositions, labelled as concept */
+.concept-surface{aspect-ratio:16/10;display:grid;grid-template-rows:auto 1fr;font-family:var(--f)}
+.concept-surface .cs-nav{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid #ffffff1c}
+.concept-surface .cs-body{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:22px 18px}
+.concept-surface .cs-body h4{font-weight:400;letter-spacing:-.04em;line-height:1.02;font-size:clamp(22px,2.2vw,34px)}
+.concept-surface .cs-body p{font-size:11px;margin-top:10px;max-width:22ch;opacity:.8}
+.concept-surface .cs-cta{display:inline-block;margin-top:16px;font-size:10px;letter-spacing:.08em;padding:8px 12px;border:1px solid currentColor}
+.concept-surface .cs-img{border:1px solid #ffffff22;background-size:cover;background-position:center;min-height:120px}
+.cs-restaurant{background:#1a1412;color:#f3ebe0}.cs-restaurant .cs-img{background-image:linear-gradient(160deg,#5a3a2a,#2a1a14)}
+.cs-restaurant .cs-cta{background:#e8c9a0;color:#1a1412;border-color:#e8c9a0}
+.cs-craft{background:#f0efe9;color:#161616}.cs-craft .cs-nav{border-color:#00000018}.cs-craft .cs-img{background-image:linear-gradient(160deg,#9aa0a6,#5a6068);border-color:#00000018}
+.cs-craft .cs-cta{background:var(--cobalt);color:#fff;border-color:var(--cobalt)}
+.cs-clinic{background:#eef3f2;color:#0f2a2a}.cs-clinic .cs-nav{border-color:#00000018}.cs-clinic .cs-img{background-image:linear-gradient(160deg,#cfe3df,#9ec4bd);border-color:#00000018}
+.cs-clinic .cs-cta{background:#0f2a2a;color:#fff;border-color:#0f2a2a}
+.cs-estate{background:#0f141b;color:#eef3f6}.cs-estate .cs-img{background-image:url("img/fjord.jpg")}
+.cs-estate .cs-cta{background:#fff;color:#0f141b;border-color:#fff}
+@media(max-width:860px){.case{grid-template-columns:1fr;gap:26px;padding:34px 0}.case .surface{order:-1}.concept-surface .cs-body{grid-template-columns:1fr}.concept-surface .cs-img{min-height:90px}}
 
-/* ============ PRICING ============ */
-.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
-.pc{position:relative;padding:34px 30px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;transition:transform .45s var(--ease),border-color .3s,box-shadow .45s}
-.pc:hover{transform:translateY(-6px);border-color:var(--line2);box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
-.pc.pop{border-color:rgba(105,212,224,.45);background:linear-gradient(180deg,rgba(105,212,224,.08),var(--panel) 40%)}
-.pc .pop-t{position:absolute;top:-13px;left:30px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;background:var(--cyan);color:#04252a;padding:6px 12px;border-radius:100px}
-.pc .nm{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.pc .pr{margin:14px 0 4px;font-size:clamp(2rem,3.4vw,2.6rem);font-weight:800;letter-spacing:-.03em}
-.pc .pr small{font-size:.5em;font-weight:600;color:var(--muted);letter-spacing:0;margin-right:6px}
-.pc .dl{color:var(--cyan);font-size:13px;font-weight:600;margin-bottom:18px}
-.pc .who{color:var(--ink2);font-size:14.5px;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:18px}
-.pc ul{list-style:none;display:grid;gap:9px;margin-bottom:26px;flex:1}
-.pc li{display:flex;gap:10px;font-size:14px;color:var(--ink2)}
-.pc li::before{content:"✓";color:var(--cyan);font-weight:800;flex:none}
-.pc .btn{width:100%}
-.care{margin-top:18px;padding:26px 30px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.care b{font-size:1.15rem}
-.care p{color:var(--muted);font-size:14.5px;margin-top:4px}
-.care .pr{font-size:1.6rem;font-weight:800;letter-spacing:-.02em}
-.care .pr small{font-size:.55em;color:var(--muted);font-weight:600}
-.pnote{margin-top:22px;color:var(--muted);font-size:14px;text-align:center}
-.pnote a{color:var(--cyan)}
-@media(max-width:960px){.pgrid{grid-template-columns:1fr;max-width:560px;margin:0 auto}.pc.pop{order:-1}}
+/* ================= 3D & MOTION ================= */
+.motion{overflow:hidden}
+.stage{position:relative;margin-top:clamp(32px,4vw,56px);height:clamp(380px,46vw,640px);perspective:1400px}
+.layer{position:absolute;border:1px solid #ffffff2a;box-shadow:0 40px 90px -30px #000c;overflow:hidden;background:var(--obsidian2);transform:translateY(var(--drift,0)) rotateY(var(--ry,0)) rotateX(var(--rx,0));will-change:transform;transition:transform .6s var(--ease)}
+.layer img{width:100%;height:100%;object-fit:cover}
+.l1{left:4%;top:6%;width:52%;height:66%;z-index:1}
+.l2{left:38%;top:24%;width:44%;height:60%;z-index:3;--ry:-10deg;--rx:3deg}
+.l3{left:60%;top:2%;width:34%;height:44%;z-index:2;background:var(--pearl);color:var(--ink);padding:22px}
+.l3 h4{font-size:clamp(20px,2vw,30px);font-weight:400;letter-spacing:-.05em;line-height:1.02}
+.l3 p{font-size:12px;color:var(--muted);margin-top:12px;max-width:24ch}
+.l3 .bar{margin-top:16px;height:1px;background:var(--line)}
+.l3 .cta{display:inline-block;margin-top:14px;font-size:10px;letter-spacing:.08em;background:var(--cobalt);color:#fff;padding:8px 12px}
+.l4{left:10%;top:60%;width:30%;height:32%;z-index:4;background:linear-gradient(135deg,#2164ff,#0038ec);border-color:#6f8cff55;display:grid;place-items:center}
+.l4 svg{width:70%;height:70%}
+.stage .grid-lines{position:absolute;inset:0;background-image:linear-gradient(#ffffff0c 1px,transparent 1px),linear-gradient(90deg,#ffffff0c 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at center,#000 40%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse at center,#000 40%,transparent 80%)}
+.stage .tag{position:absolute;right:2%;bottom:2%;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8d919b;z-index:5}
+.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:clamp(40px,4vw,64px);border-top:1px solid var(--line-dark)}
+.cap{padding:28px clamp(0px,2vw,28px) 6px 0;border-right:1px solid var(--line-dark)}
+.cap:last-child{border-right:0}
+.cap+.cap{padding-left:clamp(18px,2.4vw,32px)}
+.cap span{font-size:12px;color:#7d8cff;letter-spacing:.12em}
+.cap h3{font-size:20px;font-weight:500;letter-spacing:-.035em;margin-top:12px}
+.cap p{font-size:15px;color:var(--on-dark-muted);margin-top:8px;max-width:34ch}
+@media(max-width:760px){
+  .stage{height:420px}.l1{left:0;top:4%;width:70%;height:56%}.l2{left:30%;top:36%;width:68%;height:56%}.l3{left:52%;top:0;width:48%;height:38%;padding:14px}.l3 p{display:none}.l4{left:2%;top:70%;width:34%;height:26%}
+  .caps{grid-template-columns:1fr}.cap{border-right:0;border-bottom:1px solid var(--line-dark);padding:22px 0 20px}.cap+.cap{padding-left:0}.cap:last-child{border-bottom:0}
+}
 
-/* ============ ROI ============ */
-.roi{background:var(--bg2)}
-.roi .grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-.calc{padding:30px;border-radius:var(--r);border:1px solid var(--line2);background:var(--panel)}
-.calc label{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:18px 0 8px}
-.calc label:first-child{margin-top:0}
-.calc .row{display:flex;justify-content:space-between;align-items:center;gap:14px}
-.calc output{font-weight:800;font-size:1.05rem;min-width:5.5ch;text-align:right}
-.calc input[type=range]{width:100%;accent-color:var(--cyan);margin-top:8px}
-.calc .res{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
-.calc .res .big{font-size:clamp(1.8rem,3vw,2.4rem);font-weight:800;letter-spacing:-.03em;color:var(--cyan)}
-.calc .res p{color:var(--muted);font-size:13.5px;margin-top:6px}
-.roi .fine{margin-top:16px;color:var(--faint);font-size:12.5px}
-@media(max-width:900px){.roi .grid{grid-template-columns:1fr;gap:36px}}
+/* ================= SERVICES (numbered index) ================= */
+.services .group{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,2fr);gap:clamp(20px,4vw,80px);border-top:1px solid var(--ink);padding:clamp(28px,3.5vw,48px) 0}
+.services .group:last-of-type{border-bottom:1px solid var(--ink)}
+.services .group h3{font-size:clamp(28px,2.6vw,38px);font-weight:400;letter-spacing:-.05em;line-height:1.05}
+.services .group .gsub{color:var(--muted);font-size:15px;margin-top:12px;max-width:34ch}
+.svc{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(0,1.4fr);gap:18px;padding:18px 0;border-top:1px solid var(--line);align-items:baseline}
+.svc:first-child{border-top:0;padding-top:0}
+.svc .n{font-size:12px;color:var(--cobalt);letter-spacing:.06em}
+.svc h4{font-size:18px;font-weight:500;letter-spacing:-.03em}
+.svc p{font-size:15px;color:var(--muted)}
+@media(max-width:860px){.services .group{grid-template-columns:1fr;gap:18px}.svc{grid-template-columns:36px 1fr}.svc p{grid-column:2}}
 
-/* ============ PROOF ============ */
-.proof .box{padding:34px;border-radius:var(--r);border:1px dashed var(--line2);background:transparent;display:grid;grid-template-columns:1.2fr 1fr;gap:34px;align-items:center}
-.proof .box h3{margin-bottom:10px}
-.proof .box p{color:var(--ink2);font-size:15px}
-.proof ul{list-style:none;display:grid;gap:10px}
-.proof li{display:flex;gap:10px;color:var(--ink2);font-size:14.5px}
-.proof li::before{content:"→";color:var(--cyan);font-weight:700}
-@media(max-width:800px){.proof .box{grid-template-columns:1fr}}
+/* ================= WEBSITE SPRINT ================= */
+.sprint-top{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,90px);align-items:start}
+.sprint h2{margin-top:24px}
+.sprint-intro{font-size:18px;color:#575b64;max-width:470px;margin-top:26px}
+.steps{margin-top:14px}
+.step{display:grid;grid-template-columns:32px 1fr;gap:17px;border-top:1px solid var(--line);padding:24px 0}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step>span{color:var(--cobalt);font-size:12px;padding-top:4px}
+.step h3{font-size:20px;font-weight:500;letter-spacing:-.035em}
+.step p{font-size:15px;color:var(--muted);margin-top:7px;max-width:395px}
+.offers{margin-top:clamp(36px,4vw,56px);display:grid;grid-template-columns:1.2fr 1fr;gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.offer{padding:28px 0;display:grid;grid-template-columns:1fr auto;gap:12px 24px;align-items:start}
+.offer+.offer{border-left:1px solid var(--line);padding-left:clamp(22px,3vw,44px)}
+.offer h3{font-size:24px;font-weight:500;letter-spacing:-.04em}
+.offer .price{font-size:clamp(28px,2.6vw,36px);font-weight:400;letter-spacing:-.05em;text-align:right;white-space:nowrap}
+.offer .price small{display:block;font-size:12px;color:var(--muted);letter-spacing:0;margin-top:4px}
+.offer p{font-size:14px;color:var(--muted);grid-column:1/-1;max-width:52ch}
+.offer .text-link{grid-column:1/-1;justify-self:start;margin-top:6px}
+.sprint-cta{margin-top:34px;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.sprint-cta small{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.sprint-top{display:block}.steps{margin-top:34px}.offers{grid-template-columns:1fr}.offer+.offer{border-left:0;border-top:1px solid var(--line);padding-left:0}}
+@media(max-width:760px){.sprint h2{font-size:48px;margin-top:16px}.sprint-intro{font-size:16px;margin-top:20px}.offer{grid-template-columns:1fr}.offer .price{text-align:left}}
 
-/* ============ FAQ ============ */
-.faq .list{max-width:820px;margin:0 auto;display:grid;gap:8px}
-details{border:1px solid var(--line);border-radius:var(--r2);background:var(--panel);transition:border-color .3s}
-details[open]{border-color:var(--line2)}
-summary{list-style:none;cursor:pointer;padding:20px 22px;font-weight:600;font-size:1rem;display:flex;justify-content:space-between;align-items:center;gap:16px}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";color:var(--cyan);font-size:1.4rem;font-weight:400;transition:transform .3s;flex:none}
-details[open] summary::after{transform:rotate(45deg)}
-details .a{padding:0 22px 22px;color:var(--ink2);font-size:15px;line-height:1.6}
+/* ================= PROCESS LINE ================= */
+.process .line{position:relative;margin-top:clamp(36px,4vw,60px)}
+.process ol{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;position:relative;padding-top:34px}
+.process ol::before{content:"";position:absolute;left:0;right:0;top:8px;height:1px;background:var(--line)}
+.process li{position:relative}
+.process li::before{content:"";position:absolute;top:-30px;left:0;width:9px;height:9px;border-radius:50%;background:var(--silver);box-shadow:0 0 0 4px var(--pearl)}
+.process li:first-child::before,.process li.now::before{background:var(--cobalt)}
+.process li span{font-size:12px;color:var(--cobalt);letter-spacing:.06em}
+.process li h3{font-size:18px;font-weight:500;letter-spacing:-.03em;margin-top:10px}
+.process li p{font-size:14px;color:var(--muted);margin-top:6px;max-width:22ch}
+@media(max-width:900px){.process ol{grid-template-columns:repeat(3,1fr)}.process ol::before{display:none}.process li::before{display:none}.process li{border-top:1px solid var(--line);padding-top:14px}}
+@media(max-width:520px){.process ol{grid-template-columns:repeat(2,1fr);gap:22px 18px}}
 
-/* ============ FINAL ============ */
-.final{overflow:hidden}
-.final .wrap{text-align:center;position:relative;padding:clamp(40px,6vw,80px) 0}
-.final::before{content:"";position:absolute;inset:auto -10% -30% -10%;height:70%;background:radial-gradient(50% 60% at 50% 100%,rgba(21,151,168,.28),transparent 70%);pointer-events:none;filter:blur(8px)}
-.final h2{font-size:clamp(2.3rem,5.4vw,4.2rem);max-width:18ch;margin:0 auto 22px}
-.final .sub{margin:0 auto 34px;text-align:center}
-.final .ctas{justify-content:center}
+/* ================= PRICING (editorial table) ================= */
+.pricing .row{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,.6fr) minmax(0,1.6fr) auto;gap:clamp(16px,3vw,48px);align-items:start;padding:clamp(24px,3vw,36px) 0;border-top:1px solid var(--line)}
+.pricing .row:first-of-type{border-top:1px solid var(--ink)}
+.pricing .row:last-of-type{border-bottom:1px solid var(--ink)}
+.pricing .nm{font-size:clamp(24px,2.4vw,34px);font-weight:400;letter-spacing:-.05em;line-height:1.05}
+.pricing .nm small{display:block;font-size:13px;color:var(--muted);letter-spacing:0;margin-top:8px}
+.pricing .pr{font-size:clamp(22px,2vw,28px);letter-spacing:-.04em;white-space:nowrap}
+.pricing .pr small{display:block;font-size:12px;color:var(--muted);letter-spacing:0;margin-top:6px}
+.pricing .who{font-size:15px;color:var(--ink2);max-width:48ch}
+.pricing ul{margin-top:12px;display:grid;gap:6px}
+.pricing li{font-size:14px;color:var(--muted);padding-left:16px;position:relative}
+.pricing li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:1px;background:var(--cobalt)}
+.pricing .row .outline{white-space:nowrap}
+.pricing .row.hi .nm{color:var(--cobalt)}
+.pnotes{margin-top:22px;display:grid;gap:6px;font-size:13px;color:var(--muted);max-width:70ch}
+.pnotes a{color:var(--ink);border-bottom:1px solid currentColor}
+@media(max-width:900px){.pricing .row{grid-template-columns:1fr 1fr}.pricing .who{grid-column:1/-1}.pricing .row .outline{justify-self:start;grid-column:1/-1}}
 
-/* ============ FOOTER ============ */
-footer{border-top:1px solid var(--line);padding:56px 0 34px;background:var(--bg2)}
-.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px;margin-bottom:40px}
-.fgrid .brand b{font-size:12px}
-.fgrid p{color:var(--muted);font-size:14px;margin-top:14px;max-width:32ch}
-.fgrid h4{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:700;margin-bottom:14px}
-.fgrid a{display:block;color:var(--ink2);font-size:14.5px;padding:5px 0;transition:color .2s}
-.fgrid a:hover{color:var(--cyan)}
-.fbot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
-@media(max-width:800px){.fgrid{grid-template-columns:1fr 1fr}}
+/* ================= STUDIO (obsidian) ================= */
+.studio-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(30px,5vw,90px);align-items:start}
+.studio-grid .lead{margin-top:22px}
+.studio-points{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.pt{padding:22px clamp(0px,2vw,28px) 22px 0;border-top:1px solid var(--line-dark)}
+.pt:nth-child(even){padding-left:clamp(18px,2.4vw,32px);border-left:1px solid var(--line-dark)}
+.pt span{font-size:12px;color:#7d8cff;letter-spacing:.1em}
+.pt h3{font-size:17px;font-weight:500;letter-spacing:-.03em;margin-top:10px}
+.pt p{font-size:14px;color:var(--on-dark-muted);margin-top:6px}
+.honest{margin-top:clamp(40px,4vw,64px);border-top:1px solid var(--line-dark);padding-top:28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(24px,4vw,80px)}
+.honest h3{font-size:22px;font-weight:500;letter-spacing:-.04em}
+.honest p{color:var(--on-dark-muted);font-size:15px;margin-top:10px;max-width:52ch}
+.honest ul{display:grid;gap:10px;font-size:14px;color:var(--on-dark-muted)}
+.honest li{padding-left:18px;position:relative}
+.honest li::before{content:"";position:absolute;left:0;top:.65em;width:7px;height:1px;background:#7d8cff}
+@media(max-width:860px){.studio-grid,.honest{grid-template-columns:1fr}.studio-points{grid-template-columns:1fr}.pt:nth-child(even){padding-left:0;border-left:0}}
 
-/* ============ MOBILE STICKY CTA ============ */
-.stick{position:fixed;left:14px;right:14px;bottom:14px;z-index:90;display:none;transform:translateY(120%);transition:transform .5s var(--ease)}
+/* ================= FAQ ================= */
+.faq .list{max-width:820px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;padding:20px 0;font-size:18px;font-weight:500;letter-spacing:-.03em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pm{flex:none;width:28px;height:28px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;color:var(--cobalt);font-size:16px;transition:transform .3s var(--ease)}
+.faq details[open] summary .pm{transform:rotate(45deg)}
+.faq .a{padding:0 0 22px;color:var(--muted);font-size:15px;max-width:64ch}
+
+/* ================= CLOSING (cobalt) ================= */
+.closing{background:var(--cobalt);color:#fff;overflow:hidden;position:relative}
+.closing-inner{padding-top:clamp(56px,6vw,80px);padding-bottom:clamp(52px,6vw,74px);display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(36px,5vw,70px);align-items:end;position:relative;z-index:1}
+.closing .label{color:#dfe6ff}
+.closing h2{margin-top:20px;color:#fff}
+.closing p{font-size:18px;line-height:1.55;max-width:400px;color:#e2e8ff;margin-bottom:25px}
+.closing small{display:block;font-size:12px;color:#e1e7ff;margin-top:16px}
+.closing .alt{display:inline-flex;margin-top:18px;color:#fff}
+.closing .band{position:absolute;right:-8%;top:-30%;width:60%;height:160%;pointer-events:none;opacity:.55}
+@media(max-width:860px){.closing-inner{display:block}.closing h2{font-size:51px;margin-top:16px}.closing-inner>div+div{margin-top:30px}.closing .band{display:none}}
+
+/* ================= FOOTER ================= */
+footer{padding:clamp(40px,5vw,64px) 0 28px}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:clamp(24px,4vw,60px)}
+.fgrid p{color:var(--muted);font-size:14px;margin-top:16px;max-width:36ch}
+.fgrid h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.fgrid a.fl{display:block;padding:5px 0;font-size:14px}
+.fgrid a.fl:hover{color:var(--cobalt)}
+.fbot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:40px;padding-top:22px;font-size:12px;color:var(--muted)}
+@media(max-width:860px){.fgrid{grid-template-columns:1fr 1fr}.fgrid>div:first-child{grid-column:1/-1}}
+
+/* Sticky mobile CTA */
+.stick{position:fixed;left:0;right:0;bottom:0;z-index:35;padding:10px var(--gutter) calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--pearl) 90%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .4s var(--ease);display:none}
 .stick.on{transform:none}
-.stick .btn{width:100%;box-shadow:0 20px 50px -14px rgba(105,212,224,.6)}
-@media(max-width:640px){.stick{display:block}}
+.stick .primary{width:100%;min-height:52px;font-size:15px;padding:14px 18px;margin:0}
+@media(max-width:760px){.stick{display:block}body{padding-bottom:84px}}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .rv{opacity:1;transform:none}
+  .surface,.layer{transform:none!important}
+}
 </style>
-<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
+<a class="skip" href="#hovedinnhold">Hopp til innhold</a>
 
-<!-- NAV -->
-<header class="nav" id="nav">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="StayMotion"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
-    <nav class="links">
-      <a href="#arbeid" data-en="Work">Arbeid</a>
-      <a href="#motion" data-en="3D &amp; motion">3D &amp; motion</a>
-      <a href="#tjenester" data-en="Services">Tjenester</a>
-      <a href="#prosess" data-en="Process">Prosess</a>
-      <a href="#priser" data-en="Pricing">Priser</a>
-      <a href="/sprint" data-en="Website Sprint">Website Sprint</a>
-      <a href="#om" data-en="About">Om oss</a>
-      <a href="#kontakt" data-en="Contact">Kontakt</a>
+<!-- ================= HEADER ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap hdr">
+    <a class="brand" href="#top" aria-label="StayMotion, til toppen"><img src="img/logo-mono.png" alt="" width="38" height="30">STAYMOTION</a>
+    <button class="menu-toggle" type="button" aria-controls="navigation" aria-expanded="false" aria-label="Åpne meny">☰</button>
+    <nav class="nav" id="navigation" aria-label="Hovedmeny">
+      <a href="#arbeid">Arbeid</a>
+      <a href="#motion">3D &amp; motion</a>
+      <a href="#tjenester">Tjenester</a>
+      <a href="#sprint">Website Sprint</a>
+      <a href="#priser">Priser</a>
+      <a href="#studio">Studio</a>
+      <a class="outline" href="#kontakt">La oss snakke <span class="arrow" aria-hidden="true">↗</span></a>
     </nav>
-    <div class="nav-r">
-      <div class="lang"><button type="button" data-lang="no">NO</button><button type="button" data-lang="en">EN</button></div>
-      <a class="btn p nav-cta" href="/start.html" data-en="Start project">Start prosjekt</a>
-      <button class="burger" id="burger" aria-label="Meny">☰</button>
-    </div>
   </div>
 </header>
-<div class="mob" id="mob">
-  <a href="#arbeid" data-en="Work">Arbeid</a>
-  <a href="#motion" data-en="3D &amp; motion">3D &amp; motion</a>
-  <a href="#tjenester" data-en="Services">Tjenester</a>
-  <a href="#prosess" data-en="Process">Prosess</a>
-  <a href="#priser" data-en="Pricing">Priser</a>
-  <a href="/sprint" data-en="Website Sprint">Website Sprint</a>
-  <a href="#om" data-en="About">Om oss</a>
-  <a href="/minside.html" data-en="Client portal">Kundeportal</a>
-  <a class="btn c" href="/start.html" data-en="Start project →">Start prosjekt →</a>
-</div>
 
-<!-- HERO -->
-<section class="hero" id="top">
+<main id="hovedinnhold">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top" aria-labelledby="hero-title">
   <div class="wrap">
-    <div class="hero-l">
-      <span class="kick rv" data-en="Premium web design studio">Premium webdesign-studio</span>
-      <h1 class="rv d1" data-en="Websites that look expensive — <em>and actually sell.</em>">Nettsider som ser dyre ut — <em>og faktisk selger.</em></h1>
-      <p class="sub rv d2" data-en="We design modern websites for businesses that want to look more professional, build more trust and win more customers.">Vi designer moderne nettsider for bedrifter som vil se mer profesjonelle ut, bygge mer tillit og få flere kunder.</p>
-      <div class="ctas rv d3">
-        <a class="btn p" href="/start.html"><span data-en="Start project">Start prosjekt</span><span class="ar">→</span></a>
-        <a class="btn g" href="#arbeid" data-en="See work">Se arbeid</a>
+    <div class="grid">
+      <div class="hero-copy">
+        <h1 id="hero-title" class="h-xl"><span>Nettsider folk</span><span>stopper for.</span><span class="second">Og handler fra.</span></h1>
+        <p class="hero-description">Et tydelig uttrykk. Ekte dybde. En enklere vei til neste kunde — designet og bygget av et selvstendig studio i Stavanger.</p>
+        <a class="primary" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a>
+        <div class="hero-secondary"><a class="text-link down" href="#arbeid">Se hvordan vi tenker <span class="arrow" aria-hidden="true">↓</span></a></div>
       </div>
-      <div class="hero-line rv d4"><span>Design</span><i></i><span data-en="Development">Utvikling</span><i></i><span data-en="Conversion">Konvertering</span></div>
+      <figure class="hero-art" aria-hidden="true">
+        <span class="plate"></span>
+        <picture>
+          <source srcset="img/hero-art.webp" type="image/webp">
+          <img src="staymotion-hero-art.png" alt="" width="1448" height="1086" fetchpriority="high" decoding="async">
+        </picture>
+      </figure>
     </div>
-    <div class="hero-video rv d2" id="heroVid" aria-label="StayMotion cinematic website assembly">
-      <div class="hv-fb" aria-hidden="true">
-        <div class="win"><div class="ch"><i></i><i></i><i></i></div><div class="bd"><div class="h1"></div><div class="h2"></div><div class="ln"></div><div class="ln" style="width:40%"></div><div class="btn2"></div></div></div>
-        <div class="card"></div>
-      </div>
-      <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
-        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3ICpxT3JiovisWSJepI8nxeHJvJ/hf_20260907_224929_99bdfb67-a7f0-411e-b311-549756280e46.mp4" type="video/mp4">
-      </video>
+    <div class="hero-meta">
+      <span><b>Stavanger</b> · norsk studio</span>
+      <span><b>Design · utvikling · motion</b> under ett tak</span>
+      <span>Du snakker <b>direkte med designeren</b></span>
     </div>
   </div>
 </section>
 
-<!-- TRUST -->
-<section class="trust">
-  <div class="wrap rv">
-    <span data-en="Designed for Norwegian businesses">Designet for norske bedrifter</span>
-    <span data-en="Mobile first">Mobil først</span>
-    <span data-en="Conversion focus">Konverteringsfokus</span>
-    <span data-en="Fast delivery">Rask levering</span>
-    <span data-en="No generic templates">Ingen generiske maler</span>
+<!-- ================= WORK · before/after (obsidian) ================= -->
+<section class="work dark" id="arbeid" aria-labelledby="work-title">
+  <!-- Cobalt ribbon: the hero band's signature reappears, crossing the pearl/obsidian seam -->
+  <div class="ribbon" aria-hidden="true">
+    <svg viewBox="0 0 1440 420" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="rb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0b2fd9"/><stop offset=".4" stop-color="#2160ff"/><stop offset=".62" stop-color="#0a35e8"/><stop offset="1" stop-color="#1d52ff"/></linearGradient>
+        <linearGradient id="rs" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8d929a"/><stop offset=".5" stop-color="#f1f2f4"/><stop offset="1" stop-color="#a9adb4"/></linearGradient>
+      </defs>
+      <!-- silver back edge -->
+      <path d="M1290 0 C 1330 90, 1240 160, 1060 178 S 800 175, 720 236 S 640 330, 560 420" fill="none" stroke="url(#rs)" stroke-width="9" stroke-linecap="round" opacity=".9" transform="translate(6,10)"/>
+      <!-- cobalt band -->
+      <path d="M1290 0 C 1330 90, 1240 160, 1060 178 S 800 175, 720 236 S 640 330, 560 420" fill="none" stroke="url(#rb)" stroke-width="26" stroke-linecap="round"/>
+      <!-- specular highlight -->
+      <path d="M1290 0 C 1330 90, 1240 160, 1060 178 S 800 175, 720 236 S 640 330, 560 420" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity=".35" transform="translate(-3,-9)"/>
+    </svg>
   </div>
-</section>
-
-<!-- PROBLEM -->
-<section class="prob" id="problem">
-  <div class="wrap grid">
-    <div>
-      <span class="kick rv" data-en="First impressions">Førsteinntrykk</span>
-      <h2 class="rv d1" data-en="Your website is usually the first impression.">Nettsiden din er ofte førsteinntrykket.</h2>
-      <p class="sub rv d2" data-en="People judge a business in seconds. Before they call, book or buy, they look — and they compare you to the best they've seen.">Folk bedømmer en bedrift på sekunder. Før de ringer, booker eller kjøper, ser de — og sammenligner deg med det beste de har sett.</p>
-      <ul class="pains rv d3">
-        <li data-en="A dated look lowers trust — instantly">Et gammelt utseende senker tilliten — umiddelbart</li>
-        <li data-en="Weak mobile experience loses the majority of your visitors">Dårlig mobilopplevelse mister flertallet av besøkende</li>
-        <li data-en="An unclear offer makes people leave before they understand you">Et uklart tilbud gjør at folk forlater før de forstår deg</li>
-        <li data-en="Every lead you lose makes a competitor look better">Hver kunde du mister, gjør en konkurrent bedre</li>
-      </ul>
-    </div>
-    <div class="ba-wrap rv d2">
-      <div class="ba" id="ba">
-        <span class="lab l" data-en="Before">Før</span><span class="lab r">StayMotion</span>
-        <div class="pane old">
-          <div class="bar">Firma AS <span>Velkommen til vår hjemmeside!</span></div>
-          <div class="ban">TILBUD!!! Ring oss i dag — 20 % rabatt</div>
-          <div class="cols"><div><b>Om oss</b>Vi har lang erfaring og gode priser. Kontakt oss for mer informasjon om våre tjenester.</div><div><b>Tjenester</b>Vi tilbyr mange tjenester. Se listen under for alle våre tjenester og priser.</div><div><b>Kontakt</b>Tlf 12 34 56 78. Åpningstider man–fre. Send e-post for tilbud.</div></div>
-          <div class="foot">© 2011 Firma AS · Sist oppdatert 2014 · Best i Internet Explorer</div>
+  <div class="wrap">
+    <div class="work-inner">
+      <div class="work-copy">
+        <span class="label">01 / Et annet førsteinntrykk</span>
+        <h2 id="work-title" class="h-l">Se forskjellen.</h2>
+        <p>Samme utgangspunkt.<br>En tydeligere retning.</p>
+        <small class="study">Illustrert før/etter-konsept. Ingen faktisk kunde eller målte resultater.</small>
+      </div>
+      <div class="compare-shell rv">
+        <div class="compare-labels" aria-hidden="true"><span>Før / standardoppsett</span><span>Etter / ny retning</span></div>
+        <div class="compare" id="comparison">
+          <div class="specimen after" aria-hidden="true">
+            <img class="after-photo" src="img/interior.jpg" width="1344" height="768" alt="" loading="lazy" decoding="async">
+            <div class="specimen-header"><strong>Fjordrom.</strong><small>Stedet &nbsp; Opphold &nbsp; Kontakt</small></div>
+            <div class="specimen-copy">
+              <h3>Et sted å<br>senke skuldrene.</h3>
+              <p>Fjorden utenfor. Roen innenfor.<br>Finn ditt neste pusterom.</p>
+              <span class="sample-cta">Utforsk oppholdet ↗</span>
+            </div>
+          </div>
+          <div class="specimen before" aria-hidden="true">
+            <div class="specimen-header"><strong>FJORDROM</strong><small>Hjem &nbsp; Om oss &nbsp; Kontakt</small></div>
+            <div class="specimen-copy">
+              <h3>Velkommen til Fjordrom</h3>
+              <p>Vi tilbyr overnatting i fine omgivelser. Ta kontakt for mer informasjon om våre tilbud.</p>
+              <img class="before-photo" src="img/interior.jpg" width="1344" height="768" alt="" loading="lazy" decoding="async">
+            </div>
+          </div>
+          <div class="compare-line" aria-hidden="true"><span class="compare-handle">‹ ›</span></div>
+          <label class="sr" for="reveal">Sammenlign standardoppsett og ny designretning</label>
+          <input class="compare-range" type="range" id="reveal" min="0" max="100" value="46" aria-describedby="compare-description">
         </div>
-        <div class="pane new">
-          <div class="n"><div class="lg"></div><div class="mm"><i></i><i></i><i></i></div></div>
-          <div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt" style="width:42%"></div><div class="cc"></div><div class="im"></div>
+        <div class="compare-help">
+          <span id="compare-description">Dra for å se. Piltaster med tastatur.</span>
+          <div class="compare-buttons">
+            <button type="button" data-reveal="100" aria-pressed="false">Før</button>
+            <button type="button" data-reveal="0" aria-pressed="false">Etter</button>
+          </div>
         </div>
-        <div class="handle"></div>
-        <input type="range" min="8" max="92" value="50" id="baRange" aria-label="Sammenlign før og etter">
       </div>
     </div>
+    <div class="work-footer"><strong>Fjordrom / fiktiv konseptstudie</strong><span>Budskap · Design · Responsiv opplevelse</span></div>
   </div>
-</section>
 
-<!-- WORK -->
-<section class="work" id="arbeid">
-  <div class="wrap">
-    <div class="head">
-      <div class="sec-h" style="margin:0">
-        <span class="kick rv" data-en="Selected work">Utvalgte prosjekter</span>
-        <h2 class="rv d1" data-en="Designed to make the competition look dated.">Designet for å få konkurrentene til å se utdaterte ut.</h2>
-      </div>
-      <span class="tag rv d2" data-en="Concept redesigns + in-house product · labelled honestly">Konseptdesign + eget produkt · ærlig merket</span>
+  <!-- Case studies — editorial -->
+  <div class="wrap cases">
+    <div class="sec-head">
+      <div><span class="label">Arbeid</span><h2 class="h-l">Prosjekter som viser hvordan vi tenker.</h2></div>
+      <p class="lead">Ett eget produkt vi har bygget fra bunnen — og konseptretninger for bransjer vi jobber mot. Konseptarbeid er merket som det.</p>
     </div>
-    <div class="wgrid">
-<a class="wc w2 rv" href="/start.html?type=redesign&bransje=restaurant"><span class="ctag" data-en="Concept redesign">Konseptredesign</span><div class="vis"><div class="dk"><div class="ch"><i></i><i></i><i></i></div><div class="bd"><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt" style="width:36%"></div><div class="cc"></div><div class="im"></div></div></div><div class="mb"><div><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt"></div><div class="cc"></div></div></div></div><div class="meta"><div><div class="k" data-en="Restaurant">Restaurant</div><p data-en="Warm editorial design with the menu, atmosphere and booking one tap away.">Varmt, redaksjonelt design med meny, stemning og booking ett trykk unna.</p></div><span class="go">→</span></div></a>
-<a class="wc w1 rv d1" href="/start.html?type=redesign&bransje=bygg"><span class="ctag" data-en="Concept redesign">Konseptredesign</span><div class="vis"><div class="dk"><div class="ch"><i></i><i></i><i></i></div><div class="bd"><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt" style="width:36%"></div><div class="cc"></div><div class="im"></div></div></div><div class="mb"><div><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt"></div><div class="cc"></div></div></div></div><div class="meta"><div><div class="k" data-en="Construction company">Byggefirma</div><p data-en="From generic and dated to a premium lead-generation site that earns trust before the first call.">Fra generisk og utdatert til en premium leads-side som bygger tillit før første telefon.</p></div><span class="go">→</span></div></a>
-<a class="wc w4 rv" href="/start.html?type=redesign&bransje=klinikk"><span class="ctag" data-en="Concept redesign">Konseptredesign</span><div class="vis"><div class="dk"><div class="ch"><i></i><i></i><i></i></div><div class="bd"><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt" style="width:36%"></div><div class="cc"></div><div class="im"></div></div></div><div class="mb"><div><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt"></div><div class="cc"></div></div></div></div><div class="meta"><div><div class="k" data-en="Clinic / aesthetics">Klinikk / estetikk</div><p data-en="Calm, clinical clarity that makes booking the obvious next step.">Rolig, klinisk klarhet som gjør booking til det åpenbare neste steget.</p></div><span class="go">→</span></div></a>
-      <a class="wc w7 real rv d1" href="/siamconnect.html"><span class="ctag" data-en="In-house product">In-house-produkt</span><div class="vis"><img src="img/work/siamconnect/thumb.jpg" alt="SiamConnect — digital plattform" loading="lazy" width="900" height="562"></div><div class="meta"><div><div class="k" data-en="SiamConnect · Digital platform">SiamConnect · Digital plattform</div><p data-en="Community, marketplace, events and guides in one product — proof that we also build complex digital platforms.">Community, markedsplass, arrangementer og guider i ett produkt — bevis på at vi også bygger komplekse digitale plattformer.</p></div><span class="go">→</span></div></a>
-<a class="wc w3 rv" href="/start.html?type=redesign&bransje=bil"><span class="ctag" data-en="Concept redesign">Konseptredesign</span><div class="vis"><div class="dk"><div class="ch"><i></i><i></i><i></i></div><div class="bd"><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt" style="width:36%"></div><div class="cc"></div><div class="im"></div></div></div><div class="mb"><div><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt"></div><div class="cc"></div></div></div></div><div class="meta"><div><div class="k" data-en="Car dealership">Bilforhandler</div><p data-en="Dark, cinematic showroom feel — inventory, financing and test drive without friction.">Mørk, cinematisk showroom-følelse — lager, finansiering og prøvekjøring uten friksjon.</p></div><span class="go">→</span></div></a>
-<a class="wc w5 rv d1" href="/start.html?type=redesign&bransje=eiendom"><span class="ctag" data-en="Concept redesign">Konseptredesign</span><div class="vis"><div class="dk"><div class="ch"><i></i><i></i><i></i></div><div class="bd"><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt" style="width:36%"></div><div class="cc"></div><div class="im"></div></div></div><div class="mb"><div><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt"></div><div class="cc"></div></div></div></div><div class="meta"><div><div class="k" data-en="Real estate">Eiendom</div><p data-en="Property-first layout where the listings do the selling and the brand does the reassuring.">Objektene selger, merkevaren beroliger — et layout bygget rundt boligene.</p></div><span class="go">→</span></div></a>
-<a class="wc w6 rv" href="/start.html?type=redesign&bransje=b2b"><span class="ctag" data-en="Concept redesign">Konseptredesign</span><div class="vis"><div class="dk"><div class="ch"><i></i><i></i><i></i></div><div class="bd"><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt" style="width:36%"></div><div class="cc"></div><div class="im"></div></div></div><div class="mb"><div><div class="hh"></div><div class="hh2"></div><div class="tt"></div><div class="tt"></div><div class="cc"></div></div></div></div><div class="meta"><div><div class="k" data-en="B2B company">B2B-bedrift</div><p data-en="Sharp positioning, clear services and a lead flow built for decision-makers.">Skarp posisjonering, tydelige tjenester og en leads-flyt bygget for beslutningstakere.</p></div><span class="go">→</span></div></a>
-    </div>
-  </div>
-</section>
 
-<!-- MOTION / 3D / INTERACTIVE -->
-<section class="mo" id="motion">
-  <div class="wrap">
-    <div class="mo-h">
+    <article class="case rv">
       <div>
-        <span class="kick rv" data-en="Beyond the ordinary web">Utover det vanlige nettet</span>
-        <h2 class="rv d1" data-en="3D. Motion. <em>Interactive experiences.</em>">3D. Motion. <em>Interaktive opplevelser.</em></h2>
+        <span class="idx"><i></i>Eget produkt · Ekte og live</span>
+        <h3 class="h-m">SiamConnect — digital plattform.</h3>
+        <p>Community, markedsplass, arrangementer og guider i ett produkt. Bevis på at vi også designer og bygger komplekse digitale plattformer, ikke bare forsider.</p>
+        <a class="text-link go" href="/siamconnect.html">Se prosjektet <span class="arrow" aria-hidden="true">↗</span></a>
       </div>
-      <p class="rv d2" data-en="When a standard hero image is not enough, we create digital experiences that move. From cinematic hero sequences and custom 3D animation to interactive elements that respond to scroll and user movement.">Når et vanlig hero-bilde ikke er nok, bygger vi digitale opplevelser som beveger seg. Fra cinematic hero-sekvenser og skreddersydde 3D-animasjoner til interaktive elementer som reagerer på scroll og brukerens bevegelser.</p>
-    </div>
+      <a class="surface real" href="/siamconnect.html" data-drift="-0.05" aria-label="SiamConnect — se prosjektet">
+        <img src="img/work/siamconnect/landing-d.jpg" alt="SiamConnect — landingsside på desktop" loading="lazy" decoding="async" width="1280" height="800">
+        <span class="phone"><img src="img/work/siamconnect/landing-m.jpg" alt="" loading="lazy" decoding="async"></span>
+      </a>
+    </article>
 
-    <div class="stage rv d1" id="stage">
-      <div class="deck" id="deck">
-        <div class="pl p1"><span class="lb">Layer 01 · Grid</span><div class="wf"></div></div>
-        <div class="pl p2"><span class="lb">Layer 02 · Film</span><img src="img/statement-room.jpg" alt="" loading="lazy" decoding="async" width="560" height="350"></div>
-        <div class="pl p3"><span class="lb">Layer 03 · Type</span><div class="t1"></div><div class="t2"></div><div class="t3"></div><div class="t4"></div><div class="cta"></div></div>
-        <div class="pl p4"><span class="lb">Layer 04 · Interaction</span>
-          <div class="row"><span class="dot"></span><span class="bar on"></span></div>
-          <div class="row"><span class="dot" style="opacity:.35"></span><span class="bar"></span></div>
-          <div class="row"><span class="dot" style="opacity:.35"></span><span class="bar" style="width:60%;flex:none"></span></div>
-          <span class="cur"></span>
-        </div>
+    <article class="case rv">
+      <div>
+        <span class="idx concept"><i></i>Konseptretning · Restaurant</span>
+        <h3 class="h-m">Varmt og redaksjonelt. Booking ett trykk unna.</h3>
+        <p>Meny, stemning og bordbestilling der gjesten forventer det. Bygget rundt bilder som får folk til å ville komme.</p>
+        <a class="text-link go" href="/start.html?type=redesign&bransje=restaurant">Få et førsteside-konsept for din restaurant <span class="arrow" aria-hidden="true">↗</span></a>
       </div>
-      <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-      <span class="scan" data-en="Websites designed to move">Nettsider designet for å bevege</span>
-    </div>
+      <div class="surface concept-surface cs-restaurant" data-drift="-0.04" aria-hidden="true">
+        <div class="cs-nav"><span>Brasserie Vik</span><span>Meny · Bord · Finn oss</span></div>
+        <div class="cs-body"><div><h4>Kveldene<br>som blir lange.</h4><p>Sesongmeny fra Rogaland. Bord for to, eller hele laget.</p><span class="cs-cta">Bestill bord</span></div><div class="cs-img"></div></div>
+      </div>
+    </article>
 
+    <article class="case rv">
+      <div>
+        <span class="idx concept"><i></i>Konseptretning · Håndverk</span>
+        <h3 class="h-m">Fra generisk til tillit før første telefon.</h3>
+        <p>Tydelig hva dere gjør, hvor, og hvordan man ber om tilbud. Rolig, solid og rask på mobil — der kunden leter.</p>
+        <a class="text-link go" href="/start.html?type=redesign&bransje=bygg">Få et førsteside-konsept for din bedrift <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+      <div class="surface concept-surface cs-craft" data-drift="-0.04" aria-hidden="true">
+        <div class="cs-nav"><span>Nordvik Bygg</span><span>Tjenester · Prosjekter · Kontakt</span></div>
+        <div class="cs-body"><div><h4>Håndverk du<br>kan stole på.</h4><p>Rehabilitering og tilbygg i Stavanger. Fast pris før vi starter.</p><span class="cs-cta">Be om tilbud</span></div><div class="cs-img"></div></div>
+      </div>
+    </article>
+
+    <article class="case rv">
+      <div>
+        <span class="idx concept"><i></i>Konseptretning · Klinikk</span>
+        <h3 class="h-m">Rolig klarhet som gjør booking selvsagt.</h3>
+        <p>Trygghet i tone og form. Behandlinger, priser og timebestilling uten støy — særlig på mobil.</p>
+        <a class="text-link go" href="/start.html?type=redesign&bransje=klinikk">Få et førsteside-konsept for din klinikk <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+      <div class="surface concept-surface cs-clinic" data-drift="-0.04" aria-hidden="true">
+        <div class="cs-nav"><span>Klinikk Sola</span><span>Behandlinger · Priser · Book</span></div>
+        <div class="cs-body"><div><h4>Ta vare på deg —<br>uten stress.</h4><p>Timebestilling på under ett minutt. Ingen telefonkø.</p><span class="cs-cta">Book time</span></div><div class="cs-img"></div></div>
+      </div>
+    </article>
+
+    <article class="case rv">
+      <div>
+        <span class="idx concept"><i></i>Konseptretning · Eiendom &amp; utleie</span>
+        <h3 class="h-m">Objektene selger. Merkevaren beroliger.</h3>
+        <p>Store bilder, tydelig tilgjengelighet og én bookinghandling. Bygget for hytte, Airbnb og eiendom i Rogaland.</p>
+        <a class="text-link go" href="/start.html?type=redesign&bransje=eiendom">Få et førsteside-konsept for utleien din <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+      <div class="surface concept-surface cs-estate" data-drift="-0.04" aria-hidden="true">
+        <div class="cs-nav"><span>Fjordhytta</span><span>Hyttene · Ledig · Kontakt</span></div>
+        <div class="cs-body"><div><h4>Stillhet<br>med utsikt.</h4><p>Tre hytter ved fjorden. Se ledige datoer og book direkte.</p><span class="cs-cta">Se ledig</span></div><div class="cs-img"></div></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ================= 3D & MOTION (obsidian, deeper) ================= -->
+<section class="motion dark pad" id="motion" aria-labelledby="motion-title" style="background:#0d0e11">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="label">02 / 3D &amp; motion</span><h2 id="motion-title" class="h-l">Når et stillbilde ikke er nok.</h2></div>
+      <p class="lead">Vi bygger nettsider i lag: film, materiale, typografi og interaksjon. Bevegelsen er rolig og har en jobb — å gi dybde, lede blikket og gjøre førsteinntrykket sterkere.</p>
+    </div>
+    <div class="stage rv" id="stage" aria-hidden="true">
+      <div class="grid-lines"></div>
+      <div class="layer l1" data-drift="-0.03"><img src="img/statement-room.jpg" alt="" loading="lazy" decoding="async" width="1920" height="1120"></div>
+      <div class="layer l3" data-drift="-0.08"><h4>Rommet før<br>du kommer.</h4><p>Filmatisk hero, rolig kamera, ekte materialer.</p><div class="bar"></div><span class="cta">Se oppholdet</span></div>
+      <div class="layer l2" data-drift="-0.05"><img src="img/fjord.jpg" alt="" loading="lazy" decoding="async" width="1536" height="672"></div>
+      <div class="layer l4" data-drift="-0.1">
+        <svg viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
+          <path d="M20 90 L60 20 L100 90 Z" opacity=".9"/><path d="M20 90 L60 60 L100 90" opacity=".5"/><path d="M60 20 L60 60" opacity=".5"/>
+          <circle cx="60" cy="60" r="44" opacity=".25"/>
+        </svg>
+      </div>
+      <span class="tag">Lag 01–04 · film · materiale · type · interaksjon</span>
+    </div>
     <div class="caps">
-      <div class="cap-i rv"><div class="n">01</div><h3 data-en="Cinematic motion">Cinematic motion</h3><p data-en="Premium hero films, animated transitions and visual storytelling.">Premium hero-filmer, animerte overganger og visuell historiefortelling.</p></div>
-      <div class="cap-i rv d1"><div class="n">02</div><h3 data-en="Custom 3D">Skreddersydd 3D</h3><p data-en="3D objects, environments, product visuals and branded animation.">3D-objekter, miljøer, produktvisualisering og merkevareanimasjon.</p></div>
-      <div class="cap-i rv d2"><div class="n">03</div><h3 data-en="Interactive experiences">Interaktive opplevelser</h3><p data-en="Scroll-driven motion, responsive interactions and immersive presentation.">Scroll-drevet bevegelse, responsive interaksjoner og fordypende presentasjon.</p></div>
+      <div class="cap rv"><span>01</span><h3>Filmatisk motion</h3><p>Hero-filmer, animerte overganger og visuell historiefortelling — subtilt, aldri støyende.</p></div>
+      <div class="cap rv d1"><span>02</span><h3>Skreddersydd 3D</h3><p>Objekter, miljøer, produktvisualisering og merkevareanimasjon bygget for web.</p></div>
+      <div class="cap rv d2"><span>03</span><h3>Interaktive opplevelser</h3><p>Scroll-drevet dybde og interaksjoner som svarer på den besøkende. Alltid med reduced-motion-fallback.</p></div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section id="tjenester">
+<!-- ================= SERVICES ================= -->
+<section class="services pad" id="tjenester" aria-labelledby="services-title">
   <div class="wrap">
-    <div class="sec-h">
-      <span class="kick rv" data-en="Services">Tjenester</span>
-      <h2 class="rv d1" data-en="Everything you need for a stronger digital presence.">Alt du trenger for en sterkere digital tilstedeværelse.</h2>
+    <div class="sec-head">
+      <div><span class="label">03 / Tjenester</span><h2 id="services-title" class="h-l">Alt som trengs for en sterkere digital tilstedeværelse.</h2></div>
+      <p class="lead">Tre områder, tolv tjenester. Du trenger sjelden alt — vi hjelper deg velge det som faktisk flytter noe.</p>
     </div>
-    <div class="sgrid">
-      <div class="sv rv"><div class="n">01</div><h3>Webdesign</h3><p data-en="Custom design and brand direction from a blank canvas — never a template.">Skreddersydd design og merkevareretning fra blankt ark — aldri en mal.</p></div>
-      <div class="sv rv d1"><div class="n">02</div><h3>UI / UX</h3><p data-en="Interfaces that feel obvious and guide people to act.">Grensesnitt som føles selvsagte og leder folk til handling.</p></div>
-      <div class="sv rv d2"><div class="n">03</div><h3 data-en="Web development">Webutvikling</h3><p data-en="Fast, responsive, modern build on a production-grade stack.">Rask, responsiv, moderne bygging på produksjonsklar teknologi.</p></div>
-      <div class="sv rv d3"><div class="n">04</div><h3 data-en="Landing pages">Landingssider</h3><p data-en="Single-purpose pages built to convert campaign traffic.">Sider med ett formål — bygget for å konvertere kampanjetrafikk.</p></div>
-      <div class="sv rv"><div class="n">05</div><h3 data-en="Conversion optimisation">Konverteringsoptimalisering</h3><p data-en="Every section earns its place by moving people forward.">Hver seksjon gjør seg fortjent til plassen ved å flytte folk videre.</p></div>
-      <div class="sv rv d1"><div class="n">06</div><h3 data-en="Mobile design">Mobildesign</h3><p data-en="Designed for the thumb first, then scaled up.">Designet for tommelen først, så skalert opp.</p></div>
-      <div class="sv rv d2"><div class="n">07</div><h3 data-en="SEO foundations">SEO-grunnmur</h3><p data-en="Semantic structure, speed and metadata done right from day one.">Semantisk struktur, fart og metadata riktig fra dag én.</p></div>
-      <div class="sv rv d3"><div class="n">08</div><h3 data-en="Motion design">Motion design</h3><p data-en="Cinematic hero films, animated transitions and visual storytelling.">Cinematic hero-filmer, animerte overganger og visuell historiefortelling.</p></div>
-      <div class="sv rv"><div class="n">09</div><h3 data-en="3D &amp; visual experiences">3D og visuelle opplevelser</h3><p data-en="3D objects, environments and branded animation built for the web.">3D-objekter, miljøer og merkevareanimasjon bygget for web.</p></div>
-      <div class="sv rv d1"><div class="n">10</div><h3 data-en="Integrations">Integrasjoner</h3><p data-en="Booking, forms, CRM, payments — connected and working.">Booking, skjema, CRM, betaling — koblet og fungerende.</p></div>
-      <div class="sv rv d2"><div class="n">11</div><h3 data-en="Analytics">Analyse</h3><p data-en="Know what works: events, conversions and attribution.">Vit hva som funker: hendelser, konverteringer og attribusjon.</p></div>
-      <div class="sv rv d3"><div class="n">12</div><h3 data-en="Interactive experiences">Interaktive opplevelser</h3><p data-en="Scroll-driven motion and interactions that respond to the visitor.">Scroll-drevet bevegelse og interaksjoner som svarer på den besøkende.</p></div>
-    </div>
-  </div>
-</section>
 
-<!-- WHY -->
-<section class="why" id="om">
-  <div class="wrap">
-    <div class="sec-h">
-      <span class="kick rv" data-en="Why StayMotion">Hvorfor StayMotion</span>
-      <h2 class="rv d1" data-en="A studio, not a template shop.">Et studio, ikke en malbutikk.</h2>
-      <p class="sub rv d2" data-en="StayMotion is a small, independent Norwegian studio. You work directly with the people designing and building — no account-manager layers.">StayMotion er et lite, uavhengig norsk studio. Du jobber direkte med de som designer og bygger — ingen mellomledd.</p>
-    </div>
-    <div class="ygrid">
-      <div class="y rv"><h3><b>01</b><span data-en="Design first">Design først</span></h3><p data-en="We never start from a template. Every site is drawn for your business, your customers and your goal.">Vi starter aldri fra en mal. Hver side tegnes for din bedrift, dine kunder og ditt mål.</p></div>
-      <div class="y rv d1"><h3><b>02</b><span data-en="Built to convert">Bygget for å konvertere</span></h3><p data-en="Every section has a job: build trust, remove doubt, or move the visitor to the next step.">Hver seksjon har en jobb: bygge tillit, fjerne tvil, eller flytte besøkeren videre.</p></div>
-      <div class="y rv d2"><h3><b>03</b><span data-en="Mobile is not an afterthought">Mobil er ikke en ettertanke</span></h3><p data-en="Most of your visitors are on a phone. We design for that screen first.">De fleste besøkende er på mobil. Vi designer for den skjermen først.</p></div>
-      <div class="y rv"><h3><b>04</b><span data-en="Fast without looking rushed">Raskt uten å se forhastet ut</span></h3><p data-en="A clear delivery system means launches in weeks, not months — with the quality intact.">Et tydelig leveringssystem betyr lansering på uker, ikke måneder — med kvaliteten intakt.</p></div>
-      <div class="y rv d1"><h3><b>05</b><span data-en="More than static websites">Mer enn statiske nettsider</span></h3><p data-en="We combine design, motion and technology to create digital experiences that feel alive and make a stronger first impression.">Vi kombinerer design, motion og teknologi for å skape nettsider som føles levende og bygger et sterkere førsteinntrykk.</p></div>
-      <div class="y rv d2"><h3><b>06</b><span data-en="Direct collaboration">Direkte samarbeid</span></h3><p data-en="You talk to the designer. Decisions are quick, feedback is heard, nothing gets lost in handovers.">Du snakker med designeren. Avgjørelser går raskt, tilbakemeldinger blir hørt, ingenting forsvinner i overleveringer.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section id="prosess">
-  <div class="wrap">
-    <div class="sec-h">
-      <span class="kick rv" data-en="Process">Prosess</span>
-      <h2 class="rv d1" data-en="From idea to live site.">Fra idé til live side.</h2>
-      <p class="sub rv d2" data-en="Six clear steps. You always know where the project is and what happens next.">Seks tydelige steg. Du vet alltid hvor prosjektet står og hva som skjer videre.</p>
-    </div>
-    <div class="steps rv d2">
-      <div class="st"><div class="num">01</div><h3 data-en="Strategy">Strategi</h3><p data-en="We understand the business, the customer and the goal.">Vi forstår bedriften, kunden og målet.</p></div>
-      <div class="st"><div class="num">02</div><h3 data-en="Direction">Retning</h3><p data-en="Visual direction and site architecture.">Visuell retning og sidestruktur.</p></div>
-      <div class="st"><div class="num">03</div><h3>Design</h3><p data-en="High-fidelity design of every page.">Detaljert design av hver side.</p></div>
-      <div class="st"><div class="num">04</div><h3 data-en="Build">Bygg</h3><p data-en="Responsive development and interactions.">Responsiv utvikling og interaksjoner.</p></div>
-      <div class="st"><div class="num">05</div><h3 data-en="Launch">Lansering</h3><p data-en="Testing, optimisation and go-live.">Testing, optimalisering og publisering.</p></div>
-      <div class="st"><div class="num">06</div><h3 data-en="Grow">Vekst</h3><p data-en="Optional ongoing improvements.">Valgfri løpende forbedring.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="priser">
-  <div class="wrap">
-    <div class="sec-h">
-      <span class="kick rv" data-en="Pricing">Priser</span>
-      <h2 class="rv d1" data-en="Clear packages. No mystery quotes.">Tydelige pakker. Ingen mystiske tilbud.</h2>
-      <p class="sub rv d2" data-en="Tailored quality without heavy agency processes. Clear starting prices, clear delivery times, and you know what's included.">Skreddersydd kvalitet uten tunge byråprosesser. Tydelige startpriser, tydelige leveringstider, og du vet hva som er inkludert.</p>
-    </div>
-    <div class="pgrid">
-      <div class="pc rv">
-        <div class="nm">Launch</div>
-        <div class="pr"><small data-en="from">fra</small>7 900 kr</div>
-        <div class="dl" data-en="Delivery approx. 7–14 days">Levering ca. 7–14 dager</div>
-        <div class="who" data-en="Perfect for businesses that want to upgrade their first impression without a big agency project.">Perfekt for bedrifter som vil oppgradere førsteinntrykket uten et stort byråprosjekt.</div>
-        <ul>
-          <li data-en="1–3 pages, custom design">1–3 sider, skreddersydd design</li>
-          <li data-en="Mobile-first with subtle motion">Mobil først, med rolig bevegelse</li>
-          <li data-en="Contact / lead form">Kontakt- eller leadskjema</li>
-          <li data-en="Basic SEO + performance optimisation">Grunnleggende SEO + ytelsesoptimalisering</li>
-          <li data-en="Launch support">Lanseringsstøtte</li>
-        </ul>
-        <a class="btn g" href="/start.html?pakke=launch" data-en="Start with Launch">Start med Launch</a>
-      </div>
-      <div class="pc pop rv d1">
-        <span class="pop-t" data-en="Most popular">Mest valgt</span>
-        <div class="nm">Growth</div>
-        <div class="pr"><small data-en="from">fra</small>12 900 kr</div>
-        <div class="dl" data-en="Delivery approx. 2–3 weeks">Levering ca. 2–3 uker</div>
-        <div class="who" data-en="For businesses that need a complete, modern site that builds trust and generates enquiries.">For bedrifter som trenger en komplett, moderne side som bygger tillit og genererer henvendelser.</div>
-        <ul>
-          <li data-en="3–6 pages, custom UI/UX">3–6 sider, skreddersydd UI/UX</li>
-          <li data-en="Stronger visual direction, conversion-focused layout">Tydeligere visuell retning, konverteringsfokusert layout</li>
-          <li data-en="Contact, booking and lead forms">Kontakt-, booking- og leadskjema</li>
-          <li data-en="SEO foundations + analytics setup">SEO-grunnmur + analyseoppsett</li>
-          <li data-en="Refined motion and transitions, content structure, launch support">Forfinet bevegelse og overganger, innholdsstruktur, lanseringsstøtte</li>
-        </ul>
-        <a class="btn c" href="/start.html?pakke=growth" data-en="Start with Growth">Start med Growth</a>
-      </div>
-      <div class="pc rv d2">
-        <div class="nm">Signature</div>
-        <div class="pr"><small data-en="from">fra</small>19 900 kr</div>
-        <div class="dl" data-en="Delivery approx. 3–5 weeks">Levering ca. 3–5 uker</div>
-        <div class="who" data-en="For more ambitious projects with higher demands on design, functionality and integrations.">For mer ambisiøse prosjekter med høyere krav til design, funksjonalitet og integrasjoner.</div>
-        <ul>
-          <li data-en="Larger custom site, advanced UI/UX">Større skreddersydd side, avansert UI/UX</li>
-          <li data-en="Strong brand direction + custom visual system">Tydelig merkevareretning + eget visuelt system</li>
-          <li data-en="Optional custom 3D, cinematic hero and advanced interactions">Mulighet for custom 3D, cinematic hero og avanserte interaksjoner</li>
-          <li data-en="Richer interactions, CMS when needed">Rikere interaksjoner, CMS ved behov</li>
-          <li data-en="Booking, forms, CRM and integrations when relevant">Booking, skjema, CRM og integrasjoner ved behov</li>
-          <li data-en="Stronger SEO structure, analytics, post-launch refinement">Sterkere SEO-struktur, analyse, finpuss etter lansering</li>
-        </ul>
-        <a class="btn g" href="/start.html?pakke=signature" data-en="Start with Signature">Start med Signature</a>
-      </div>
-    </div>
-    <div class="care rv d3">
-      <div><b>StayMotion Care</b><p data-en="Maintenance, content updates, technical support, analytics review, small design and performance improvements, SEO refinements and new sections when agreed — monthly.">Vedlikehold, innholdsoppdateringer, teknisk støtte, analysegjennomgang, små design- og ytelsesforbedringer, SEO-finpuss og nye seksjoner etter avtale — månedlig.</p></div>
-      <div class="pr"><small data-en="from">fra</small> 1 490 kr<small>/mnd</small></div>
-      <a class="btn g" href="/start.html?pakke=care" data-en="Ask about Care">Spør om Care</a>
-    </div>
-    <p class="pnote rv" data-en="Introductory starting prices. Every project is tailored to needs, scope and functionality — larger or more complex projects get a custom quote. <a href=&quot;/start.html?type=custom&quot;>Need something more extensive? We'll gladly put together a tailored proposal.</a>">Introduksjonspriser som startpunkt. Alle prosjekter tilpasses behov, omfang og funksjonalitet — større eller mer komplekse prosjekter får et eget tilbud. <a href="/start.html?type=custom">Trenger du noe mer omfattende? Vi lager gjerne et skreddersydd tilbud.</a></p>
-    <p class="pnote rv" style="margin-top:8px" data-en="Advanced 3D, cinematic production and custom interactions are priced based on scope.">Avansert 3D, cinematic production og spesialinteraksjoner prises etter omfang.</p>
-    <p class="pnote rv" style="margin-top:8px" data-en="Payment: 50 % to start, 50 % before launch (larger projects 40 / 30 / 30).">Betaling: 50 % ved start, 50 % før lansering (større prosjekter 40 / 30 / 30).</p>
-  </div>
-</section>
-
-<!-- ROI -->
-<section class="roi">
-  <div class="wrap grid">
-    <div>
-      <span class="kick rv" data-en="The economics">Økonomien</span>
-      <h2 class="rv d1" data-en="A better website often pays for itself.">En bedre nettside betaler seg ofte selv.</h2>
-      <p class="sub rv d2" data-en="No inflated promises. Just simple math: if a stronger site turns a few more of your existing visitors into customers, the project covers its own cost. Try your numbers.">Ingen oppblåste løfter. Bare enkel matte: hvis en sterkere side gjør noen flere av dine eksisterende besøkende til kunder, dekker prosjektet sin egen kostnad. Prøv dine tall.</p>
-      <p class="fine rv d3" data-en="Illustrative example based on your own inputs — not a guarantee or a statistic.">Illustrerende eksempel basert på dine egne tall — ikke en garanti eller statistikk.</p>
-    </div>
-    <div class="calc rv d2">
-      <label for="rV" data-en="Visitors per month">Besøkende per måned</label>
-      <div class="row"><input type="range" id="rV" min="200" max="10000" step="100" value="1500"><output id="oV">1 500</output></div>
-      <label for="rC" data-en="Conversion today (%)">Konvertering i dag (%)</label>
-      <div class="row"><input type="range" id="rC" min="0.5" max="5" step="0.1" value="1.5"><output id="oC">1,5 %</output></div>
-      <label for="rK" data-en="Value of one customer (kr)">Verdi av én kunde (kr)</label>
-      <div class="row"><input type="range" id="rK" min="1000" max="100000" step="1000" value="15000"><output id="oK">15 000</output></div>
-      <div class="res">
-        <div class="big" id="oRes">+ 15 kunder / mnd</div>
-        <p id="oSub" data-en="if conversion improves by just one percentage point">hvis konverteringen bedres med bare ett prosentpoeng</p>
-        <p id="oVal" style="color:var(--ink2);font-weight:600;margin-top:8px"></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROOF -->
-<section class="proof">
-  <div class="wrap">
-    <div class="box rv">
+    <div class="group rv">
+      <div><h3>Design</h3><p class="gsub">Uttrykket kunden møter — og stoler på.</p></div>
       <div>
-        <span class="kick" data-en="Proof, honestly">Bevis, ærlig</span>
-        <h3 data-en="No fake logos. No invented reviews.">Ingen falske logoer. Ingen oppdiktede anmeldelser.</h3>
-        <p data-en="StayMotion is a new studio, and we'd rather show you our thinking than borrow someone else's credibility. The portfolio above is concept work — labelled as such. As real projects launch, real results replace it.">StayMotion er et nytt studio, og vi vil heller vise deg tankegangen vår enn å låne andres troverdighet. Porteføljen over er konseptarbeid — merket som det. Når ekte prosjekter lanseres, erstattes det med ekte resultater.</p>
+        <div class="svc"><span class="n">01</span><h4>Webdesign</h4><p>Skreddersydd design og retning fra blankt ark — aldri en mal.</p></div>
+        <div class="svc"><span class="n">02</span><h4>UI / UX</h4><p>Grensesnitt som føles selvsagte og leder folk til handling.</p></div>
+        <div class="svc"><span class="n">03</span><h4>Mobildesign</h4><p>Designet for tommelen først, så skalert opp.</p></div>
+        <div class="svc"><span class="n">04</span><h4>Landingssider</h4><p>Sider med ett formål — bygget for å konvertere kampanjetrafikk.</p></div>
       </div>
+    </div>
+    <div class="group rv">
+      <div><h3>Bygg</h3><p class="gsub">Rask, robust teknologi som varer.</p></div>
+      <div>
+        <div class="svc"><span class="n">05</span><h4>Webutvikling</h4><p>Rask, responsiv, moderne bygging på produksjonsklar teknologi.</p></div>
+        <div class="svc"><span class="n">06</span><h4>SEO-grunnmur</h4><p>Semantisk struktur, fart og metadata riktig fra dag én.</p></div>
+        <div class="svc"><span class="n">07</span><h4>Integrasjoner</h4><p>Booking, skjema, CRM, betaling — koblet og fungerende.</p></div>
+        <div class="svc"><span class="n">08</span><h4>Analyse</h4><p>Vit hva som funker: hendelser, konverteringer og attribusjon.</p></div>
+      </div>
+    </div>
+    <div class="group rv">
+      <div><h3>Bevegelse</h3><p class="gsub">Dybden som skiller dere ut.</p></div>
+      <div>
+        <div class="svc"><span class="n">09</span><h4>Motion design</h4><p>Filmatiske hero-sekvenser, overganger og visuell historiefortelling.</p></div>
+        <div class="svc"><span class="n">10</span><h4>3D og visuelle opplevelser</h4><p>3D-objekter, miljøer og merkevareanimasjon bygget for web.</p></div>
+        <div class="svc"><span class="n">11</span><h4>Interaktive opplevelser</h4><p>Scroll-drevet bevegelse og interaksjoner som svarer på den besøkende.</p></div>
+        <div class="svc"><span class="n">12</span><h4>Konverteringsoptimalisering</h4><p>Hver seksjon gjør seg fortjent til plassen ved å flytte folk videre.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WEBSITE SPRINT ================= -->
+<section class="sprint pad" id="sprint" aria-labelledby="sprint-title" style="background:var(--pearl2)">
+  <div class="wrap">
+    <div class="sprint-top">
+      <div>
+        <span class="label">04 / Website Sprint</span>
+        <h2 id="sprint-title" class="h-l">Fra «vi burde»<br>til publisert.</h2>
+        <p class="sprint-intro">Et avgrenset nettsideprosjekt for bedrifter som vil videre. Vi finner uttrykket, bygger siden og gjør veien til kontakt tydelig — med fast pris og avtalt omfang før oppstart.</p>
+        <div class="sprint-cta">
+          <a class="primary" href="/start.html?pakke=sprint">Start en Website Sprint <span class="arrow" aria-hidden="true">↗</span></a>
+          <small>Vi starter når oppstartsbetaling og innhold er på plass.</small>
+        </div>
+      </div>
+      <div class="steps rv">
+        <div class="step"><span>01</span><div><h3>Retning</h3><p>Hva skal kunden forstå, føle og gjøre? Vi begynner med budskapet og forsiden — og avtaler omfang og pris.</p></div></div>
+        <div class="step"><span>02</span><div><h3>Design og bygg</h3><p>Design og utvikling samlet. Gjennomarbeidet på mobil, med tydelig innhold, kontaktskjema og raske sider.</p></div></div>
+        <div class="step"><span>03</span><div><h3>Godkjenning og lansering</h3><p>Du ser over og godkjenner. Vi publiserer, kobler domenet og setter opp grunnleggende lokal synlighet.</p></div></div>
+      </div>
+    </div>
+
+    <div class="offers rv">
+      <div class="offer">
+        <h3>Website Sprint</h3>
+        <div class="price">16 000 kr<small>50 % ved oppstart · 50 % ved levering</small></div>
+        <p>Komplett, mobiltilpasset nettside: struktur og tekst, kontaktskjema og tydelige handlinger, grunnleggende lokal SEO og kart/bedriftsinfo. Levering ca. fem virkedager etter mottatt innhold.</p>
+        <a class="text-link" href="/sprint">Alt om Website Sprint <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+      <div class="offer">
+        <h3>Landing Page Sprint</h3>
+        <div class="price">7 900 kr<small>Betales ved oppstart</small></div>
+        <p>Én sterk salgsside med kontaktskjema, mobiltilpasset. Levering ca. tre virkedager.</p>
+        <a class="text-link" href="/start.html?pakke=landing">Start med en landingsside <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="process pad" id="prosess" aria-labelledby="process-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="label">05 / Prosess</span><h2 id="process-title" class="h-l">Fra idé til live side.</h2></div>
+      <p class="lead">Seks tydelige steg for større prosjekter. Du vet alltid hvor prosjektet står og hva som skjer videre.</p>
+    </div>
+    <div class="line rv">
+      <ol>
+        <li><span>01</span><h3>Strategi</h3><p>Vi forstår bedriften, kunden og målet.</p></li>
+        <li><span>02</span><h3>Retning</h3><p>Visuell retning og sidestruktur.</p></li>
+        <li><span>03</span><h3>Design</h3><p>Detaljert design av hver side.</p></li>
+        <li><span>04</span><h3>Bygg</h3><p>Responsiv utvikling og interaksjoner.</p></li>
+        <li><span>05</span><h3>Lansering</h3><p>Testing, optimalisering og publisering.</p></li>
+        <li><span>06</span><h3>Vekst</h3><p>Valgfri løpende forbedring.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section class="pricing pad" id="priser" aria-labelledby="pricing-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="label">06 / Priser</span><h2 id="pricing-title" class="h-l">Tydelige pakker.<br>Ingen mystiske tilbud.</h2></div>
+      <p class="lead">Skreddersydd kvalitet uten tunge byråprosesser. Tydelige startpriser, tydelige leveringstider — og du vet hva som er inkludert.</p>
+    </div>
+
+    <div class="row rv">
+      <div class="nm">Launch<small>Levering ca. 7–14 dager</small></div>
+      <div class="pr">fra 7 900 kr<small>50 % ved start</small></div>
+      <div><p class="who">For bedrifter som vil oppgradere førsteinntrykket uten et stort byråprosjekt.</p>
+        <ul><li>1–3 sider, skreddersydd design</li><li>Mobil først, med rolig bevegelse</li><li>Kontakt- eller leadskjema</li><li>Grunnleggende SEO + ytelse</li><li>Lanseringsstøtte</li></ul></div>
+      <a class="outline" href="/start.html?pakke=launch">Start med Launch <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+    <div class="row hi rv">
+      <div class="nm">Growth<small>Levering ca. 2–3 uker · mest valgt</small></div>
+      <div class="pr">fra 12 900 kr<small>50 % ved start</small></div>
+      <div><p class="who">For bedrifter som trenger en komplett, moderne side som bygger tillit og genererer henvendelser.</p>
+        <ul><li>3–6 sider, skreddersydd UI/UX</li><li>Tydeligere visuell retning, konverteringsfokusert layout</li><li>Kontakt-, booking- og leadskjema</li><li>SEO-grunnmur + analyseoppsett</li><li>Forfinet bevegelse, innholdsstruktur, lanseringsstøtte</li></ul></div>
+      <a class="outline" href="/start.html?pakke=growth">Start med Growth <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+    <div class="row rv">
+      <div class="nm">Signature<small>Levering ca. 3–5 uker</small></div>
+      <div class="pr">fra 19 900 kr<small>40 / 30 / 30</small></div>
+      <div><p class="who">For mer ambisiøse prosjekter med høyere krav til design, funksjonalitet og integrasjoner.</p>
+        <ul><li>Større skreddersydd side, avansert UI/UX</li><li>Tydelig merkevareretning + eget visuelt system</li><li>Mulighet for 3D, filmatisk hero og avanserte interaksjoner</li><li>CMS, booking, CRM og integrasjoner ved behov</li><li>Sterkere SEO-struktur, analyse, finpuss etter lansering</li></ul></div>
+      <a class="outline" href="/start.html?pakke=signature">Start med Signature <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+    <div class="row rv">
+      <div class="nm">Care<small>Løpende · månedlig</small></div>
+      <div class="pr">fra 1 490 kr<small>per måned</small></div>
+      <div><p class="who">Vedlikehold, innholdsoppdateringer, teknisk støtte, analysegjennomgang, små design- og ytelsesforbedringer, SEO-finpuss og nye seksjoner etter avtale.</p></div>
+      <a class="outline" href="/start.html?pakke=care">Spør om Care <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="pnotes rv">
+      <p>Introduksjonspriser som startpunkt. Alle prosjekter tilpasses behov, omfang og funksjonalitet — større eller mer komplekse prosjekter får et eget tilbud. <a href="/start.html?type=custom">Trenger du noe mer omfattende? Vi lager gjerne et skreddersydd tilbud.</a></p>
+      <p>Avansert 3D, filmproduksjon og spesialinteraksjoner prises etter omfang. Betaling: 50 % ved start, 50 % før lansering (større prosjekter 40 / 30 / 30).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STUDIO (obsidian) ================= -->
+<section class="studio dark pad" id="studio" aria-labelledby="studio-title">
+  <div class="wrap">
+    <div class="studio-grid">
+      <div>
+        <span class="label">07 / Studio</span>
+        <h2 id="studio-title" class="h-l" style="margin-top:22px">Et studio,<br>ikke en malbutikk.</h2>
+        <p class="lead">StayMotion er et lite, uavhengig norsk studio i Stavanger. Du jobber direkte med den som designer og bygger — ingen mellomledd, ingen kontoansvarlige.</p>
+      </div>
+      <div class="studio-points rv">
+        <div class="pt"><span>01</span><h3>Design først</h3><p>Vi starter aldri fra en mal. Hver side tegnes for din bedrift, dine kunder og ditt mål.</p></div>
+        <div class="pt"><span>02</span><h3>Bygget for å konvertere</h3><p>Hver seksjon har en jobb: bygge tillit, fjerne tvil, eller flytte besøkeren videre.</p></div>
+        <div class="pt"><span>03</span><h3>Mobil er ikke en ettertanke</h3><p>De fleste besøkende er på mobil. Vi designer for den skjermen først.</p></div>
+        <div class="pt"><span>04</span><h3>Raskt uten å se forhastet ut</h3><p>Et tydelig leveringssystem betyr lansering på uker, ikke måneder — med kvaliteten intakt.</p></div>
+        <div class="pt"><span>05</span><h3>Mer enn statiske nettsider</h3><p>Design, motion og teknologi sammen gir nettsider som føles levende.</p></div>
+        <div class="pt"><span>06</span><h3>Direkte samarbeid</h3><p>Du snakker med designeren. Avgjørelser går raskt, ingenting forsvinner i overleveringer.</p></div>
+      </div>
+    </div>
+    <div class="honest rv">
+      <div><h3>Ingen falske logoer. Ingen oppdiktede anmeldelser.</h3><p>StayMotion er et nytt studio, og vi vil heller vise deg tankegangen vår enn å låne andres troverdighet. Konseptarbeidet over er merket som det. Når ekte prosjekter lanseres, erstattes det med ekte resultater.</p></div>
       <ul>
-        <li data-en="This site is the first proof — built the way we build for clients">Denne siden er første bevis — bygget slik vi bygger for kunder</li>
-        <li data-en="Every concept comes with the reasoning behind each decision">Hvert konsept kommer med begrunnelsen bak hver avgjørelse</li>
-        <li data-en="Real, measurable results are shown only when the data exists">Ekte, målbare resultater vises kun når dataene finnes</li>
+        <li>Denne siden er første bevis — bygget slik vi bygger for kunder.</li>
+        <li>Hvert konsept kommer med begrunnelsen bak hver avgjørelse.</li>
+        <li>Ekte, målbare resultater vises kun når dataene finnes.</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="faq" id="faq">
+<!-- ================= FAQ ================= -->
+<section class="faq pad" id="faq" aria-labelledby="faq-title">
   <div class="wrap">
-    <div class="sec-h" style="text-align:center;margin-left:auto;margin-right:auto">
-      <span class="kick rv" style="justify-content:center" data-en="Questions">Spørsmål</span>
-      <h2 class="rv d1" data-en="The things people ask before starting.">Det folk spør om før de starter.</h2>
+    <div class="sec-head">
+      <div><span class="label">08 / Spørsmål</span><h2 id="faq-title" class="h-l">Det folk spør om før de starter.</h2></div>
     </div>
-    <div class="list rv d2">
-      <details><summary data-en="What does a website cost?">Hva koster en nettside?</summary><div class="a" data-en="Launch from 7 900 kr, Growth from 12 900 kr, Signature from 19 900 kr. These are introductory starting prices — the final price depends on scope: pages, integrations and how much strategy and content work is needed. Larger projects get a custom quote, and you always get a fixed price before we start.">Launch fra 7 900 kr, Growth fra 12 900 kr, Signature fra 19 900 kr. Dette er introduksjonspriser som startpunkt — endelig pris avhenger av omfang: sider, integrasjoner og hvor mye strategi- og innholdsarbeid som trengs. Større prosjekter får eget tilbud, og du får alltid fast pris før vi starter.</div></details>
-      <details><summary data-en="How long does it take?">Hvor lang tid tar det?</summary><div class="a" data-en="Launch 7–14 days, Growth 2–4 weeks, Signature 4–8 weeks. The biggest factor is how quickly we get content and feedback from you.">Launch 7–14 dager, Growth 2–4 uker, Signature 4–8 uker. Den største faktoren er hvor raskt vi får innhold og tilbakemelding fra deg.</div></details>
-      <details><summary data-en="Can you redesign my existing website?">Kan dere redesigne den eksisterende nettsiden min?</summary><div class="a" data-en="Yes — most of our projects are redesigns. We keep what works (content, SEO value, integrations) and rebuild the experience.">Ja — de fleste prosjektene våre er redesign. Vi beholder det som funker (innhold, SEO-verdi, integrasjoner) og bygger opplevelsen på nytt.</div></details>
-      <details><summary data-en="Do I own the website?">Eier jeg nettsiden?</summary><div class="a" data-en="Yes. Design, code and content are yours when the project is paid. No lock-in.">Ja. Design, kode og innhold er ditt når prosjektet er betalt. Ingen binding.</div></details>
-      <details><summary data-en="Can I edit content myself?">Kan jeg redigere innhold selv?</summary><div class="a" data-en="Yes. Growth and Signature projects can include a CMS so you can update text, images and pages yourself. Or let us handle it through Care.">Ja. Growth og Signature kan inkludere et CMS så du kan oppdatere tekst, bilder og sider selv. Eller la oss ta det gjennom Care.</div></details>
-      <details><summary data-en="Do you write the text?">Skriver dere teksten?</summary><div class="a" data-en="We structure and refine it in every package, and offer full copywriting as an add-on. Good copy is half the conversion.">Vi strukturerer og finpusser den i alle pakker, og tilbyr full tekstskriving som tillegg. God tekst er halve konverteringen.</div></details>
-      <details><summary data-en="Do you handle hosting?">Håndterer dere hosting?</summary><div class="a" data-en="Yes. Sites run on fast, modern hosting with a global CDN. Hosting and maintenance are part of Care, or we set it up in your name.">Ja. Sidene kjører på rask, moderne hosting med globalt CDN. Hosting og vedlikehold er del av Care, eller vi setter det opp i ditt navn.</div></details>
-      <details><summary data-en="Can you build booking, forms and integrations?">Kan dere bygge booking, skjema og integrasjoner?</summary><div class="a" data-en="Yes — booking systems, lead forms, CRM, payments, newsletters and more. Tell us what your business needs to run.">Ja — bookingsystemer, kontaktskjema, CRM, betaling, nyhetsbrev og mer. Fortell oss hva bedriften din trenger for å gå rundt.</div></details>
-      <details><summary data-en="What platform do you use?">Hvilken plattform bruker dere?</summary><div class="a" data-en="Modern, production-grade web technology hosted on a global edge network — fast, secure and built to last. No heavy page builders.">Moderne, produksjonsklar webteknologi på et globalt edge-nettverk — raskt, sikkert og bygget for å vare. Ingen tunge sidebyggere.</div></details>
-      <details><summary data-en="What happens after launch?">Hva skjer etter lansering?</summary><div class="a" data-en="You get launch support included. After that, Care keeps the site improving — updates, analytics, conversion tweaks and new pages — or you run it yourself.">Du får lanseringsstøtte inkludert. Etter det holder Care siden i utvikling — oppdateringer, analyse, konverteringsjusteringer og nye sider — eller du driver den selv.</div></details>
+    <div class="list rv">
+      <details><summary>Hva koster en nettside?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Website Sprint 16 000 kr og Landing Page Sprint 7 900 kr er faste priser. Launch fra 7 900 kr, Growth fra 12 900 kr og Signature fra 19 900 kr er startpriser — endelig pris avhenger av omfang: sider, integrasjoner og hvor mye strategi- og innholdsarbeid som trengs. Du får alltid fast pris før vi starter.</div></details>
+      <details><summary>Hvor lang tid tar det?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Website Sprint ca. fem virkedager etter mottatt innhold. Launch 7–14 dager, Growth 2–4 uker, Signature 4–8 uker. Den største faktoren er hvor raskt vi får innhold og tilbakemelding fra deg.</div></details>
+      <details><summary>Hva er et gratis førsteside-konsept?<span class="pm" aria-hidden="true">+</span></summary><div class="a">En kort, konkret skisse av hvordan forsiden din kan bli — retning, budskap og struktur — uforpliktende. Du ser en mulig vei før du bestemmer deg for et prosjekt.</div></details>
+      <details><summary>Kan dere redesigne den eksisterende nettsiden min?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja — de fleste prosjektene våre er redesign. Vi beholder det som funker (innhold, SEO-verdi, integrasjoner) og bygger opplevelsen på nytt.</div></details>
+      <details><summary>Eier jeg nettsiden?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Design, kode og innhold er ditt når prosjektet er betalt. Ingen binding.</div></details>
+      <details><summary>Kan jeg redigere innhold selv?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Growth og Signature kan inkludere et CMS så du kan oppdatere tekst, bilder og sider selv. Eller la oss ta det gjennom Care.</div></details>
+      <details><summary>Skriver dere teksten?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Vi strukturerer og finpusser den i alle pakker, og tilbyr full tekstskriving som tillegg. God tekst er halve konverteringen.</div></details>
+      <details><summary>Håndterer dere hosting?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Sidene kjører på rask, moderne hosting med globalt CDN. Hosting og vedlikehold er del av Care, eller vi setter det opp i ditt navn.</div></details>
+      <details><summary>Kan dere bygge booking, skjema og integrasjoner?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja — bookingsystemer, kontaktskjema, CRM, betaling, nyhetsbrev og mer. Fortell oss hva bedriften din trenger for å gå rundt.</div></details>
+      <details><summary>Hva skjer etter lansering?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Du får lanseringsstøtte inkludert. Etter det holder Care siden i utvikling — oppdateringer, analyse, konverteringsjusteringer og nye sider — eller du driver den selv.</div></details>
     </div>
   </div>
 </section>
 
-<!-- FINAL -->
-<section class="final" id="kontakt">
-  <div class="wrap">
-    <span class="kick rv" style="justify-content:center" data-en="Ready when you are">Klar når du er</span>
-    <h2 class="rv d1" data-en="Ready for a website that finally matches your business?">Klar for en nettside som faktisk matcher bedriften din?</h2>
-    <p class="sub rv d2" data-en="Tell us about the project in two minutes. We review it and get back to you with a clear next step.">Fortell om prosjektet på to minutter. Vi går gjennom det og kommer tilbake med et tydelig neste steg.</p>
-    <div class="ctas rv d3">
-      <a class="btn c" href="/start.html"><span data-en="Start project">Start prosjekt</span><span class="ar">→</span></a>
-      <a class="btn g" href="mailto:michael@staymotion.no?subject=Uforpliktende%20prat" data-en="Book a no-obligation chat">Book en uforpliktende prat</a>
+<!-- ================= CLOSING (cobalt) ================= -->
+<section class="closing" id="kontakt" aria-labelledby="contact-title">
+  <svg class="band" viewBox="0 0 600 600" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="cb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".0"/><stop offset=".5" stop-color="#ffffff" stop-opacity=".35"/><stop offset="1" stop-color="#ffffff" stop-opacity=".05"/></linearGradient></defs>
+    <path d="M-40 420 C 120 300, 260 520, 420 360 S 640 180, 700 80" fill="none" stroke="url(#cb)" stroke-width="70" stroke-linecap="round"/>
+    <path d="M-40 420 C 120 300, 260 520, 420 360 S 640 180, 700 80" fill="none" stroke="#dfe6ff" stroke-width="2" opacity=".5" transform="translate(0,-40)"/>
+  </svg>
+  <div class="wrap closing-inner">
+    <div>
+      <span class="label">09 / Neste trekk er ditt</span>
+      <h2 id="contact-title" class="h-l">La oss gjøre<br>førsteinntrykket<br>verdt det.</h2>
+    </div>
+    <div>
+      <p>Send nettsiden din og et par ord om bedriften. Vi starter med hvordan forsiden kan bli — uforpliktende.</p>
+      <a class="primary light" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a>
+      <a class="text-link alt" href="mailto:michael@staymotion.no?subject=Gratis%20f%C3%B8rsteside-konsept&body=Hei%20Michael!%0A%0ABedrift%3A%20%0ANettside%3A%20%0ADette%20%C3%B8nsker%20jeg%20%C3%A5%20forbedre%3A%20">Eller skriv direkte: michael@staymotion.no <span class="arrow" aria-hidden="true">↗</span></a>
+      <small>Svar som regel innen én virkedag. Ingen binding, ingen press.</small>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+</main>
+
+<!-- ================= FOOTER ================= -->
 <footer>
   <div class="wrap">
     <div class="fgrid">
       <div>
-        <a class="brand" href="#top"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
-        <p data-en="Premium web design and digital experiences for businesses that have outgrown ordinary.">Premium webdesign og digitale opplevelser for bedrifter som har vokst ut av det ordinære.</p>
+        <a class="brand" href="#top" aria-label="StayMotion, til toppen"><img src="img/logo-mono.png" alt="" width="34" height="27">STAYMOTION</a>
+        <p>Selvstendig webdesignstudio i Stavanger. Nettsider, motion og digitale opplevelser for bedrifter som vil videre.</p>
       </div>
-      <div><h4>Studio</h4><a href="#arbeid" data-en="Work">Arbeid</a><a href="#tjenester" data-en="Services">Tjenester</a><a href="#prosess" data-en="Process">Prosess</a><a href="#priser" data-en="Pricing">Priser</a></div>
-      <div><h4 data-en="Clients">Kunder</h4><a href="/start.html" data-en="Start project">Start prosjekt</a><a href="/minside.html" data-en="Client portal">Kundeportal</a><a href="#faq">FAQ</a></div>
-      <div><h4>Kontakt</h4><a href="mailto:michael@staymotion.no">michael@staymotion.no</a><a href="/personvern.html" data-en="Privacy">Personvern</a><a href="/vilkar.html" data-en="Terms">Vilkår</a></div>
+      <div><h4>Studio</h4><a class="fl" href="#arbeid">Arbeid</a><a class="fl" href="#motion">3D &amp; motion</a><a class="fl" href="#tjenester">Tjenester</a><a class="fl" href="#prosess">Prosess</a><a class="fl" href="#priser">Priser</a></div>
+      <div><h4>Kunder</h4><a class="fl" href="/start.html">Start prosjekt</a><a class="fl" href="/sprint">Website Sprint</a><a class="fl" href="/minside.html">Kundeportal</a><a class="fl" href="#faq">Spørsmål</a></div>
+      <div><h4>Kontakt</h4><a class="fl" href="mailto:michael@staymotion.no">michael@staymotion.no</a><a class="fl" href="/personvern.html">Personvern</a><a class="fl" href="/vilkar.html">Vilkår</a></div>
     </div>
-    <div class="fbot"><span data-en="StayMotion · Org.no 937 492 472 · Norway · © 2026">StayMotion · Org.nr 937 492 472 · Norge · © 2026</span><span data-en="Design · Development · Conversion">Design · Utvikling · Konvertering</span></div>
+    <div class="fbot"><span>StayMotion · Org.nr 937 492 472 · Stavanger, Norge · © 2026</span><span>Design · Utvikling · Motion</span></div>
   </div>
 </footer>
 
-<div class="stick" id="stick"><a class="btn c" href="/start.html"><span data-en="Start project">Start prosjekt</span><span class="ar">→</span></a></div>
+<div class="stick" id="stick"><a class="primary" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a></div>
 
 <script>
 (function(){
-  var $=function(s,r){return (r||document).querySelector(s);}, $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s));};
+  'use strict';
+  var d=document, $=function(s,r){return (r||d).querySelector(s);}, $$=function(s,r){return [].slice.call((r||d).querySelectorAll(s));};
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  d.documentElement.classList.add('js');
 
-  // i18n — Norwegian is the source; data-en carries English
-  $$('[data-en]').forEach(function(el){ el.dataset.no = el.innerHTML; });
-  function setLang(lang){
-    document.documentElement.setAttribute('lang', lang);
-    $$('[data-en]').forEach(function(el){ el.innerHTML = lang==='en' ? el.dataset.en : el.dataset.no; });
-    try{ localStorage.setItem('sm_lang', lang); }catch(e){}
-  }
-  $$('.lang [data-lang]').forEach(function(b){ b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); }); });
-  (function(){ var s='no'; try{ s=localStorage.getItem('sm_lang')||'no'; }catch(e){} if(s==='en') setLang('en'); })();
-
-  // nav state
-  var nav=$('#nav'), stick=$('#stick');
-  function onScroll(){ var y=window.scrollY||0; nav.classList.toggle('sc', y>10); if(stick) stick.classList.toggle('on', y>600); }
+  // Header state + sticky mobile CTA
+  var hdr=$('#siteHeader'), stick=$('#stick'), hero=$('#top');
+  function onScroll(){ var y=window.scrollY||0; hdr.classList.toggle('sc', y>10); if(stick) stick.classList.toggle('on', y>(hero?hero.offsetHeight:600)); }
   addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
-  // mobile menu
-  var mob=$('#mob'), burger=$('#burger');
-  burger.addEventListener('click', function(){ var on=mob.classList.toggle('on'); burger.textContent = on?'✕':'☰'; document.body.style.overflow = on?'hidden':''; });
-  $$('a', mob).forEach(function(a){ a.addEventListener('click', function(){ mob.classList.remove('on'); burger.textContent='☰'; document.body.style.overflow=''; }); });
+  // Mobile menu — aria-expanded, Escape, close on navigation
+  var menu=$('.menu-toggle'), nav=$('#navigation');
+  function closeMenu(){ menu.setAttribute('aria-expanded','false'); menu.setAttribute('aria-label','Åpne meny'); menu.textContent='☰'; nav.classList.remove('open'); }
+  menu.addEventListener('click', function(){ var open=menu.getAttribute('aria-expanded')!=='true'; menu.setAttribute('aria-expanded',String(open)); menu.setAttribute('aria-label',open?'Lukk meny':'Åpne meny'); menu.textContent=open?'✕':'☰'; nav.classList.toggle('open',open); });
+  $$('a',nav).forEach(function(a){ a.addEventListener('click', closeMenu); });
+  d.addEventListener('keydown', function(e){ if(e.key==='Escape' && menu.getAttribute('aria-expanded')==='true'){ closeMenu(); menu.focus(); } });
 
-  // reveals
-  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:.12, rootMargin:'0px 0px -6% 0px'});
-  $$('.rv').forEach(function(el){ io.observe(el); });
+  // Reveal on scroll — content is visible without JS; with JS it eases in once
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    $$('.rv').forEach(function(el){ io.observe(el); });
+  } else { $$('.rv').forEach(function(el){ el.classList.add('in'); }); }
 
-  // hero showcase — cycle concept sites in browser + phone, in sync
-  var sites=$$('.screen .site'), psites=$$('.pscr .site'), dots=$$('#dots b'), idx=0;
-  function cycle(){ idx=(idx+1)%sites.length; sites.forEach(function(s,i){ s.classList.toggle('on', i===idx); }); psites.forEach(function(s,i){ s.classList.toggle('on', i===idx); }); dots.forEach(function(d,i){ d.classList.toggle('on', i===idx); }); }
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!reduce && sites.length) setInterval(cycle, 3600);
-  // gentle parallax on pointer (desktop only)
-  var show=$('#show');
-  if(show && matchMedia('(pointer:fine)').matches && !reduce){
-    var frame=$('.frame', show), phone=$('.phone', show);
-    show.addEventListener('mousemove', function(e){
-      var r=show.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
-      frame.style.transform='rotateY('+(-6+x*8)+'deg) rotateX('+(3-y*6)+'deg)';
-      phone.style.transform='rotate('+(3+x*3)+'deg) translateZ(50px) translate('+(x*-10)+'px,'+(y*-10)+'px)';
-    });
-    show.addEventListener('mouseleave', function(){ frame.style.transform=''; phone.style.transform=''; });
-  }
-
-  // motion section — layers separate on entry, gentle pointer parallax on desktop
-  (function(){
-    var mo=$('#motion'), deck=$('#deck'), stage=$('#stage');
-    if(!mo||!deck) return;
-    mo.classList.add('js');            // layers start collapsed only when JS can play the assembly
-    var moIo=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ mo.classList.add('in'); moIo.unobserve(e.target); } }); },{threshold:.22});
-    moIo.observe(stage);
-    if(matchMedia('(pointer:fine)').matches && !reduce){
-      stage.addEventListener('mousemove', function(e){
-        var r=stage.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
-        deck.style.transform='rotateY('+(-19+x*9)+'deg) rotateX('+(7-y*7)+'deg)';
-      });
-      stage.addEventListener('mouseleave', function(){ deck.style.transform=''; });
+  // Before / after — real HTML layers, range + buttons, keyboard-friendly
+  var range=$('#reveal'), scene=$('#comparison'), btns=$$('[data-reveal]');
+  if(range && scene){
+    function update(){
+      var v=Number(range.value);
+      scene.style.setProperty('--cut', v+'%');
+      range.setAttribute('aria-valuetext', v+' prosent standardoppsett, '+(100-v)+' prosent ny retning');
+      btns.forEach(function(b){ b.setAttribute('aria-pressed', String(Number(b.dataset.reveal)===v)); });
     }
-  })();
-
-  // hero film — only reveal it once it can actually play; otherwise the static composition stays
-  (function(){
-    var box=$('#heroVid'); if(!box) return;
-    var v=box.querySelector('video'); if(!v) return;
-    function ready(){ box.classList.add('ready'); }
-    if(v.readyState>=3) ready();
-    v.addEventListener('loadeddata', ready); v.addEventListener('canplay', ready); v.addEventListener('playing', ready);
-    v.addEventListener('error', function(){ box.classList.remove('ready'); });
-  })();
-
-  // before / after slider
-  var ba=$('#ba'), rng=$('#baRange');
-  if(ba && rng){ rng.addEventListener('input', function(){ ba.style.setProperty('--cut', rng.value+'%'); }); }
-
-  // ROI calculator — illustrative only
-  var rV=$('#rV'), rC=$('#rC'), rK=$('#rK');
-  function nf(n){ return Math.round(n).toLocaleString('nb-NO'); }
-  function calc(){
-    var v=+rV.value, c=+rC.value, k=+rK.value;
-    $('#oV').textContent=nf(v); $('#oC').textContent=c.toLocaleString('nb-NO',{minimumFractionDigits:1,maximumFractionDigits:1})+' %'; $('#oK').textContent=nf(k);
-    var extra=v*0.01; // +1 percentage point
-    var en=document.documentElement.lang==='en';
-    $('#oRes').textContent=(extra>=1?'+ '+nf(extra):'+ '+extra.toFixed(1))+(en?' customers / mo':' kunder / mnd');
-    $('#oVal').textContent=(en?'≈ ':'≈ ')+nf(extra*k)+(en?' kr extra revenue per month':' kr ekstra omsetning per måned');
+    range.addEventListener('input', update);
+    btns.forEach(function(b){ b.addEventListener('click', function(){ range.value=b.dataset.reveal; update(); }); });
+    update();
   }
-  [rV,rC,rK].forEach(function(r){ r.addEventListener('input', calc); });
-  calc();
-  $$('.lang [data-lang]').forEach(function(b){ b.addEventListener('click', calc); });
+
+  // Gentle scroll drift on project surfaces and motion layers (rAF, no scroll-jacking)
+  var drifters=$$('[data-drift]');
+  if(drifters.length && !reduce){
+    var ticking=false;
+    function drift(){
+      ticking=false;
+      var vh=innerHeight, mid=vh/2;
+      drifters.forEach(function(el){
+        var r=el.getBoundingClientRect();
+        if(r.bottom<-200 || r.top>vh+200) return;
+        var c=r.top+r.height/2, off=(c-mid)*Number(el.dataset.drift);
+        el.style.setProperty('--drift', off.toFixed(1)+'px');
+      });
+    }
+    function req(){ if(!ticking){ ticking=true; requestAnimationFrame(drift); } }
+    addEventListener('scroll', req, {passive:true}); addEventListener('resize', req); req();
+  }
+
+  // Motion stage — subtle pointer parallax on desktop only
+  var stage=$('#stage');
+  if(stage && matchMedia('(pointer:fine)').matches && !reduce){
+    var layers=$$('.layer',stage);
+    stage.addEventListener('mousemove', function(e){
+      var r=stage.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      layers.forEach(function(l,i){ var k=(i+1)*2.2; l.style.setProperty('--ry', (x*k)+'deg'); l.style.setProperty('--rx', (-y*k)+'deg'); });
+    });
+    stage.addEventListener('mouseleave', function(){ layers.forEach(function(l){ l.style.removeProperty('--ry'); l.style.removeProperty('--rx'); }); });
+  }
 })();
 </script>
 </body>
