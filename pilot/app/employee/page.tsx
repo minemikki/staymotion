@@ -98,19 +98,31 @@ function Employee({ session }: { session: Session }) {
   return (
     <div className="wrapN rise employee-workspace">
       <div className="eyebrow">{session.locationName || session.organizationName}{session.departmentId ? '' : ''} · i dag</div>
-      <h1 className="h1">{greeting()}, {first}.</h1>
-      <p className="lead">Din vakt. Én ting om gangen.</p>
-      <div className="capture">
-        <button className="voicebtn" type="button" onClick={() => setCapture('voice')} data-testid="open-voice">
-          <span className="orbmini" aria-hidden>{MIC}</span>
-          <span><strong>Fortell StayMotion</strong><span>Si hva som har skjedd.<br />Se over. Send inn.</span></span>
-          <span className="arrow" aria-hidden>→</span>
-        </button>
-        <button className="camerabtn" type="button" onClick={() => setCapture('camera')} data-testid="open-camera">
-          <span className="ic" aria-hidden>{CAM}</span>
-          <span><b>Ta bilde</b><span>Legg ved et bilde og fortell hva du ser</span></span>
-        </button>
+      <div className="employee-hero">
+        <div>
+          <h1 className="h1">{greeting()}, {first}.</h1>
+          <p className="lead">Din vakt. Én ting om gangen.</p>
+          <div className="shift-signal"><span className="signal-dot" /> StayMotion følger med <span>·</span> alt ser bra ut</div>
+        </div>
+        <div className="shift-score" aria-label="Driftsstatus">
+          <div className="score-ring"><span>100</span><small>%</small></div>
+          <div><b>Vaktstatus</b><span>Under kontroll</span><em><i /> oppdatert nå</em></div>
+        </div>
       </div>
+      <section className="capture-stage" aria-label="Rapporter til StayMotion">
+        <div className="capture-stage-head"><span className="stage-kicker">Rask rapportering</span><span className="stage-hint">Snakk eller legg ved bilde</span></div>
+        <div className="capture">
+          <button className="voicebtn" type="button" onClick={() => setCapture('voice')} data-testid="open-voice">
+            <span className="orbmini" aria-hidden>{MIC}</span>
+            <span><strong>Fortell StayMotion</strong><span>Si hva som har skjedd.<br />Se over. Send inn.</span></span>
+            <span className="arrow" aria-hidden>→</span>
+          </button>
+          <button className="camerabtn" type="button" onClick={() => setCapture('camera')} data-testid="open-camera">
+            <span className="ic" aria-hidden>{CAM}</span>
+            <span><b>Ta bilde</b><span>Legg ved et bilde og fortell hva du ser</span></span>
+          </button>
+        </div>
+      </section>
       {error && <div className="load-error" role="alert">{error} <button className="linkbtn" onClick={() => db ? void load(db) : window.location.reload()}>Prøv igjen</button></div>}
 
       <div className="state" aria-live="polite" data-testid="state">
