@@ -27,7 +27,7 @@ function Manager({ session }: { session: Session }) {
   const [audit, setAudit] = useState<AuditEvent[]>([]);
   const [people, setPeople] = useState<Profile[]>([]);
   const [note, setNote] = useState<Record<string, string>>({});
-  const actor = useMemo(() => actorOf(session), [session]); // stable per session, so load/effects don't loop
+  const actor = useMemo(() => actorOf(session), [session]);
 
   const load = useCallback(async (p: DataProvider) => {
     await p.runFollowUp(actor); // local: deterministic evaluation; supabase: no-op (cron)
@@ -38,7 +38,25 @@ function Manager({ session }: { session: Session }) {
     ]);
     setIncidents(i); setTasks(t); setAudit(a); setPeople(pp);
   }, [actor, session]);
+
   useEffect(() => { getProvider().then(async (p) => { setDb(p); await load(p); }); }, [load]);
+
+  // In real mode, an employee report should appear here without a manual refresh.
+  // Realtime is only an invalidation signal; the authoritative rows are re-read
+  // through the RLS-backed provider after each event.
+  useEffect(() => {
+    if (!db?.subscribeIncidentChanges) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const stop = db.subscribeIncidentChanges(
+      actor,
+      { organizationId: session.organizationId, locationId: session.locationId },
+      () => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => { void load(db); }, 80);
+      },
+    );
+    return () => { if (timer) clearTimeout(timer); stop(); };
+  }, [db, actor, session.organizationId, session.locationId, load]);
 
   const name = (id?: string) => people.find((p) => p.id === id)?.fullName || 'Ukjent';
   async function act(kind: 'ack' | 'resolve' | 'assign', inc: Incident) {

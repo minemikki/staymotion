@@ -1,0 +1,45 @@
+name: StayMotion Pilot CI
+
+on:
+  pull_request:
+    paths:
+      - 'pilot/**'
+      - 'supabase/migrations/**'
+      - '.github/workflows/pilot-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: pilot
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: pilot/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit tests
+        run: npm test
+      - name: Production build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_STAYMOTION_MODE: local
+      - name: Install Chromium for end-to-end tests
+        run: npx playwright install --with-deps chromium
+      - name: Critical browser flows
+        run: npm run test:e2e
+        env:
+          NEXT_PUBLIC_STAYMOTION_MODE: local

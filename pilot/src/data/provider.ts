@@ -1,9 +1,9 @@
 import type {
-  AIUsage, AuditEvent, BusinessType, Department, Incident, IncidentEvent, IncidentNote, Location, LocationHealth,
+  AIUsage, AttachmentMeta, AuditEvent, BusinessType, Department, Incident, IncidentEvent, IncidentNote, Location, LocationHealth,
   Membership, Organization, Profile, Role, Task,
 } from '../domain/types';
 import type { ProposedIssue } from '../ai/contract';
-import type { AttachmentMeta, CaptureSource } from '../domain/types';
+import type { CaptureSource } from '../domain/types';
 
 /**
  * Data provider contract. Two implementations:
@@ -62,6 +62,12 @@ export interface DataProvider {
   assignIncident(actor: Actor, id: string, ownerRole: Role): Promise<Incident>;
   addIncidentNote(actor: Actor, id: string, text: string): Promise<IncidentNote>;
   listIncidentEvents(actor: Actor, incidentId: string): Promise<IncidentEvent[]>;
+
+  /** Real mode uploads before incident insert. Local mode can omit this method. */
+  uploadAttachment?(actor: Actor, attachment: { meta: AttachmentMeta; blob: Blob }): Promise<AttachmentMeta>;
+
+  /** Optional realtime invalidation. Returns an unsubscribe callback. */
+  subscribeIncidentChanges?(actor: Actor, scope: { organizationId: string; locationId?: string }, onChange: () => void): () => void;
 
   // follow-up (server cron later; local = deterministic, called on load)
   runFollowUp(actor: Actor, now?: Date): Promise<{ promoted: number }>;

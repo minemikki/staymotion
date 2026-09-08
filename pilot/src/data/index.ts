@@ -20,8 +20,11 @@ let cached: DataProvider | null = null;
 export async function getProvider(): Promise<DataProvider> {
   if (cached) return cached;
   if (resolveMode() === 'supabase') {
-    const { SupabaseProvider, createBrowserSupabase } = await import('./supabase-provider');
-    cached = new SupabaseProvider(createBrowserSupabase());
+    const [{ createBrowserSupabase }, { RealSupabaseProvider }] = await Promise.all([
+      import('./supabase-provider'),
+      import('./real-supabase-provider'),
+    ]);
+    cached = new RealSupabaseProvider(createBrowserSupabase());
   } else {
     const storage = typeof window !== 'undefined' ? window.localStorage : new MemoryStorage();
     cached = new LocalProvider(storage);

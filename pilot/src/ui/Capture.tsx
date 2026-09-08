@@ -8,14 +8,18 @@ import { speechSupported, startSpeech, type SpeechHandle } from '../lib/speech';
 import type { DataProvider, RegisterIncidentInput } from '../data/provider';
 import type { Session } from '../session/session';
 import { actorOf } from '../session/session';
+import { apiAuthHeaders } from '../session/runtime';
 import { useToast } from './Toast';
 
 /**
  * StayMotion Capture — the proven voice/photo → proposed issues flow, ported to React.
- * Analysis happens on the server (/api/analyze). Registration goes through the DataProvider.
+ * Analysis happens on the protected server route (/api/analyze). Registration goes
+ * through the DataProvider. In real mode an attached photo is uploaded to the
+ * tenant-scoped private bucket before the incident row is created.
  */
 type Stage = 'record' | 'review' | 'done';
 type Local = ProposedIssue & { confirmed: boolean; checked: boolean; editing: boolean; edited: Set<string>; at?: string };
+type PhotoState = { meta: AttachmentMeta; blob: Blob; previewUrl: string };
 
 const MIC = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></svg>;
 const X = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden><path d="M6 6l12 12M18 6L6 18" /></svg>;
@@ -29,7 +33,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   const [status, setStatus] = useState(mode === 'camera' ? 'Legg ved et bilde først' : 'Trykk for å starte');
   const [hint, setHint] = useState(mode === 'camera' ? 'Etterpå kan du fortelle hva du ser.' : 'Snakk naturlig. Du trenger ikke fylle ut et skjema.');
   const [typing, setTyping] = useState(false); const [typed, setTyped] = useState('');
-  const [photo, setPhoto] = useState<{ meta: AttachmentMeta; previewUrl: string } | null>(null);
+  const [photo, setPhoto] = useState<PhotoState | null>(null);
   const [analysis, setAnalysis] = useState<AnalyzeResult | null>(null);
   const [issues, setIssues] = useState<Local[]>([]);
   const [transcript, setTranscript] = useState(''); const [editingTranscript, setEditingTranscript] = useState(false);
@@ -39,6 +43,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   const fileRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const transcriptRef = useRef<HTMLDivElement>(null);
+  const uploadedPhoto = useRef<AttachmentMeta | null>(null);
   const reduce = typeof window !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => { document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = ''; }; }, []);
@@ -46,6 +51,11 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   useEffect(() => { const k = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); }; document.addEventListener('keydown', k); return () => document.removeEventListener('keydown', k); });
   const scrollTop = () => { if (bodyRef.current) bodyRef.current.scrollTop = 0; };
 
+  function releasePhoto() {
+    if (photo) URL.revokeObjectURL(photo.previewUrl);
+    uploadedPhoto.current = null;
+    setPhoto(null);
+  }
   function close() { speech.current?.stop(); speech.current = null; if (photo) URL.revokeObjectURL(photo.previewUrl); onClose(); }
 
   // ---- speech ----
@@ -68,10 +78,17 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   const analyze = useCallback(async (text: string) => {
     setBusy(true);
     try {
-      const res = await fetch('/api/analyze', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ text, hasPhoto: !!photo, context: { organizationId: session.organizationId, locationId: session.locationId, departmentId: session.departmentId, userId: session.userId } }) });
+      const auth = await apiAuthHeaders(session.mode);
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', ...auth },
+        body: JSON.stringify({ text, hasPhoto: !!photo, context: { organizationId: session.organizationId, locationId: session.locationId, departmentId: session.departmentId, userId: session.userId } }),
+      });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'Tolkningen feilet');
       const { result, usage } = (await res.json()) as { result: AnalyzeResult; usage: import('../domain/types').AIUsage };
-      void db.recordAIUsage(usage);
+      // Real-mode usage is recorded server-side after quota enforcement. Local
+      // mode keeps its own usage history for the demo and unit tests.
+      if (db.mode === 'local') void db.recordAIUsage(usage);
       setAnalysis(result); setTranscript(result.transcript);
       setIssues(result.issues.map((p) => ({ ...p, confirmed: false, checked: false, editing: false, edited: new Set() })));
       setStage('review'); setEditingTranscript(false); scrollTop();
@@ -83,14 +100,15 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0]; e.target.value = ''; if (!f) return;
     try {
-      const { meta, previewUrl } = await prepareImage(f);
+      const { meta, blob, previewUrl } = await prepareImage(f);
       if (photo) URL.revokeObjectURL(photo.previewUrl);
-      setPhoto({ meta, previewUrl });
+      uploadedPhoto.current = null;
+      setPhoto({ meta, blob, previewUrl });
       setStatus('Bildet er lagt ved'); setHint('Trykk og fortell hva som er galt — f.eks. «Den lekker her, og displayet viser 1 grad».');
       scrollTop();
     } catch (x) { toast((x as Error).message); }
   }
-  function removePhoto() { if (photo) URL.revokeObjectURL(photo.previewUrl); setPhoto(null); if (stage === 'record') { setStatus('Trykk for å starte'); setHint('Snakk naturlig. Du trenger ikke fylle ut et skjema.'); } }
+  function removePhoto() { releasePhoto(); if (stage === 'record') { setStatus('Trykk for å starte'); setHint('Snakk naturlig. Du trenger ikke fylle ut et skjema.'); } }
 
   // ---- proposals ----
   const upd = (key: string, fn: (x: Local) => Local) => setIssues((arr) => arr.map((x) => (x.clientKey === key ? fn(x) : x)));
@@ -112,13 +130,23 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   async function register(keys: string[]) {
     const targets = issues.filter((x) => keys.includes(x.clientKey) && !x.confirmed);
     if (!targets.length) return;
-    const inputs: RegisterIncidentInput[] = targets.map((x) => ({
-      proposal: { clientKey: x.clientKey, category: x.category, title: x.title, equipment: x.equipment, department: x.department, measurement: x.measurement, severity: x.severity, requiresConfirmation: x.requiresConfirmation, suggestedOwnerRole: x.suggestedOwnerRole, suggestedAction: x.suggestedAction, confidence: x.confidence, evidence: x.evidence },
-      transcript, source, attachments: photo ? [photo.meta] : [], confirmedByReporter: x.checked, editedFields: [...x.edited], departmentId: session.departmentId,
-    }));
     setBusy(true);
     try {
-      const created = await db.registerIncidents(actorOf(session), inputs);
+      const actor = actorOf(session);
+      let attachments: AttachmentMeta[] = [];
+      if (photo) {
+        if (!uploadedPhoto.current) {
+          uploadedPhoto.current = db.uploadAttachment
+            ? await db.uploadAttachment(actor, { meta: photo.meta, blob: photo.blob })
+            : photo.meta;
+        }
+        attachments = [uploadedPhoto.current];
+      }
+      const inputs: RegisterIncidentInput[] = targets.map((x) => ({
+        proposal: { clientKey: x.clientKey, category: x.category, title: x.title, equipment: x.equipment, department: x.department, measurement: x.measurement, severity: x.severity, requiresConfirmation: x.requiresConfirmation, suggestedOwnerRole: x.suggestedOwnerRole, suggestedAction: x.suggestedAction, confidence: x.confidence, evidence: x.evidence },
+        transcript, source, attachments, confirmedByReporter: x.checked, editedFields: [...x.edited], departmentId: session.departmentId,
+      }));
+      const created = await db.registerIncidents(actor, inputs);
       const hh = new Date(); const at = `${String(hh.getHours()).padStart(2, '0')}:${String(hh.getMinutes()).padStart(2, '0')}`;
       setIssues((arr) => arr.map((x) => (keys.includes(x.clientKey) ? { ...x, confirmed: true, at } : x)));
       setRegistered((r) => [...r, ...created]);
@@ -155,7 +183,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
               {stage !== 'done' && <button className="iconbtn rm" type="button" onClick={removePhoto} aria-label="Fjern bilde">{X}</button>}
             </div>
           )}
-          {photo && stage !== 'done' && <div className="photonote"><span aria-hidden>◐</span><span><b>Demo:</b> bildeanalyse er ikke koblet på ennå. Bildet legges ved saken — fortell hva du ser, så tolker StayMotion ordene dine.</span></div>}
+          {photo && stage !== 'done' && <div className="photonote"><span aria-hidden>◐</span><span><b>{session.mode === 'local' ? 'Demo:' : 'Merk:'}</b> bildeanalyse er ikke koblet på ennå. Bildet {session.mode === 'supabase' ? 'lagres privat med saken' : 'legges ved saken'} — fortell hva du ser, så tolker StayMotion ordene dine.</span></div>}
 
           {stage === 'record' && (
             <div className="rec">
@@ -219,7 +247,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
             <button className="btn primary" type="button" disabled={busy || needChk || !open.length} onClick={() => void register(open.map((x) => x.clientKey))} data-testid="confirm-all">{open.length > 1 ? `Registrer ${open.length === 2 && n === 2 ? 'begge' : `alle ${open.length}`}` : 'Registrer'}</button>
           </>)}
           {stage === 'done' && (<>
-            <button className="btn ghost" type="button" onClick={() => { setRegistered([]); setPhoto(null); setTyped(''); retake(); }}>Ny rapport</button>
+            <button className="btn ghost" type="button" onClick={() => { setRegistered([]); setTyped(''); releasePhoto(); retake(); }}>Ny rapport</button>
             <button className="btn primary" type="button" onClick={close} data-testid="done">Ferdig</button>
           </>)}
         </div>
