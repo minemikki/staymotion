@@ -44,10 +44,35 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   const bodyRef = useRef<HTMLDivElement>(null);
   const transcriptRef = useRef<HTMLDivElement>(null);
   const uploadedPhoto = useRef<AttachmentMeta | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closed = useRef(false);
   const reduce = typeof window !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  useEffect(() => { document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = ''; }; }, []);
-  useEffect(() => { if (mode === 'camera') setTimeout(() => fileRef.current?.click(), 60); }, [mode]);
+  useEffect(() => {
+    closed.current = false;
+    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    dialogRef.current?.focus();
+    const trap = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const items = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), a[href], [tabindex="0"]') || [])
+        .filter(el => el.getClientRects().length > 0);
+      const first = items[0]; const last = items[items.length - 1];
+      if (!first) { event.preventDefault(); dialogRef.current?.focus(); return; }
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === dialogRef.current)) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && (document.activeElement === last || document.activeElement === dialogRef.current)) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', trap);
+    return () => {
+      closed.current = true;
+      speech.current?.stop(); speech.current = null;
+      document.body.style.overflow = overflow;
+      document.removeEventListener('keydown', trap);
+      previous?.focus();
+    };
+  }, []);
+  useEffect(() => { if (mode !== 'camera') return; const id = setTimeout(() => fileRef.current?.click(), 60); return () => clearTimeout(id); }, [mode]);
   useEffect(() => { const k = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); }; document.addEventListener('keydown', k); return () => document.removeEventListener('keydown', k); });
   const scrollTop = () => { if (bodyRef.current) bodyRef.current.scrollTop = 0; };
 
@@ -56,7 +81,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
     uploadedPhoto.current = null;
     setPhoto(null);
   }
-  function close() { speech.current?.stop(); speech.current = null; if (photo) URL.revokeObjectURL(photo.previewUrl); onClose(); }
+  function close() { if (busy) return; closed.current = true; speech.current?.stop(); speech.current = null; if (photo) URL.revokeObjectURL(photo.previewUrl); onClose(); }
 
   // ---- speech ----
   function startListening() {
@@ -67,7 +92,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
     speech.current = startSpeech({
       onStart: () => { setListening(true); setStatus('Lytter …'); setHint('Trykk igjen når du er ferdig.'); },
       onResult: (f, i) => { latestFinal = f; latestInterim = i; setFinalText(f); setInterim(i); },
-      onEnd: () => { setListening(false); const text = (latestFinal || latestInterim).trim(); if (text) void analyze(text); else { setStatus('Jeg hørte ikke nok'); setHint('Prøv igjen og snakk litt nærmere telefonen, eller skriv i stedet.'); } },
+      onEnd: () => { if (closed.current) return; setListening(false); const text = (latestFinal || latestInterim).trim(); if (text) void analyze(text); else { setStatus('Jeg hørte ikke nok'); setHint('Prøv igjen og snakk litt nærmere telefonen, eller skriv i stedet.'); } },
       onError: (code) => { setListening(false); if (code === 'not-allowed' || code === 'service-not-allowed') { setStatus('Mikrofonen er ikke tillatt'); setHint('Gi tilgang i nettleseren, eller skriv i stedet.'); setTyping(true); } else { setStatus('Prøv igjen'); setHint('Talegjenkjenningen stoppet. Trykk for å starte på nytt.'); } },
     });
     if (!speech.current) { setStatus('Kunne ikke starte mikrofonen'); setHint('Skriv hva som har skjedd i stedet.'); setTyping(true); }
@@ -167,11 +192,11 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   const title = stage === 'done' ? 'Takk, det er registrert' : stage === 'review' ? 'Sjekk før du registrerer' : photo ? 'Fortell hva du ser' : mode === 'camera' ? 'Ta eller velg et bilde' : 'Hva har skjedd?';
 
   return (
-    <div className="sheetback" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" onClick={(e) => { if (e.target === e.currentTarget) close(); }}>
+    <div className="sheetback" ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="sheetTitle" onClick={(e) => { if (e.target === e.currentTarget) close(); }}>
       <div className={'sheet' + (stage === 'done' ? ' done' : '')}>
         <div className="sheet-h">
           <div><span className="step">{stepLabel}</span><h2 id="sheetTitle">{title}</h2></div>
-          <button className="iconbtn" type="button" onClick={close} aria-label="Lukk">{X}</button>
+          <button className="iconbtn" type="button" disabled={busy} onClick={close} aria-label="Lukk">{X}</button>
         </div>
         <div className="sheet-b" ref={bodyRef} data-testid="sheet-body">
           <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={onFile} data-testid="camera-input" />

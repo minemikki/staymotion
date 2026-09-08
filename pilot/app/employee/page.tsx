@@ -8,14 +8,12 @@ import type { DataProvider } from '@/src/data/provider';
 import type { Incident, Task } from '@/src/domain/types';
 import { CATEGORY_LABEL } from '@/src/ai/rules-adapter';
 import { actorOf, type Session } from '@/src/session/session';
+import { incidentStatus } from '@/src/domain/incident-presentation';
 
 const MIC = <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></svg>;
 const CAM = <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>;
 
 function greeting() { const h = new Date().getHours(); return h < 10 ? 'God morgen' : h < 17 ? 'Hei' : 'God kveld'; }
-function statusText(i: Incident) {
-  return i.status === 'resolved' ? 'Løst' : i.status === 'acknowledged' ? 'Sett av leder' : i.status === 'needs_attention' ? 'Følges opp' : i.status === 'in_progress' ? 'Under arbeid' : 'Sendt';
-}
 
 export default function EmployeePage() {
   return <Shell view="employee">{(s) => <Employee session={s} />}</Shell>;
@@ -28,11 +26,15 @@ function Employee({ session }: { session: Session }) {
   const [mine, setMine] = useState<Incident[]>([]);
   const [showAll, setShowAll] = useState(false);
   const [capture, setCapture] = useState<null | 'voice' | 'camera'>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [pendingTask, setPendingTask] = useState<string | null>(null);
   const statusRef = useRef<Record<string, Incident['status']>>({});
   const actor = useMemo(() => actorOf(session), [session]); // stable per session, so load/effects don't loop
 
   const load = useCallback(async (p: DataProvider, announce = false) => {
     if (!session.locationId) return;
+    try {
     const [t, i] = await Promise.all([
       p.listTasks(actor, session.locationId),
       p.listIncidents(actor, { organizationId: session.organizationId, locationId: session.locationId }),
@@ -50,9 +52,13 @@ function Employee({ session }: { session: Session }) {
     statusRef.current = Object.fromEntries(nextMine.map((x) => [x.id, x.status]));
     setTasks(t);
     setMine(nextMine);
+    setError('');
+    } catch {
+      setError('Kunne ikke hente siste status. Prøv igjen.');
+    } finally { setLoading(false); }
   }, [actor, session, toast]);
 
-  useEffect(() => { getProvider().then(async (p) => { setDb(p); await load(p); }); }, [load]);
+  useEffect(() => { getProvider().then(async (p) => { setDb(p); await load(p); }).catch(() => { setError('Kunne ikke koble til. Last siden på nytt.'); setLoading(false); }); }, [load]);
 
   // Employee gets the same live loop as the manager: when a leader acknowledges or
   // resolves one of their reports, realtime is only used as an invalidation signal;
@@ -72,36 +78,53 @@ function Employee({ session }: { session: Session }) {
   }, [db, actor, session.organizationId, session.locationId, load]);
 
   async function toggle(t: Task) {
-    if (!db) return;
+    if (!db || pendingTask) return;
+    setPendingTask(t.id);
+    try {
     const updated = t.status === 'done' ? await db.reopenTask(actor, t.id) : await db.completeTask(actor, t.id);
     setTasks((arr) => arr.map((x) => (x.id === t.id ? updated : x)));
     if (updated.status === 'done') toast(t.automationKey === 'temp_check' ? 'Logget i temperaturkontroll' : 'Merket som gjort');
+    } catch { toast('Oppgaven ble ikke lagret. Prøv igjen.'); }
+    finally { setPendingTask(null); }
   }
 
   const openTasks = tasks.filter((t) => t.status !== 'done' && t.status !== 'skipped');
   const left = openTasks.length;
   const visible = showAll ? tasks : [...openTasks.slice(0, 3), ...tasks.filter((t) => t.status === 'done').slice(0, Math.max(0, 3 - openTasks.length))];
   const first = session.fullName.split(' ')[0];
-  const stateTitle = left === 0 ? 'Alt er gjort.' : left === 1 ? 'Nesten klar.' : 'Du er klar.';
-  const stateSub = left === 0 ? 'Ha en fin vakt. StayMotion sier fra hvis noe dukker opp.' : left === 1 ? 'Én ting igjen før åpning.' : `Bare ${left === 2 ? 'to' : left} ting før åpning.`;
+  const stateTitle = loading ? 'Henter oppgavene dine …' : !tasks.length ? 'Ingen rutiner lagt opp.' : left === 0 ? 'Alt er gjort.' : left === 1 ? 'Én oppgave igjen.' : `${left} oppgaver igjen.`;
+  const stateSub = loading ? 'Et øyeblikk.' : !tasks.length ? 'Du kan fortsatt melde fra om noe.' : left === 0 ? 'Dagens registrerte oppgaver er fullført.' : 'Ta én ting om gangen.';
 
   return (
-    <div className="wrapN rise">
+    <div className="wrapN rise employee-workspace">
       <div className="eyebrow">{session.locationName || session.organizationName}{session.departmentId ? '' : ''} · i dag</div>
       <h1 className="h1">{greeting()}, {first}.</h1>
+      <p className="lead">Din vakt. Én ting om gangen.</p>
+      <div className="capture">
+        <button className="voicebtn" type="button" onClick={() => setCapture('voice')} data-testid="open-voice">
+          <span className="orbmini" aria-hidden>{MIC}</span>
+          <span><strong>Fortell StayMotion</strong><span>Si hva som har skjedd.<br />Se over. Send inn.</span></span>
+          <span className="arrow" aria-hidden>→</span>
+        </button>
+        <button className="camerabtn" type="button" onClick={() => setCapture('camera')} data-testid="open-camera">
+          <span className="ic" aria-hidden>{CAM}</span>
+          <span><b>Ta bilde</b><span>Legg ved et bilde og fortell hva du ser</span></span>
+        </button>
+      </div>
+      {error && <div className="load-error" role="alert">{error} <button className="linkbtn" onClick={() => db ? void load(db) : window.location.reload()}>Prøv igjen</button></div>}
 
-      <div className="dark state" aria-live="polite" data-testid="state">
+      <div className="state" aria-live="polite" data-testid="state">
         <div><h2>{stateTitle}</h2><p>{stateSub}</p></div>
         <div className="num"><span data-testid="task-count">{left}</span><small>igjen</small></div>
       </div>
 
-      {tasks.length === 0 ? (
+      {!loading && tasks.length === 0 ? (
         <div className="empty" style={{ marginTop: 12 }}><b>Ingen oppgaver i dag.</b>Lederen din har ikke lagt opp rutiner ennå. Du kan fortsatt fortelle StayMotion om noe.</div>
       ) : (
         <div className="tasks" data-testid="tasks">
           {visible.map((t) => (
             <div key={t.id} className={'task' + (t.status === 'done' ? ' done' : '')} data-testid="task">
-              <button className="check" type="button" onClick={() => toggle(t)} aria-pressed={t.status === 'done'} aria-label={`Merk «${t.title}» som ${t.status === 'done' ? 'ikke gjort' : 'gjort'}`}>{t.status === 'done' ? '✓' : ''}</button>
+              <button className="check" type="button" disabled={pendingTask !== null} aria-busy={pendingTask === t.id} onClick={() => toggle(t)} aria-pressed={t.status === 'done'} aria-label={`Merk «${t.title}» som ${t.status === 'done' ? 'ikke gjort' : 'gjort'}`}>{pendingTask === t.id ? '…' : t.status === 'done' ? '✓' : ''}</button>
               <div><strong>{t.title}</strong><span className="sub">{[t.description, t.estimatedMinutes ? `ca. ${t.estimatedMinutes} min` : null].filter(Boolean).join(' · ')}</span></div>
               <span className="when">{t.status === 'done' ? 'Gjort' : 'Nå'}</span>
             </div>
@@ -110,25 +133,13 @@ function Employee({ session }: { session: Session }) {
         </div>
       )}
 
-      <div className="capture">
-        <button className="voicebtn" type="button" onClick={() => setCapture('voice')} data-testid="open-voice">
-          <span className="orbmini" aria-hidden>{MIC}</span>
-          <span><strong>Fortell StayMotion</strong><span>Snakk naturlig. Vi gjør resten.</span></span>
-          <span className="arrow" aria-hidden>→</span>
-        </button>
-        <button className="camerabtn" type="button" onClick={() => setCapture('camera')} data-testid="open-camera">
-          <span className="ic" aria-hidden>{CAM}</span>
-          <span><b>Ta bilde</b><span>Legg ved et bilde og fortell hva du ser</span></span>
-        </button>
-      </div>
-
       {mine.length > 0 && (
         <div className="card pad mine" data-testid="mine">
           <div className="sect-h" style={{ marginBottom: 4 }}><h2>Dine rapporter</h2><span className="small">oppdateres live</span></div>
           {mine.map((i) => (
             <div className="row" key={i.id}>
               <div><b>{i.title}</b><div className="small">{i.equipment}{i.measurement?.raw ? ` · ${i.measurement.raw}` : ''} · {CATEGORY_LABEL[i.category]}</div></div>
-              <span className={'pill ' + (i.status === 'resolved' ? 'ok' : i.status === 'needs_attention' ? 'warn' : '')}>{statusText(i)}</span>
+              <span className={'pill ' + (i.status === 'resolved' ? 'ok' : i.status === 'needs_attention' ? 'warn' : '')}>{incidentStatus(i.status)}</span>
             </div>
           ))}
         </div>
