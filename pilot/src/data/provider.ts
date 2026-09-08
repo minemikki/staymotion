@@ -63,8 +63,8 @@ export interface DataProvider {
   addIncidentNote(actor: Actor, id: string, text: string): Promise<IncidentNote>;
   listIncidentEvents(actor: Actor, incidentId: string): Promise<IncidentEvent[]>;
 
-  /** Upload before incident insert in real mode. Local mode simply returns metadata. */
-  uploadAttachment(actor: Actor, attachment: { meta: AttachmentMeta; blob: Blob }): Promise<AttachmentMeta>;
+  /** Real mode uploads before incident insert. Local mode can omit this method. */
+  uploadAttachment?(actor: Actor, attachment: { meta: AttachmentMeta; blob: Blob }): Promise<AttachmentMeta>;
 
   /** Optional realtime invalidation. Returns an unsubscribe callback. */
   subscribeIncidentChanges?(actor: Actor, scope: { organizationId: string; locationId?: string }, onChange: () => void): () => void;
