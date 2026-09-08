@@ -1,28 +1,41 @@
 # StayMotion
 
-Premium webdesign og digitale opplevelser for norske bedrifter som har vokst ut av det ordinære.
-**Nettsider som ser dyre ut — og faktisk selger.**
+**Driften som passer på seg selv.**
 
-## Stack
-Statisk HTML/CSS/vanilla JS på Vercel · serverless API i `api/` (ESM) · Vercel Blob (`leads/`, `orders/`) ·
-Stripe + Vipps (depositum) · Resend (e-post) · signerte portal-tokens.
+StayMotion bygges som et norsk operations-system for hotell, restaurant og servering. Målet er ikke å lage enda et dashboard med sjekklister. StayMotion skal redusere lederarbeid ved å forstå hendelser, følge opp ansvarlige, eskalere unntak og finne mønstre på tvers av lokasjoner.
 
-## Sider
+## Produktretning
+
+- Norsk først
+- Flere lokasjoner fra dag én
+- Én organisasjon → regioner → lokasjoner → avdelinger → ansatte
+- Ansattopplevelse: ekstremt enkel og rask
+- Lederopplevelse: rolig, unntaksbasert og handlingsorientert
+- Kjede/HQ: mønstre, risiko, sammenligning og automatisk oppfølging
+- Tale og kamera brukes som primære innkanaler for raske rapporter
+- AI brukes der den fjerner arbeid, ikke som pynt
+
+## Nåværende prototype
+
 | Fil | Rolle |
 |---|---|
-| `index.html` | Forsiden — posisjonering, arbeid (konsept), tjenester, prosess, priser, ROI, FAQ |
-| `start.html` | 7-stegs prosjekt-intake → `api/project-intake.js` → Leads CRM + e-post |
-| `minside.html` / `ordre.html` | Kundeportal (prosjektstatus, filer, meldinger, leveranse) |
-| `takk.html` | Bekreftelse etter depositum |
-| `admin.html` | Dashboard: salgspipeline (Leads), prosjekter, pipeline-tavle |
-| `bestill.html` | Redirect til `start.html` (gammel lenke) |
+| `index.html` | Ny StayMotion-forside og produktposisjonering |
+| `app.html` | Interaktiv produktdemo med Ansatt, Leder og Kjede/HQ |
 
-## Tilbud (`lib/packages.js`)
-Launch fra 7 900 · Growth fra 12 900 · Signature fra 19 900 · Care fra 1 490/mnd (introduksjonspriser; større prosjekter får eget tilbud).
-Checkout belaster **depositum** (50 % / 40 %). Care faktureres månedlig.
+## Kjerneflyt
 
-## Miljøvariabler (Vercel)
-`ADMIN_KEY`, `ORDER_SECRET`, `RESEND_API_KEY`, `MAIL_FROM`, `OWNER_EMAIL`, `STRIPE_SECRET_KEY`,
-`STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`, `VIPPS_*`, `MCP_TOKEN`.
+`Ansatt rapporterer → StayMotion forstår → riktig ansvarlig varsles → systemet følger opp → bare uløste unntak eskaleres → mønstre oppdages på tvers av lokasjoner`
 
-Se `docs/PIVOT_PLAN.md` for revisjonen fra video-selskap til webdesign-studio, og hva som er beholdt.
+## Neste tekniske fase
+
+Prototype skal erstattes/utvides med en ekte applikasjonsarkitektur:
+
+- web: Next.js + TypeScript
+- mobil: Expo / React Native
+- backend: Supabase (Postgres, Auth, Storage, Realtime, RLS)
+- AI: server-side modell-router for tekst, tale, bilde og analyse
+- audit trail og rollebaserte rettigheter fra starten
+
+## Viktig
+
+Det gamle webdesign-studioet ligger fortsatt i repo-historikken og enkelte gamle filer ligger foreløpig igjen på denne utviklingsbranchen. De slettes først når den nye StayMotion-retningen er verifisert og klar til å overta produksjon.
