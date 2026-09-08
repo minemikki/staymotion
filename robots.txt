@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /salg.html
+Disallow: /salg
 
 Sitemap: https://staymotion.no/sitemap.xml

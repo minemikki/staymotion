@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>StayMotion — Salg</title>
+<style>
+  :root{
+    --base:#0b1015;--base2:#0e141b;--surface:#141b22;--surface2:#182029;
+    --line:#233039;--line2:#2c3a45;--ice:#eef4f8;--muted:#8ea0ac;--muted2:#63737f;
+    --cyan:#1597A8;--cyan2:#25b6c8;--champagne:#d9b98b;--green:#37b979;--red:#e5615e;--amber:#e3b341;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--base);color:var(--ice);font-family:'Inter Tight',Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:var(--cyan)}
+  h1{font-size:1.5rem;margin:0 0 4px;letter-spacing:-.01em}
+  h2{font-size:1.05rem;margin:0;letter-spacing:-.01em}
+  .wrap{max-width:1080px;margin:0 auto;padding:22px 18px 80px}
+  .muted{color:var(--muted)}.small{font-size:12.5px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .spacer{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line2);color:var(--ice);padding:9px 15px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit}
+  .btn:hover{border-color:var(--cyan);color:#fff}
+  .btn.primary{background:var(--cyan);border-color:var(--cyan);color:#04191c}.btn.primary:hover{background:var(--cyan2)}
+  .btn.ghost{background:transparent}
+  .btn.sm{padding:6px 11px;font-size:13px}
+  .btn.danger:hover{border-color:var(--red);color:var(--red)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  input,select,textarea{background:var(--surface);border:1px solid var(--line2);color:var(--ice);padding:10px 12px;border-radius:9px;font-size:14px;font-family:inherit;width:100%}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan)}
+  label{display:block;font-size:12px;color:var(--muted);margin:0 0 5px;letter-spacing:.02em}
+  textarea{resize:vertical;min-height:80px}
+  .panel{background:linear-gradient(180deg,var(--surface),var(--base2));border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px}
+  .panel+.panel{margin-top:14px}
+  .ph{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .grid{display:grid;gap:12px}
+  .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:720px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
+  @media(max-width:460px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .stat .k{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+  .stat .v{font-size:1.7rem;font-weight:700;margin-top:4px;letter-spacing:-.02em}
+  .stat .s{font-size:12px;color:var(--muted2);margin-top:2px}
+  /* topbar */
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:3px;font-size:14px}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--cyan)}
+  .nav{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 20px;border-bottom:1px solid var(--line);padding-bottom:14px}
+  .nav .n{padding:8px 14px;border-radius:9px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;background:transparent;border:1px solid transparent}
+  .nav .n:hover{color:var(--ice);background:var(--surface)}
+  .nav .n.active{background:var(--cyan);color:#04191c;border-color:var(--cyan)}
+  .nav .n .c{display:inline-block;min-width:18px;padding:0 5px;margin-left:6px;border-radius:9px;background:rgba(0,0,0,.18);font-size:11px;text-align:center}
+  .hide{display:none!important}
+  /* progress */
+  .bar{height:14px;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--champagne));width:0;transition:width .6s}
+  /* pipeline */
+  .pipe{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+  .pipe .p{padding:6px 11px;border:1px solid var(--line);border-radius:20px;font-size:12.5px;color:var(--muted);cursor:pointer}
+  .pipe .p b{color:var(--ice);margin-left:4px}
+  .pipe .p.active{border-color:var(--cyan);color:var(--ice)}
+  /* lead card */
+  .lead{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:14px 16px;margin-bottom:10px}
+  .lead::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--muted2)}
+  .lead.st-vunnet::before{background:var(--green)}.lead.st-tapt::before{background:var(--red)}
+  .lead.st-kontaktet::before,.lead.st-svar::before,.lead.st-mote::before{background:var(--cyan)}
+  .lead.st-tilbud::before{background:var(--champagne)}
+  .lead.demo{opacity:.82;border-style:dashed}
+  .lead .lh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+  .lead .co{font-size:1.05rem;font-weight:700}
+  .lead .sub{color:var(--muted);font-size:12.5px;margin-top:1px}
+  .tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;background:var(--surface2);border:1px solid var(--line2);color:var(--muted);margin-left:6px}
+  .tag.g{color:var(--green);border-color:var(--green)}.tag.r{color:var(--red);border-color:var(--red)}
+  .tag.a{color:var(--amber);border-color:var(--amber)}.tag.demo{color:var(--champagne);border-color:var(--champagne)}
+  .lead .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:9px 0}
+  .lead .meta b{color:var(--ice);font-weight:600}
+  .lead .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;padding-top:11px;border-top:1px solid var(--line)}
+  .score{font-weight:800;font-size:1.05rem}
+  /* modal */
+  .ov{position:fixed;inset:0;background:rgba(4,8,11,.7);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:50;overflow:auto}
+  .modal{background:var(--base2);border:1px solid var(--line2);border-radius:16px;max-width:640px;width:100%;padding:22px}
+  .modal h2{margin-bottom:14px}
+  .msgbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;font-size:13.5px;margin-bottom:8px}
+  /* gate */
+  .gate{max-width:390px;margin:14vh auto 0;text-align:center}
+  .gate .brand{justify-content:center;margin-bottom:20px}
+  .gate p{color:var(--muted);margin-bottom:18px}
+  .gate input{margin-bottom:12px;text-align:center}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--line2);color:var(--ice);padding:11px 18px;border-radius:10px;font-size:14px;z-index:80;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+  .empty{text-align:center;color:var(--muted);padding:34px 10px}.empty .big{font-size:26px;margin-bottom:8px}
+  .banner{border-radius:12px;padding:12px 15px;font-size:13.5px;margin-bottom:14px;border:1px solid}
+  .banner.warn{background:rgba(227,179,65,.09);border-color:var(--amber);color:#eecb6a}
+  .banner.ok{background:rgba(55,185,121,.09);border-color:var(--green);color:#7fd8a8}
+  .banner.info{background:rgba(21,151,168,.09);border-color:var(--cyan);color:#67cdda}
+  .switchrow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+  .switchrow:last-child{border-bottom:none}
+  .switch{position:relative;width:46px;height:26px;flex:none}
+  .switch input{opacity:0;width:0;height:0;position:absolute}
+  .switch .sl{position:absolute;inset:0;background:var(--line2);border-radius:20px;transition:.2s;cursor:pointer}
+  .switch .sl::before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+  .switch input:checked+.sl{background:var(--cyan)}
+  .switch input:checked+.sl::before{transform:translateX(20px)}
+  .logline{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--line)}
+  .logline .kd{display:inline-block;min-width:56px;font-weight:700}
+  .kd.send{color:var(--green)}.kd.block{color:var(--amber)}.kd.error{color:var(--red)}
+  .step{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:8px;background:var(--surface)}
+  .step .sh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<!-- Gate -->
+<div id="gate" class="gate">
+  <div class="brand"><span class="dot"></span> STAYMOTION</div>
+  <h1>Salgssystem</h1>
+  <p>Skriv inn adminnøkkel for å fortsette.</p>
+  <input id="key" type="password" placeholder="Adminnøkkel" autocomplete="current-password">
+  <button class="btn primary" id="enter" style="width:100%">Lås opp →</button>
+  <p id="gerr" style="color:var(--red);margin-top:12px;min-height:18px"></p>
+</div>
+
+<!-- App -->
+<div id="app" class="wrap hide">
+  <div class="row">
+    <div class="brand"><span class="dot"></span> STAYMOTION · SALG</div>
+    <div class="spacer"></div>
+    <a class="btn sm ghost" href="/admin.html">Adminpanel →</a>
+    <button class="btn sm ghost" id="logout">Logg ut</button>
+  </div>
+
+  <div class="nav" id="nav">
+    <button class="n active" data-v="maal">Resultatmål</button>
+    <button class="n" data-v="idag">I dag <span class="c" id="c-idag">0</span></button>
+    <button class="n" data-v="leads">Leads <span class="c" id="c-leads">0</span></button>
+    <button class="n" data-v="ko">Godkjenningskø <span class="c" id="c-ko">0</span></button>
+    <button class="n" data-v="send">Utsending</button>
+    <button class="n" data-v="tilbud">Tilbud</button>
+    <button class="n" data-v="innst">Innstillinger</button>
+  </div>
+
+  <!-- MÅL -->
+  <section id="v-maal">
+    <div class="panel">
+      <div class="ph"><h2>Mål: 16 000 NOK oppstartsbetaling</h2><span class="small muted" id="maal-dl"></span></div>
+      <div class="row" style="justify-content:space-between;margin-bottom:8px">
+        <span id="maal-recv" class="score" style="font-size:1.4rem"></span>
+        <span class="muted small" id="maal-remain"></span>
+      </div>
+      <div class="bar"><i id="maal-bar"></i></div>
+      <p class="small muted" style="margin:10px 0 0" id="maal-note">Tallene kommer fra ekte registrerte leads (demo teller ikke med).</p>
+    </div>
+    <div class="grid g4" style="margin-top:14px" id="maal-stats"></div>
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><h2>Vunne kunder</h2></div>
+      <div id="maal-won"></div>
+    </div>
+  </section>
+
+  <!-- I DAG -->
+  <section id="v-idag" class="hide">
+    <div class="banner info" id="idag-head">Dagens arbeidsliste — prioritert mot innbetaling før fristen.</div>
+    <div id="idag-list"></div>
+  </section>
+
+  <!-- LEADS -->
+  <section id="v-leads" class="hide">
+    <div class="pipe" id="lead-pipe"></div>
+    <div class="row" style="margin-bottom:12px">
+      <input id="lead-q" placeholder="Søk bedrift, by, e-post…" style="max-width:240px">
+      <select id="lead-seg" style="max-width:170px">
+        <option value="">Alle bransjer</option>
+        <option value="handverker">Håndverker</option>
+        <option value="klinikk">Klinikk/frisør/skjønnhet</option>
+        <option value="restaurant">Restaurant/hospitality</option>
+        <option value="eiendom">Eiendom/Airbnb/hytte</option>
+        <option value="renhold">Renhold/vedlikehold</option>
+        <option value="annet">Annet</option>
+      </select>
+      <div class="spacer"></div>
+      <button class="btn sm" id="lead-import">Importer CSV</button>
+      <button class="btn sm primary" id="lead-add">+ Ny lead</button>
+    </div>
+    <div id="lead-list"></div>
+  </section>
+
+  <!-- KØ -->
+  <section id="v-ko" class="hide">
+    <div class="banner warn" id="ko-state">Laster utsendingsstatus…</div>
+    <div id="ko-list"></div>
+  </section>
+
+  <!-- UTSENDING -->
+  <section id="v-send" class="hide">
+    <div id="send-state"></div>
+    <div class="panel">
+      <div class="ph"><h2>Sikkerhet & kontroll</h2><button class="btn sm" id="send-run">Kjør forfalte steg</button></div>
+      <div id="send-switches"></div>
+      <div class="grid g2" style="margin-top:14px">
+        <div><label>Dagsgrense (10–15 anbefalt)</label><input id="set-cap" type="number" min="1" max="50"></div>
+        <div style="display:flex;align-items:flex-end"><button class="btn primary" id="send-savecap" style="width:100%">Lagre grense</button></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h2>Reservasjonsliste</h2><span class="small muted" id="supp-count"></span></div>
+      <div id="supp-list" class="small muted"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h2>Sendelogg</h2></div>
+      <div id="send-log"></div>
+    </div>
+  </section>
+
+  <!-- TILBUD -->
+  <section id="v-tilbud" class="hide">
+    <div class="panel">
+      <div class="ph"><h2>Lag tilbud</h2></div>
+      <div class="grid g2">
+        <div><label>Kunde (kontaktnavn)</label><input id="q-name"></div>
+        <div><label>Bedrift</label><input id="q-company"></div>
+        <div><label>Kundens e-post</label><input id="q-email" type="email"></div>
+        <div><label>Pakke</label>
+          <select id="q-pkg">
+            <option value="sprint">Website Sprint — 16 000</option>
+            <option value="landing">Landing Page Sprint — 7 900</option>
+            <option value="growth">Growth — 12 900</option>
+            <option value="signature">Signature — 19 900</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn primary" id="q-build">Lag tilbud + betalingslenke</button>
+      </div>
+    </div>
+    <div class="panel hide" id="q-out"></div>
+  </section>
+
+  <!-- INNSTILLINGER -->
+  <section id="v-innst" class="hide">
+    <div class="panel">
+      <div class="ph"><h2>Mål & frist</h2></div>
+      <div class="grid g2">
+        <div><label>Mål (NOK)</label><input id="s-goal" type="number"></div>
+        <div><label>Frist (YYYY-MM-DD)</label><input id="s-deadline"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h2>MVA-visning</h2></div>
+      <p class="small muted" style="margin-top:0">Ikke vis «inkl./eks. mva.» før MVA-status er verifisert.</p>
+      <select id="s-vat" style="max-width:280px">
+        <option value="unknown">Ikke avklart — skjul mva-linje</option>
+        <option value="incl">Priser inkl. mva.</option>
+        <option value="excl">Priser eks. mva.</option>
+        <option value="exempt">MVA-fritatt</option>
+      </select>
+    </div>
+    <div class="panel">
+      <div class="ph"><h2>Avsender & kontakt</h2></div>
+      <div class="grid g2">
+        <div><label>Avsendernavn</label><input id="s-sender"></div>
+        <div><label>Studio</label><input id="s-studio"></div>
+        <div><label>Kontakt-e-post (vises i melding)</label><input id="s-email"></div>
+        <div><label>Kontakttelefon</label><input id="s-phone"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h2>Arbeidstid (norsk)</h2></div>
+      <div class="grid g2">
+        <div><label>Fra (time)</label><input id="s-wstart" type="number" min="0" max="23"></div>
+        <div><label>Til (time)</label><input id="s-wend" type="number" min="0" max="23"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><h2>Demo-data</h2></div>
+      <p class="small muted" style="margin-top:0">Demo-leads viser CRM-formen. De teller aldri mot 16 000-målet.</p>
+      <div class="row"><button class="btn sm" id="seed-demo">Legg inn demo-leads</button><button class="btn sm danger" id="clear-demo">Fjern demo-leads</button></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button class="btn primary" id="s-save">Lagre innstillinger</button></div>
+  </section>
+</div>
+
+<div id="modal-root"></div>
+
+<script>
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var KEY='';
+var CONFIG=null, LEADS=[], SEQS=[], METRICS=null, LOG=null, SUPP={};
+var VIEW='maal', LFILTER='', LSEG='', LQ='';
+var PKG={sprint:{name:'Website Sprint',from:16000,dep:50},landing:{name:'Landing Page Sprint',from:7900,dep:100},growth:{name:'Growth',from:12900,dep:50},signature:{name:'Signature',from:19900,dep:40}};
+var STAGE_LABELS={ny:'Ny',undersokt:'Undersøkt',klar:'Klar for kontakt',kontaktet:'Kontaktet',svar:'Svar mottatt',mote:'Samtale booket',tilbud:'Tilbud sendt',vunnet:'Vunnet',tapt:'Tapt'};
+var STAGES=Object.keys(STAGE_LABELS);
+
+function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});}
+function nok(n){return (Number(n)||0).toLocaleString('nb-NO')+' kr';}
+function toast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove();},2600);}
+function api(path,opts){opts=opts||{};var sep=path.indexOf('?')<0?'?':'&';var url='/api/'+path+sep+'key='+encodeURIComponent(KEY);
+  return fetch(url,opts).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||('HTTP '+r.status));return j;});});}
+function post(path,body){return api(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})});}
+
+/* ---------- gate ---------- */
+function enter(){KEY=$('key').value.trim();if(!KEY){$('gerr').textContent='Skriv inn nøkkel.';return;}
+  try{sessionStorage.setItem('sm_admin',KEY);}catch(e){}
+  api('sales-config').then(function(d){CONFIG=d.config;$('gate').classList.add('hide');$('app').classList.remove('hide');loadAll();})
+    .catch(function(e){$('gerr').textContent='Feil nøkkel eller server: '+e.message;});}
+$('enter').onclick=enter;$('key').addEventListener('keydown',function(e){if(e.key==='Enter')enter();});
+$('logout').onclick=function(){try{sessionStorage.removeItem('sm_admin');}catch(e){}location.reload();};
+(function(){var k;try{k=sessionStorage.getItem('sm_admin');}catch(e){}if(k){$('key').value=k;enter();}})();
+
+/* ---------- nav ---------- */
+[].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.onclick=function(){showView(n.getAttribute('data-v'));};});
+function showView(v){VIEW=v;
+  ['maal','idag','leads','ko','send','tilbud','innst'].forEach(function(x){$('v-'+x).classList.toggle('hide',x!==v);});
+  [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.classList.toggle('active',n.getAttribute('data-v')===v);});
+  if(v==='idag')loadToday();if(v==='ko')loadQueue();if(v==='send')loadSend();if(v==='innst')fillSettings();
+}
+
+/* ---------- load ---------- */
+function loadAll(){loadMetrics();loadLeads();loadQueueCount();}
+function loadMetrics(){api('sales-metrics').then(function(d){METRICS=d;renderMetrics();}).catch(function(){});}
+function renderMetrics(){if(!METRICS)return;var g=METRICS.goal,f=METRICS.funnel;
+  $('maal-dl').textContent='Frist '+g.deadline+' · '+g.daysLeft+' dager igjen';
+  $('maal-recv').textContent=nok(g.receivedKr)+' mottatt';
+  $('maal-remain').textContent='av '+nok(g.goalKr)+' — mangler '+nok(g.remainingKr);
+  $('maal-bar').style.width=g.progressPct+'%';
+  var stats=[['Dager igjen',g.daysLeft,'til '+g.deadline],['Kontaktede',f.contacted,'bedrifter'],['Svar',f.replies,''],['Bookede samtaler',f.booked,''],['Sendte tilbud',f.proposals,''],['Vunnet',f.won,''],['Avtalt verdi',nok(f.agreedValue),''],['Sendt i dag',METRICS.sending.sentToday+' / '+METRICS.sending.dailyCap,'e-poster']];
+  $('maal-stats').innerHTML=stats.map(function(s){return '<div class="stat"><div class="k">'+esc(s[0])+'</div><div class="v">'+esc(s[1])+'</div><div class="s">'+esc(s[2])+'</div></div>';}).join('');
+  $('maal-won').innerHTML=(METRICS.wonLeads&&METRICS.wonLeads.length)?METRICS.wonLeads.map(function(w){return '<div class="switchrow"><span>'+esc(w.company)+'</span><span class="muted">'+nok(w.startPaidKr)+' mottatt / '+nok(w.agreedPriceKr)+' avtalt</span></div>';}).join(''):'<div class="empty small">Ingen vunne kunder ennå. Fokus: svar → samtale → tilbud → oppstartsbetaling.</div>';
+}
+
+/* ---------- leads ---------- */
+function loadLeads(){$('lead-list').innerHTML='<div class="empty small">Laster…</div>';
+  api('admin-leads').then(function(d){LEADS=d.leads||[];renderLeads();$('c-leads').textContent=LEADS.filter(function(l){return !l.demo;}).length;}).catch(function(e){$('lead-list').innerHTML='<div class="empty">Kunne ikke hente leads.</div>';});}
+$('lead-q').oninput=function(){LQ=this.value.toLowerCase();renderLeads();};
+$('lead-seg').onchange=function(){LSEG=this.value;renderLeads();};
+function renderLeads(){
+  var counts={};STAGES.forEach(function(s){counts[s]=0;});LEADS.forEach(function(l){if(counts[l.stage]!=null)counts[l.stage]++;});
+  var pipe='<span class="p'+(LFILTER===''?' active':'')+'" data-st="">Alle <b>'+LEADS.length+'</b></span>';
+  STAGES.forEach(function(s){pipe+='<span class="p'+(LFILTER===s?' active':'')+'" data-st="'+s+'">'+STAGE_LABELS[s]+' <b>'+counts[s]+'</b></span>';});
+  $('lead-pipe').innerHTML=pipe;
+  [].forEach.call($('lead-pipe').querySelectorAll('.p'),function(p){p.onclick=function(){LFILTER=p.getAttribute('data-st');renderLeads();};});
+  var list=LEADS.filter(function(l){
+    if(LFILTER&&l.stage!==LFILTER)return false;
+    if(LSEG&&l.segment!==LSEG)return false;
+    if(LQ){var hay=((l.company||'')+' '+(l.location||'')+' '+(l.email||'')+' '+(l.website||'')).toLowerCase();if(hay.indexOf(LQ)<0)return false;}
+    return true;
+  });
+  list.sort(function(a,b){return (Number(b.priorityScore||b.leadScore)||0)-(Number(a.priorityScore||a.leadScore)||0);});
+  if(!list.length){$('lead-list').innerHTML='<div class="empty"><div class="big">◎</div>Ingen leads her ennå. Legg til en, eller importer CSV.</div>';return;}
+  $('lead-list').innerHTML=list.map(leadCard).join('');
+  [].forEach.call($('lead-list').querySelectorAll('[data-act]'),function(b){b.onclick=function(){leadAction(b.getAttribute('data-act'),b.getAttribute('data-id'));};});
+}
+function leadCard(l){
+  var score=Number(l.priorityScore||l.leadScore)||0;
+  var addr=l.email?classifyLabel(l.email):'';
+  return '<div class="lead st-'+esc(l.stage||'ny')+(l.demo?' demo':'')+'">'+
+    '<div class="lh"><div><span class="co">'+esc(l.company||'Uten navn')+'</span>'+
+      (l.demo?'<span class="tag demo">DEMO</span>':'')+
+      '<span class="tag">'+esc(STAGE_LABELS[l.stage]||l.stage||'Ny')+'</span>'+
+      '<div class="sub">'+esc(l.segment||'')+(l.location?' · '+esc(l.location):'')+(l.website?' · '+esc(l.website):'')+'</div></div>'+
+      '<div style="text-align:right"><div class="score">'+score+'</div><div class="sub">prioritet</div></div></div>'+
+    '<div class="meta">'+
+      (l.email?'<span>✉ <b>'+esc(l.email)+'</b> '+addr+'</span>':'<span class="muted">Ingen e-post</span>')+
+      (l.phone?'<span>☎ '+esc(l.phone)+'</span>':'')+
+      (l.websiteQuality?'<span>Kvalitet: <b>'+esc(l.websiteQuality)+'</b></span>':'')+
+      (l.mobileIssue?'<span>Mobil: '+esc(l.mobileIssue)+'</span>':'')+
+      (l.offer?'<span>Tilbud: <b>'+esc(l.offer)+'</b></span>':'')+
+    '</div>'+
+    (l.topOpportunity?'<div class="small" style="color:var(--champagne)">→ '+esc(l.topOpportunity)+'</div>':'')+
+    (l.nextAction?'<div class="small muted" style="margin-top:4px">Neste: '+esc(l.nextAction)+(l.nextActionDate?' ('+esc(l.nextActionDate)+')':'')+'</div>':'')+
+    '<div class="acts">'+
+      '<button class="btn sm" data-act="edit" data-id="'+l.id+'">Rediger</button>'+
+      (l.website?'<button class="btn sm" data-act="audit" data-id="'+l.id+'">Analyser side</button>':'')+
+      '<button class="btn sm" data-act="msg" data-id="'+l.id+'">Meldinger</button>'+
+      (l.email?'<button class="btn sm primary" data-act="queue" data-id="'+l.id+'">Til godkjenningskø</button>':'')+
+      '<div class="spacer"></div>'+
+      '<button class="btn sm ghost" data-act="reply" data-id="'+l.id+'">Svar mottatt</button>'+
+      '<button class="btn sm ghost danger" data-act="del" data-id="'+l.id+'">Slett</button>'+
+    '</div></div>';
+}
+function classifyLabel(email){var e=email.toLowerCase();var lp=e.split('@')[0];var dom=e.split('@')[1]||'';
+  var personal=['gmail.com','outlook.com','hotmail.com','hotmail.no','live.no','yahoo.com','icloud.com','online.no','proton.me'];
+  var general=['post','hei','hallo','kontakt','booking','info','firmapost','salg','kundeservice','support'];
+  if(personal.indexOf(dom)>=0)return '<span class="tag r">privat</span>';
+  if(general.indexOf(lp)>=0)return '<span class="tag g">generell</span>';
+  return '<span class="tag a">personlig</span>';}
+
+function leadById(id){for(var i=0;i<LEADS.length;i++)if(LEADS[i].id===id)return LEADS[i];return null;}
+function leadAction(act,id){var l=leadById(id);
+  if(act==='edit')return editLead(l||{});
+  if(act==='del'){if(!confirm('Slette '+(l?l.company:'lead')+'?'))return;post('admin-leads',{op:'delete',id:id}).then(function(){toast('Slettet');loadLeads();});return;}
+  if(act==='audit')return runAudit(l);
+  if(act==='msg')return showMessages(l);
+  if(act==='queue')return createSequence(l);
+  if(act==='reply'){post('sales-event',{op:'reply',leadId:id}).then(function(){toast('Markert: svar mottatt');loadLeads();loadMetrics();});return;}
+}
+
+/* ---------- lead modal ---------- */
+function modal(html){var r=$('modal-root');r.innerHTML='<div class="ov"><div class="modal">'+html+'</div></div>';
+  r.querySelector('.ov').onclick=function(e){if(e.target===this)closeModal();};}
+function closeModal(){$('modal-root').innerHTML='';}
+function editLead(l){var isNew=!l.id;
+  var f=function(k){return esc(l[k]||'');};
+  modal('<h2>'+(isNew?'Ny lead':'Rediger lead')+'</h2>'+
+    '<div class="grid g2">'+
+    inp('Bedrift','m-company',f('company'))+inp('Bransje-select','m-segment','',segSelect(l.segment))+
+    inp('By','m-location',f('location'))+inp('Nettside','m-website',f('website'))+
+    inp('E-post','m-email',f('email'))+inp('Telefon','m-phone',f('phone'))+
+    inp('Kontaktnavn','m-contact',f('contact'))+inp('Kilde-URL','m-src',f('src'))+
+    inp('Prioritet (0-100)','m-priorityScore',f('priorityScore')||f('leadScore'))+inp('Anslått verdi (kr)','m-estValue',f('estValue')||f('value'))+
+    inp('Nettsidekvalitet','m-websiteQuality',f('websiteQuality'))+inp('Mobilproblem','m-mobileIssue',f('mobileIssue'))+
+    '</div>'+
+    lbl('Tydeligste forbedring')+'<input id="m-topOpportunity" value="'+f('topOpportunity')+'">'+
+    '<div class="grid g2" style="margin-top:10px">'+
+    inp('Stadie-select','m-stage','',stageSelect(l.stage))+inp('Tilbud','m-offer','',offerSelect(l.offer))+
+    inp('Avtalt pris (kr)','m-agreedPriceKr',f('agreedPriceKr'))+inp('Betalt oppstart (kr)','m-startPaidKr',f('startPaidKr'))+
+    inp('Neste handling','m-nextAction',f('nextAction'))+inp('Oppfølgingsdato','m-nextActionDate',f('nextActionDate'))+
+    '</div>'+
+    lbl('Notater')+'<textarea id="m-notes">'+f('notes')+'</textarea>'+
+    '<div class="row" style="margin-top:14px"><button class="btn primary" id="m-save">Lagre</button><button class="btn ghost" id="m-cancel">Avbryt</button></div>');
+  $('m-cancel').onclick=closeModal;
+  $('m-save').onclick=function(){
+    var lead=Object.assign({},l);
+    ['company','location','website','email','phone','contact','src','priorityScore','estValue','websiteQuality','mobileIssue','topOpportunity','agreedPriceKr','startPaidKr','nextAction','nextActionDate','notes','segment','stage','offer'].forEach(function(k){
+      var el=$('m-'+k);if(el)lead[k]=el.value;});
+    ['priorityScore','estValue','agreedPriceKr','startPaidKr'].forEach(function(k){lead[k]=Number(lead[k])||0;});
+    if(lead.email)lead.email=lead.email.trim().toLowerCase();
+    if(!lead.stage)lead.stage='ny';
+    post('admin-leads',{lead:lead}).then(function(){toast('Lagret');closeModal();loadLeads();loadMetrics();}).catch(function(e){alert(e.message);});
+  };
+}
+function inp(label,id,val,customEl){if(customEl)return lbl(label.replace('-select',''))+customEl.replace('__ID__',id);return lbl(label)+'<input id="'+id+'" value="'+esc(val)+'">';}
+function lbl(t){return '<label>'+esc(t)+'</label>';}
+function selEl(id,opts,cur){return '<select id="'+id+'">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===cur?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>';}
+function segSelect(cur){return selEl('__ID__',[['handverker','Håndverker'],['klinikk','Klinikk/frisør/skjønnhet'],['restaurant','Restaurant/hospitality'],['eiendom','Eiendom/Airbnb/hytte'],['renhold','Renhold/vedlikehold'],['annet','Annet']],cur||'annet');}
+function stageSelect(cur){return selEl('__ID__',STAGES.map(function(s){return [s,STAGE_LABELS[s]];}),cur||'ny');}
+function offerSelect(cur){return selEl('__ID__',[['','— ingen —'],['sprint','Website Sprint 16 000'],['landing','Landing Page Sprint 7 900'],['growth','Growth 12 900'],['signature','Signature 19 900']],cur||'');}
+$('lead-add').onclick=function(){editLead({});};
+
+/* ---------- audit ---------- */
+function runAudit(l){modal('<h2>Analyserer '+esc(l.company)+'…</h2><div class="empty"><div class="big">◔</div>Henter '+esc(l.website)+'</div>');
+  post('sales-audit',{url:l.website,leadId:l.id}).then(function(d){renderAudit(l,d.audit);loadLeads();}).catch(function(e){modal('<h2>Analyse feilet</h2><p class="muted">'+esc(e.message)+'</p><button class="btn" onclick="closeModal()">Lukk</button>');});}
+function renderAudit(l,a){var m=a.measured||{};
+  var meas=[['Status',m.status],['HTTPS',m.https===true?'Ja':(m.https===false?'Nei':'—')],['Svartid',m.responseMs!=null?m.responseMs+' ms':'ikke målt'],['Mobil viewport',m.viewport===true?'Ja':(m.viewport===false?'Nei':'—')],['Sidetittel',m.titleLen!=null?m.titleLen+' tegn':'—'],['Meta-beskrivelse',m.descLen!=null?m.descLen+' tegn':'—'],['Kontaktmulighet',m.hasContact===true?'Ja':(m.hasContact===false?'Nei':'—')],['Kart/lokasjon',m.hasMaps===true?'Ja':(m.hasMaps===false?'Nei':'—')]];
+  var pts=(a.assessment&&a.assessment.points)||[];
+  modal('<h2>Nettsidesjekk — '+esc(l.company)+'</h2>'+
+    (a.ok?'':'<div class="banner warn">'+esc(a.error||'Kunne ikke måle.')+'</div>')+
+    '<div class="banner info small">Score (vurdering): <b>'+(a.assessment.score!=null?a.assessment.score+'/100':'—')+'</b>. '+esc(a.assessment.summary)+'</div>'+
+    '<h2 style="font-size:.95rem;margin:14px 0 8px">Målt (fakta)</h2>'+
+    '<div class="grid g2 small">'+meas.map(function(r){return '<div class="switchrow" style="padding:6px 0"><span class="muted">'+esc(r[0])+'</span><b>'+esc(r[1]==null?'—':r[1])+'</b></div>';}).join('')+'</div>'+
+    '<h2 style="font-size:.95rem;margin:14px 0 8px">Vurdering (skjønn)</h2>'+
+    pts.map(function(p){var cls=p.verdict==='god'?'g':(p.verdict==='ukjent'?'':'a');return '<div class="switchrow" style="padding:7px 0"><span>'+esc(p.area)+' <span class="tag '+cls+'">'+esc(p.verdict)+'</span></span><span class="muted small" style="max-width:60%;text-align:right">'+esc(p.note)+'</span></div>';}).join('')+
+    '<p class="small muted" style="margin-top:12px">'+esc(a.disclaimer)+'</p>'+
+    '<div class="row" style="margin-top:12px"><button class="btn primary" onclick="closeModal()">Ferdig</button></div>');
+}
+
+/* ---------- messages ---------- */
+function showMessages(l){modal('<h2>Meldinger — '+esc(l.company)+'</h2><div class="empty small">Genererer…</div>');
+  var obs=prompt('Én konkret observasjon (valgfritt — brukes i meldingen):', l.topOpportunity||'');
+  post('sales-message',{leadId:l.id,observation:obs||undefined}).then(function(d){
+    modal('<h2>Meldinger — '+esc(l.company)+'</h2>'+
+      d.messages.map(function(m){return '<h2 style="font-size:.9rem;margin:14px 0 6px">'+esc(m.label)+'</h2>'+
+        '<div class="msgbox"><b>'+esc(m.subject)+'</b>\n\n'+esc(m.body)+'</div>'+
+        '<button class="btn sm" onclick="copyText(this)" data-t="'+esc(m.subject+'\n\n'+m.body).replace(/"/g,'&quot;')+'">Kopier</button>';}).join('')+
+      '<div class="row" style="margin-top:14px"><button class="btn primary" onclick="closeModal()">Lukk</button></div>');
+  }).catch(function(e){modal('<h2>Feil</h2><p class="muted">'+esc(e.message)+'</p><button class="btn" onclick="closeModal()">Lukk</button>');});}
+function copyText(btn){var t=btn.getAttribute('data-t');if(navigator.clipboard)navigator.clipboard.writeText(t);toast('Kopiert');}
+
+/* ---------- create sequence -> queue ---------- */
+function createSequence(l){var obs=prompt('Konkret observasjon for første e-post (valgfritt):', l.topOpportunity||'');
+  var offer=prompt('Tilbud for denne (sprint / landing / tom):', l.offer||'sprint')||'';
+  post('sales-queue',{op:'create',leadId:l.id,observation:obs||undefined,offer:offer||undefined}).then(function(){toast('Lagt i godkjenningskø');loadQueueCount();showView('ko');}).catch(function(e){alert(e.message);});}
+
+/* ---------- CSV import ---------- */
+$('lead-import').onclick=function(){
+  modal('<h2>Importer CSV</h2><p class="small muted">Kolonner (første rad = overskrift): <b>company, segment, location, website, email, phone, notes</b>. Ingen automatisk høsting — dette er dine egne, manuelt samlede leads.</p>'+
+    '<textarea id="csv" style="min-height:160px" placeholder="company,segment,location,website,email,phone,notes\nRør AS,handverker,Stavanger,ror.no,post@ror.no,,Gammel side"></textarea>'+
+    '<div class="row" style="margin-top:12px"><button class="btn primary" id="csv-go">Importer</button><button class="btn ghost" onclick="closeModal()">Avbryt</button></div>');
+  $('csv-go').onclick=function(){var rows=parseCSV($('csv').value);if(!rows.length){alert('Fant ingen rader.');return;}
+    var n=0;(function next(i){if(i>=rows.length){toast('Importerte '+n+' leads');closeModal();loadLeads();loadMetrics();return;}
+      var r=rows[i];if(!r.company){next(i+1);return;}
+      var lead={company:r.company,segment:r.segment||'annet',location:r.location||'',website:r.website||'',email:(r.email||'').toLowerCase(),phone:r.phone||'',notes:r.notes||'',stage:'ny',source:'csv',priorityScore:Number(r.priorityScore)||60};
+      post('admin-leads',{lead:lead}).then(function(){n++;next(i+1);}).catch(function(){next(i+1);});
+    })(0);
+  };
+};
+function parseCSV(txt){var lines=txt.trim().split(/\r?\n/);if(lines.length<2)return [];
+  var head=splitCSVLine(lines[0]).map(function(h){return h.trim().toLowerCase();});var out=[];
+  for(var i=1;i<lines.length;i++){if(!lines[i].trim())continue;var cells=splitCSVLine(lines[i]);var o={};head.forEach(function(h,j){o[h]=(cells[j]||'').trim();});out.push(o);}return out;}
+function splitCSVLine(line){var res=[],cur='',q=false;for(var i=0;i<line.length;i++){var c=line[i];
+  if(q){if(c==='"'){if(line[i+1]==='"'){cur+='"';i++;}else q=false;}else cur+=c;}
+  else{if(c==='"')q=true;else if(c===','){res.push(cur);cur='';}else cur+=c;}}res.push(cur);return res;}
+
+/* ---------- today ---------- */
+function loadToday(){$('idag-list').innerHTML='<div class="empty small">Laster…</div>';
+  api('sales-today').then(function(d){renderToday(d);}).catch(function(e){$('idag-list').innerHTML='<div class="empty">Feil: '+esc(e.message)+'</div>';});}
+function renderToday(d){$('c-idag').textContent=Object.keys(d.counts).reduce(function(a,k){return a+d.counts[k];},0);
+  $('idag-head').innerHTML='<b>'+d.date+'</b> · '+d.daysLeft+' dager til frist. Ta det som er nærmest penger først.';
+  var b=d.buckets;
+  var sections=[
+    ['💳 Betalinger å følge opp',b.payments,'Tilbud sendt, venter oppstartsbetaling — ring/påminn.'],
+    ['📄 Klar for tilbud',b.proposals,'Har svart/booket — send Website Sprint-tilbud.'],
+    ['📞 Ring / book samtale',b.calls,'Har svart — book 15-min samtale.'],
+    ['↻ Oppfølginger forfalt',b.followups,'Godkjente sekvenssteg som er klare.'],
+    ['✅ Godkjenn utsending',b.approvals,'Første kontakt venter din godkjenning.'],
+    ['✍ Manuell kanal (personlig adresse)',b.forms,'Autosend blokkert — ring eller bruk kontaktskjema.'],
+    ['🔎 Undersøk + analyser',b.research,'Nye leads: kjør nettsidesjekk.']
+  ];
+  $('idag-list').innerHTML=sections.map(function(s){var items=s[1]||[];
+    return '<div class="panel"><div class="ph"><h2>'+s[0]+' <span class="tag">'+items.length+'</span></h2></div>'+
+      '<p class="small muted" style="margin:0 0 10px">'+s[2]+'</p>'+
+      (items.length?items.map(function(it){return '<div class="switchrow"><span>'+esc(it.company||'')+(it.step?' — '+esc(it.label||it.step):'')+(it.email?' <span class="small muted">'+esc(it.email)+'</span>':'')+'</span>'+(it.stage?'<span class="tag">'+esc(STAGE_LABELS[it.stage]||it.stage)+'</span>':'')+'</div>';}).join(''):'<div class="small muted">Ingenting her nå.</div>')+'</div>';
+  }).join('');
+}
+
+/* ---------- queue ---------- */
+function loadQueueCount(){api('sales-queue').then(function(d){SEQS=d.sequences||[];$('c-ko').textContent=d.pending||0;}).catch(function(){});}
+function loadQueue(){$('ko-list').innerHTML='<div class="empty small">Laster…</div>';
+  Promise.all([api('sales-queue'),api('sales-config')]).then(function(a){SEQS=a[0].sequences||[];CONFIG=a[1].config;renderSendState($('ko-state'),a[1].sendState,true);renderQueue();$('c-ko').textContent=a[0].pending||0;}).catch(function(e){$('ko-list').innerHTML='<div class="empty">Feil: '+esc(e.message)+'</div>';});}
+function renderQueue(){if(!SEQS.length){$('ko-list').innerHTML='<div class="empty"><div class="big">✅</div>Køen er tom. Legg leads i kø fra Leads-fanen.</div>';return;}
+  $('ko-list').innerHTML=SEQS.map(function(s){
+    var elig=s.autosendEligible?'<span class="tag g">autosend tillatt</span>':'<span class="tag a">manuell kanal</span>';
+    var stTag=s.status==='pending'?'<span class="tag a">venter godkjenning</span>':(s.status==='approved'?'<span class="tag g">godkjent</span>':'<span class="tag r">stoppet</span>');
+    return '<div class="panel"><div class="ph"><h2>'+esc(s.company||s.leadId)+' '+stTag+'</h2><span class="small muted">'+esc(s.email)+'</span></div>'+
+      '<div class="banner '+(s.autosendEligible?'ok':'warn')+' small">'+elig+' — '+esc(s.decisionReason||'')+(s.suggestion?' <b>'+esc(s.suggestion)+'</b>':'')+'</div>'+
+      s.steps.map(function(st){return stepCard(s,st);}).join('')+
+      '<div class="row" style="margin-top:6px">'+
+        (s.status==='pending'?'<button class="btn primary" data-q="approve" data-id="'+s.leadId+'">Godkjenn sekvens</button>':'')+
+        (s.status!=='stopped'?'<button class="btn ghost danger" data-q="reject" data-id="'+s.leadId+'">Fjern</button>':'')+
+        (s.status==='approved'?'<button class="btn ghost" data-q="stop" data-id="'+s.leadId+'">Stopp</button>':'')+
+      '</div></div>';
+  }).join('');
+  [].forEach.call($('ko-list').querySelectorAll('[data-q]'),function(b){b.onclick=function(){queueOp(b.getAttribute('data-q'),b.getAttribute('data-id'));};});
+  [].forEach.call($('ko-list').querySelectorAll('[data-send]'),function(b){b.onclick=function(){sendStep(b.getAttribute('data-lead'),b.getAttribute('data-send'),b);};});
+}
+function stepCard(s,st){
+  var stat=st.status==='sent'?'<span class="tag g">sendt</span>':(st.status==='blocked'?'<span class="tag r">blokkert</span>':(st.status==='skipped'?'<span class="tag">hoppet over</span>':'<span class="tag">planlagt</span>'));
+  var canSend=st.status==='planned'&&s.status!=='stopped'&&s.autosendEligible;
+  return '<div class="step"><div class="sh"><b>'+esc(st.label)+'</b>'+stat+'</div>'+
+    '<div class="small muted" style="margin-bottom:6px">'+esc(st.subject)+'</div>'+
+    '<div class="msgbox small">'+esc(st.body)+'</div>'+
+    (canSend?'<button class="btn sm primary" data-send="'+st.id+'" data-lead="'+s.leadId+'">Send nå</button>':'')+
+    (st.status==='planned'&&!s.autosendEligible?'<span class="small muted">Send manuelt (personlig adresse).</span>':'')+
+    '</div>';
+}
+function queueOp(op,id){post('sales-queue',{op:op,leadId:id}).then(function(){toast('OK');loadQueue();loadMetrics();}).catch(function(e){alert(e.message);});}
+function sendStep(leadId,stepId,btn){btn.disabled=true;btn.textContent='Sender…';
+  post('sales-send',{op:'send',leadId:leadId,stepId:stepId}).then(function(d){
+    var r=d.result||{};
+    if(r.status==='sent')toast('Sendt ✓ ('+d.sentToday+'/'+d.dailyCap+' i dag)');
+    else if(r.status==='would-send')toast('Dry-run: '+(r.reason||'ikke sendt'));
+    else toast(r.status+': '+(r.reason||''));
+    loadQueue();loadMetrics();
+  }).catch(function(e){alert(e.message);btn.disabled=false;btn.textContent='Send nå';});}
+
+/* ---------- sending / safety ---------- */
+function loadSend(){api('sales-config').then(function(d){CONFIG=d.config;renderSendState($('send-state'),d.sendState,false);renderSwitches();$('set-cap').value=d.config.dailyCap;});
+  loadLog(); loadSupp();}
+function renderSendState(el,st,compact){if(!st){el.innerHTML='';return;}
+  var cls=st.blocked?'warn':'ok';
+  el.className='banner '+cls;
+  el.innerHTML=(st.blocked?'⏸ <b>Ingen ekte utsending nå.</b> ':'▶ <b>Live-utsending er aktiv.</b> ')+
+    (st.reasons&&st.reasons.length?esc(st.reasons.join(' ')):'Alle sjekker OK.')+
+    (st.blocked?' <span class="small">(dette er trygt — aktiver bevisst i Utsending + sett SALES_LIVE=1 etter DNS)</span>':'');
+}
+function renderSwitches(){var c=CONFIG;
+  var rows=[
+    ['dryRun','Dry-run (ingen ekte e-post)',c.dryRun],
+    ['paused','Pause utsending',c.paused],
+    ['killSwitch','Kill switch (hard stopp)',c.killSwitch],
+    ['domainVerified','Avsenderdomene + SPF/DKIM/DMARC bekreftet',c.domainVerified]
+  ];
+  $('send-switches').innerHTML=rows.map(function(r){return '<div class="switchrow"><span>'+esc(r[1])+'</span><label class="switch"><input type="checkbox" data-sw="'+r[0]+'"'+(r[2]?' checked':'')+'><span class="sl"></span></label></div>';}).join('');
+  [].forEach.call($('send-switches').querySelectorAll('[data-sw]'),function(cb){cb.onchange=function(){var patch={};patch[cb.getAttribute('data-sw')]=cb.checked;post('sales-config',{patch:patch}).then(function(d){CONFIG=d.config;renderSendState($('send-state'),d.sendState,false);toast('Lagret');}).catch(function(e){alert(e.message);});};});
+}
+$('send-savecap').onclick=function(){post('sales-config',{patch:{dailyCap:Number($('set-cap').value)||12}}).then(function(){toast('Dagsgrense lagret');});};
+$('send-run').onclick=function(){this.disabled=true;var b=this;post('sales-send',{op:'run-due'}).then(function(d){
+  var sent=(d.results||[]).filter(function(r){return r.status==='sent';}).length;
+  var would=(d.results||[]).filter(function(r){return r.status==='would-send';}).length;
+  toast('Kjørt: '+sent+' sendt'+(would?', '+would+' i dry-run (ikke sendt)':''));b.disabled=false;loadLog();loadMetrics();
+}).catch(function(e){alert(e.message);b.disabled=false;});};
+function loadLog(){api('sales-log').catch(function(){return {entries:[]};}).then(function(d){var es=(d.entries||[]).slice(0,60);
+  $('send-log').innerHTML=es.length?es.map(function(e){var t=new Date(e.at).toLocaleString('nb-NO');return '<div class="logline"><span class="kd '+esc(e.kind)+'">'+esc(e.kind)+'</span> '+t+' — '+esc(e.email||'')+' '+esc(e.step||'')+' '+(e.dryRun?'<span class="tag">dry</span>':'')+(e.reason?' '+esc(e.reason):'')+(e.error?' '+esc(e.error):'')+'</div>';}).join(''):'<div class="empty small">Ingen logg ennå.</div>';});}
+function loadSupp(){api('sales-suppression').catch(function(){return {list:{}};}).then(function(d){SUPP=d.list||{};var keys=Object.keys(SUPP);$('supp-count').textContent=keys.length+' adresser';
+  $('supp-list').innerHTML=keys.length?keys.map(function(k){return '<div class="switchrow" style="padding:6px 0"><span>'+esc(k)+' <span class="tag">'+esc(SUPP[k].reason)+'</span></span><button class="btn sm ghost" onclick="unsupp(\''+esc(k)+'\')">Fjern</button></div>';}).join(''):'<div class="small muted">Tom. Avmeldinger, bounce og klager havner her og stopper utsending automatisk.</div>';});}
+function unsupp(email){post('sales-suppression',{op:'remove',email:email}).then(function(){toast('Fjernet');loadSupp();});}
+
+/* ---------- tilbud ---------- */
+$('q-build').onclick=function(){
+  var name=$('q-name').value.trim(),company=$('q-company').value.trim(),email=$('q-email').value.trim(),pkg=$('q-pkg').value;
+  if(!email){alert('Skriv inn kundens e-post.');return;}
+  var p=PKG[pkg];var deposit=Math.round(p.from*p.dep/100);var rest=p.from-deposit;
+  var vat=CONFIG&&CONFIG.vatMode&&CONFIG.vatMode!=='unknown'?({incl:' inkl. mva.',excl:' eks. mva.',exempt:' (mva-fritatt)'}[CONFIG.vatMode]||''):'';
+  var params='pkg='+encodeURIComponent(pkg)+'&email='+encodeURIComponent(email)+'&navn='+encodeURIComponent(name||company);
+  var link=location.origin+'/api/checkout?'+params;
+  var valid=new Date(Date.now()+7*86400000).toLocaleDateString('nb-NO');
+  $('q-out').classList.remove('hide');
+  $('q-out').innerHTML='<div class="ph"><h2>Tilbud — '+esc(company||name)+'</h2><span class="tag">gyldig til '+valid+'</span></div>'+
+    '<div class="msgbox">'+
+    'Kunde: '+esc(name||'')+(company?' — '+esc(company):'')+'\n'+
+    'Pakke: StayMotion '+esc(p.name)+'\n'+
+    'Pris: '+nok(p.from)+vat+'\n'+
+    (p.dep<100?'Oppstart: '+nok(deposit)+' ('+p.dep+' %)\nRest ved levering: '+nok(rest):'Betales ved oppstart: '+nok(p.from))+'\n'+
+    'Leveranse: moderne, mobiltilpasset nettside · struktur & tekst · kontaktskjema · lokal SEO'+(pkg==='sprint'?' · levering ca. 5 virkedager etter innhold':'')+'\n'+
+    'Gyldig til: '+valid+'\n'+
+    'Betaling/oppstart: '+link+
+    '</div>'+
+    '<div class="row"><button class="btn primary" onclick="copyPlain(\''+link.replace(/'/g,"")+'\')">Kopier betalingslenke</button>'+
+    '<a class="btn" href="'+esc(link)+'" target="_blank">Åpne checkout</a></div>'+
+    '<p class="small muted" style="margin-top:10px">Lenken bruker eksisterende, lovlig betalingsflyt (Stripe). Ingen faktura genereres. Belaster '+(p.dep<100?'oppstartsbeløpet':'hele beløpet')+'.</p>';
+};
+function copyPlain(t){if(navigator.clipboard)navigator.clipboard.writeText(t);toast('Betalingslenke kopiert');}
+
+/* ---------- innstillinger ---------- */
+function fillSettings(){var c=CONFIG||{};$('s-goal').value=c.goalKr;$('s-deadline').value=c.deadline;$('s-vat').value=c.vatMode||'unknown';
+  $('s-sender').value=c.senderName||'';$('s-studio').value=c.studioName||'';$('s-email').value=c.contactEmail||'';$('s-phone').value=c.contactPhone||'';
+  $('s-wstart').value=c.workStartHour;$('s-wend').value=c.workEndHour;}
+$('s-save').onclick=function(){var patch={goalKr:Number($('s-goal').value)||16000,deadline:$('s-deadline').value,vatMode:$('s-vat').value,senderName:$('s-sender').value,studioName:$('s-studio').value,contactEmail:$('s-email').value,contactPhone:$('s-phone').value,workStartHour:Number($('s-wstart').value),workEndHour:Number($('s-wend').value)};
+  post('sales-config',{patch:patch}).then(function(d){CONFIG=d.config;toast('Innstillinger lagret');loadMetrics();}).catch(function(e){alert(e.message);});};
+$('seed-demo').onclick=function(){api('sales-seed').then(function(d){toast(d.message||'Demo lagt inn');loadLeads();});};
+$('clear-demo').onclick=function(){if(!confirm('Fjerne alle demo-leads?'))return;post('sales-seed',{op:'clear'}).then(function(d){toast('Fjernet '+d.removed+' demo-leads');loadLeads();});};
+</script>
+</body>
+</html>
