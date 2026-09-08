@@ -10,6 +10,7 @@ import type { Session } from '../session/session';
 import { actorOf } from '../session/session';
 import { apiAuthHeaders } from '../session/runtime';
 import { useToast } from './Toast';
+import { Pulse, type PulseState } from './Pulse';
 
 /**
  * StayMotion Capture — the proven voice/photo → proposed issues flow, ported to React.
@@ -21,9 +22,7 @@ type Stage = 'record' | 'review' | 'done';
 type Local = ProposedIssue & { confirmed: boolean; checked: boolean; editing: boolean; edited: Set<string>; at?: string };
 type PhotoState = { meta: AttachmentMeta; blob: Blob; previewUrl: string };
 
-const MIC = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></svg>;
 const X = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden><path d="M6 6l12 12M18 6L6 18" /></svg>;
-const CHECK = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M5 12l5 5L20 7" /></svg>;
 
 export function Capture({ session, db, mode, onClose, onRegistered }: { session: Session; db: DataProvider; mode: 'voice' | 'camera'; onClose(): void; onRegistered(incidents: Incident[]): void }) {
   const toast = useToast();
@@ -185,6 +184,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   function retake() { setStage('record'); setIssues([]); setAnalysis(null); setFinalText(''); setInterim(''); setStatus('Trykk for å starte'); setHint('Snakk naturlig. Du trenger ikke fylle ut et skjema.'); scrollTop(); }
   function reanalyze() { const t = (transcriptRef.current?.textContent || '').trim(); setEditingTranscript(false); if (t) void analyze(t); }
 
+  const pulseState: PulseState = busy ? 'analyzing' : listening ? 'listening' : 'idle';
   const open = issues.filter((x) => !x.confirmed);
   const needChk = open.some((x) => x.requiresConfirmation && !x.checked);
   const n = issues.length;
@@ -212,10 +212,9 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
 
           {stage === 'record' && (
             <div className="rec">
-              <button className={'orb' + (listening ? ' listening' : '')} type="button" onClick={() => (listening ? stopListening() : startListening())} aria-pressed={listening} aria-label={listening ? 'Stopp opptak' : 'Start opptak'} data-testid="orb">{MIC}</button>
+              <button className="pulsebtn" type="button" onClick={() => (listening ? stopListening() : startListening())} aria-pressed={listening} aria-label={listening ? 'Stopp opptak' : 'Start opptak'} data-testid="orb" disabled={busy}><Pulse state={pulseState} size="lg" /></button>
               <strong>{busy ? 'Tolker …' : status}</strong>
               <p>{hint}</p>
-              {listening && <div className="bars" aria-hidden><i /><i /><i /><i /><i /></div>}
               <div className={'live' + (!finalText && !interim ? ' empty' : '')} aria-live="polite" data-testid="live">
                 {finalText || interim ? <>{finalText}{interim ? <span className="interim"> {interim}</span> : null}</> : listening ? 'Lytter …' : 'Det du sier vises her …'}
               </div>
@@ -232,7 +231,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
           {stage === 'review' && analysis && (
             <div>
               {transcript && (<>
-                <div className="understood"><span className="ic" aria-hidden>{CHECK}</span>StayMotion forstod</div>
+                <div className="understood"><Pulse state="confirm" size="sm" />StayMotion forstod</div>
                 <div className="transcript" ref={transcriptRef} contentEditable={editingTranscript} suppressContentEditableWarning role="textbox" aria-label="Det du sa" data-testid="transcript" onKeyDown={(e) => { if (e.key === 'Enter' && editingTranscript) { e.preventDefault(); reanalyze(); } }}>{transcript}</div>
                 <div className="tools">
                   <button className="linkbtn" type="button" onClick={() => (editingTranscript ? reanalyze() : (setEditingTranscript(true), setTimeout(() => transcriptRef.current?.focus(), 30)))}>{editingTranscript ? 'Tolk på nytt' : 'Rediger teksten'}</button>
@@ -253,7 +252,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
 
           {stage === 'done' && (
             <div className="success" data-testid="success">
-              <div className="big" aria-hidden><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg></div>
+              <Pulse state="sent" size="md" />
               <h3>{registered.length > 1 ? (registered.length === 2 ? 'Begge er registrert.' : `${registered.length} saker er registrert.`) : 'Registrert.'}</h3>
               <p>{registered.length > 1 ? 'Hver sak er sendt til riktig oppfølging. Du trenger ikke gjøre mer.' : 'Saken er sendt til riktig oppfølging. Du trenger ikke gjøre mer.'}</p>
               <div className="summary">
