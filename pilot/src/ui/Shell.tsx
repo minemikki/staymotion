@@ -1,14 +1,18 @@
 'use client';
+
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { allowedViews, clearSession, getSession, homeFor, isLocalMode, type Session } from '../session/session';
+import { allowedViews, homeFor, isLocalMode, type Session } from '../session/session';
+import { resolveSessionState, signOutRuntime } from '../session/runtime';
 import { roleLabel } from '../domain/followup';
 import { ToastProvider } from './Toast';
 
 /**
  * Application shell: sidebar (desktop) / top bar + tab bar (mobile).
  * Views are gated by role. Employees get a single view and no tab bar.
+ * In Supabase mode the shell resolves the authenticated user + membership from
+ * RLS-backed RPCs; sessionStorage is never treated as authentication.
  */
 export function Shell({ children, view }: { children: (s: Session) => React.ReactNode; view: 'employee' | 'manager' | 'hq' }) {
   const router = useRouter();
@@ -16,10 +20,25 @@ export function Shell({ children, view }: { children: (s: Session) => React.Reac
   const [session, setSession] = useState<Session | null | undefined>(undefined);
 
   useEffect(() => {
-    const s = getSession();
-    if (!s) { router.replace('/signin'); return; }
-    if (!allowedViews(s.role).includes(view)) { router.replace(homeFor(s.role)); return; }
-    setSession(s);
+    let alive = true;
+    (async () => {
+      try {
+        const state = await resolveSessionState();
+        if (!alive) return;
+        if (!state.session) {
+          router.replace(state.authenticated ? '/onboarding' : '/signin');
+          return;
+        }
+        if (!allowedViews(state.session.role).includes(view)) {
+          router.replace(homeFor(state.session.role));
+          return;
+        }
+        setSession(state.session);
+      } catch {
+        if (alive) router.replace('/signin');
+      }
+    })();
+    return () => { alive = false; };
   }, [router, view]);
 
   if (!session) return <div className="auth"><div className="small">Laster …</div></div>;
@@ -29,7 +48,11 @@ export function Shell({ children, view }: { children: (s: Session) => React.Reac
   const href = { employee: '/employee', manager: '/manager', hq: '/hq' } as const;
   const where = session.locationName ? `${session.organizationName} · ${session.locationName}` : session.organizationName;
   const single = views.length === 1;
-  const signOut = () => { clearSession(); router.replace('/signin'); };
+
+  const signOut = async () => {
+    await signOutRuntime();
+    router.replace('/signin');
+  };
 
   return (
     <ToastProvider>
@@ -47,7 +70,7 @@ export function Shell({ children, view }: { children: (s: Session) => React.Reac
           </nav>
           <div className="me">
             <b>{session.fullName}</b>{roleLabel(session.role)}
-            <div><button type="button" onClick={signOut}>Logg ut</button></div>
+            <div><button type="button" onClick={() => void signOut()}>Logg ut</button></div>
           </div>
         </aside>
         <main className={'main' + (single ? ' single' : '')}>{children(session)}</main>
