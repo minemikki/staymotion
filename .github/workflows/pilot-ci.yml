@@ -21,7 +21,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: pilot
@@ -42,5 +42,11 @@ jobs:
         run: npm test
       - name: Production build
         run: npm run build
+        env:
+          NEXT_PUBLIC_STAYMOTION_MODE: local
+      - name: Install Chromium for end-to-end tests
+        run: npx playwright install --with-deps chromium
+      - name: Critical browser flows
+        run: npm run test:e2e
         env:
           NEXT_PUBLIC_STAYMOTION_MODE: local
