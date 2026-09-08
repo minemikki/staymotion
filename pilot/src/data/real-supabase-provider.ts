@@ -1,7 +1,7 @@
 'use client';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { AttachmentMeta, Task } from '../domain/types';
+import type { AttachmentMeta, Membership, Role, Task } from '../domain/types';
 import type { Actor, CreateOrganizationInput } from './provider';
 import { storagePathFor } from '../lib/image';
 import { SupabaseProvider } from './supabase-provider';
@@ -27,10 +27,28 @@ const mapTask = (x: Row): Task => ({
   updatedAt: r(x).updated_at as string,
 });
 
+export type TeamMembership = Membership & {
+  invitedName?: string;
+  invitedEmail?: string;
+};
+
+const mapTeamMembership = (x: Row): TeamMembership => ({
+  id: r(x).id as string,
+  organizationId: r(x).organization_id as string,
+  userId: (r(x).user_id as string) || '',
+  role: r(x).role as Role,
+  locationId: (r(x).location_id as string) || undefined,
+  departmentId: (r(x).department_id as string) || undefined,
+  regionKey: (r(x).region_key as string) || undefined,
+  active: !!r(x).active,
+  invitedName: (r(x).invited_name as string) || undefined,
+  invitedEmail: (r(x).invited_email as string) || undefined,
+});
+
 /**
  * Real-pilot additions kept as a thin subclass so the proven Phase-2 provider
  * stays easy to review. The browser still uses only the anon key; Storage,
- * Realtime and task mutation are protected by RLS/RPCs from migrations 0002–0004.
+ * Realtime and task mutation are protected by RLS/RPCs from migrations 0002–0005.
  */
 export class RealSupabaseProvider extends SupabaseProvider {
   constructor(private readonly client: SupabaseClient) {
@@ -51,6 +69,17 @@ export class RealSupabaseProvider extends SupabaseProvider {
       created.owner = { ...created.owner, fullName, email: input.ownerEmail?.trim() || created.owner.email };
     }
     return created;
+  }
+
+  override async listMemberships(organizationId: string): Promise<TeamMembership[]> {
+    const { data, error } = await this.client
+      .from('memberships')
+      .select('*')
+      .eq('organization_id', organizationId)
+      .eq('active', true)
+      .order('created_at');
+    if (error) throw new Error(error.message);
+    return ((data as Row[]) || []).map(mapTeamMembership);
   }
 
   /**
