@@ -1,9 +1,6 @@
-name: Phase 3 one-time Next.js security upgrade
+name: Phase 3 Next.js maintenance upgrade
 
 on:
-  push:
-    branches:
-      - 'gpt/phase3-real-pilot-hardening'
   workflow_dispatch:
 
 permissions:
