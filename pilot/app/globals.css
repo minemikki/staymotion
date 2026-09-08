@@ -239,7 +239,7 @@ textarea.input{min-height:84px;resize:vertical}
 .sig-sent .sig-core{filter:drop-shadow(0 22px 34px rgba(14,122,85,.35)) drop-shadow(0 4px 10px rgba(15,23,42,.2))}
 .sig-sent .sig-orbit circle{fill:#22C48A}
 .sig-sent .sig-check{opacity:1;animation:sig-draw .55s var(--ease) forwards}
-.sig-has-text.sig-sent .sig-check{transform:translateY(-28px)} /* make room for the label inside the core */
+.sig-has-text.sig-sent .sig-check{transform:translateY(-46px) scale(.9)} /* make room for the label inside the core */
 .sig-sent .sig-text{transform:translateY(30%)}
 .sig-sent .sig-halo{opacity:.9;transform:scale(1.1)}
 /* critical: coral/red, slow attention pulse, never blinking */
