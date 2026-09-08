@@ -123,6 +123,11 @@ function Employee({ session }: { session: Session }) {
           </button>
         </div>
       </section>
+      <div className="employee-modules" aria-label="Dagens snarveier">
+        <div className="module module-coral"><span className="module-icon">↗</span><b>Rapporter</b><small>Si fra på sekunder</small></div>
+        <div className="module module-violet"><span className="module-icon">✦</span><b>StayMotion følger med</b><small>Ingen åpne avvik nå</small></div>
+        <div className="module module-yellow"><span className="module-icon">✓</span><b>Dagens flyt</b><small>{left === 0 ? 'Alt fullført' : `${left} oppgaver igjen`}</small></div>
+      </div>
       {error && <div className="load-error" role="alert">{error} <button className="linkbtn" onClick={() => db ? void load(db) : window.location.reload()}>Prøv igjen</button></div>}
 
       <div className="state" aria-live="polite" data-testid="state">

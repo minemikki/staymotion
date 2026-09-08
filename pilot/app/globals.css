@@ -495,6 +495,26 @@ textarea.input{min-height:80px;resize:vertical}
   .row{flex-wrap:wrap}
 }
 
+/* Colourful, modular employee home: a lighter, more expressive product surface. */
+.employee-workspace{max-width:900px}
+.employee-workspace .employee-hero{align-items:flex-start}
+.employee-workspace .employee-hero .h1{font-family:var(--body);font-weight:800;letter-spacing:-.06em}
+.employee-workspace .shift-score{background:#17181B;color:#fff;border:0;box-shadow:0 16px 32px -18px rgba(0,0,0,.42)}
+.employee-workspace .shift-score b{color:#fff}.employee-workspace .shift-score span{color:#B9F3D2}.employee-workspace .shift-score em{color:#AEB8B2}
+.employee-workspace .score-ring:after{background:#17181B}.employee-workspace .score-ring{color:#fff}
+.employee-workspace .capture-stage{background:#17181B;border:0;padding:14px;border-radius:25px;box-shadow:0 18px 45px -25px rgba(0,0,0,.5)}
+.employee-workspace .capture-stage-head{padding:4px 8px 2px}.employee-workspace .stage-kicker{color:#fff}.employee-workspace .stage-hint{color:#AEB8B2}
+.employee-workspace .capture-stage .voicebtn{background:linear-gradient(135deg,#331B2B,#17181B);border:1px solid rgba(255,108,93,.38);min-height:158px;box-shadow:inset 0 0 50px rgba(255,79,66,.08)}
+.employee-workspace .capture-stage .voicebtn .orbmini{background:radial-gradient(circle at 35% 30%,#FFD4C8,#FF6D5F 68%);color:#351518;box-shadow:0 0 0 7px rgba(255,109,95,.16),0 0 34px rgba(255,90,77,.38)}
+.employee-workspace .capture-stage .voicebtn .arrow{color:#FF907F}.employee-workspace .capture-stage .voicebtn span span{color:#F3CBC5}
+.employee-workspace .capture-stage .camerabtn{background:linear-gradient(145deg,#252A45,#202136);color:#fff;border:1px solid rgba(145,162,255,.34)}
+.employee-workspace .capture-stage .camerabtn .ic{color:#BFC9FF;background:rgba(143,160,255,.14)}.employee-workspace .capture-stage .camerabtn span span{color:#C6CAE4}
+.employee-modules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.module{min-height:112px;border-radius:20px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 10px 24px -18px rgba(0,0,0,.3);transition:transform .18s ease}.module:hover{transform:translateY(-2px)}
+.module-icon{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-size:18px;font-weight:800;background:rgba(255,255,255,.72)}.module b{font-size:14px;line-height:1.2}.module small{font-size:12px;opacity:.72}.module-coral{background:#FFB5A8;color:#411A1B}.module-violet{background:#C8C4FF;color:#292256}.module-yellow{background:#FFE28F;color:#493B10}
+@media(max-width:700px){.employee-workspace{max-width:680px}.employee-modules{grid-template-columns:1fr 1fr}.module:last-child{grid-column:span 2}.employee-workspace .employee-hero{display:block}.employee-workspace .shift-score{margin-top:18px;width:100%}}
+@media(max-width:450px){.employee-modules{gap:8px}.module{min-height:105px;padding:13px;border-radius:17px}.module b{font-size:13px}.module small{font-size:11px}}
+
 /* New employee layer must remain last in the stylesheet. */
 .employee-workspace{max-width:980px}
 .employee-workspace .employee-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-top:10px}
