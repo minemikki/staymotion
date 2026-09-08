@@ -1,6 +1,6 @@
 'use client';
 
-import type { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import type { AttachmentMeta } from '../domain/types';
 import type { Actor, CreateOrganizationInput } from './provider';
 import { storagePathFor } from '../lib/image';
@@ -51,11 +51,10 @@ export class RealSupabaseProvider extends SupabaseProvider {
 
   subscribeIncidentChanges(actor: Actor, scope: { organizationId: string; locationId?: string }, onChange: () => void): () => void {
     if (scope.organizationId !== actor.organizationId) return () => undefined;
-    let channel: RealtimeChannel;
     const name = `incidents:${scope.organizationId}:${scope.locationId || 'all'}:${actor.userId}`;
     const filter = scope.locationId ? `location_id=eq.${scope.locationId}` : `organization_id=eq.${scope.organizationId}`;
 
-    channel = this.client
+    const channel = this.client
       .channel(name)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'incidents', filter }, () => onChange())
       .subscribe();
