@@ -1,4 +1,4 @@
--- Preserve the manager-provided invite name when the invited employee claims
+-- Keep the manager-provided invite name when the invited employee claims
 -- their membership. The auth trigger may initially create a profile using the
 -- email address when passwordless sign-in has no full_name metadata.
 create or replace function public.claim_pending_invitations()
