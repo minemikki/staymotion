@@ -15,8 +15,8 @@ type Form = { name: string; email: string; role: Role; departmentId: string };
 const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
 function rolesFor(role: Role): Role[] {
-  if (role === 'owner' || role === 'hq' || role === 'regional_manager') return ['location_manager', 'shift_lead', 'employee'];
-  if (role === 'location_manager') return ['shift_lead', 'employee'];
+  if (role === 'owner' || role === 'hq' || role === 'regional_manager') return ['employee', 'shift_lead', 'location_manager'];
+  if (role === 'location_manager') return ['employee', 'shift_lead'];
   return ['employee'];
 }
 
@@ -32,7 +32,7 @@ function Team({ session }: { session: Session }) {
   const [memberships, setMemberships] = useState<TeamMembership[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [busy, setBusy] = useState(false);
-  const [form, setForm] = useState<Form>({ name: '', email: '', role: rolesFor(session.role)[0], departmentId: '' });
+  const [form, setForm] = useState<Form>({ name: '', email: '', role: 'employee', departmentId: '' });
 
   const load = useCallback(async (p: DataProvider) => {
     const [pp, mm, dd] = await Promise.all([
@@ -77,7 +77,7 @@ function Team({ session }: { session: Session }) {
         departmentId: form.departmentId || undefined,
         language: 'nb',
       });
-      setForm({ name: '', email: '', role: rolesFor(session.role)[0], departmentId: '' });
+      setForm({ name: '', email: '', role: 'employee', departmentId: '' });
       await load(db);
       toast(db.mode === 'supabase' ? 'Personen er lagt til og kobles til rollen ved innlogging.' : 'Personen er lagt til.');
     } catch (e) {
