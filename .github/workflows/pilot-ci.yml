@@ -6,13 +6,6 @@ on:
       - 'pilot/**'
       - 'supabase/migrations/**'
       - '.github/workflows/pilot-ci.yml'
-  push:
-    branches:
-      - 'gpt/phase3-real-pilot-hardening'
-    paths:
-      - 'pilot/**'
-      - 'supabase/migrations/**'
-      - '.github/workflows/pilot-ci.yml'
   workflow_dispatch:
 
 permissions:
