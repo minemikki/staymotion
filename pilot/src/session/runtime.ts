@@ -32,8 +32,9 @@ export async function resolveSessionState(): Promise<SessionState> {
   if (authError || !authData.session?.user) return { authenticated: false, session: null };
 
   // An invitation may have been created after this auth user already existed.
-  // Claiming on every bootstrap is idempotent and closes that gap.
-  await sb.rpc('claim_pending_invitations').catch(() => undefined);
+  // Claiming on every bootstrap is idempotent and closes that gap. A missing
+  // migration is surfaced by the following context RPC rather than crashing here.
+  await sb.rpc('claim_pending_invitations');
 
   const { data, error } = await sb.rpc('get_my_session_context');
   if (error) throw new Error(error.message);
