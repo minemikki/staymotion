@@ -36,7 +36,7 @@ export interface SignalProps {
 export const Signal = forwardRef<HTMLSpanElement, SignalProps>(function Signal({ state, size = 'lg', level, title, subtitle, className = '' }, ref) {
   const style = level === undefined ? undefined : ({ ['--level' as string]: String(Math.max(0, Math.min(1, level))) } as React.CSSProperties);
   return (
-    <span ref={ref} className={`sig sig-${state} sig-${size} ${className}`.trim()} style={style} data-state={state} aria-hidden>
+    <span ref={ref} className={`sig sig-${state} sig-${size}${title || subtitle ? ' sig-has-text' : ''} ${className}`.trim()} style={style} data-state={state} aria-hidden>
       <svg className="sig-svg" viewBox="0 0 400 400" focusable="false">
         <defs>
           <radialGradient id="sigCore" cx="34%" cy="30%" r="80%">
@@ -108,7 +108,7 @@ export const Signal = forwardRef<HTMLSpanElement, SignalProps>(function Signal({
         <g className="sig-wave-wrap"><path className="sig-wave" d="M40 200C60 200 66 150 88 150S112 250 136 250S160 150 184 150S208 250 232 250S256 150 280 150S304 250 328 250S344 200 360 200" /></g>
 
         {/* sent check */}
-        <path className="sig-check" d="M166 160l22 22 44-48" />
+        <path className="sig-check" d="M166 202l22 22 44-48" />
       </svg>
       {(title || subtitle) && (
         <span className="sig-text">
