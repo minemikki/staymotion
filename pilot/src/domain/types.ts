@@ -60,6 +60,9 @@ export interface Membership {
   departmentId?: string;
   regionKey?: string;
   active: boolean;
+  /** Present while a person has been invited but has not completed a real sign-in yet. */
+  invitedName?: string;
+  invitedEmail?: string;
 }
 
 export type TaskStatus = 'open' | 'in_progress' | 'done' | 'skipped';
@@ -178,35 +181,23 @@ export interface AIUsage {
   organizationId?: string;
   locationId?: string;
   requestedBy?: string;
-  actionType: 'extract_issues' | 'transcribe' | 'vision' | 'aggregate';
-  provider: string; // 'local-rules' | 'anthropic' | ...
+  provider: string;
   model: string;
-  inputModality: 'text' | 'audio' | 'image' | 'image+text';
-  latencyMs: number;
-  units?: { inputTokens?: number; outputTokens?: number; audioSeconds?: number; images?: number };
-  estimatedCostNok?: number; // only when actually known
-  fallbackUsed: boolean;
+  operation: string;
+  inputTokens?: number;
+  outputTokens?: number;
+  estimatedCostNok?: number;
+  durationMs?: number;
+  success: boolean;
   createdAt: string;
-}
-
-export interface RoutineTemplate {
-  key: string;
-  title: string;
-  description: string;
-  cadence: 'daily_open' | 'daily_close' | 'daily' | 'weekly' | 'on_demand';
-  department: string;
-  estimatedMinutes: number;
-  category: IncidentCategory | 'routine';
-  defaultOn: boolean;
 }
 
 export interface LocationHealth {
   locationId: string;
-  name: string;
-  score: number; // 0–100, computed, not invented
+  locationName: string;
+  score: number;
   openIncidents: number;
-  needsAttention: number;
   criticalIncidents: number;
-  taskCompletion: number; // 0–1
-  recurring: { key: string; count: number; label: string }[];
+  needsAttention: number;
+  taskCompletion: number;
 }
