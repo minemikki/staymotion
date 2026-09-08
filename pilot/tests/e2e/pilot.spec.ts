@@ -15,7 +15,9 @@ const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR
 const SPEECH_MOCK = `
   class FakeSR {
     constructor(){ this.lang=''; this.continuous=false; this.interimResults=false; this.onstart=null; this.onend=null; this.onerror=null; this.onresult=null; }
-    start(){ setTimeout(()=>{ this.onstart && this.onstart();
+    start(){ setTimeout(()=>{
+      if (window.__speechDeny) { this.onerror && this.onerror({ error: 'not-allowed' }); this.onend && this.onend(); return; }
+      this.onstart && this.onstart();
       const text = window.__speechText || '';
       setTimeout(()=>{ this.onresult && this.onresult({ resultIndex:0, results:[{ isFinal:false, 0:{ transcript: text.slice(0, 12) } }] }); }, 40);
       setTimeout(()=>{ this.onresult && this.onresult({ resultIndex:0, results:[{ isFinal:true, 0:{ transcript: text }, length:1 }] }); }, 120);
@@ -49,18 +51,26 @@ async function signIn(page: Page, role: 'employee' | 'location_manager' | 'owner
   await page.getByTestId(`persona-${role}`).first().click();
   await page.waitForURL(/\/(employee|manager|hq)/);
 }
-async function openVoice(page: Page) {
-  await page.getByTestId('open-voice').click();
-  await expect(page.getByRole('dialog')).toBeVisible();
-}
+/** Speak into the Signal on Employee Today: tap starts, tap stops → analysis → confirmation panel. */
 async function speak(page: Page, text: string) {
   await page.evaluate((t) => { (window as unknown as { __speechText: string }).__speechText = t; }, text);
-  await page.getByTestId('orb').click();
-  await expect(page.getByTestId('live')).toContainText(text.slice(0, 8));
-  await page.getByTestId('orb').click(); // stop → analyze
+  await page.getByTestId('open-voice').click();
+  await expect(page.getByTestId('open-voice')).toHaveAttribute('data-state', /listening|pressed/);
+  await expect(page.getByTestId('live')).toContainText(text); // wait for the final result, not just the interim words
+  await page.getByTestId('open-voice').click(); // stop → analyze
+  await expect(page.getByRole('dialog')).toBeVisible();
   await expect(page.getByTestId('found')).toBeVisible();
 }
+/** Typed fallback on Employee Today (inline under the Signal). */
 async function typeReport(page: Page, text: string) {
+  await page.getByTestId('signal-type-toggle').click();
+  await page.getByTestId('signal-type-input').fill(text);
+  await page.getByTestId('signal-type-go').click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByTestId('found')).toBeVisible();
+}
+/** Typed input inside the Capture sheet (camera flow). */
+async function typeInSheet(page: Page, text: string) {
   await page.getByTestId('toggle-type').click();
   await page.getByTestId('type-input').fill(text);
   await page.getByTestId('type-go').click();
@@ -69,7 +79,7 @@ async function typeReport(page: Page, text: string) {
 
 /** Registers one plain (non-confirmation) incident as the employee, then signs in as the manager. */
 async function employeeReportsThenManager(page: Page, text: string) {
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await typeReport(page, text);
   await page.getByTestId('confirm-all').click();
   await expect(page.getByTestId('success')).toBeVisible();
@@ -123,14 +133,14 @@ test('03 employee sees tasks from the provider and a completed task persists acr
 });
 
 test('04 typed Capture with one issue proposes a single incident', async ({ page }) => {
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await typeReport(page, 'Oppvaskmaskinen virker ikke');
   await expect(page.getByTestId('issue')).toHaveCount(1);
   await expect(page.getByTestId('issue')).toContainText('Oppvaskmaskin');
 });
 
 test('05 the proven sentence becomes two separate issues (voice mocked)', async ({ page }) => {
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await speak(page, SENTENCE);
   await expect(page.getByTestId('found')).toContainText('to ting');
   const issues = page.getByTestId('issue');
@@ -143,7 +153,7 @@ test('05 the proven sentence becomes two separate issues (voice mocked)', async 
 });
 
 test('06 an issue can be edited before registration', async ({ page }) => {
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await typeReport(page, SENTENCE);
   await page.getByTestId('issue').first().getByTestId('edit').click();
   await page.getByTestId('edit-equipment').fill('Fryser 2');
@@ -152,7 +162,7 @@ test('06 an issue can be edited before registration', async ({ page }) => {
 });
 
 test('07 an incorrect issue can be removed', async ({ page }) => {
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await typeReport(page, SENTENCE);
   await page.getByTestId('issue').first().getByTestId('remove').click();
   await expect(page.getByTestId('issue')).toHaveCount(1);
@@ -160,7 +170,7 @@ test('07 an incorrect issue can be removed', async ({ page }) => {
 });
 
 test('08 compliance-critical issues require explicit confirmation before registration', async ({ page }) => {
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await typeReport(page, 'Kjøleskapet står på 9 grader');
   await expect(page.getByTestId('confirm-all')).toBeDisabled();
   await page.getByTestId('confirm-check').check();
@@ -168,7 +178,7 @@ test('08 compliance-critical issues require explicit confirmation before registr
 });
 
 test('09 registration succeeds and shows a success state with both issues', async ({ page }) => {
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await typeReport(page, SENTENCE);
   await page.getByTestId('confirm-check').check();
   await page.getByTestId('confirm-all').click();
@@ -180,7 +190,7 @@ test('09 registration succeeds and shows a success state with both issues', asyn
 });
 
 test('10 issues can be registered individually', async ({ page }) => {
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await typeReport(page, SENTENCE);
   await page.getByTestId('issue').first().getByTestId('register-one').click();
   await expect(page.getByTestId('issue').first()).toContainText('Registrert');
@@ -191,7 +201,7 @@ test('10 issues can be registered individually', async ({ page }) => {
 });
 
 test('11 manager sees the incidents the employee just registered', async ({ page }) => {
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await typeReport(page, 'Oppvaskmaskinen virker ikke');
   await page.getByTestId('confirm-all').click();
   await expect(page.getByTestId('success')).toBeVisible();
@@ -237,7 +247,7 @@ test('15 photo + typed context registers with the image attached', async ({ page
   await page.getByTestId('camera-input').setInputFiles({ name: 'fryser.png', mimeType: 'image/png', buffer: PNG });
   await expect(page.getByTestId('photo')).toBeVisible();
   await expect(page.getByRole('dialog')).toContainText('Demo:'); // honest: no computer vision
-  await typeReport(page, 'Den lekker her, og displayet viser 1 grad.');
+  await typeInSheet(page, 'Den lekker her, og displayet viser 1 grad.');
   await expect(page.getByTestId('issue')).toHaveCount(2);
   await expect(page.getByTestId('issue').first()).toContainText('Se vedlagt bilde');
   await page.getByTestId('confirm-check').check();
@@ -270,7 +280,7 @@ test('18 mobile 390×844: no horizontal overflow on any view', async ({ page }, 
 
 test('19 small iPhone 375×667: capture sheet scrolls and footer actions stay reachable', async ({ page }, info) => {
   test.skip(info.project.name !== 'iphone-se', 'viewport-specific');
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await typeReport(page, SENTENCE);
   const body = page.getByTestId('sheet-body');
   const scrollable = await body.evaluate((el) => el.scrollHeight > el.clientHeight);
@@ -305,10 +315,43 @@ test('21 touch targets: primary controls are at least 44px tall on mobile', asyn
 
 test('22 reduced-motion mode: the full capture flow still works', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await signIn(page, 'employee'); await openVoice(page);
+  await signIn(page, 'employee');
   await speak(page, 'Fryseren står på minus 20 grader');
   await expect(page.getByTestId('issue')).toHaveCount(1);
   await page.getByTestId('confirm-check').check();
   await page.getByTestId('confirm-all').click();
   await expect(page.getByTestId('success')).toBeVisible();
+});
+
+test('23 microphone denied → inline typed fallback, page stays usable', async ({ page }) => {
+  await page.addInitScript(() => { (window as unknown as { __speechDeny: boolean }).__speechDeny = true; });
+  await signIn(page, 'employee');
+  await page.getByTestId('open-voice').click();
+  await expect(page.getByTestId('open-voice')).toHaveAttribute('data-state', 'error');
+  await expect(page.getByTestId('signal-type-input')).toBeVisible();
+  await expect(page.getByTestId('task').first()).toBeVisible(); // rest of the page still works
+  await page.getByTestId('signal-type-input').fill('Oppvaskmaskinen virker ikke');
+  await page.getByTestId('signal-type-go').click();
+  await expect(page.getByTestId('found')).toBeVisible();
+});
+
+test('24 empty transcript → calm hint, no panel, back to idle', async ({ page }) => {
+  await signIn(page, 'employee');
+  await page.evaluate(() => { (window as unknown as { __speechText: string }).__speechText = ''; });
+  await page.getByTestId('open-voice').click();
+  await expect(page.getByTestId('open-voice')).toHaveAttribute('data-state', /listening|pressed/);
+  await page.getByTestId('open-voice').click();
+  await expect(page.getByTestId('open-voice')).toHaveAttribute('data-state', 'idle');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByText(/hørte ikke nok/)).toBeVisible();
+});
+
+test('25 sent state after registration, then back to idle', async ({ page }) => {
+  await signIn(page, 'employee');
+  await typeReport(page, 'Oppvaskmaskinen virker ikke');
+  await page.getByTestId('confirm-all').click();
+  await expect(page.getByTestId('success')).toBeVisible();
+  await page.getByTestId('done').click();
+  await expect(page.getByTestId('open-voice')).toHaveAttribute('data-state', 'sent');
+  await expect(page.getByText('Lederen får beskjed')).toBeVisible();
 });

@@ -8,9 +8,9 @@ import { speechSupported, startSpeech, type SpeechHandle } from '../lib/speech';
 import type { DataProvider, RegisterIncidentInput } from '../data/provider';
 import type { Session } from '../session/session';
 import { actorOf } from '../session/session';
-import { apiAuthHeaders } from '../session/runtime';
 import { useToast } from './Toast';
-import { Pulse, type PulseState } from './Pulse';
+import { Signal, type SignalState } from './Signal';
+import { analyzeText } from '../lib/analyze-client';
 
 /**
  * StayMotion Capture — the proven voice/photo → proposed issues flow, ported to React.
@@ -24,18 +24,20 @@ type PhotoState = { meta: AttachmentMeta; blob: Blob; previewUrl: string };
 
 const X = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden><path d="M6 6l12 12M18 6L6 18" /></svg>;
 
-export function Capture({ session, db, mode, onClose, onRegistered }: { session: Session; db: DataProvider; mode: 'voice' | 'camera'; onClose(): void; onRegistered(incidents: Incident[]): void }) {
+export type CaptureInitial = { analysis: AnalyzeResult; transcript: string; source: CaptureSource };
+
+export function Capture({ session, db, mode, initial, onClose, onRegistered }: { session: Session; db: DataProvider; mode: 'voice' | 'camera'; /** Open straight in the confirmation stage with a result produced elsewhere (the Signal on Employee Today). */ initial?: CaptureInitial; onClose(): void; onRegistered(incidents: Incident[]): void }) {
   const toast = useToast();
-  const [stage, setStage] = useState<Stage>('record');
+  const [stage, setStage] = useState<Stage>(initial ? 'review' : 'record');
   const [listening, setListening] = useState(false);
   const [finalText, setFinalText] = useState(''); const [interim, setInterim] = useState('');
   const [status, setStatus] = useState(mode === 'camera' ? 'Legg ved et bilde først' : 'Trykk for å starte');
   const [hint, setHint] = useState(mode === 'camera' ? 'Etterpå kan du fortelle hva du ser.' : 'Snakk naturlig. Du trenger ikke fylle ut et skjema.');
-  const [typing, setTyping] = useState(false); const [typed, setTyped] = useState('');
+  const [typing, setTyping] = useState(initial?.source === 'typed'); const [typed, setTyped] = useState('');
   const [photo, setPhoto] = useState<PhotoState | null>(null);
-  const [analysis, setAnalysis] = useState<AnalyzeResult | null>(null);
-  const [issues, setIssues] = useState<Local[]>([]);
-  const [transcript, setTranscript] = useState(''); const [editingTranscript, setEditingTranscript] = useState(false);
+  const [analysis, setAnalysis] = useState<AnalyzeResult | null>(initial?.analysis ?? null);
+  const [issues, setIssues] = useState<Local[]>(() => initial ? initial.analysis.issues.map((p) => ({ ...p, confirmed: false, checked: false, editing: false, edited: new Set<string>() })) : []);
+  const [transcript, setTranscript] = useState(initial?.transcript ?? ''); const [editingTranscript, setEditingTranscript] = useState(false);
   const [busy, setBusy] = useState(false);
   const [registered, setRegistered] = useState<Incident[]>([]);
   const speech = useRef<SpeechHandle | null>(null);
@@ -102,17 +104,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   const analyze = useCallback(async (text: string) => {
     setBusy(true);
     try {
-      const auth = await apiAuthHeaders(session.mode);
-      const res = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', ...auth },
-        body: JSON.stringify({ text, hasPhoto: !!photo, context: { organizationId: session.organizationId, locationId: session.locationId, departmentId: session.departmentId, userId: session.userId } }),
-      });
-      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'Tolkningen feilet');
-      const { result, usage } = (await res.json()) as { result: AnalyzeResult; usage: import('../domain/types').AIUsage };
-      // Real-mode usage is recorded server-side after quota enforcement. Local
-      // mode keeps its own usage history for the demo and unit tests.
-      if (db.mode === 'local') void db.recordAIUsage(usage);
+      const result = await analyzeText(session, db, text, !!photo);
       setAnalysis(result); setTranscript(result.transcript);
       setIssues(result.issues.map((p) => ({ ...p, confirmed: false, checked: false, editing: false, edited: new Set() })));
       setStage('review'); setEditingTranscript(false); scrollTop();
@@ -150,7 +142,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   }
   function remove(key: string) { setIssues((arr) => arr.filter((x) => x.clientKey !== key)); toast('Forslaget er fjernet'); }
 
-  const source: CaptureSource = photo ? (typing ? 'photo+typed' : 'photo+voice') : typing ? 'typed' : 'voice';
+  const source: CaptureSource = photo ? (typing ? 'photo+typed' : 'photo+voice') : (initial?.source ?? (typing ? 'typed' : 'voice'));
   async function register(keys: string[]) {
     const targets = issues.filter((x) => keys.includes(x.clientKey) && !x.confirmed);
     if (!targets.length) return;
@@ -184,11 +176,11 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
   function retake() { setStage('record'); setIssues([]); setAnalysis(null); setFinalText(''); setInterim(''); setStatus('Trykk for å starte'); setHint('Snakk naturlig. Du trenger ikke fylle ut et skjema.'); scrollTop(); }
   function reanalyze() { const t = (transcriptRef.current?.textContent || '').trim(); setEditingTranscript(false); if (t) void analyze(t); }
 
-  const pulseState: PulseState = busy ? 'analyzing' : listening ? 'listening' : 'idle';
+  const sigState: SignalState = busy ? 'analyzing' : listening ? 'listening' : 'idle';
   const open = issues.filter((x) => !x.confirmed);
   const needChk = open.some((x) => x.requiresConfirmation && !x.checked);
   const n = issues.length;
-  const stepLabel = stage === 'done' ? 'Ferdig' : photo ? 'Bilde + tale' : mode === 'camera' ? 'Rapporter med bilde' : 'Fortell StayMotion';
+  const stepLabel = stage === 'done' ? 'Ferdig' : photo ? 'Bilde + tale' : mode === 'camera' ? 'Rapporter med bilde' : initial ? 'Meld fra' : 'Fortell StayMotion';
   const title = stage === 'done' ? 'Takk, det er registrert' : stage === 'review' ? 'Sjekk før du registrerer' : photo ? 'Fortell hva du ser' : mode === 'camera' ? 'Ta eller velg et bilde' : 'Hva har skjedd?';
 
   return (
@@ -212,7 +204,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
 
           {stage === 'record' && (
             <div className="rec">
-              <button className="pulsebtn" type="button" onClick={() => (listening ? stopListening() : startListening())} aria-pressed={listening} aria-label={listening ? 'Stopp opptak' : 'Start opptak'} data-testid="orb" disabled={busy}><Pulse state={pulseState} size="lg" /></button>
+              <button className="sigbtn sigbtn-sheet" type="button" onClick={() => (listening ? stopListening() : startListening())} aria-pressed={listening} aria-label={listening ? 'Stopp opptak' : 'Start opptak'} data-testid="orb" disabled={busy}><Signal state={sigState} size="sm" /></button>
               <strong>{busy ? 'Tolker …' : status}</strong>
               <p>{hint}</p>
               <div className={'live' + (!finalText && !interim ? ' empty' : '')} aria-live="polite" data-testid="live">
@@ -231,7 +223,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
           {stage === 'review' && analysis && (
             <div>
               {transcript && (<>
-                <div className="understood"><Pulse state="confirm" size="sm" />StayMotion forstod</div>
+                <div className="understood"><Signal state="confirm" size="xs" />StayMotion forstod</div>
                 <div className="transcript" ref={transcriptRef} contentEditable={editingTranscript} suppressContentEditableWarning role="textbox" aria-label="Det du sa" data-testid="transcript" onKeyDown={(e) => { if (e.key === 'Enter' && editingTranscript) { e.preventDefault(); reanalyze(); } }}>{transcript}</div>
                 <div className="tools">
                   <button className="linkbtn" type="button" onClick={() => (editingTranscript ? reanalyze() : (setEditingTranscript(true), setTimeout(() => transcriptRef.current?.focus(), 30)))}>{editingTranscript ? 'Tolk på nytt' : 'Rediger teksten'}</button>
@@ -252,7 +244,7 @@ export function Capture({ session, db, mode, onClose, onRegistered }: { session:
 
           {stage === 'done' && (
             <div className="success" data-testid="success">
-              <Pulse state="sent" size="md" />
+              <Signal state="sent" size="md" />
               <h3>{registered.length > 1 ? (registered.length === 2 ? 'Begge er registrert.' : `${registered.length} saker er registrert.`) : 'Registrert.'}</h3>
               <p>{registered.length > 1 ? 'Hver sak er sendt til riktig oppfølging. Du trenger ikke gjøre mer.' : 'Saken er sendt til riktig oppfølging. Du trenger ikke gjøre mer.'}</p>
               <div className="summary">

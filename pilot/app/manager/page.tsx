@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Shell } from '@/src/ui/Shell';
 import { useToast } from '@/src/ui/Toast';
-import { Pulse } from '@/src/ui/Pulse';
+import { Signal } from '@/src/ui/Signal';
 import { getProvider } from '@/src/data';
 import type { DataProvider } from '@/src/data/provider';
 import type { AuditEvent, Incident, Profile, Task } from '@/src/domain/types';
@@ -120,7 +120,7 @@ function Manager({ session }: { session: Session }) {
 
       <div className="calm" data-testid="calm">
         <div>
-          <Pulse state={loading ? 'analyzing' : critical > 0 ? 'critical' : needs.length ? 'confirm' : 'sent'} size="sm" />
+          <Signal state={loading ? 'analyzing' : critical > 0 ? 'critical' : needs.length ? 'confirm' : 'sent'} size="sm" />
           <div className="eyebrow">Nå</div>
           <h2>{loading ? 'Henter driftsstatus …' : needs.length === 0 ? (open.length ? 'Ingen nye saker venter.' : 'Ingen åpne saker.') : needs.length === 1 ? 'Én sak trenger deg.' : `${needs.length} saker trenger deg.`}</h2>
           <p>{resolvedToday.length ? `${resolvedToday.length} sak${resolvedToday.length > 1 ? 'er' : ''} løst siste døgn. ` : ''}{tasks.length ? `${doneTasks} av ${tasks.length} rutiner gjort i dag.` : 'Ingen rutiner lagt opp for i dag.'}</p>

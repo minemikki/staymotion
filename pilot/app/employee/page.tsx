@@ -2,17 +2,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Shell } from '@/src/ui/Shell';
-import { Capture } from '@/src/ui/Capture';
-import { PulseButton } from '@/src/ui/Pulse';
+import { Capture, type CaptureInitial } from '@/src/ui/Capture';
+import { SignalCapture, type SignalOutcome } from '@/src/ui/SignalCapture';
 import { useToast } from '@/src/ui/Toast';
 import { getProvider } from '@/src/data';
 import type { DataProvider } from '@/src/data/provider';
 import type { Incident, Task } from '@/src/domain/types';
+import type { AnalyzeResult } from '@/src/ai/contract';
+import type { CaptureSource } from '@/src/domain/types';
 import { CATEGORY_LABEL } from '@/src/ai/rules-adapter';
 import { actorOf, type Session } from '@/src/session/session';
 import { incidentStatus } from '@/src/domain/incident-presentation';
 
-const MIC = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></svg>;
 const CAM = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>;
 const PIN = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" /><circle cx="12" cy="9" r="2.5" /></svg>;
 
@@ -32,10 +33,11 @@ function Employee({ session }: { session: Session }) {
   const [mine, setMine] = useState<Incident[]>([]);
   const [showAll, setShowAll] = useState(false);
   const [capture, setCapture] = useState<null | 'voice' | 'camera'>(null);
+  const [initial, setInitial] = useState<CaptureInitial | undefined>(undefined);
+  const [outcome, setOutcome] = useState<SignalOutcome>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [pendingTask, setPendingTask] = useState<string | null>(null);
-  const [justSent, setJustSent] = useState(false);
   const statusRef = useRef<Record<string, Incident['status']>>({});
   const actor = useMemo(() => actorOf(session), [session]); // stable per session, so load/effects don't loop
 
@@ -67,12 +69,25 @@ function Employee({ session }: { session: Session }) {
 
   useEffect(() => { getProvider().then(async (p) => { setDb(p); await load(p); }).catch(() => { setError('Kunne ikke koble til. Last siden på nytt.'); setLoading(false); }); }, [load]);
 
-  // "Meld" in the tab bar deep-links here with ?meld=1 → open the Pulse capture straight away.
+  // "Meld" in the tab bar deep-links here with ?meld=1 → bring the Signal into view and focus it.
   useEffect(() => {
     if (!db) return;
     const params = new URLSearchParams(window.location.search);
-    if (params.get('meld') === '1') { setCapture('voice'); router.replace('/employee'); }
+    if (params.get('meld') === '1') {
+      router.replace('/employee');
+      const el = document.querySelector<HTMLButtonElement>('[data-testid="open-voice"]');
+      el?.scrollIntoView({ block: 'center', behavior: 'smooth' }); el?.focus({ preventScroll: true });
+    }
   }, [db, router]);
+
+  // The Signal produced a proposal → open the confirmation panel. Nothing is stored until the employee confirms.
+  const onAnalyzed = useCallback((result: AnalyzeResult, transcript: string, source: CaptureSource) => {
+    setInitial({ analysis: result, transcript, source }); setCapture('voice');
+  }, []);
+  const showOutcome = useCallback((created: Incident[]) => {
+    const o: SignalOutcome = created.some((i) => i.severity === 'critical') ? 'critical' : 'sent';
+    setOutcome(o); setTimeout(() => setOutcome(null), 6000);
+  }, []);
 
   // Employee gets the same live loop as the manager: when a leader acknowledges or
   // resolves one of their reports, realtime is only used as an invalidation signal;
@@ -121,18 +136,10 @@ function Employee({ session }: { session: Session }) {
         <p className="lead">{loading ? 'Henter dagen din …' : left === 0 && openReports === 0 ? 'Alt ser bra ut. Meld fra hvis noe skjer.' : left ? `${left === 1 ? 'Én ting' : `${left} ting`} står igjen i dag.` : `${openReports} rapport${openReports > 1 ? 'er' : ''} følges opp for deg.`}</p>
       </div>
 
-      <section className="report" aria-label="Meld fra til StayMotion">
-        <PulseButton state={justSent ? 'sent' : 'idle'} size="lg" onClick={() => setCapture('voice')} aria-label="Meld fra — snakk til StayMotion" data-testid="open-voice" />
-        <div className="report-copy">
-          <span className="kicker"><span className="dot" style={{ background: 'var(--coral)' }} aria-hidden />Meld fra</span>
-          <h2>{justSent ? 'Sendt. Lederen ser det nå.' : 'Si hva som har skjedd.'}</h2>
-          <p>{justSent ? 'Du får beskjed når det er sett og når det er løst.' : 'Trykk og snakk naturlig. StayMotion sorterer, foreslår oppfølging og du bekrefter.'}</p>
-        </div>
-        <div className="report-acts">
-          <button className="btn coral" type="button" onClick={() => setCapture('voice')}><span className="ic" aria-hidden>{MIC}</span><span>Meld fra<small>Snakk eller skriv</small></span></button>
-          <button className="btn ghost" type="button" onClick={() => setCapture('camera')} data-testid="open-camera"><span className="ic" aria-hidden>{CAM}</span><span>Ta bilde<small>Legg ved og fortell</small></span></button>
-        </div>
-      </section>
+      {db && <SignalCapture session={session} db={db} outcome={outcome} onAnalyzed={onAnalyzed} />}
+      <div className="sig-secondary">
+        <button className="btn ghost sig-camera" type="button" onClick={() => { setInitial(undefined); setCapture('camera'); }} data-testid="open-camera"><span className="ic" aria-hidden>{CAM}</span>Ta bilde</button>
+      </div>
 
       {error && <div className="load-error" role="alert">{error} <button className="linkbtn" onClick={() => db ? void load(db) : window.location.reload()}>Prøv igjen</button></div>}
 
@@ -191,7 +198,7 @@ function Employee({ session }: { session: Session }) {
         )}
       </section>
 
-      {capture && db && <Capture session={session} db={db} mode={capture} onClose={() => { setCapture(null); void load(db); }} onRegistered={() => { setJustSent(true); setTimeout(() => setJustSent(false), 6000); void load(db); }} />}
+      {capture && db && <Capture session={session} db={db} mode={capture} initial={capture === 'voice' ? initial : undefined} onClose={() => { setCapture(null); setInitial(undefined); void load(db); }} onRegistered={(created) => { showOutcome(created); void load(db); }} />}
     </div>
   );
 }
