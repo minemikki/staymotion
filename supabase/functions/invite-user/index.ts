@@ -41,6 +41,14 @@ Deno.serve(async (req: Request) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !locationId) return json({ error: "Email and location are required" }, 400);
 
   const admin = createClient(url, service, { auth: { persistSession: false, autoRefreshToken: false } });
+  const { data: targetLocation, error: locationError } = await admin
+    .from("locations")
+    .select("id,organization_id")
+    .eq("id", locationId)
+    .maybeSingle();
+  if (locationError) return json({ error: "Could not verify location" }, 500);
+  if (!targetLocation) return json({ error: "Location not found" }, 404);
+
   const { data: callerMemberships, error: callerError } = await admin
     .from("memberships")
     .select("role,organization_id,location_id,active")
@@ -49,9 +57,11 @@ Deno.serve(async (req: Request) => {
   if (callerError) return json({ error: "Could not verify access" }, 500);
 
   const managerRoles = new Set(["owner", "hq", "regional_manager", "location_manager"]);
-  const canManage = (callerMemberships || []).some((m: any) => managerRoles.has(m.role) && (
-    m.role === "owner" || m.role === "hq" || m.role === "regional_manager" || m.location_id === locationId
-  ));
+  const canManage = (callerMemberships || []).some((m: any) =>
+    managerRoles.has(m.role) &&
+    m.organization_id === targetLocation.organization_id &&
+    (m.role !== "location_manager" || m.location_id === locationId)
+  );
   if (!canManage) return json({ error: "Forbidden" }, 403);
 
   const { data: pending, error: pendingError } = await admin
