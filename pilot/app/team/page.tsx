@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Shell } from '@/src/ui/Shell';
 import { useToast } from '@/src/ui/Toast';
 import { getProvider } from '@/src/data';
+import { createBrowserSupabase } from '@/src/data/supabase-provider';
 import type { DataProvider } from '@/src/data/provider';
 import type { Department, Membership, Profile, Role } from '@/src/domain/types';
 import { roleLabel } from '@/src/domain/followup';
@@ -32,14 +33,36 @@ function Team({ session }: { session: Session }) {
   const [memberships, setMemberships] = useState<TeamMembership[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [busy, setBusy] = useState(false);
+  const [sending, setSending] = useState<string | null>(null);
   const [form, setForm] = useState<Form>({ name: '', email: '', role: 'employee', departmentId: '' });
 
   const load = useCallback(async (p: DataProvider) => {
-    const [pp, mm, dd] = await Promise.all([
+    const [pp, baseMemberships, dd] = await Promise.all([
       p.listProfiles(session.organizationId),
       p.listMemberships(session.organizationId) as Promise<TeamMembership[]>,
       session.locationId ? p.listDepartments(session.locationId) : Promise.resolve([] as Department[]),
     ]);
+
+    let mm = baseMemberships;
+    // The shared provider intentionally keeps the core Membership shape small.
+    // Team also needs pending-invite metadata so managers can see who has actually signed in.
+    if (p.mode === 'supabase') {
+      const sb = createBrowserSupabase();
+      const { data } = await sb
+        .from('memberships')
+        .select('id, invited_name, invited_email')
+        .eq('organization_id', session.organizationId);
+      const inviteById = new Map((data || []).map((r) => [r.id, r]));
+      mm = baseMemberships.map((m) => {
+        const raw = inviteById.get(m.id);
+        return {
+          ...m,
+          invitedName: raw?.invited_name || m.invitedName,
+          invitedEmail: raw?.invited_email || m.invitedEmail,
+        };
+      });
+    }
+
     setProfiles(pp);
     setMemberships(mm);
     setDepartments(dd);
@@ -60,6 +83,21 @@ function Team({ session }: { session: Session }) {
   const displayName = (m: TeamMembership) => profileFor(m)?.fullName || m.invitedName || m.invitedEmail || 'Invitert bruker';
   const displayEmail = (m: TeamMembership) => profileFor(m)?.email || m.invitedEmail;
 
+  async function sendInviteEmail(email: string) {
+    if (!session.locationId) throw new Error('Mangler lokasjon');
+    const sb = createBrowserSupabase();
+    const { data, error } = await sb.functions.invoke('invite-user', {
+      body: {
+        email,
+        locationId: session.locationId,
+        redirectTo: `${location.origin}/`,
+      },
+    });
+    if (error) throw error;
+    if (data?.error) throw new Error(data.error);
+    return data as { ok?: boolean; alreadyRegistered?: boolean };
+  }
+
   async function add() {
     if (!db || !session.locationId || busy) return;
     const name = form.name.trim();
@@ -78,13 +116,42 @@ function Team({ session }: { session: Session }) {
         language: 'nb',
       });
       setForm({ name: '', email: '', role: 'employee', departmentId: '' });
+
+      if (db.mode === 'supabase' && email) {
+        try {
+          await sendInviteEmail(email);
+          toast('Personen er lagt til. Invitasjon er sendt på e-post.');
+        } catch (e) {
+          const msg = (e as Error).message || '';
+          toast(/rate limit/i.test(msg)
+            ? 'Personen er lagt til, men e-postleverandøren har midlertidig rate limit. Du kan sende invitasjonen på nytt senere.'
+            : 'Personen er lagt til, men invitasjonsmailen kunne ikke sendes. Du kan prøve på nytt fra teamlisten.');
+        }
+      } else {
+        toast('Personen er lagt til.');
+      }
+
       await load(db);
-      toast(db.mode === 'supabase' ? 'Personen er lagt til og kobles til rollen ved innlogging.' : 'Personen er lagt til.');
     } catch (e) {
       const msg = (e as Error).message;
       toast(msg.includes('already invited') ? 'Denne e-posten er allerede invitert til lokasjonen.' : msg);
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function resend(m: TeamMembership) {
+    if (!db || db.mode !== 'supabase' || !m.invitedEmail || sending) return;
+    setSending(m.id);
+    try {
+      await sendInviteEmail(m.invitedEmail);
+      toast('Ny invitasjon er sendt.');
+      await load(db);
+    } catch (e) {
+      const msg = (e as Error).message || '';
+      toast(/rate limit/i.test(msg) ? 'For mange e-poster på kort tid. Prøv igjen litt senere.' : msg || 'Kunne ikke sende invitasjonen.');
+    } finally {
+      setSending(null);
     }
   }
 
@@ -111,10 +178,10 @@ function Team({ session }: { session: Session }) {
             <div className="row">
               <div className="small" style={{ maxWidth: 560 }}>
                 {db?.mode === 'supabase'
-                  ? 'E-posten brukes som sikker kobling til riktig rolle når personen logger inn. Automatisk invitasjonsmail er ikke slått på ennå.'
+                  ? 'Personen får en personlig StayMotion-invitasjon på e-post. Rollen blir koblet til akkurat denne lokasjonen.'
                   : 'Lokal modus oppretter en testperson med en gang.'}
               </div>
-              <button className="btn primary" type="button" disabled={busy || !form.name.trim() || (db?.mode === 'supabase' && !emailOk(form.email))} onClick={() => void add()} data-testid="team-add">{busy ? 'Legger til …' : 'Legg til'}</button>
+              <button className="btn primary" type="button" disabled={busy || !form.name.trim() || (db?.mode === 'supabase' && !emailOk(form.email))} onClick={() => void add()} data-testid="team-add">{busy ? 'Legger til …' : 'Legg til og inviter'}</button>
             </div>
           </div>
         )}
@@ -124,7 +191,7 @@ function Team({ session }: { session: Session }) {
         <div className="sect-h"><h2>Teamet</h2><span className="small">{visible.length} aktive / inviterte</span></div>
         <div className="card">
           {visible.length === 0 ? <div className="empty"><b>Ingen personer her ennå.</b>Legg til den første personen over.</div> : visible.map((m) => {
-            const pending = !m.userId;
+            const pending = !!m.invitedEmail || !m.userId;
             const email = displayEmail(m);
             return (
               <div className="row" key={m.id} style={{ padding: '14px 16px', borderBottom: '1px solid var(--line,#E7E2D8)' }}>
@@ -132,7 +199,12 @@ function Team({ session }: { session: Session }) {
                   <b>{displayName(m)}</b>
                   <div className="small">{roleLabel(m.role)}{email ? ` · ${email}` : ''}</div>
                 </div>
-                <span className={'pill ' + (pending ? 'warn' : 'ok')}>{pending ? 'Venter på innlogging' : 'Aktiv'}</span>
+                <div className="row" style={{ gap: 10, justifyContent: 'flex-end' }}>
+                  <span className={'pill ' + (pending ? 'warn' : 'ok')}>{pending ? 'Venter på innlogging' : 'Aktiv'}</span>
+                  {pending && db?.mode === 'supabase' && m.invitedEmail && (
+                    <button className="btn sm ghost" type="button" disabled={sending === m.id} onClick={() => void resend(m)}>{sending === m.id ? 'Sender …' : 'Send på nytt'}</button>
+                  )}
+                </div>
               </div>
             );
           })}
