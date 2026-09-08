@@ -46,8 +46,13 @@ export function Shell({ children, view }: { children: (s: Session) => React.Reac
   const views = allowedViews(session.role);
   const label = { employee: 'Min dag', manager: 'Oversikt', hq: 'Kjede / HQ' } as const;
   const href = { employee: '/employee', manager: '/manager', hq: '/hq' } as const;
+  const canManageTeam = session.role !== 'employee';
+  const navigation = [
+    ...views.map((v) => ({ key: v, href: href[v], label: label[v] })),
+    ...(canManageTeam ? [{ key: 'team', href: '/team', label: 'Team' }] : []),
+  ];
   const where = session.locationName ? `${session.organizationName} · ${session.locationName}` : session.organizationName;
-  const single = views.length === 1;
+  const single = navigation.length === 1;
 
   const signOut = async () => {
     await signOutRuntime();
@@ -66,7 +71,7 @@ export function Shell({ children, view }: { children: (s: Session) => React.Reac
           <div className="ctx">Arbeidsområde</div>
           <div className="sloc"><small>{session.locationName ? 'Lokasjon' : 'Organisasjon'}</small><strong>{where}</strong></div>
           <nav>
-            {views.map((v) => <Link key={v} href={href[v]} aria-current={pathname === href[v] ? 'page' : undefined}>{label[v]}</Link>)}
+            {navigation.map((item) => <Link key={item.key} href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</Link>)}
           </nav>
           <div className="me">
             <b>{session.fullName}</b>{roleLabel(session.role)}
@@ -77,7 +82,7 @@ export function Shell({ children, view }: { children: (s: Session) => React.Reac
       </div>
       {!single && (
         <nav className="tabbar" aria-label="Visninger">
-          {views.map((v) => <Link key={v} href={href[v]} aria-current={pathname === href[v] ? 'page' : undefined}>{label[v]}</Link>)}
+          {navigation.map((item) => <Link key={item.key} href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</Link>)}
         </nav>
       )}
       {isLocalMode() && <div className="devmode" aria-hidden>lokal modus</div>}
