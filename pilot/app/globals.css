@@ -362,6 +362,18 @@ textarea.input{min-height:80px;resize:vertical}
 @media(max-height:700px) and (max-width:900px){.orb{width:96px;height:96px;margin:var(--s-2) auto var(--s-3)}.orb svg{width:36px;height:36px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
+/* Final employee workspace layer: keep the new command-centre hierarchy ahead
+   of older compatibility styles in this legacy stylesheet. */
+.employee-workspace{max-width:980px}
+.employee-workspace .employee-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-top:10px}
+.employee-workspace .employee-hero .h1{font-size:clamp(36px,5vw,58px);letter-spacing:-.055em}
+.employee-workspace .capture-stage{margin-top:30px;padding:10px;border-radius:28px;background:linear-gradient(145deg,#E6F3EC,#D9EDE3);border:1px solid rgba(31,139,98,.12)}
+.employee-workspace .capture-stage .capture{margin-top:8px;grid-template-columns:1.35fr 1fr;gap:10px}
+.employee-workspace .capture-stage .voicebtn,.employee-workspace .capture-stage .camerabtn{min-height:128px}
+.employee-workspace .capture-stage .voicebtn{border-radius:20px}
+.employee-workspace .capture-stage .camerabtn{background:rgba(255,255,255,.64);border-color:rgba(31,139,98,.12)}
+@media (max-width:760px){.employee-workspace{max-width:680px}.employee-workspace .employee-hero{display:block}.employee-workspace .capture-stage{margin-top:22px;border-radius:22px}.employee-workspace .capture-stage .capture{grid-template-columns:1fr}.employee-workspace .capture-stage .voicebtn,.employee-workspace .capture-stage .camerabtn{min-height:104px}}
+
 /* Operations workspace: deliberate hierarchy, quieter supporting surfaces. */
 :root {
   --paper:#F5F5F0; --card:#FFFFFF; --card2:#FAFBF7;
@@ -482,3 +494,14 @@ textarea.input{min-height:80px;resize:vertical}
   .loc .bar{display:none}
   .row{flex-wrap:wrap}
 }
+
+/* New employee layer must remain last in the stylesheet. */
+.employee-workspace{max-width:980px}
+.employee-workspace .employee-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-top:10px}
+.employee-workspace .employee-hero .h1{font-size:clamp(36px,5vw,58px);letter-spacing:-.055em}
+.employee-workspace .capture-stage{margin-top:30px;padding:10px;border-radius:28px;background:linear-gradient(145deg,#E6F3EC,#D9EDE3);border:1px solid rgba(31,139,98,.12)}
+.employee-workspace .capture-stage .capture{margin-top:8px;grid-template-columns:1.35fr 1fr;gap:10px}
+.employee-workspace .capture-stage .voicebtn,.employee-workspace .capture-stage .camerabtn{min-height:128px}
+.employee-workspace .capture-stage .voicebtn{border-radius:20px}
+.employee-workspace .capture-stage .camerabtn{background:rgba(255,255,255,.64);border-color:rgba(31,139,98,.12)}
+@media(max-width:760px){.employee-workspace{max-width:680px}.employee-workspace .employee-hero{display:block}.employee-workspace .capture-stage{margin-top:22px;border-radius:22px}.employee-workspace .capture-stage .capture{grid-template-columns:1fr}.employee-workspace .capture-stage .voicebtn,.employee-workspace .capture-stage .camerabtn{min-height:104px}}
