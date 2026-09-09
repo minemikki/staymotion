@@ -26,7 +26,10 @@ button{font-family:inherit;cursor:pointer}
 ::selection{background:var(--cobalt);color:#fff}
 :focus-visible{outline:3px solid var(--cobalt);outline-offset:3px;border-radius:3px}
 .top{display:flex;justify-content:space-between;align-items:center;padding:20px clamp(18px,4vw,40px);border-bottom:1px solid transparent}
-.brand{display:flex;align-items:center;gap:10px}.brand img{height:26px;width:auto}.brand b{font-size:12px;letter-spacing:.26em;font-weight:600;padding-left:.26em}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .mark{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(160deg,#1b1d22,#0c0d10);box-shadow:0 8px 18px -8px rgba(10,20,60,.5),inset 0 1px 0 #ffffff1f;flex:none}
+.brand .mark img{width:24px;height:auto;display:block}
+.brand b{font-size:12px;letter-spacing:.22em;font-weight:700;color:var(--ink)}
 .close{color:var(--muted);font-size:13.5px;display:inline-flex;gap:8px;align-items:center}
 .close:hover{color:var(--ink)}
 .wrap{width:min(720px,calc(100% - 36px));margin:0 auto;padding:clamp(20px,5vw,56px) 0 120px}
@@ -75,7 +78,7 @@ h1{font-weight:600;letter-spacing:-.04em;line-height:1.04;font-size:clamp(1.9rem
 </head>
 <body>
 <div class="top">
-  <a class="brand" href="/"><img src="img/logo-mono.png" alt=""><b>STAYMOTION</b></a>
+  <a class="brand" href="/"><span class="mark"><img src="img/logo-mono.png" alt="" width="24" height="19"></span><b>STAYMOTION</b></a>
   <a class="close" href="/">Lukk ✕</a>
 </div>
 

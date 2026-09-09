@@ -58,11 +58,16 @@ a:hover .arrow,button:hover .arrow{transform:translate(3px,-3px)}
 .text-link{display:inline-flex;align-items:center;gap:16px;border-bottom:1px solid currentColor;padding-bottom:6px;font-size:14px;white-space:nowrap;transition:color .2s}
 .text-link:hover{color:var(--cobalt)}
 /* header */
-.site-header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--pearl) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
-.site-header.sc{border-bottom-color:var(--line)}
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--cobalt),#7f9bff 60%,var(--silver));z-index:60;transition:width .08s linear;box-shadow:0 0 10px rgba(18,72,255,.5)}
+.site-header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--pearl) 82%,transparent);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .3s}
+.site-header.sc{border-bottom-color:var(--line);box-shadow:0 10px 34px -20px rgba(10,20,60,.3);background:color-mix(in srgb,var(--pearl) 93%,transparent)}
 .hdr{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:80px}
-.brand{display:inline-flex;align-items:center;gap:12px;font-weight:600;letter-spacing:.16em;font-size:16px}
-.brand img{width:34px;height:auto}
+.brand{display:inline-flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.14em;font-size:16px;color:var(--ink)}
+.brand .mark{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#1b1d22,#0c0d10);box-shadow:0 8px 20px -8px rgba(10,20,60,.5),inset 0 1px 0 #ffffff1f;flex:none;transition:transform .3s var(--ease)}
+.brand .mark img{width:26px;height:auto;display:block}
+.brand:hover .mark{transform:translateY(-1px) rotate(-2deg)}
+.brand .brand-word{display:inline-flex;flex-direction:column;line-height:1}
+.brand .brand-word em{font-style:normal;font-weight:500;font-size:9.5px;letter-spacing:.32em;color:var(--cobalt);margin-top:3px;text-transform:uppercase}
 .hdr .links{display:flex;gap:26px;align-items:center;font-size:14px}
 .hdr .links a.tl{color:var(--ink2)}.hdr .links a.tl:hover{color:var(--ink)}
 @media(max-width:720px){.hdr .links a.tl{display:none}.brand{font-size:15px}}
@@ -190,9 +195,10 @@ footer{padding:clamp(36px,4vw,56px) 0 30px;border-top:1px solid var(--line)}
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 <header class="site-header" id="siteHeader">
   <div class="wrap hdr">
-    <a class="brand" href="/" aria-label="StayMotion, til forsiden"><img src="img/logo-mono.png" alt="" width="34" height="27">STAYMOTION</a>
+    <a class="brand" href="/" aria-label="StayMotion, til forsiden"><span class="mark"><img src="img/logo-mono.png" alt="" width="26" height="21"></span><span class="brand-word"><b>STAYMOTION</b><em>Webdesignstudio</em></span></a>
     <div class="links">
       <a class="tl" href="#slik">Slik jobber vi</a>
       <a class="tl" href="#pakker">Pakker</a>
@@ -421,8 +427,10 @@ footer{padding:clamp(36px,4vw,56px) 0 30px;border-top:1px solid var(--line)}
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // header shadow on scroll
-  var hdr=$('#siteHeader');
-  function onScroll(){ hdr.classList.toggle('sc',(window.scrollY||0)>10); }
+  var hdr=$('#siteHeader'), prog=$('#scrollProgress');
+  function onScroll(){ var y=window.scrollY||0; hdr.classList.toggle('sc',y>10);
+    if(prog){ var h=d.documentElement.scrollHeight-innerHeight; prog.style.width=(h>0?Math.min(100,(y/h)*100):0)+'%'; } }
+  addEventListener('resize',onScroll);
   addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
   // before/after — real HTML layers, range + buttons, keyboard-friendly
