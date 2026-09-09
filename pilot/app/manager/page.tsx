@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { Shell } from '@/src/ui/Shell';
 import { useToast } from '@/src/ui/Toast';
 import { Signal } from '@/src/ui/Signal';
+import { CaseSheet } from '@/src/ui/CaseSheet';
 import { Icon, categoryIcon } from '@/src/ui/icons';
 import { getProvider } from '@/src/data';
 import type { DataProvider } from '@/src/data/provider';
@@ -45,6 +46,7 @@ function Manager({ session }: { session: Session }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [now, setNow] = useState(() => Date.now());
+  const [openCase, setOpenCase] = useState<Incident | null>(null);
   const actor = useMemo(() => actorOf(session), [session]);
 
   const load = useCallback(async (p: DataProvider) => {
@@ -146,7 +148,7 @@ function Manager({ session }: { session: Session }) {
                 <article className={'need-i' + (i.severity === 'critical' ? ' critical' : '') + (leaving === i.id ? ' leaving' : '')} key={i.id} data-testid="need-item" aria-busy={busy === i.id}>
                   <div className={'ic ' + (i.severity === 'critical' ? 'bad' : overdue ? 'warn' : 'info')} aria-hidden><Icon name={categoryIcon(i.category)} /></div>
                   <div>
-                    <strong>{i.equipment ? `${i.equipment} · ` : ''}{i.title}</strong>
+                    <button className="case-open" type="button" onClick={() => setOpenCase(i)} data-testid="open-case"><strong>{i.equipment ? `${i.equipment} · ` : ''}{i.title}</strong></button>
                     <p>Meldt av {name(i.reportedBy)} {ago(i.createdAt)}{session.locationName ? ` · ${session.locationName}` : ''}{i.measurement?.raw ? ` · ${i.measurement.raw}` : ''} · eier: <Owner i={i} /></p>
                     {i.transcript && <div className="said">«{i.transcript}»</div>}
                     <div className="meta">
@@ -182,7 +184,7 @@ function Manager({ session }: { session: Session }) {
             <article className={'need-i' + (leaving === i.id ? ' leaving' : '')} key={i.id} aria-busy={busy === i.id}>
               <div className="ic ok" aria-hidden><Icon name={categoryIcon(i.category)} /></div>
               <div>
-                <strong>{i.equipment ? `${i.equipment} · ` : ''}{i.title}</strong>
+                <button className="case-open" type="button" onClick={() => setOpenCase(i)} data-testid="open-case"><strong>{i.equipment ? `${i.equipment} · ` : ''}{i.title}</strong></button>
                 <p>Eier: <Owner i={i} /> · {roleLabel(i.ownerRole)} følger opp{i.dueAt ? ` · frist ${fmtT(i.dueAt)}` : ''}</p>
                 <div className="meta"><span className={'type ' + i.category}>{CATEGORY_LABEL[i.category]}</span><span className="pill">{severityLabel[i.severity]}</span><span className="pill">{deadlineText(i, now)}</span></div>
                 <fieldset className="acts action-group" disabled={busy !== null}>
@@ -238,6 +240,17 @@ function Manager({ session }: { session: Session }) {
           </div>
         )}
       </section>
+
+      {openCase && db && (
+        <CaseSheet
+          session={session}
+          db={db}
+          incident={openCase}
+          people={people}
+          onClose={() => setOpenCase(null)}
+          onChanged={() => void load(db)}
+        />
+      )}
     </div>
   );
 }

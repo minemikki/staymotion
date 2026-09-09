@@ -355,3 +355,44 @@ test('25 sent state after registration, then back to idle', async ({ page }) => 
   await expect(page.getByTestId('open-voice')).toHaveAttribute('data-state', 'sent');
   await expect(page.getByText('Lederen får beskjed')).toBeVisible();
 });
+
+test('26 manager opens the case thread, adds a note, takes it and resolves — timeline grows each step', async ({ page }) => {
+  await employeeReportsThenManager(page, 'Oppvaskmaskinen på kjøkkenet lekker vann på gulvet.');
+  await page.getByTestId('open-case').first().click();
+  const sheet = page.getByTestId('case-sheet');
+  await expect(sheet).toBeVisible();
+  const entries = page.getByTestId('case-timeline').locator('li');
+  await expect(entries.first()).toBeVisible();
+  const base = await entries.count(); // «Meldt inn» (+ any confirmation entry)
+  // a note becomes a visible thread entry
+  await page.getByTestId('case-note').fill('Ringte vaktmester, kommer i morgen tidlig.');
+  await page.getByTestId('case-note-send').click();
+  await expect(entries).toHaveCount(base + 1);
+  await expect(page.getByText('Ringte vaktmester, kommer i morgen tidlig.')).toBeVisible();
+  // take the case → the ack lands on the timeline and «Jeg tar den» disappears
+  await page.getByTestId('case-ack').click();
+  await expect(entries).toHaveCount(base + 2);
+  await expect(page.getByTestId('case-ack')).toHaveCount(0);
+  // resolve from inside the case → «Løst» lands on the timeline and the actions are gone
+  await page.getByTestId('case-resolve').click();
+  await expect(entries).toHaveCount(base + 3);
+  await expect(page.getByTestId('case-timeline').getByText('Løst', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('case-resolve')).toHaveCount(0);
+  await expect(page.getByTestId('case-assign')).toHaveCount(0);
+});
+
+test('27 the reporter opens their own case read-only and sees the manager note', async ({ page }) => {
+  await employeeReportsThenManager(page, 'Oppvaskmaskinen på kjøkkenet lekker vann på gulvet.');
+  await page.getByTestId('open-case').first().click();
+  await expect(page.getByTestId('case-sheet')).toBeVisible();
+  await page.getByTestId('case-note').fill('Sjekket – bestiller service.');
+  await page.getByTestId('case-note-send').click();
+  await expect(page.getByText('Sjekket – bestiller service.')).toBeVisible();
+  // back to the reporter — same tenant, same case
+  await page.goto('/signin'); await page.getByTestId('persona-employee').click();
+  await expect(page.getByTestId('mine')).toBeVisible();
+  await page.getByTestId('open-report').first().click();
+  await expect(page.getByTestId('case-sheet')).toBeVisible();
+  await expect(page.getByTestId('case-note')).toHaveCount(0); // read-only: no composer
+  await expect(page.getByText('Sjekket – bestiller service.')).toBeVisible(); // but the note is visible
+});

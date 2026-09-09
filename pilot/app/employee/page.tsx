@@ -4,10 +4,11 @@ import { useRouter } from 'next/navigation';
 import { Shell } from '@/src/ui/Shell';
 import { Capture, type CaptureInitial } from '@/src/ui/Capture';
 import { SignalCapture, type SignalOutcome } from '@/src/ui/SignalCapture';
+import { CaseSheet } from '@/src/ui/CaseSheet';
 import { useToast } from '@/src/ui/Toast';
 import { getProvider } from '@/src/data';
 import type { DataProvider } from '@/src/data/provider';
-import type { Incident, Task } from '@/src/domain/types';
+import type { Incident, Profile, Task } from '@/src/domain/types';
 import type { AnalyzeResult } from '@/src/ai/contract';
 import type { CaptureSource } from '@/src/domain/types';
 import { CATEGORY_LABEL } from '@/src/ai/rules-adapter';
@@ -32,6 +33,8 @@ function Employee({ session }: { session: Session }) {
   const [db, setDb] = useState<DataProvider | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [mine, setMine] = useState<Incident[]>([]);
+  const [people, setPeople] = useState<Profile[]>([]);
+  const [openReport, setOpenReport] = useState<Incident | null>(null);
   const [showAll, setShowAll] = useState(false);
   const [capture, setCapture] = useState<null | 'voice' | 'camera'>(null);
   const [initial, setInitial] = useState<CaptureInitial | undefined>(undefined);
@@ -46,11 +49,13 @@ function Employee({ session }: { session: Session }) {
   const load = useCallback(async (p: DataProvider, announce = false) => {
     if (!session.locationId) return;
     try {
-      const [t, i] = await Promise.all([
+      const [t, i, pp] = await Promise.all([
         p.listTasks(actor, session.locationId),
         p.listIncidents(actor, { organizationId: session.organizationId, locationId: session.locationId }),
+        p.listProfiles(session.organizationId),
       ]);
       const nextMine = i.filter((x) => x.reportedBy === session.userId).slice(0, 5);
+      setPeople(pp);
       if (announce) {
         for (const inc of nextMine) {
           const before = statusRef.current[inc.id];
@@ -210,11 +215,11 @@ function Employee({ session }: { session: Session }) {
               const st = stepOf(i.status);
               return (
                 <article className={`rep rep-s${st}` + (i.severity === 'critical' && st < 3 ? ' critical' : '')} key={i.id}>
-                  <div className="rep-h">
+                  <button className="rep-h case-open" type="button" onClick={() => setOpenReport(i)} data-testid="open-report" aria-label={`Åpne saken «${i.title}»`}>
                     <span className={'rep-ico ico-' + i.category} aria-hidden><Icon name={categoryIcon(i.category)} /></span>
                     <div><b>{i.title}</b><div className="small">{i.equipment}{i.measurement?.raw ? ` · ${i.measurement.raw}` : ''} · {CATEGORY_LABEL[i.category]}</div></div>
                     <span className={'pill ' + (st === 3 ? 'ok' : i.status === 'needs_attention' ? 'warn' : 'info')}>{incidentStatus(i.status)}</span>
-                  </div>
+                  </button>
                   <ol className="stepper" aria-label="Status">
                     {([1, 2, 3] as const).map((n) => <li key={n} className={'step' + (st >= n ? ' on' : '') + (n === 3 ? ' final' : '')} aria-current={st === n ? 'step' : undefined}><i />{STATUS_LABEL[n]}</li>)}
                   </ol>
@@ -227,6 +232,10 @@ function Employee({ session }: { session: Session }) {
 
 
       {capture && db && <Capture session={session} db={db} mode={capture} initial={capture === 'voice' ? initial : undefined} onClose={() => { setCapture(null); void load(db); }} onRegistered={(created) => { setPending(0); setInitial(undefined); showOutcome(created); void load(db); }} />}
+
+      {openReport && db && (
+        <CaseSheet session={session} db={db} incident={openReport} people={people} onClose={() => setOpenReport(null)} onChanged={() => void load(db)} />
+      )}
     </div>
   );
 }

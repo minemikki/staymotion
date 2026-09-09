@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Shell } from '@/src/ui/Shell';
+import { CaseSheet } from '@/src/ui/CaseSheet';
 import { useToast } from '@/src/ui/Toast';
 import { getProvider } from '@/src/data';
 import type { DataProvider } from '@/src/data/provider';
@@ -22,6 +23,7 @@ function Handover({ session }: { session: Session }) {
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [people, setPeople] = useState<Profile[]>([]);
+  const [openCase, setOpenCase] = useState<Incident | null>(null);
   const [updatedAt, setUpdatedAt] = useState(new Date());
 
   const load = useCallback(async (p: DataProvider) => {
@@ -99,7 +101,7 @@ function Handover({ session }: { session: Session }) {
               <div className="need-i" key={i.id}>
                 <div className={'ic ' + (i.severity === 'critical' ? 'bad' : 'warn')} aria-hidden>{i.severity === 'critical' ? '!' : '↻'}</div>
                 <div>
-                  <strong>{i.equipment ? `${i.equipment} · ` : ''}{i.title}</strong>
+                  <button className="case-open" type="button" onClick={() => setOpenCase(i)} data-testid="open-case"><strong>{i.equipment ? `${i.equipment} · ` : ''}{i.title}</strong></button>
                   <p>{CATEGORY_LABEL[i.category]} · meldt av {name(i.reportedBy)} · {i.status === 'acknowledged' ? `sett av ${name(i.acknowledgedBy)}` : 'venter på leder'}{i.dueAt ? ` · frist ${fmt(i.dueAt)}` : ''}</p>
                   {i.transcript && <div className="said">«{i.transcript}»</div>}
                 </div>
@@ -126,6 +128,10 @@ function Handover({ session }: { session: Session }) {
         <h3 style={{ fontSize: 20, marginTop: 8 }}>Oppdatert {updatedAt.toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit' })}</h3>
         <p style={{ color: '#A6BBB0', marginTop: 7, lineHeight: 1.6 }}>Denne briefen er bygget direkte fra oppgaver og hendelser i StayMotion. Den legger ikke til fakta som ikke er registrert.</p>
       </div>
+
+      {openCase && db && (
+        <CaseSheet session={session} db={db} incident={openCase} people={people} onClose={() => setOpenCase(null)} onChanged={() => void load(db)} />
+      )}
     </div>
   );
 }
