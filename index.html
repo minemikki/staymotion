@@ -178,7 +178,7 @@ section{position:relative}
 .specimen-header strong{font:400 22px Georgia,"Times New Roman",serif}
 .specimen-header small{font-size:10px;letter-spacing:.1em}
 .after{background:#17191a;color:#fff}
-.after-photo{position:absolute;inset:0;background:linear-gradient(150deg,#17203a,#0d1016 62%),radial-gradient(120% 90% at 78% 24%,#2a3c72,transparent 55%)}
+.after-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.92) contrast(1.04)}
 .after::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,#101419cc 10%,transparent 62%),linear-gradient(0deg,#10141999,transparent 50%);z-index:0}
 .after .specimen-header{position:relative;z-index:1}
 .after .specimen-copy{position:absolute;z-index:1;right:0;bottom:0;width:52%;padding:30px 30px 34px;text-align:left}
@@ -192,7 +192,7 @@ section{position:relative}
 .before .specimen-copy{padding:27px 26px}
 .before h3{font:700 26px/1.2 Arial,sans-serif;margin-bottom:12px}
 .before .specimen-copy p{font-size:13px;max-width:370px;color:#666}
-.before-photo{height:150px;width:100%;margin-top:24px;background:repeating-linear-gradient(135deg,#dedcd5,#dedcd5 12px,#d5d3cb 12px,#d5d3cb 24px);border:1px solid #cfcdc6}
+.before-photo{height:150px;width:100%;margin-top:24px;object-fit:cover;object-position:center;border:1px solid #cfcdc6;display:block}
 .compare-line{position:absolute;z-index:3;left:var(--cut);top:0;bottom:0;width:1px;background:#fff;pointer-events:none}
 .compare-handle{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:var(--cobalt);border:2px solid #fff;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:20px;color:#fff;box-shadow:0 4px 16px #0006}
 .compare-range{position:absolute;z-index:4;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
@@ -486,7 +486,7 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
         <div class="compare-labels" aria-hidden="true"><span>Før / standardoppsett</span><span>Etter / ny retning</span></div>
         <div class="compare" id="comparison">
           <div class="specimen after" aria-hidden="true">
-            <div class="after-photo"></div>
+            <img class="after-photo" src="img/work/salt-brod/salt-brod-after.png" alt="Ny nettside for Salt og Brød med sesongens mat og bordbestilling">
             <div class="specimen-header"><strong>Salt &amp; Brød</strong><small>Meny &nbsp; Bord &nbsp; Kontakt</small></div>
             <div class="specimen-copy">
               <h3>Kortreist mat,<br>midt i byen.</h3>
@@ -499,7 +499,7 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
             <div class="specimen-copy">
               <h3>Velkommen til Salt og Brød</h3>
               <p>Vi serverer god mat i hyggelige omgivelser. Ta kontakt for åpningstider og bordbestilling.</p>
-              <div class="before-photo"></div>
+              <img class="before-photo" src="img/work/salt-brod/salt-brod-before.png" alt="Eldre, utdatert nettside for Salt og Brød">
             </div>
           </div>
           <div class="compare-line" aria-hidden="true"><span class="compare-handle">‹ ›</span></div>
