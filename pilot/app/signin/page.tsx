@@ -9,7 +9,7 @@ import { homeFor, setSession } from '@/src/session/session';
 
 /**
  * Sign-in.
- *  - supabase mode: email magic link (Supabase Auth). Memberships decide the role afterwards.
+ *  - supabase mode: email OTP / magic link (Supabase Auth). Memberships decide the role afterwards.
  *  - local mode: a persona picker. This is explicitly NOT authentication; it selects a seeded
  *    or self-created person so the pilot can be walked through end to end.
  */
@@ -18,28 +18,111 @@ export default function SignIn() {
   return mode === 'supabase' ? <EmailSignIn /> : <PersonaSignIn />;
 }
 
+function friendlyAuthError(x: unknown, fallback: string) {
+  const raw = (x as Error)?.message || fallback;
+  if (/rate limit/i.test(raw)) return 'Det er sendt mange e-poster på kort tid. Vent litt før du prøver igjen.';
+  if (/database error saving new user/i.test(raw)) return 'Vi klarte ikke å opprette brukeren akkurat nå. Prøv igjen om et øyeblikk.';
+  if (/token.*expired|otp.*expired|expired.*token/i.test(raw)) return 'Koden er utløpt. Be om en ny kode.';
+  if (/invalid.*token|token.*invalid|otp.*invalid/i.test(raw)) return 'Koden stemmer ikke. Sjekk e-posten og prøv igjen.';
+  return raw;
+}
+
 function EmailSignIn() {
-  const [email, setEmail] = useState(''); const [sent, setSent] = useState(false); const [err, setErr] = useState('');
-  async function submit(e: React.FormEvent) {
-    e.preventDefault(); setErr('');
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [sent, setSent] = useState(false);
+  const [code, setCode] = useState('');
+  const [err, setErr] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+
+  useEffect(() => {
+    if (!cooldown) return;
+    const id = window.setTimeout(() => setCooldown((v) => Math.max(0, v - 1)), 1000);
+    return () => window.clearTimeout(id);
+  }, [cooldown]);
+
+  async function sendCode() {
+    setErr('');
+    setBusy(true);
     try {
       const { createBrowserSupabase } = await import('@/src/data/supabase-provider');
       const sb = createBrowserSupabase();
-      const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: `${location.origin}/` } });
-      if (error) throw error; setSent(true);
-    } catch (x) { setErr((x as Error).message || 'Kunne ikke sende lenke'); }
+      const { error } = await sb.auth.signInWithOtp({
+        email: email.trim().toLowerCase(),
+        options: { emailRedirectTo: `${location.origin}/` },
+      });
+      if (error) throw error;
+      setSent(true);
+      setCooldown(60);
+    } catch (x) {
+      setErr(friendlyAuthError(x, 'Kunne ikke sende innlogging'));
+    } finally {
+      setBusy(false);
+    }
   }
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    await sendCode();
+  }
+
+  async function verify(e: React.FormEvent) {
+    e.preventDefault();
+    setErr('');
+    setBusy(true);
+    try {
+      const { createBrowserSupabase } = await import('@/src/data/supabase-provider');
+      const sb = createBrowserSupabase();
+      const { error } = await sb.auth.verifyOtp({
+        email: email.trim().toLowerCase(),
+        token: code.trim(),
+        type: 'email',
+      });
+      if (error) throw error;
+      router.replace('/');
+      router.refresh();
+    } catch (x) {
+      setErr(friendlyAuthError(x, 'Ugyldig eller utløpt kode'));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="auth"><div className="box rise">
       <div className="brand"><span className="mark" aria-hidden /> StayMotion</div>
       <div className="eyebrow">Logg inn</div>
-      <h1 className="h1">Skriv inn e-posten din.</h1>
-      <p className="lead">Du får en lenke som logger deg inn. Ingen passord å huske.</p>
-      {sent ? <div className="card pad" style={{ marginTop: 20 }}><b>Sjekk innboksen.</b><p className="small" style={{ marginTop: 6 }}>Lenken er gyldig i en time.</p></div> : (
+      <h1 className="h1">{sent ? 'Skriv inn engangskoden.' : 'Skriv inn e-posten din.'}</h1>
+      <p className="lead">{sent ? `Vi sendte en kode til ${email}.` : 'Du får en engangskode eller innloggingslenke på e-post. Ingen passord å huske.'}</p>
+
+      {sent ? (
+        <form onSubmit={verify} style={{ marginTop: 20, display: 'grid', gap: 12 }}>
+          <label className="field">
+            <span className="sr">Engangskode</span>
+            <input
+              className="input"
+              type="text"
+              required
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              placeholder="Engangskode"
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\s/g, ''))}
+              autoFocus
+            />
+          </label>
+          {err && <div className="warn-note">{err}</div>}
+          <button className="btn primary block" type="submit" disabled={busy || !code.trim()}>{busy ? 'Logger inn…' : 'Logg inn'}</button>
+          <button className="btn soft block" type="button" disabled={busy || cooldown > 0} onClick={() => void sendCode()}>{cooldown > 0 ? `Send ny kode om ${cooldown}s` : 'Send ny kode'}</button>
+          <button className="btn ghost block" type="button" disabled={busy} onClick={() => { setSent(false); setCode(''); setErr(''); setCooldown(0); }}>Bruk en annen e-post</button>
+          <p className="small" style={{ marginTop: 2 }}>Har e-posten en innloggingslenke i stedet, kan du fortsatt bruke den.</p>
+        </form>
+      ) : (
         <form onSubmit={submit} style={{ marginTop: 20, display: 'grid', gap: 12 }}>
           <label className="field"><span className="sr">E-post</span><input className="input" type="email" required autoComplete="email" placeholder="navn@bedrift.no" value={email} onChange={(e) => setEmail(e.target.value)} /></label>
           {err && <div className="warn-note">{err}</div>}
-          <button className="btn primary block" type="submit">Send innloggingslenke</button>
+          <button className="btn primary block" type="submit" disabled={busy}>{busy ? 'Sender…' : 'Send engangskode'}</button>
         </form>
       )}
     </div></div>

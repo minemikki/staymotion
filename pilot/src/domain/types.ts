@@ -60,6 +60,9 @@ export interface Membership {
   departmentId?: string;
   regionKey?: string;
   active: boolean;
+  /** Present while a person has been invited but has not completed a real sign-in yet. */
+  invitedName?: string;
+  invitedEmail?: string;
 }
 
 export type TaskStatus = 'open' | 'in_progress' | 'done' | 'skipped';

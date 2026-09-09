@@ -218,3 +218,97 @@ Next.js, no env vars for demo mode. The root static site keeps deploying exactly
 ---
 
 **READY FOR MICHAEL TEST** (local/demo mode; real Supabase mode needs the env vars in Vercel and a first live run).
+
+---
+
+## Phase 3 continuation — Saksbilde (shared case view) · branch `gpt/phase3-live-supabase`
+
+Not merged. Adds the one piece the operative chain was missing: a **shared, live case view** so a
+reporter and a manager can follow a single case end-to-end without calling or scrolling through chat.
+
+### Why this phase
+The chain (report → take → forward → resolve), realtime on all three roles, handover, team and
+onboarding were already built and working. But `listIncidentEvents` and `addIncidentNote` existed in
+both providers and in RLS with **no UI** — the employee saw only a 3-step bar and the manager's note
+only rode along with «resolve». That is exactly the product principle *«Ansatt og leder kan følge
+status uten å ringe eller lete i meldinger»*, half-built.
+
+### What was built
+- `src/ui/CaseSheet.tsx` — one reusable, accessible dialog (focus trap, Escape, restored focus,
+  no horizontal overflow, mobile-first). Opened from any incident card (manager, handover) and from
+  «Mine rapporter» (the reporter).
+  - Full case header (status, severity, measurement, deadline, owner, reporter, transcript, recommended action).
+  - **Hendelseslogg**: the real timeline built from `incident_events` + notes — meldt inn → bekreftet →
+    tatt av leder → notat → sendt videre → løst — with actor names and timestamps in Norwegian.
+  - Manager footer: the actions (Jeg tar den / Send videre / Merk som løst) **and a first-class note
+    composer** (`addIncidentNote`). Reporter footer: read-only, sees the whole thread live.
+  - Live: subscribes to incident changes and re-reads through the RLS-backed provider.
+- Wired into `app/manager/page.tsx`, `app/employee/page.tsx`, `app/handover/page.tsx`
+  (clickable case titles / report cards; new test-ids `open-case`, `open-report`, `case-sheet`,
+  `case-timeline`, `case-note`, `case-note-send`, `case-ack`, `case-assign`, `case-resolve`).
+- CSS appended to `app/globals.css` (case sheet, timeline spine, note bubbles) — same token system,
+  no design-system change.
+- 2 new e2e tests (manager thread: note → take → resolve grows the timeline each step; reporter opens
+  their own case read-only and sees the manager note).
+
+### Honest status
+- **Done and tested:** the whole feature in local/demo mode. Typecheck ✓, lint ✓, 26 unit tests ✓,
+  production build ✓ (14/14). Playwright **80 passed / 7 skipped** run per project serially
+  (desktop 26, iphone-13 27, iphone-se 27). Visual QA at 390 and 1440; no horizontal overflow; actions
+  reachable above the mobile tab bar. *(Running all three projects at once with parallel workers
+  overloads this sandbox and produces false timeouts — run one `--project` at a time, `--workers=1`.)*
+- **Built, depends on environment:** real Supabase mode. Reads (`incident_events`) are already allowed
+  for anyone at the location by existing RLS, and notes go through the `append_incident_note` RPC — so
+  **no migration or RLS change was needed**. Not yet exercised against a live Supabase project (needs
+  the env vars in Vercel and a first live run), same caveat as the rest of the pilot.
+- **Deliberately not built now:** employee/reporter *comments* (would require relaxing the manager-only
+  guard on notes + a matching RLS migration), assigning a case to a *named person* (today it toggles
+  role owner), and model-backed AI extraction (the deterministic rules adapter stays, clearly labelled).
+- **Recommended next phase:** two-way case thread (let the reporter comment) with the RLS migration
+  that enables it, then assignment to a specific teammate — both build directly on this case view.
+
+**Constraints honoured:** no change to Supabase/auth/RLS/realtime/data model; all existing test-ids and
+flows preserved; no fake data or simulated AI in the production path; marketing site and other projects
+untouched; not merged and no PR.
+
+---
+
+## Phase 4 — «Kom i gang» first-run + clearer Demo marker · branch `gpt/phase3-live-supabase`
+
+Not merged. A premium/sellability lift focused on the first five minutes a real business spends in the app.
+
+### Why
+Onboarding was already strong, but a freshly set-up organization landed on `/manager?welcome=1` with
+empty screens — the exact moment a prospect judges whether the product looks finished. And the only
+demo/live signal was a tiny developer-ish «lokal modus» tag.
+
+### What was built
+- `src/ui/FirstRunGuide.tsx` — a calm, dismissible «Kom i gang» card on the manager home, shown **only
+  while the organization is genuinely fresh** (no case ever reported), so the approved exception-first
+  layout is untouched the moment real work exists. Three steps reflect **real state** — routines set
+  (from onboarding), team invited (`profiles > 1`), first case reported (`incidents > 0`) — each linking
+  to the actual action (Min dag, Team, Meld fra). Live progress bar; retires automatically once the loop
+  is live, or on dismiss (persisted per-org in `localStorage`, with try/catch for private mode).
+- Shell demo marker: «lokal modus» → a customer-facing «Demo · eksempeldata» pill (amber dot, tooltip
+  explaining a real business starts empty), repositioned bottom-right so it never overlaps the sidebar or
+  the mobile tab bar. Absent in live mode.
+- CSS appended to `app/globals.css` (same token system, no design-system change).
+- 2 e2e tests (fresh org shows the guide with correct step states + dismiss persists across reload;
+  the guide never shows once a location already has cases).
+
+### Honest status
+- **Done and tested (local/demo):** typecheck ✓, lint ✓, 26 unit ✓, production build ✓ (14/14),
+  Playwright **86 passed / 7 skipped** (desktop 28, iphone-13 29, iphone-se 29). Verified at 390 and 1440;
+  no horizontal overflow; nothing hidden behind the mobile tab bar.
+- **Built, depends on environment:** identical behaviour in real Supabase mode — the guide reads only the
+  counts the UI already loads and writes nothing; the demo marker is hidden in live mode. Not yet
+  exercised against a live Supabase project (needs env vars in Vercel + a first live run).
+- **Deliberately not built now:** an in-app routine/settings editor (steps link to existing surfaces;
+  editing routines after onboarding is the recommended next phase), and per-location first-run for chains.
+- **Recommended next phase:** an owner «Innstillinger» surface (edit routines, departments, confirmation
+  rules, locations) so a pilot customer can tune the setup without re-onboarding — the natural next step
+  toward a self-serve, sellable product.
+
+**Constraints honoured:** no change to Supabase/auth/RLS/realtime/data model; no fake data (every step
+reflects real state); all existing test-ids and flows preserved; marketing site and other projects
+untouched; not merged and no PR.

@@ -115,7 +115,7 @@ export default function Onboarding() {
           <h1 className="h1">Første lokasjon</h1>
           <p className="lead">Har du flere steder, legger du dem til etterpå.</p>
           <div style={{ display: 'grid', gap: 14, marginTop: 20 }}>
-            <label className="field"><span>Navn på stedet</span><input className="input" autoFocus value={locName} onChange={(e) => setLocName(e.target.value)} placeholder="f.eks. Stavanger sentrum" data-testid="loc-name" /></label>
+            <label className="field"><span>Navn på lokasjon / avdeling</span><input className="input" autoFocus value={locName} onChange={(e) => setLocName(e.target.value)} placeholder="f.eks. Stavanger sentrum, Forus eller Madla" data-testid="loc-name" /></label>
             <label className="field"><span>By <span className="hint">(valgfritt)</span></span><input className="input" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Stavanger" /></label>
           </div>
         </>)}
