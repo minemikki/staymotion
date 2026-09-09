@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>StayMotion — Nettsider folk stopper for, og handler fra</title>
-<meta name="description" content="StayMotion er et selvstendig norsk webdesignstudio i Stavanger. Vi designer og bygger nettsider med tydelig uttrykk, ekte dybde og en enklere vei til neste kunde.">
+<title>StayMotion — Nettsider som får kunden til å ta kontakt</title>
+<meta name="description" content="StayMotion designer og bygger nettsider for norske bedrifter. Fast pris, levert på dager, bygget for at kunden tar kontakt. Selvstendig studio i Stavanger.">
 <meta name="theme-color" content="#f5f5f2">
 <link rel="canonical" href="https://staymotion.no/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -12,29 +12,26 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="StayMotion">
-<meta property="og:title" content="StayMotion — Nettsider folk stopper for, og handler fra">
-<meta property="og:description" content="Selvstendig norsk webdesignstudio. Tydelig uttrykk, ekte dybde, en enklere vei til neste kunde.">
+<meta property="og:title" content="StayMotion — Nettsider som får kunden til å ta kontakt">
+<meta property="og:description" content="Fast pris. Levert på dager. Bygget for at kunden tar kontakt. Webdesignstudio i Stavanger.">
 <meta property="og:url" content="https://staymotion.no/">
 <meta property="og:locale" content="nb_NO">
 <meta property="og:image" content="https://staymotion.no/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ProfessionalService","name":"StayMotion","description":"Selvstendig norsk webdesignstudio. Nettsider, redesign og responsive nettsider for bedrifter.","url":"https://staymotion.no/","email":"michael@staymotion.no","areaServed":"NO","address":{"@type":"PostalAddress","addressLocality":"Stavanger","addressCountry":"NO"},"priceRange":"7900 NOK - 60000 NOK","serviceType":["Webdesign","UI/UX","Webutvikling","Responsivt design","Landingssider","Konverteringsoptimalisering","SEO"]}
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"StayMotion","description":"Selvstendig norsk webdesignstudio. Nettsider, redesign og landingssider for bedrifter.","url":"https://staymotion.no/","email":"michael@staymotion.no","areaServed":"NO","address":{"@type":"PostalAddress","addressLocality":"Stavanger","addressCountry":"NO"},"priceRange":"7900 NOK - 60000 NOK","serviceType":["Webdesign","UI/UX","Webutvikling","Responsivt design","Landingssider","Konverteringsoptimalisering","SEO"]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/hero-art.webp" type="image/webp">
 <style>
-/* ================= TOKENS — North Star 02 · Cobalt in Motion ================= */
+/* ================= TOKENS · Cobalt in Motion ================= */
 :root{
   --pearl:#f5f5f2;--pearl2:#ecece8;--ink:#151619;--ink2:#2c2e33;--muted:#61636b;--faint:#8c8f97;
   --cobalt:#1248ff;--cobalt2:#0038ec;--cobalt-deep:#1034b1;--obsidian:#121316;--obsidian2:#191b1f;
-  --silver:#c3c6cc;--silver2:#e6e7ea;--line:#d7d8d9;--line-dark:#34363d;
-  --on-dark:#f5f5f2;--on-dark-muted:#bfc0c8;
+  --silver:#c3c6cc;--line:#d7d8d9;--line-dark:#34363d;--on-dark:#f5f5f2;--on-dark-muted:#bfc0c8;
   --f:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
-  --gutter:clamp(22px,4.1vw,72px);--max:1600px;
-  --ease:cubic-bezier(.22,1,.36,1);--r:10px;
+  --gutter:clamp(22px,4.1vw,72px);--max:1480px;--ease:cubic-bezier(.22,1,.36,1);--r:10px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
@@ -55,192 +52,143 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
 .skip:focus{top:12px}
 .arrow{display:inline-block;transition:transform .3s var(--ease)}
 a:hover .arrow,button:hover .arrow{transform:translate(3px,-3px)}
-.down:hover .arrow{transform:translateY(3px)}
 
-/* Display type — precise, not overfed */
-.h-xl{font-size:clamp(54px,5.8vw,91px);font-weight:500;line-height:.99;letter-spacing:-.075em}
-.h-l{font-size:clamp(42px,4.4vw,68px);font-weight:400;line-height:1.02;letter-spacing:-.06em}
-.h-m{font-size:clamp(30px,3vw,44px);font-weight:400;line-height:1.08;letter-spacing:-.05em}
+.h-xl{font-size:clamp(46px,5.6vw,84px);font-weight:500;line-height:.98;letter-spacing:-.07em}
+.h-l{font-size:clamp(38px,4.2vw,62px);font-weight:400;line-height:1.02;letter-spacing:-.06em}
+.h-m{font-size:clamp(28px,2.8vw,40px);font-weight:400;line-height:1.08;letter-spacing:-.05em}
 .lead{font-size:18px;line-height:1.6;letter-spacing:-.02em;color:var(--ink2);max-width:46ch}
 .dark .lead{color:var(--on-dark-muted)}
 
-/* Buttons */
-.primary{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;border:1px solid #3365ff;border-radius:var(--r);padding:18px 23px;background:linear-gradient(165deg,#2164ff,#0038ec 76%);box-shadow:inset 0 1px 0 #ffffff40,0 5px 12px #1646d51a;color:#fff;min-height:58px;font-size:16px;font-weight:500;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.primary{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;border:1px solid #3365ff;border-radius:var(--r);padding:17px 22px;background:linear-gradient(165deg,#2164ff,#0038ec 76%);box-shadow:inset 0 1px 0 #ffffff40,0 5px 12px #1646d51a;color:#fff;min-height:56px;font-size:16px;font-weight:500;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
 .primary:hover{transform:translateY(-3px);box-shadow:inset 0 1px 0 #ffffff55,0 10px 24px #1646d52b}
 .primary.light{background:#fff;color:var(--cobalt-deep);border-color:#fff;box-shadow:0 5px 14px #0a1c6a26}
-.primary.light:hover{box-shadow:0 12px 26px #0a1c6a33}
 .outline{border:1px solid #777b81;border-radius:50px;padding:12px 22px;display:inline-flex;gap:16px;align-items:center;font-size:14px;transition:background .2s,color .2s,border-color .2s}
 .outline:hover{background:var(--ink);color:var(--pearl);border-color:var(--ink)}
-.dark .outline{border-color:#6a6d76}
-.dark .outline:hover{background:var(--pearl);color:var(--ink);border-color:var(--pearl)}
-.text-link{display:inline-flex;align-items:center;gap:18px;border-bottom:1px solid currentColor;padding-bottom:7px;font-size:14px;white-space:nowrap;transition:color .2s}
+.text-link{display:inline-flex;align-items:center;gap:14px;border-bottom:1px solid currentColor;padding-bottom:6px;font-size:14px;white-space:nowrap;transition:color .2s}
 .text-link:hover{color:var(--cobalt)}
 .dark .text-link:hover{color:#9fb4ff}
 
-/* Sections */
 section{position:relative}
 .pad{padding-block:clamp(64px,7vw,110px)}
 .dark{background:var(--obsidian);color:var(--on-dark)}
-.sec-head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,90px);align-items:end;margin-bottom:clamp(36px,4vw,64px)}
-.sec-head h2{margin-top:22px}
-.sec-head .lead{margin-top:10px}
-@media(max-width:900px){.sec-head{display:block}.sec-head .lead{margin-top:22px}}
-
-/* Reveal — content is visible by default; only hidden when JS is present */
+.sec-head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,90px);align-items:end;margin-bottom:clamp(32px,4vw,56px)}
+.sec-head h2{margin-top:20px}
+@media(max-width:900px){.sec-head{display:block}.sec-head .lead{margin-top:20px}}
 .js .rv{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .9s var(--ease)}
 .js .rv.in{opacity:1;transform:none}
-.js .rv.d1{transition-delay:.08s}.js .rv.d2{transition-delay:.16s}.js .rv.d3{transition-delay:.24s}
 
 /* ================= HEADER ================= */
-.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--cobalt),#7f9bff 60%,var(--silver));z-index:60;transition:width .08s linear;box-shadow:0 0 10px rgba(18,72,255,.5)}
-.site-header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--pearl) 82%,transparent);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .3s}
-.site-header.sc{border-bottom-color:var(--line);box-shadow:0 10px 34px -20px rgba(10,20,60,.3);background:color-mix(in srgb,var(--pearl) 93%,transparent)}
-.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:84px}
-.brand{display:inline-flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.14em;font-size:17px;color:var(--ink)}
-.brand .mark{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:linear-gradient(160deg,#1b1d22,#0c0d10);box-shadow:0 8px 20px -8px rgba(10,20,60,.5),inset 0 1px 0 #ffffff1f,inset 0 0 0 1px #ffffff0d;flex:none;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
-.brand .mark img{width:27px;height:auto;display:block}
-.brand:hover .mark{transform:translateY(-1px) rotate(-2deg);box-shadow:0 12px 26px -8px rgba(18,72,255,.5),inset 0 1px 0 #ffffff2a}
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--cobalt),#7f9bff 60%,var(--silver));z-index:60;transition:width .08s linear}
+.site-header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--pearl) 84%,transparent);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+.site-header.sc{border-bottom-color:var(--line);box-shadow:0 10px 34px -20px rgba(10,20,60,.3)}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:80px}
+.brand{display:inline-flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.14em;font-size:16px;color:var(--ink)}
+.brand .mark{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:linear-gradient(160deg,#1b1d22,#0c0d10);box-shadow:0 8px 20px -8px rgba(10,20,60,.5),inset 0 1px 0 #ffffff1f;flex:none;transition:transform .3s var(--ease)}
+.brand .mark img{width:27px;height:auto}
+.brand:hover .mark{transform:translateY(-1px) rotate(-2deg)}
 .brand .brand-word{display:inline-flex;flex-direction:column;line-height:1}
-.brand .brand-word b{font-weight:700;letter-spacing:.14em}
 .brand .brand-word em{font-style:normal;font-weight:500;font-size:9.5px;letter-spacing:.32em;color:var(--cobalt);margin-top:3px;text-transform:uppercase}
 .nav{display:flex;align-items:center;gap:28px;font-size:14px}
-.nav>a:not(.outline):not(.navcta){padding-block:12px;position:relative;color:var(--ink2)}
-.nav>a:not(.outline):not(.navcta):hover{color:var(--ink)}
-.nav>a:not(.outline):not(.navcta)::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:2px;border-radius:2px;background:var(--cobalt);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
-.nav>a:not(.outline):not(.navcta):hover::after,.nav>a.active::after{transform:scaleX(1)}
-.nav>a.active{color:var(--ink)}
-.navcta{background:linear-gradient(165deg,#2164ff,#0038ec 78%);color:#fff;border:1px solid #2a63ff;border-radius:50px;padding:11px 20px;font-weight:600;letter-spacing:.01em;box-shadow:inset 0 1px 0 #ffffff40,0 8px 18px -8px rgba(18,72,255,.7);transition:transform .25s var(--ease),box-shadow .25s var(--ease);display:inline-flex;align-items:center;gap:8px}
-.navcta:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 #ffffff55,0 14px 28px -8px rgba(18,72,255,.75)}
-.menu-toggle{display:none;border:1px solid var(--line2);border-radius:12px;width:46px;height:46px;font-size:20px;line-height:1;align-items:center;justify-content:center;background:#fff;color:var(--ink)}
-@media(max-width:1100px){.nav{gap:20px}}
+.nav>a:not(.navcta){padding-block:12px;position:relative;color:var(--ink2)}
+.nav>a:not(.navcta)::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:2px;border-radius:2px;background:var(--cobalt);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav>a:not(.navcta):hover::after,.nav>a.active::after{transform:scaleX(1)}
+.navcta{background:linear-gradient(165deg,#2164ff,#0038ec 78%);color:#fff;border:1px solid #2a63ff;border-radius:50px;padding:11px 20px;font-weight:600;box-shadow:inset 0 1px 0 #ffffff40,0 8px 18px -8px rgba(18,72,255,.7);transition:transform .25s var(--ease);display:inline-flex;align-items:center;gap:8px}
+.navcta:hover{transform:translateY(-2px)}
+.menu-toggle{display:none;border:1px solid var(--line);border-radius:12px;width:46px;height:46px;font-size:20px;align-items:center;justify-content:center;background:#fff;color:var(--ink)}
 @media(max-width:860px){
-  .hdr{min-height:72px}.brand{font-size:15px;gap:10px}.brand .mark{width:38px;height:38px}.brand .mark img{width:24px}
+  .hdr{min-height:70px}.brand{font-size:15px;gap:10px}.brand .mark{width:38px;height:38px}.brand .mark img{width:24px}
   .menu-toggle{display:inline-flex}
-  .nav{display:none;position:absolute;top:72px;left:0;right:0;background:color-mix(in srgb,var(--pearl) 97%,transparent);backdrop-filter:blur(16px);padding:16px var(--gutter) 24px;border-bottom:1px solid var(--line);box-shadow:0 18px 34px -14px rgba(10,20,60,.25);align-items:stretch}
-  .nav.open{display:flex;flex-direction:column;gap:4px}
+  .nav{display:none;position:absolute;top:70px;left:0;right:0;background:color-mix(in srgb,var(--pearl) 97%,transparent);backdrop-filter:blur(16px);padding:14px var(--gutter) 22px;border-bottom:1px solid var(--line);box-shadow:0 18px 34px -14px rgba(10,20,60,.25);align-items:stretch}
+  .nav.open{display:flex;flex-direction:column;gap:2px}
   .nav>a:not(.navcta){padding-block:14px;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink)}
   .nav>a:not(.navcta)::after{display:none}
   .navcta{justify-content:center;margin-top:14px;padding:15px 20px}
 }
 
-/* ================= HERO ================= */
+/* ================= HERO — the demo is the hero ================= */
 .hero{position:relative;isolation:isolate;overflow:clip}
-.hero::before{content:"";position:absolute;top:-16%;right:-6%;width:min(70vw,820px);height:min(70vw,820px);background:radial-gradient(closest-side,rgba(18,72,255,.13),rgba(18,72,255,.05) 55%,transparent 72%);pointer-events:none;z-index:0;filter:blur(4px)}
+.hero::before{content:"";position:absolute;top:-30%;right:-10%;width:min(70vw,900px);height:min(70vw,900px);background:radial-gradient(closest-side,rgba(18,72,255,.14),rgba(18,72,255,.04) 55%,transparent 72%);pointer-events:none;z-index:0;filter:blur(6px)}
 .hero .wrap{position:relative;z-index:1}
-.hero .grid{display:grid;grid-template-columns:46% 54%;align-items:center;min-height:620px;padding-top:26px;padding-bottom:30px}
-.hero-copy{position:relative;z-index:2;padding:26px 0 28px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(30px,5vw,80px);align-items:center;padding-top:clamp(36px,5vw,72px);padding-bottom:clamp(36px,5vw,64px)}
 .hero h1 span{display:block}
-.hero h1 .second{font-size:.69em;font-weight:400;letter-spacing:-.065em;line-height:1.12;margin-top:20px;color:var(--ink2)}
-.hero-description{max-width:380px;margin-top:28px;font-size:18px;line-height:1.6;letter-spacing:-.02em}
-.hero .primary{margin-top:30px}
-.hero-secondary{margin-top:27px}
-.hero-art{position:relative;width:119%;margin-left:-12%;pointer-events:none;z-index:1;aspect-ratio:1448/1086}
-.hero-art img{width:100%;height:auto;mix-blend-mode:multiply;animation:float 9s ease-in-out infinite;will-change:transform;
-  /* dissolve the artwork's rectangular edge into the pearl ground */
-  -webkit-mask-image:radial-gradient(ellipse 68% 66% at 50% 52%,#000 46%,transparent 98%);mask-image:radial-gradient(ellipse 68% 66% at 50% 52%,#000 46%,transparent 98%)}
-.hero-art .plate{position:absolute;left:10%;right:10%;bottom:6%;height:14%;border-radius:50%;background:radial-gradient(ellipse at center,#00000012,transparent 70%);z-index:-1}
-@keyframes float{0%,100%{transform:translateY(0) rotate(-.3deg)}50%{transform:translateY(-10px) rotate(.3deg)}}
-.hero-meta{display:flex;gap:clamp(18px,3vw,44px);flex-wrap:wrap;border-top:1px solid var(--line);padding:20px 0 6px;font-size:13px;color:var(--muted)}
-.hero-meta b{color:var(--ink);font-weight:500}
-@media(min-width:1600px){.hero .grid{min-height:690px}}
-@media(max-width:1100px){.hero .grid{min-height:540px;grid-template-columns:48% 52%;padding-top:14px}.hero .h-xl{font-size:clamp(51px,6.3vw,70px)}.hero-art{width:123%;margin-left:-15%}}
-@media(max-width:760px){
-  .hero .grid{display:flex;flex-direction:column;align-items:stretch;padding-top:16px;padding-bottom:22px;min-height:0}
-  .hero-copy{padding:0}
-  .hero .h-xl{font-size:clamp(49px,10.5vw,70px);letter-spacing:-.067em;max-width:600px}
-  .hero h1 .second{font-size:.72em;margin-top:13px}
-  .hero-description{font-size:16px;line-height:1.5;margin-top:22px;max-width:320px}
-  .hero .primary{margin-top:23px;width:100%;max-width:400px;font-size:15px;padding:17px 18px;gap:12px;min-height:56px}
-  .hero-secondary{margin-top:18px}
-  .hero-art{width:calc(100% + 30px);margin:16px -15px 0}
-  .hero-meta{gap:12px 18px;font-size:12px}
-}
+.hero h1 .accent{color:var(--cobalt)}
+.hero-description{max-width:420px;margin-top:26px;font-size:18px;line-height:1.6;letter-spacing:-.02em;color:var(--ink2)}
+.hero-cta{margin-top:30px;display:flex;gap:14px 22px;align-items:center;flex-wrap:wrap}
+.hero-facts{margin-top:34px;display:grid;grid-template-columns:repeat(3,auto);gap:18px 28px;justify-content:start;border-top:1px solid var(--line);padding-top:20px}
+.hero-facts b{display:block;font-size:22px;font-weight:500;letter-spacing:-.04em;line-height:1}
+.hero-facts span{display:block;font-size:12.5px;color:var(--muted);margin-top:6px}
+.hero-demo{position:relative}
+.demo-cap{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
+.demo-cap i{font-style:normal;display:inline-flex;align-items:center;gap:8px}
+.demo-cap i::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cobalt);box-shadow:0 0 0 4px rgba(18,72,255,.15)}
+.hero-note{margin-top:12px;font-size:12px;color:var(--faint)}
+@media(max-width:1000px){.hero-grid{grid-template-columns:1fr;gap:34px}}
+@media(max-width:600px){.hero-facts{grid-template-columns:repeat(3,1fr);gap:12px}.hero-facts b{font-size:18px}.hero-facts span{font-size:11.5px}.hero-cta .primary{width:100%;max-width:420px}}
 
-/* The cobalt ribbon — visual signature. Lives at the top of the work section and
-   reaches up over the hero/work seam, staying right of the hero meta text. */
-.ribbon{position:absolute;pointer-events:none;z-index:0;left:0;right:0;top:-150px;height:420px;overflow:visible}
-.ribbon svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-@media(max-width:1100px){.ribbon{top:-120px;height:340px}}
-@media(max-width:760px){.ribbon{display:none}}
-
-/* ================= WORK (obsidian) ================= */
-.work{overflow:hidden}
-.work>.wrap{position:relative;z-index:1}
-.work-inner{padding-top:clamp(52px,6vw,84px);padding-bottom:40px;display:grid;grid-template-columns:30% 1fr;gap:52px;align-items:center}
-.work-copy h2{margin:30px 0 22px}
-.work-copy p{max-width:280px;color:var(--on-dark-muted);font-size:16px}
-.study{display:block;color:#a7abb5;font-size:12px;border-top:1px solid #4b4d55;margin-top:35px;padding-top:15px;max-width:260px}
-.compare-shell{min-width:0}
-.compare-labels{display:flex;justify-content:space-between;margin-bottom:13px;font-size:12px;letter-spacing:.06em;color:#c9ccd4}
-.compare{--cut:46%;height:440px;position:relative;overflow:hidden;border:1px solid #61636a;isolation:isolate;box-shadow:0 25px 65px #0004;background:#e7e7e7}
+/* Before/after — real HTML layers */
+.compare{--cut:48%;height:460px;position:relative;overflow:hidden;border:1px solid #c9cbd0;border-radius:14px;isolation:isolate;box-shadow:0 40px 90px -40px rgba(10,20,60,.45);background:#e7e7e7}
 .specimen{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.specimen-header{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;font-size:12px;gap:12px}
-.specimen-header strong{font:400 22px Georgia,"Times New Roman",serif}
+.specimen-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;font-size:12px;gap:12px}
+.specimen-header strong{font:400 21px Georgia,"Times New Roman",serif}
 .specimen-header small{font-size:10px;letter-spacing:.1em}
 .after{background:#17191a;color:#fff}
 .after-photo{position:absolute;inset:0;background:linear-gradient(150deg,#17203a,#0d1016 62%),radial-gradient(120% 90% at 78% 24%,#2a3c72,transparent 55%)}
-.after::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,#101419cc 10%,transparent 62%),linear-gradient(0deg,#10141999,transparent 50%);z-index:0}
+.after::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,#101419cc 10%,transparent 62%),linear-gradient(0deg,#10141999,transparent 50%)}
 .after .specimen-header{position:relative;z-index:1}
-.after .specimen-copy{position:absolute;z-index:1;right:0;bottom:0;width:52%;padding:30px 30px 34px;text-align:left}
-.specimen-copy{padding:38px 30px}
-.after h3{font:400 44px/1.02 Georgia,"Times New Roman",serif;letter-spacing:-.04em;max-width:320px}
-.after .specimen-copy p{font-size:12px;margin-top:16px;color:#e8e8e8;max-width:230px}
-.sample-cta{display:inline-block;margin-top:22px;border:1px solid #fff;padding:9px 14px;font-size:11px;letter-spacing:.04em}
+.after .specimen-copy{position:absolute;z-index:1;right:0;bottom:0;width:54%;padding:26px 28px 30px}
+.after h3{font:400 40px/1.02 Georgia,"Times New Roman",serif;letter-spacing:-.04em;max-width:300px}
+.after .specimen-copy p{font-size:12px;margin-top:14px;color:#e8e8e8;max-width:230px}
+.sample-cta{display:inline-block;margin-top:18px;border:1px solid #fff;padding:9px 14px;font-size:11px;letter-spacing:.04em}
 .before{background:#ececeb;color:#333;clip-path:inset(0 calc(100% - var(--cut)) 0 0);z-index:2}
 .before .specimen-header{background:#fff;border-bottom:1px solid #ccc}
-.before .specimen-header strong{font:700 19px Arial,sans-serif}
-.before .specimen-copy{padding:27px 26px}
-.before h3{font:700 26px/1.2 Arial,sans-serif;margin-bottom:12px}
-.before .specimen-copy p{font-size:13px;max-width:370px;color:#666}
-.before-photo{height:150px;width:100%;margin-top:24px;background:repeating-linear-gradient(135deg,#dedcd5,#dedcd5 12px,#d5d3cb 12px,#d5d3cb 24px);border:1px solid #cfcdc6}
+.before .specimen-header strong{font:700 18px Arial,sans-serif}
+.before .specimen-copy{padding:26px 24px}
+.before h3{font:700 25px/1.2 Arial,sans-serif;margin-bottom:12px}
+.before .specimen-copy p{font-size:13px;max-width:380px;color:#666}
+.before-photo{height:150px;width:100%;margin-top:22px;background:repeating-linear-gradient(135deg,#dedcd5,#dedcd5 12px,#d5d3cb 12px,#d5d3cb 24px);border:1px solid #cfcdc6}
 .compare-line{position:absolute;z-index:3;left:var(--cut);top:0;bottom:0;width:1px;background:#fff;pointer-events:none}
 .compare-handle{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:var(--cobalt);border:2px solid #fff;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:20px;color:#fff;box-shadow:0 4px 16px #0006}
 .compare-range{position:absolute;z-index:4;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
 .compare:focus-within{outline:3px solid #6e91ff;outline-offset:5px}
-.compare-help{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:15px;color:#afb2bd;font-size:12px}
+.compare-help{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px;color:var(--muted);font-size:12px}
 .compare-buttons{display:flex;gap:8px}
-.compare-buttons button{background:transparent;color:#fff;border:1px solid #545760;padding:6px 12px;border-radius:4px;font-size:12px;transition:background .2s}
-.compare-buttons button:hover{background:#31343c}
-.compare-buttons button[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff}
-.work-footer{display:flex;justify-content:space-between;gap:24px;border-top:1px solid var(--line-dark);padding:23px 0 10px;font-size:13px;color:#a7abb5}
-.work-footer strong{color:#fff;font-weight:400}
-@media(max-width:1100px){.work-inner{gap:30px;grid-template-columns:28% 1fr}.compare{height:380px}.after h3{font-size:38px}}
-@media(max-width:760px){
-  .work-inner{padding-top:40px;padding-bottom:26px;display:block}
-  .work-copy h2{font-size:46px;margin:15px 0}.work-copy p{max-width:370px;font-size:15px}
-  .study{max-width:none;border:0;margin-top:12px;padding-top:0;font-size:11px}
-  .compare-shell{margin-top:27px}.compare{height:360px}
-  .specimen-header{padding:18px 17px}.specimen-header small{display:none}
-  .specimen-copy{padding:37px 20px}.after .specimen-copy{width:58%;padding:18px 16px 22px}.after h3{font-size:28px;max-width:230px}.after .specimen-copy p{font-size:11px;margin-top:10px}.sample-cta{margin-top:14px;padding:7px 10px;font-size:10px}
-  .before .specimen-copy{padding:25px 19px}.before h3{font-size:24px;max-width:270px}.before-photo{height:120px}
-  .compare-help{font-size:11px;gap:8px}.compare-buttons button{font-size:11px;padding:6px 9px}
-  .work-footer{font-size:11px;flex-wrap:wrap;gap:9px;padding-block:18px 6px}
+.compare-buttons button{border:1px solid var(--line);padding:6px 12px;border-radius:4px;font-size:12px;transition:background .2s;background:#fff}
+.compare-buttons button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media(max-width:600px){
+  .compare{height:380px;border-radius:10px}
+  .specimen-header{padding:16px 16px}.specimen-header small{display:none}
+  .after .specimen-copy{width:60%;padding:16px 14px 20px}.after h3{font-size:26px;max-width:220px}.after .specimen-copy p{font-size:11px;margin-top:10px}.sample-cta{margin-top:12px;padding:7px 10px;font-size:10px}
+  .before .specimen-copy{padding:22px 16px}.before h3{font-size:22px;max-width:260px}.before-photo{height:110px}
 }
 
-/* Case studies — editorial */
-.cases{padding-top:clamp(56px,6vw,96px);padding-bottom:clamp(56px,6vw,96px)}
-.case{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,4vw,72px);align-items:center;padding:clamp(34px,4vw,60px) 0;border-top:1px solid var(--line-dark)}
-.case:last-child{border-bottom:1px solid var(--line-dark)}
-.case .idx{font-size:12px;letter-spacing:.14em;color:var(--on-dark-muted);display:flex;gap:14px;align-items:center}
-.case .idx i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--cobalt)}
-.case .idx.concept i{background:var(--silver)}
-.case h3{margin-top:18px}
-.case p{color:var(--on-dark-muted);margin-top:16px;max-width:44ch;font-size:16px}
-.case .go{display:inline-flex;margin-top:26px}
-.surface{position:relative;border:1px solid #3d4048;background:var(--obsidian2);box-shadow:0 34px 80px -30px #000c;overflow:hidden;transform:translateY(var(--drift,0));will-change:transform}
-.surface img{width:100%;height:100%;object-fit:cover;object-position:top}
-.surface.real{aspect-ratio:16/10}
-.surface.real .phone{position:absolute;right:6%;bottom:-4%;width:24%;aspect-ratio:9/17;border:1px solid #4a4d56;background:#0b0c0e;box-shadow:0 30px 60px -20px #000e;overflow:hidden}
-.surface.real .phone img{object-position:top}
-@media(max-width:860px){.case{grid-template-columns:1fr;gap:26px;padding:34px 0}.case .surface{order:-1}}
+/* ================= PROMISE strip (obsidian) ================= */
+.promise{overflow:hidden}
+.promise .ribbon{position:absolute;pointer-events:none;z-index:0;right:-4%;top:-40%;width:52%;height:180%;opacity:.9}
+.promise .ribbon svg{width:100%;height:100%;display:block}
+.promise .wrap{position:relative;z-index:1}
+.promise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,56px);padding-block:clamp(44px,5vw,72px)}
+.promise-grid div{border-top:1px solid var(--line-dark);padding-top:20px}
+.promise-grid span{font-size:12px;letter-spacing:.1em;color:#8fa6ff}
+.promise-grid h3{font-size:clamp(22px,2vw,28px);font-weight:500;letter-spacing:-.04em;line-height:1.1;margin-top:12px}
+.promise-grid p{color:var(--on-dark-muted);font-size:15px;margin-top:10px;max-width:36ch}
+@media(max-width:860px){.promise-grid{grid-template-columns:1fr;gap:22px}.promise .ribbon{display:none}}
 
-/* Industries — compact, finished mini-mockups (marked as concept directions) */
-.ind-head{margin-top:clamp(44px,5vw,72px);display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
-.ind-head p{color:var(--on-dark-muted);font-size:15px;max-width:48ch}
-.ind{margin-top:26px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
-.ind a{display:block;border:1px solid #3d4048;background:var(--obsidian2);border-radius:14px;overflow:hidden;transition:transform .35s var(--ease),border-color .3s,box-shadow .35s var(--ease)}
-.ind a:hover{transform:translateY(-4px);border-color:#5b6070;box-shadow:0 30px 60px -30px #000}
-.mini{aspect-ratio:4/3;position:relative;display:flex;flex-direction:column;padding:14px 16px;font-family:var(--f);isolation:isolate;overflow:hidden}
+/* ================= WORK ================= */
+.case{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,4vw,72px);align-items:center;padding-bottom:clamp(40px,4vw,64px)}
+.case .idx{font-size:12px;letter-spacing:.14em;color:var(--muted);display:flex;gap:12px;align-items:center}
+.case .idx i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--cobalt)}
+.case h3{margin-top:16px}
+.case p{color:var(--muted);margin-top:14px;max-width:44ch;font-size:16px}
+.case .go{margin-top:24px}
+.surface{position:relative;border:1px solid #cfd1d6;border-radius:14px;background:#fff;box-shadow:0 34px 80px -34px rgba(10,20,60,.5);overflow:hidden;aspect-ratio:16/10;transform:translateY(var(--drift,0));will-change:transform}
+.surface img{width:100%;height:100%;object-fit:cover;object-position:top}
+.surface .phone{position:absolute;right:6%;bottom:-4%;width:24%;aspect-ratio:9/17;border:1px solid #cfd1d6;border-radius:10px 10px 0 0;background:#0b0c0e;box-shadow:0 30px 60px -20px #0009;overflow:hidden}
+.ind-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;border-top:1px solid var(--ink);padding-top:clamp(28px,3vw,40px)}
+.ind-head p{color:var(--muted);font-size:15px;max-width:48ch}
+.ind{margin-top:24px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.ind a{display:block;border:1px solid var(--line);background:#fff;border-radius:14px;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.ind a:hover{transform:translateY(-4px);box-shadow:0 30px 60px -30px rgba(10,20,60,.5)}
+.mini{aspect-ratio:4/3;position:relative;display:flex;flex-direction:column;padding:14px 16px;isolation:isolate;overflow:hidden}
 .mini .mn{display:flex;justify-content:space-between;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
 .mini .mn i{display:inline-block;width:28px;height:5px;border-radius:3px;background:currentColor;opacity:.5}
 .mini h4{font-weight:400;letter-spacing:-.04em;line-height:1.02;font-size:clamp(20px,1.7vw,26px);margin-top:auto;max-width:9ch}
@@ -250,154 +198,116 @@ section{position:relative}
 .mini.craft{background:linear-gradient(180deg,#f1f0ea,#e4e3dc);color:#151515}.mini.craft .mp{background:radial-gradient(circle at 40% 40%,#c7cbd1,#7b8189 55%,#3b4048)}.mini.craft .mc{background:var(--cobalt);color:#fff}
 .mini.clinic{background:linear-gradient(180deg,#eef4f3,#dde8e6);color:#0f2a2a}.mini.clinic .mp{background:radial-gradient(circle at 40% 40%,#d8ece8,#8fbdb5 55%,#3f7a72)}.mini.clinic .mc{background:#0f2a2a;color:#fff}
 .mini.stay{background:linear-gradient(180deg,#0f1a2e,#0a1120);color:#e9eefb}.mini.stay .mp{background:radial-gradient(circle at 40% 40%,#8fb1ff,#2d5be0 55%,#0f2a7a)}.mini.stay .mc{background:#fff;color:#0f1a2e}
-.ind .txt{padding:16px 18px 18px;border-top:1px solid var(--line-dark)}
-.ind .txt b{display:block;font-weight:500;font-size:16px;letter-spacing:-.02em}
-.ind .txt span{display:block;color:var(--on-dark-muted);font-size:13.5px;margin-top:5px}
-.ind .txt em{display:inline-flex;gap:8px;font-style:normal;font-size:13px;color:#9fb4ff;margin-top:12px}
-@media(max-width:1100px){.ind{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ind .txt{padding:14px 16px 16px;border-top:1px solid var(--line)}
+.ind .txt b{display:block;font-weight:500;font-size:15.5px;letter-spacing:-.02em}
+.ind .txt span{display:block;color:var(--muted);font-size:13.5px;margin-top:4px}
+.ind .txt em{display:inline-flex;gap:8px;font-style:normal;font-size:13px;color:var(--cobalt);margin-top:10px}
+@media(max-width:1000px){.ind{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:860px){.case{grid-template-columns:1fr;gap:24px}.case .surface{order:-1}}
 @media(max-width:520px){.ind{grid-template-columns:1fr;gap:14px}.mini{aspect-ratio:16/10}}
 
-/* ================= WHY (pearl2) ================= */
-.why{background:var(--pearl2)}
-.why-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,48px);border-top:1px solid var(--ink);padding-top:clamp(26px,3vw,40px);margin-top:clamp(28px,3vw,44px)}
-.why-grid div{padding-right:8px}
-.why-grid span{font-size:12px;color:var(--cobalt);letter-spacing:.08em}
-.why-grid h3{font-size:clamp(22px,2vw,28px);font-weight:500;letter-spacing:-.04em;line-height:1.1;margin-top:12px}
-.why-grid p{font-size:15px;color:var(--muted);margin-top:10px;max-width:38ch}
-@media(max-width:860px){.why-grid{grid-template-columns:1fr;gap:26px}}
+/* ================= HOW (pearl2) ================= */
+.how{background:var(--pearl2)}
+.how-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(30px,5vw,90px);align-items:start}
+.how-grid .lead{margin-top:20px}
+.how-grid .primary{margin-top:28px}
+.step{display:grid;grid-template-columns:44px 1fr;gap:18px;border-top:1px solid #c9cbcf;padding:24px 0}
+.step:last-child{border-bottom:1px solid #c9cbcf}
+.step>span{font-size:13px;color:var(--cobalt);padding-top:5px;letter-spacing:.06em}
+.step h3{font-size:21px;font-weight:500;letter-spacing:-.035em}
+.step p{font-size:15px;color:var(--muted);margin-top:7px;max-width:52ch}
+.step .you{display:inline-flex;gap:8px;align-items:center;margin-top:12px;font-size:13px;color:var(--ink2);background:#fff;border:1px solid var(--line);border-radius:50px;padding:6px 12px}
+.step .you b{font-weight:600;color:var(--cobalt)}
+@media(max-width:900px){.how-grid{grid-template-columns:1fr;gap:28px}}
 
-/* ================= SERVICES (numbered index) ================= */
-.services .group{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,2fr);gap:clamp(20px,4vw,80px);border-top:1px solid var(--ink);padding:clamp(28px,3.5vw,48px) 0}
-.services .group:last-of-type{border-bottom:1px solid var(--ink)}
-.services .group h3{font-size:clamp(28px,2.6vw,38px);font-weight:400;letter-spacing:-.05em;line-height:1.05}
-.services .group .gsub{color:var(--muted);font-size:15px;margin-top:12px;max-width:34ch}
-.svc{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(0,1.4fr);gap:18px;padding:18px 0;border-top:1px solid var(--line);align-items:baseline}
-.svc:first-child{border-top:0;padding-top:0}
-.svc .n{font-size:12px;color:var(--cobalt);letter-spacing:.06em}
-.svc h4{font-size:18px;font-weight:500;letter-spacing:-.03em}
-.svc p{font-size:15px;color:var(--muted)}
-@media(max-width:860px){.services .group{grid-template-columns:1fr;gap:18px}.svc{grid-template-columns:36px 1fr}.svc p{grid-column:2}}
-
-/* ================= WEBSITE SPRINT ================= */
-.sprint-top{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,90px);align-items:start}
-.sprint h2{margin-top:24px}
-.sprint-intro{font-size:18px;color:#575b64;max-width:470px;margin-top:26px}
-.steps{margin-top:14px}
-.step{display:grid;grid-template-columns:32px 1fr;gap:17px;border-top:1px solid var(--line);padding:24px 0}
-.step:last-child{border-bottom:1px solid var(--line)}
-.step>span{color:var(--cobalt);font-size:12px;padding-top:4px}
-.step h3{font-size:20px;font-weight:500;letter-spacing:-.035em}
-.step p{font-size:15px;color:var(--muted);margin-top:7px;max-width:395px}
-.offers{margin-top:18px;display:grid;grid-template-columns:1.2fr 1fr;gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
-.offer .tag{display:inline-block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--cobalt);border-radius:4px;padding:4px 8px;margin-bottom:12px}
-.offer ul{grid-column:1/-1;display:grid;gap:6px;margin-top:4px}
-.offer li{font-size:14px;color:var(--ink2);padding-left:16px;position:relative}
-.offer li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:1px;background:var(--cobalt)}
-.offer .primary{grid-column:1/-1;justify-self:start;margin-top:10px;min-height:52px;padding:14px 20px}
-.psub{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-top:clamp(40px,5vw,64px)}
-.psub h3{font-size:clamp(24px,2.4vw,32px);font-weight:400;letter-spacing:-.05em}
+/* ================= PRICING ================= */
+.offers{display:grid;grid-template-columns:1.15fr 1fr;gap:18px}
+.offer{position:relative;border:1px solid var(--line);border-radius:16px;background:#fff;padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:14px}
+.offer.hi{border-color:var(--cobalt);box-shadow:0 30px 70px -40px rgba(18,72,255,.55)}
+.offer .tag{position:absolute;top:-12px;left:clamp(24px,3vw,36px);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--cobalt);border-radius:4px;padding:5px 9px}
+.offer h3{font-size:26px;font-weight:500;letter-spacing:-.04em}
+.offer .price{font-size:clamp(34px,3vw,46px);font-weight:400;letter-spacing:-.05em;line-height:1}
+.offer .price small{display:block;font-size:13px;color:var(--muted);letter-spacing:0;margin-top:8px}
+.offer>p{font-size:15px;color:var(--ink2);max-width:46ch}
+.offer ul{display:grid;gap:7px;margin-top:4px}
+.offer li{font-size:14px;color:var(--ink2);padding-left:18px;position:relative}
+.offer li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:1px;background:var(--cobalt)}
+.offer .primary{margin-top:auto;align-self:flex-start}
+.offer .text-link{align-self:flex-start}
+.psub{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-top:clamp(44px,5vw,64px);margin-bottom:8px}
+.psub h3{font-size:clamp(22px,2.2vw,30px);font-weight:400;letter-spacing:-.05em}
 .psub p{color:var(--muted);font-size:14px;max-width:52ch}
-.psub:first-of-type{margin-top:0}
-.pricing .rows{margin-top:18px}
-.offer{padding:28px 0;display:grid;grid-template-columns:1fr auto;gap:12px 24px;align-items:start}
-.offer:first-child{padding-right:clamp(22px,3vw,44px)}
-.offer+.offer{border-left:1px solid var(--line);padding-left:clamp(22px,3vw,44px)}
-.offer h3{font-size:24px;font-weight:500;letter-spacing:-.04em}
-.offer .price{font-size:clamp(28px,2.6vw,36px);font-weight:400;letter-spacing:-.05em;text-align:right;white-space:nowrap}
-.offer .price small{display:block;font-size:12px;color:var(--muted);letter-spacing:0;margin-top:4px}
-.offer p{font-size:14px;color:var(--muted);grid-column:1/-1;max-width:52ch}
-.offer .text-link{grid-column:1/-1;justify-self:start;margin-top:6px}
-.sprint-cta{margin-top:34px;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
-.sprint-cta small{font-size:12px;color:var(--muted)}
-@media(max-width:900px){.sprint-top{display:block}.steps{margin-top:34px}.offers{grid-template-columns:1fr}.offer:first-child{padding-right:0}.offer+.offer{border-left:0;border-top:1px solid var(--line);padding-left:0}}
-@media(max-width:760px){.sprint h2{font-size:48px;margin-top:16px}.sprint-intro{font-size:16px;margin-top:20px}.offer{grid-template-columns:1fr}.offer .price{text-align:left}}
+.row{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,.7fr) minmax(0,1.7fr) auto;gap:clamp(16px,3vw,48px);align-items:start;padding:22px 0;border-top:1px solid var(--line)}
+.row:last-of-type{border-bottom:1px solid var(--line)}
+.row .nm{font-size:22px;font-weight:500;letter-spacing:-.04em;line-height:1.05}
+.row .nm small{display:block;font-size:13px;color:var(--muted);letter-spacing:0;margin-top:6px;font-weight:400}
+.row .pr{font-size:20px;letter-spacing:-.03em;white-space:nowrap}
+.row .pr small{display:block;font-size:12px;color:var(--muted);letter-spacing:0;margin-top:5px}
+.row .who{font-size:14.5px;color:var(--muted);max-width:60ch}
+.row .outline{white-space:nowrap}
+.pnotes{margin-top:22px;font-size:13px;color:var(--muted);max-width:76ch;display:grid;gap:6px}
+.pnotes a{color:var(--ink);border-bottom:1px solid currentColor}
+@media(max-width:900px){.offers{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}.row .who{grid-column:1/-1}.row .outline{grid-column:1/-1;justify-self:start}}
 
-/* ================= ROI (obsidian tool) ================= */
-.roi{background:var(--obsidian);color:var(--on-dark);overflow:hidden}
+/* ================= ROI (obsidian) ================= */
+.roi{overflow:hidden}
 .roi-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(30px,5vw,72px);align-items:center}
 .roi h2{margin-top:18px}.roi .lead{margin-top:16px}
 .roi .fine{color:#8d919b;font-size:12.5px;margin-top:18px;max-width:46ch}
-.calc{background:var(--obsidian2);border:1px solid var(--obs-line);border-radius:18px;padding:clamp(22px,3vw,32px);box-shadow:0 40px 90px -50px #000}
-.calc .fld{margin-bottom:20px}.calc .fld:last-of-type{margin-bottom:8px}
+.calc{background:var(--obsidian2);border:1px solid var(--line-dark);border-radius:18px;padding:clamp(22px,3vw,32px);box-shadow:0 40px 90px -50px #000}
+.calc .fld{margin-bottom:20px}
 .calc .fld label{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--on-dark-muted);margin-bottom:10px}
 .calc .fld label b{color:#fff;font-weight:600;font-variant-numeric:tabular-nums}
 .calc input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:5px;background:linear-gradient(90deg,var(--cobalt) var(--p,40%),#33363d var(--p,40%));outline:none;cursor:pointer}
 .calc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:4px solid var(--cobalt);cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4)}
 .calc input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:4px solid var(--cobalt);cursor:pointer}
-.calc input[type=range]:focus-visible{outline:3px solid #6e91ff;outline-offset:6px}
-.calc .res{margin-top:24px;padding-top:22px;border-top:1px solid var(--obs-line)}
+.calc .res{margin-top:22px;padding-top:22px;border-top:1px solid var(--line-dark)}
 .calc .res .big{font-size:clamp(2rem,4vw,2.8rem);font-weight:600;letter-spacing:-.03em;line-height:1;background:linear-gradient(90deg,#fff,#9db8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .calc .res p{color:var(--on-dark-muted);font-size:14px;margin-top:8px}
 .calc .res .rev{color:#fff;font-weight:600;margin-top:10px;font-size:1.05rem}
 @media(max-width:860px){.roi-grid{grid-template-columns:1fr;gap:26px}}
 
-/* ================= PRICING (editorial table) ================= */
-.pricing .row{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,.6fr) minmax(0,1.6fr) auto;gap:clamp(16px,3vw,48px);align-items:start;padding:clamp(24px,3vw,36px) 0;border-top:1px solid var(--line)}
-.pricing .row:first-of-type{border-top:1px solid var(--ink)}
-.pricing .row:last-of-type{border-bottom:1px solid var(--ink)}
-.pricing .nm{font-size:clamp(24px,2.4vw,34px);font-weight:400;letter-spacing:-.05em;line-height:1.05}
-.pricing .nm small{display:block;font-size:13px;color:var(--muted);letter-spacing:0;margin-top:8px}
-.pricing .pr{font-size:clamp(22px,2vw,28px);letter-spacing:-.04em;white-space:nowrap}
-.pricing .pr small{display:block;font-size:12px;color:var(--muted);letter-spacing:0;margin-top:6px}
-.pricing .who{font-size:15px;color:var(--ink2);max-width:48ch}
-.pricing ul{margin-top:12px;display:grid;gap:6px}
-.pricing li{font-size:14px;color:var(--muted);padding-left:16px;position:relative}
-.pricing li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:1px;background:var(--cobalt)}
-.pricing .row .outline{white-space:nowrap}
-.pricing .row.hi .nm{color:var(--cobalt)}
-.pnotes{margin-top:22px;display:grid;gap:6px;font-size:13px;color:var(--muted);max-width:70ch}
-.pnotes a{color:var(--ink);border-bottom:1px solid currentColor}
-@media(max-width:900px){.pricing .row{grid-template-columns:1fr 1fr}.pricing .who{grid-column:1/-1}.pricing .row .outline{justify-self:start;grid-column:1/-1}}
-
-/* ================= STUDIO (obsidian) ================= */
-.studio-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(30px,5vw,90px);align-items:start}
-.studio-grid .lead{margin-top:22px}
-.studio-points{display:grid;grid-template-columns:1fr 1fr;gap:0}
-.pt{padding:22px clamp(0px,2vw,28px) 22px 0;border-top:1px solid var(--line-dark)}
-.pt:nth-child(even){padding-left:clamp(18px,2.4vw,32px);border-left:1px solid var(--line-dark)}
-.pt span{font-size:12px;color:#7d8cff;letter-spacing:.1em}
-.pt h3{font-size:17px;font-weight:500;letter-spacing:-.03em;margin-top:10px}
-.pt p{font-size:14px;color:var(--on-dark-muted);margin-top:6px}
-.honest{margin-top:clamp(40px,4vw,64px);border-top:1px solid var(--line-dark);padding-top:28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(24px,4vw,80px)}
-.honest h3{font-size:22px;font-weight:500;letter-spacing:-.04em}
-.honest p{color:var(--on-dark-muted);font-size:15px;margin-top:10px;max-width:52ch}
-.honest ul{display:grid;gap:10px;font-size:14px;color:var(--on-dark-muted)}
+/* ================= STUDIO ================= */
+.studio-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(30px,5vw,90px);align-items:start}
+.studio-grid .lead{margin-top:20px}
+.founder{border:1px solid var(--line);border-radius:16px;background:#fff;padding:clamp(22px,3vw,32px);display:flex;gap:18px;align-items:flex-start}
+.founder .fmark{flex:none;width:46px;height:46px;border-radius:12px;background:linear-gradient(160deg,#1b1d22,#0c0d10);display:flex;align-items:center;justify-content:center}
+.founder .fmark img{width:30px;height:auto}
+.founder p{color:var(--ink2);font-size:16.5px;line-height:1.62}
+.founder p em{font-style:normal;font-weight:600;color:var(--ink)}
+.founder .sig{display:block;font-weight:600;margin-top:12px;font-size:14px}
+.honest{margin-top:22px;display:grid;gap:8px;font-size:14px;color:var(--muted)}
 .honest li{padding-left:18px;position:relative}
-.honest li::before{content:"";position:absolute;left:0;top:.65em;width:7px;height:1px;background:#7d8cff}
-@media(max-width:860px){.studio-grid,.honest{grid-template-columns:1fr}.studio-points{grid-template-columns:1fr}.pt:nth-child(even){padding-left:0;border-left:0}}
+.honest li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:1px;background:var(--cobalt)}
+.svc-list{margin-top:clamp(36px,4vw,56px);border-top:1px solid var(--ink);padding-top:22px}
+.svc-list .label{margin-bottom:12px}
+.svc-list ul{display:flex;flex-wrap:wrap;gap:8px}
+.svc-list li{border:1px solid var(--line);border-radius:50px;padding:7px 14px;font-size:13.5px;color:var(--ink2);background:#fff}
+@media(max-width:860px){.studio-grid{grid-template-columns:1fr}}
 
 /* ================= FAQ ================= */
 .faq .list{max-width:820px}
 .faq details{border-top:1px solid var(--line)}
 .faq details:last-child{border-bottom:1px solid var(--line)}
-.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;padding:20px 0;font-size:18px;font-weight:500;letter-spacing:-.03em}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;padding:18px 0;font-size:17px;font-weight:500;letter-spacing:-.03em}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary .pm{flex:none;width:28px;height:28px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;color:var(--cobalt);font-size:16px;transition:transform .3s var(--ease)}
 .faq details[open] summary .pm{transform:rotate(45deg)}
-.faq .a{padding:0 0 22px;color:var(--muted);font-size:15px;max-width:64ch}
-
-/* founder note */
-.founder{margin-top:clamp(30px,4vw,46px);border-top:1px solid var(--line-dark);padding-top:26px;display:flex;gap:18px;align-items:flex-start;max-width:860px}
-.founder .fmark{flex:none;width:46px;height:46px;border-radius:12px;background:var(--obsidian2);border:1px solid var(--obs-line);display:flex;align-items:center;justify-content:center}
-.founder .fmark img{width:30px;height:auto}
-.founder p{color:var(--on-dark-muted);font-size:16px;line-height:1.62}
-.founder p em{color:#fff;font-style:normal;font-weight:500}
-.founder .sig{display:block;color:#fff;font-weight:600;margin-top:12px;font-size:14px;letter-spacing:.01em}
-@media(max-width:560px){.founder{gap:14px}.founder .fmark{width:40px;height:40px}}
+.faq .a{padding:0 0 20px;color:var(--muted);font-size:15px;max-width:64ch}
 
 /* ================= CLOSING (cobalt) ================= */
-.closing{background:var(--cobalt);color:#fff;overflow:hidden;position:relative}
-.closing-inner{padding-top:clamp(56px,6vw,80px);padding-bottom:clamp(52px,6vw,74px);display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(36px,5vw,70px);align-items:end;position:relative;z-index:1}
+.closing{background:var(--cobalt);color:#fff;overflow:hidden}
+.closing-inner{padding-block:clamp(56px,6vw,84px);display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(36px,5vw,70px);align-items:end;position:relative;z-index:1}
 .closing .label{color:#dfe6ff}
 .closing h2{margin-top:20px;color:#fff}
-.closing p{font-size:18px;line-height:1.55;max-width:400px;color:#e2e8ff;margin-bottom:25px}
+.closing p{font-size:18px;line-height:1.55;max-width:400px;color:#e2e8ff;margin-bottom:22px}
 .closing small{display:block;font-size:12px;color:#e1e7ff;margin-top:16px}
 .closing .alt{display:inline-flex;margin-top:18px;color:#fff}
 .closing .band{position:absolute;right:-8%;top:-30%;width:60%;height:160%;pointer-events:none;opacity:.55}
-@media(max-width:860px){.closing-inner{display:block}.closing h2{font-size:51px;margin-top:16px}.closing-inner>div+div{margin-top:30px}.closing .band{display:none}}
+@media(max-width:860px){.closing-inner{display:block}.closing-inner>div+div{margin-top:28px}.closing .band{display:none}}
 
 /* ================= FOOTER ================= */
-footer{padding:clamp(40px,5vw,64px) 0 28px}
+footer{padding:clamp(40px,5vw,60px) 0 28px}
 .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:clamp(24px,4vw,60px)}
 .fgrid p{color:var(--muted);font-size:14px;margin-top:16px;max-width:36ch}
 .fgrid h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
@@ -406,7 +316,6 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
 .fbot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:40px;padding-top:22px;font-size:12px;color:var(--muted)}
 @media(max-width:860px){.fgrid{grid-template-columns:1fr 1fr}.fgrid>div:first-child{grid-column:1/-1}}
 
-/* Sticky mobile CTA */
 .stick{position:fixed;left:0;right:0;bottom:0;z-index:35;padding:10px var(--gutter) calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--pearl) 90%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .4s var(--ease);display:none}
 .stick.on{transform:none}
 .stick .primary{width:100%;min-height:52px;font-size:15px;padding:14px 18px;margin:0}
@@ -416,7 +325,7 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .js .rv{opacity:1;transform:none}
-  .surface,.layer{transform:none!important}
+  .surface{transform:none!important}
 }
 </style>
 </head>
@@ -424,7 +333,6 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
 <a class="skip" href="#hovedinnhold">Hopp til innhold</a>
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-<!-- ================= HEADER ================= -->
 <header class="site-header" id="siteHeader">
   <div class="wrap hdr">
     <a class="brand" href="#top" aria-label="StayMotion, til toppen">
@@ -434,8 +342,7 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
     <button class="menu-toggle" type="button" aria-controls="navigation" aria-expanded="false" aria-label="Åpne meny">☰</button>
     <nav class="nav" id="navigation" aria-label="Hovedmeny">
       <a href="#arbeid">Arbeid</a>
-      <a href="#tjenester">Tjenester</a>
-      <a href="#sprint">Slik jobber vi</a>
+      <a href="#sprint">Slik funker det</a>
       <a href="#priser">Priser</a>
       <a href="#studio">Studio</a>
       <a class="navcta" href="/start.html?type=konsept">Gratis konsept <span class="arrow" aria-hidden="true">↗</span></a>
@@ -448,56 +355,24 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
 <!-- ================= HERO ================= -->
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="wrap">
-    <div class="grid">
+    <div class="hero-grid">
       <div class="hero-copy">
-        <h1 id="hero-title" class="h-xl"><span>Nettsider folk</span><span>stopper for.</span><span class="second">Og handler fra.</span></h1>
-        <p class="hero-description">Vi designer og bygger nettsider for norske bedrifter — fast pris, levert på dager, og laget for at kunden tar kontakt. Et selvstendig studio i Stavanger.</p>
-        <a class="primary" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a>
-        <div class="hero-secondary"><a class="text-link down" href="#arbeid">Se hvordan vi tenker <span class="arrow" aria-hidden="true">↓</span></a></div>
+        <span class="label">Webdesignstudio · Stavanger</span>
+        <h1 id="hero-title" class="h-xl" style="margin-top:18px"><span>Nettsiden som får</span><span>kunden til å</span><span class="accent">ta kontakt.</span></h1>
+        <p class="hero-description">Vi designer og bygger nettsider for norske bedrifter. Fast pris, levert på dager — og hver side er bygget for én ting: at folk ringer, booker eller sender en melding.</p>
+        <div class="hero-cta">
+          <a class="primary" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#priser">Se priser <span class="arrow" aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-facts" aria-label="Nøkkelfakta">
+          <div><b>16 000 kr</b><span>Komplett nettside, fast pris</span></div>
+          <div><b>5 dager</b><span>Levering etter mottatt innhold</span></div>
+          <div><b>100 %</b><span>Du eier design, kode og innhold</span></div>
+        </div>
       </div>
-      <figure class="hero-art" aria-hidden="true">
-        <span class="plate"></span>
-        <picture>
-          <source srcset="img/hero-art.webp" type="image/webp">
-          <img src="staymotion-hero-art.png" alt="" width="1448" height="1086" fetchpriority="high" decoding="async">
-        </picture>
-      </figure>
-    </div>
-    <div class="hero-meta">
-      <span><b>Website Sprint</b> 16 000 kr · fast pris</span>
-      <span><b>Landingsside</b> 7 900 kr · fast pris</span>
-      <span><b>Gratis førsteside-konsept</b> før du bestemmer deg</span>
-    </div>
-  </div>
-</section>
 
-<!-- ================= WORK · before/after (obsidian) ================= -->
-<section class="work dark" id="arbeid" aria-labelledby="work-title">
-  <!-- Cobalt ribbon: the hero band's signature reappears, crossing the pearl/obsidian seam -->
-  <div class="ribbon" aria-hidden="true">
-    <svg viewBox="0 0 1440 420" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id="rb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0b2fd9"/><stop offset=".4" stop-color="#2160ff"/><stop offset=".62" stop-color="#0a35e8"/><stop offset="1" stop-color="#1d52ff"/></linearGradient>
-        <linearGradient id="rs" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8d929a"/><stop offset=".5" stop-color="#f1f2f4"/><stop offset="1" stop-color="#a9adb4"/></linearGradient>
-      </defs>
-      <!-- silver back edge -->
-      <path d="M1290 0 C 1330 90, 1240 160, 1060 178 S 800 175, 720 236 S 640 330, 560 420" fill="none" stroke="url(#rs)" stroke-width="9" stroke-linecap="round" opacity=".9" transform="translate(6,10)"/>
-      <!-- cobalt band -->
-      <path d="M1290 0 C 1330 90, 1240 160, 1060 178 S 800 175, 720 236 S 640 330, 560 420" fill="none" stroke="url(#rb)" stroke-width="26" stroke-linecap="round"/>
-      <!-- specular highlight -->
-      <path d="M1290 0 C 1330 90, 1240 160, 1060 178 S 800 175, 720 236 S 640 330, 560 420" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity=".35" transform="translate(-3,-9)"/>
-    </svg>
-  </div>
-  <div class="wrap">
-    <div class="work-inner">
-      <div class="work-copy">
-        <span class="label">Et annet førsteinntrykk</span>
-        <h2 id="work-title" class="h-l">Se forskjellen.</h2>
-        <p>Samme utgangspunkt.<br>En tydeligere retning.</p>
-        <small class="study">Illustrert før/etter-konsept. Ingen faktisk kunde eller målte resultater.</small>
-      </div>
-      <div class="compare-shell rv">
-        <div class="compare-labels" aria-hidden="true"><span>Før / standardoppsett</span><span>Etter / ny retning</span></div>
+      <div class="hero-demo rv">
+        <div class="demo-cap" aria-hidden="true"><i>Dra i midten</i><span>Før → Etter</span></div>
         <div class="compare" id="comparison">
           <div class="specimen after" aria-hidden="true">
             <div class="after-photo"></div>
@@ -518,43 +393,67 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
           </div>
           <div class="compare-line" aria-hidden="true"><span class="compare-handle">‹ ›</span></div>
           <label class="sr" for="reveal">Sammenlign standardoppsett og ny designretning</label>
-          <input class="compare-range" type="range" id="reveal" min="0" max="100" value="46" aria-describedby="compare-description">
+          <input class="compare-range" type="range" id="reveal" min="0" max="100" value="48" aria-describedby="compare-description">
         </div>
         <div class="compare-help">
-          <span id="compare-description">Dra for å se. Piltaster med tastatur.</span>
+          <span id="compare-description">Samme restaurant. Samme innhold. Annen retning.</span>
           <div class="compare-buttons">
             <button type="button" data-reveal="100" aria-pressed="false">Før</button>
             <button type="button" data-reveal="0" aria-pressed="false">Etter</button>
           </div>
         </div>
+        <p class="hero-note">Illustrert konsept — ikke en faktisk kunde.</p>
       </div>
     </div>
-    <div class="work-footer"><strong>Salt &amp; Brød / fiktiv konseptstudie</strong><span>Budskap · Design · Responsiv opplevelse</span></div>
   </div>
+</section>
 
-  <!-- Case studies — editorial -->
-  <div class="wrap cases">
+<!-- ================= PROMISE (obsidian) ================= -->
+<section class="promise dark" aria-label="Det du får">
+  <div class="ribbon" aria-hidden="true">
+    <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="rb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0b2fd9"/><stop offset=".45" stop-color="#2160ff"/><stop offset="1" stop-color="#0a35e8"/></linearGradient>
+        <linearGradient id="rs" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8d929a"/><stop offset=".5" stop-color="#f1f2f4"/><stop offset="1" stop-color="#a9adb4"/></linearGradient>
+      </defs>
+      <path d="M-40 440 C 120 300, 260 540, 420 360 S 640 160, 700 60" fill="none" stroke="url(#rs)" stroke-width="8" stroke-linecap="round" opacity=".85" transform="translate(6,10)"/>
+      <path d="M-40 440 C 120 300, 260 540, 420 360 S 640 160, 700 60" fill="none" stroke="url(#rb)" stroke-width="26" stroke-linecap="round"/>
+      <path d="M-40 440 C 120 300, 260 540, 420 360 S 640 160, 700 60" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".35" transform="translate(-3,-9)"/>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="promise-grid rv">
+      <div><span>01</span><h3>Kunden googler før de ringer.</h3><p>Det de finner på mobilen avgjør om de tar kontakt med deg — eller med naboen. Mange sider i Rogaland er utdaterte, trege eller finnes ikke.</p></div>
+      <div><span>02</span><h3>Fast pris. Ingen byråprosess.</h3><p>Omfang og pris avtales før oppstart. Du snakker direkte med den som designer og bygger, og siden er live på dager — ikke måneder.</p></div>
+      <div><span>03</span><h3>Bygget for handling.</h3><p>Tydelig budskap, riktig rekkefølge, kontakt eller booking der folk forventer det. Hver seksjon har én jobb: flytte besøkeren nærmere en henvendelse.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WORK ================= -->
+<section class="work pad" id="arbeid" aria-labelledby="work-title">
+  <div class="wrap">
     <div class="sec-head">
-      <div><span class="label">Arbeid</span><h2 class="h-l">Prosjekter som viser hvordan vi tenker.</h2></div>
-      <p class="lead">Ett eget produkt vi har bygget fra bunnen — og konseptretninger for bransjer vi jobber mot. Konseptarbeid er merket som det.</p>
+      <div><span class="label">Arbeid</span><h2 id="work-title" class="h-l">Slik tenker vi.</h2></div>
+      <p class="lead">Ett eget produkt vi har designet og bygget fra bunnen — og fire retninger for bransjene vi jobber mest mot. Konseptarbeid er merket som det.</p>
     </div>
 
     <article class="case rv">
       <div>
-        <span class="idx"><i></i>Eget produkt · Ekte og live</span>
+        <span class="idx"><i></i>Eget produkt · ekte og live</span>
         <h3 class="h-m">SiamConnect — digital plattform.</h3>
-        <p>Community, markedsplass, arrangementer og guider i ett produkt. Bevis på at vi også designer og bygger komplekse digitale plattformer, ikke bare forsider.</p>
+        <p>Community, markedsplass, arrangementer og guider i ett produkt. Bevis på at vi designer og bygger hele digitale løsninger — ikke bare forsider.</p>
         <a class="text-link go" href="/siamconnect.html">Se prosjektet <span class="arrow" aria-hidden="true">↗</span></a>
       </div>
-      <a class="surface real" href="/siamconnect.html" data-drift="-0.05" aria-label="SiamConnect — se prosjektet">
+      <a class="surface" href="/siamconnect.html" data-drift="-0.05" aria-label="SiamConnect — se prosjektet">
         <img src="img/work/siamconnect/forum-d.jpg" alt="SiamConnect — community-plattform på desktop" loading="lazy" decoding="async" width="1280" height="720">
         <span class="phone"><img src="img/work/siamconnect/marketplace-m.jpg" alt="" loading="lazy" decoding="async"></span>
       </a>
     </article>
 
     <div class="ind-head rv">
-      <div><span class="label">Bransjer vi bygger for</span><h3 class="h-m" style="margin-top:14px">Retninger, ikke maler.</h3></div>
-      <p>Hver side tegnes for bedriften den skal selge for. Dette er konseptretninger — ikke kundeprosjekter — og de viser hvordan vi tenker for de bransjene vi jobber mest mot.</p>
+      <div><span class="label">Bransjer vi bygger for</span><h3 class="h-m" style="margin-top:12px">Retninger, ikke maler.</h3></div>
+      <p>Hver side tegnes for bedriften den skal selge for. Velg din bransje, så starter vi med et førsteside-konsept — gratis.</p>
     </div>
     <div class="ind rv">
       <a href="/start.html?type=redesign&bransje=restaurant" aria-label="Restaurant og kafé — få et førsteside-konsept">
@@ -577,88 +476,84 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
   </div>
 </section>
 
-<!-- ================= WHY ================= -->
-<section class="why pad" id="hvorfor" aria-labelledby="why-title">
-  <div class="wrap">
-    <div class="sec-head" style="margin-bottom:0">
-      <div><span class="label">Hvorfor nå</span><h2 id="why-title" class="h-l">Nettsiden er det nye førsteinntrykket.</h2></div>
-      <p class="lead">Kunden googler før de ringer. Det de finner på mobilen avgjør om de tar kontakt med deg — eller med naboen.</p>
+<!-- ================= HOW ================= -->
+<section class="how pad" id="sprint" aria-labelledby="how-title">
+  <div class="wrap how-grid">
+    <div>
+      <span class="label">Slik funker det</span>
+      <h2 id="how-title" class="h-l" style="margin-top:20px">Tre steg.<br>Én uke.</h2>
+      <p class="lead">Du trenger ikke kunne noe om nettsider. Du trenger 20 minutter, noen bilder og et ja.</p>
+      <a class="primary" href="/start.html?type=konsept">Start med et gratis konsept <span class="arrow" aria-hidden="true">↗</span></a>
     </div>
-    <div class="why-grid rv">
-      <div><span>01</span><h3>Mange bedrifter mangler en side som funker.</h3><p>Vi ser det hver dag i Rogaland: ingen nettside, eller en som er treg, utdatert og vanskelig på mobil. Da velger kunden en annen.</p></div>
-      <div><span>02</span><h3>Fast pris. Levert på dager.</h3><p>Ingen byråprosess på måneder. Vi avtaler omfang og pris før oppstart, og leverer Website Sprint på ca. fem virkedager etter mottatt innhold.</p></div>
-      <div><span>03</span><h3>Bygget for at kunden tar kontakt.</h3><p>Tydelig budskap, riktig rekkefølge, kontakt eller booking der folk forventer det. Hver seksjon har én jobb: flytte besøkeren nærmere en henvendelse.</p></div>
+    <div class="steps rv">
+      <div class="step"><span>01</span><div><h3>Konsept — gratis</h3><p>Send oss nettsiden din (eller bare navnet på bedriften). Vi lager et konkret forslag til ny forside: budskap, struktur og retning. Uforpliktende.</p><span class="you"><b>Du:</b> 2 minutter på et skjema</span></div></div>
+      <div class="step"><span>02</span><div><h3>Design og bygg</h3><p>Liker du retningen, avtaler vi omfang og fast pris. Vi skriver teksten, designer og bygger hele siden — mobil først, med kontakt eller booking der kunden forventer det.</p><span class="you"><b>Du:</b> 20 min på telefon + logo og bilder</span></div></div>
+      <div class="step"><span>03</span><div><h3>Godkjenning og lansering</h3><p>Du ser gjennom og godkjenner. Vi publiserer, kobler domenet og setter opp Google-bedriftsprofil og grunnleggende lokal synlighet.</p><span class="you"><b>Du:</b> Et ja — og siden er live</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ================= SERVICES ================= -->
-<section class="services pad" id="tjenester" aria-labelledby="services-title">
+<!-- ================= PRICING ================= -->
+<section class="pricing pad" id="priser" aria-labelledby="pricing-title">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="label">Tjenester</span><h2 id="services-title" class="h-l">Alt du trenger. Under ett tak.</h2></div>
-      <p class="lead">Design, bygging og vekst — tolv tjenester du sjelden trenger alle av. Vi hjelper deg velge det som faktisk flytter noe.</p>
+      <div><span class="label">Priser</span><h2 id="pricing-title" class="h-l">To faste priser.<br>Ingen overraskelser.</h2></div>
+      <p class="lead">De fleste velger én av disse. Prisen er avtalt før vi starter, betaling skjer via sikker kortlenke, og du eier alt når prosjektet er betalt.</p>
     </div>
 
-    <div class="group rv">
-      <div><h3>Design</h3><p class="gsub">Uttrykket kunden møter — og stoler på.</p></div>
-      <div>
-        <div class="svc"><span class="n">01</span><h4>Webdesign</h4><p>Skreddersydd design og retning fra blankt ark — aldri en mal.</p></div>
-        <div class="svc"><span class="n">02</span><h4>UI / UX</h4><p>Grensesnitt som føles selvsagte og leder folk til handling.</p></div>
-        <div class="svc"><span class="n">03</span><h4>Mobildesign</h4><p>Designet for tommelen først, så skalert opp.</p></div>
-        <div class="svc"><span class="n">04</span><h4>Landingssider</h4><p>Sider med ett formål — bygget for å konvertere kampanjetrafikk.</p></div>
+    <div class="offers rv">
+      <div class="offer hi">
+        <span class="tag">Mest valgt</span>
+        <h3>Website Sprint</h3>
+        <div class="price">16 000 kr<small>50 % ved oppstart · 50 % ved levering</small></div>
+        <p>Komplett nettside for bedriften din — klar ca. fem virkedager etter at vi har fått innholdet.</p>
+        <ul>
+          <li>Forside + inntil 4 undersider (tjenester, om oss, kontakt, priser eller galleri)</li>
+          <li>Skreddersydd design, mobil først, rask og ren</li>
+          <li>Vi skriver teksten — du gir oss råstoffet</li>
+          <li>Kontaktskjema, kart, åpningstider, klikk-for-å-ringe</li>
+          <li>Grunnleggende lokal SEO + Google-bedriftsprofil</li>
+          <li>Domene, hosting og publisering satt opp</li>
+        </ul>
+        <a class="primary" href="/start.html?pakke=sprint">Start en Website Sprint <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="text-link" href="/sprint">Alt om Website Sprint <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+      <div class="offer">
+        <h3>Landing Page Sprint</h3>
+        <div class="price">7 900 kr<small>Betales ved oppstart</small></div>
+        <p>Én sterk side som selger én ting — perfekt hvis du i dag bare har Instagram, Facebook eller ingenting.</p>
+        <ul>
+          <li>Én mobiltilpasset salgsside</li>
+          <li>Tydelig budskap, bilder og priser</li>
+          <li>Kontakt-/bookingskjema eller ring-knapp</li>
+          <li>Domene og publisering satt opp</li>
+          <li>Klar ca. tre virkedager etter mottatt innhold</li>
+        </ul>
+        <a class="primary" href="/start.html?pakke=landing">Start med en landingsside <span class="arrow" aria-hidden="true">↗</span></a>
       </div>
     </div>
-    <div class="group rv">
-      <div><h3>Bygg</h3><p class="gsub">Rask, robust teknologi som varer.</p></div>
-      <div>
-        <div class="svc"><span class="n">05</span><h4>Webutvikling</h4><p>Rask, responsiv, moderne bygging på produksjonsklar teknologi.</p></div>
-        <div class="svc"><span class="n">06</span><h4>SEO-grunnmur</h4><p>Semantisk struktur, fart og metadata riktig fra dag én.</p></div>
-        <div class="svc"><span class="n">07</span><h4>Integrasjoner</h4><p>Booking, skjema, CRM, betaling — koblet og fungerende.</p></div>
-        <div class="svc"><span class="n">08</span><h4>Analyse</h4><p>Vit hva som funker: hendelser, konverteringer og attribusjon.</p></div>
-      </div>
+
+    <div class="psub rv"><h3>Trenger du mer?</h3><p>Startpriser for prosjekter med eget omfang — flere sider, redigering selv, booking eller integrasjoner. Fast pris før vi starter.</p></div>
+    <div class="rows rv">
+      <div class="row"><div class="nm">Launch<small>ca. 7–14 dager</small></div><div class="pr">fra 7 900 kr<small>50 % ved start</small></div><p class="who">1–3 sider med skreddersydd design, kontaktskjema, grunnleggende SEO og lanseringsstøtte. For et raskt løft av førsteinntrykket.</p><a class="outline" href="/start.html?pakke=launch">Launch <span class="arrow" aria-hidden="true">↗</span></a></div>
+      <div class="row"><div class="nm">Growth<small>ca. 2–3 uker</small></div><div class="pr">fra 12 900 kr<small>50 % ved start</small></div><p class="who">3–6 sider, konverteringsfokusert layout, kontakt-, booking- og leadskjema, SEO-grunnmur, analyse og enkel redigering av innhold selv.</p><a class="outline" href="/start.html?pakke=growth">Growth <span class="arrow" aria-hidden="true">↗</span></a></div>
+      <div class="row"><div class="nm">Signature<small>ca. 3–5 uker</small></div><div class="pr">fra 19 900 kr<small>40 / 30 / 30</small></div><p class="who">Større skreddersydd side med eget visuelt system, komponentbibliotek, CMS, booking, CRM og integrasjoner ved behov. Finpuss etter lansering.</p><a class="outline" href="/start.html?pakke=signature">Signature <span class="arrow" aria-hidden="true">↗</span></a></div>
+      <div class="row"><div class="nm">Care<small>løpende</small></div><div class="pr">fra 1 490 kr<small>per måned</small></div><p class="who">Vedlikehold, innholdsoppdateringer, teknisk støtte, analysegjennomgang, små design- og ytelsesforbedringer, SEO-finpuss og nye seksjoner etter avtale.</p><a class="outline" href="/start.html?pakke=care">Care <span class="arrow" aria-hidden="true">↗</span></a></div>
     </div>
-    <div class="group rv">
-      <div><h3>Vekst</h3><p class="gsub">Flere av de besøkende du allerede har.</p></div>
-      <div>
-        <div class="svc"><span class="n">09</span><h4>Konverteringsoptimalisering</h4><p>Hver seksjon gjør seg fortjent til plassen ved å flytte folk videre.</p></div>
-        <div class="svc"><span class="n">10</span><h4>Innhold &amp; tekst</h4><p>Tydeligere budskap som får folk til å forstå og handle.</p></div>
-        <div class="svc"><span class="n">11</span><h4>Vedlikehold &amp; Care</h4><p>Løpende oppdateringer, trygghet og små forbedringer over tid.</p></div>
-        <div class="svc"><span class="n">12</span><h4>Redesign</h4><p>Løft den siden dere har — behold det som funker, bygg opplevelsen på nytt.</p></div>
-      </div>
+    <div class="pnotes rv">
+      <p>Alle prosjekter tilpasses behov og omfang. <a href="/start.html?type=custom">Trenger du noe mer omfattende? Vi lager gjerne et skreddersydd tilbud.</a></p>
+      <p>Betaling: 50 % ved start, 50 % før lansering (større prosjekter 40 / 30 / 30). Design, kode og innhold er ditt når prosjektet er betalt. Ingen binding.</p>
     </div>
   </div>
 </section>
 
-<!-- ================= HOW WE WORK ================= -->
-<section class="sprint pad" id="sprint" aria-labelledby="sprint-title" style="background:var(--pearl2)">
-  <div class="wrap">
-    <div class="sprint-top">
-      <div>
-        <span class="label">Slik jobber vi</span>
-        <h2 id="sprint-title" class="h-l">Fra «vi burde»<br>til publisert.</h2>
-        <p class="sprint-intro">Tre steg, avtalt omfang og fast pris før oppstart. Du snakker direkte med den som designer og bygger — ingen mellomledd, ingenting som forsvinner i overleveringer.</p>
-        <div class="sprint-cta">
-          <a class="primary" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a>
-          <small>Uforpliktende. Svar som regel innen én virkedag.</small>
-        </div>
-      </div>
-      <div class="steps rv">
-        <div class="step"><span>01</span><div><h3>Retning</h3><p>Hva skal kunden forstå, føle og gjøre? Vi starter med budskapet og forsiden — du får et konkret førsteside-konsept før du bestemmer deg.</p></div></div>
-        <div class="step"><span>02</span><div><h3>Design og bygg</h3><p>Design og utvikling samlet. Gjennomarbeidet på mobil, med tydelig innhold, kontakt- eller bookingskjema og raske sider.</p></div></div>
-        <div class="step"><span>03</span><div><h3>Godkjenning og lansering</h3><p>Du ser over og godkjenner. Vi publiserer, kobler domenet og setter opp grunnleggende lokal synlighet på Google.</p></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= ROI (smart tool) ================= -->
+<!-- ================= ROI (obsidian) ================= -->
 <section class="roi dark pad" aria-labelledby="roi-title">
   <div class="wrap roi-grid">
     <div>
       <span class="label">Regnestykket</span>
-      <h2 id="roi-title" class="h-l">Hva en bedre nettside er verdt.</h2>
-      <p class="lead">Ingen oppblåste løfter — bare enkel matte. Hvis en tydeligere side gjør at litt flere av de du allerede har på besøk tar kontakt, betaler en Website Sprint seg ofte på første kunde. Dra i tallene dine.</p>
+      <h2 id="roi-title" class="h-l">Hva er én kunde til verdt?</h2>
+      <p class="lead">Ingen oppblåste løfter — bare enkel matte. Hvis en tydeligere side gjør at litt flere av de som allerede finner deg tar kontakt, betaler en Website Sprint seg ofte på første kunde. Dra i tallene dine.</p>
       <p class="fine">Illustrerende eksempel basert på dine egne tall — ikke en garanti eller en statistikk.</p>
     </div>
     <div class="calc rv">
@@ -674,153 +569,67 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
   </div>
 </section>
 
-<!-- ================= PRICING ================= -->
-<section class="pricing pad" id="priser" aria-labelledby="pricing-title">
-  <div class="wrap">
-    <div class="sec-head">
-      <div><span class="label">Priser</span><h2 id="pricing-title" class="h-l">Tydelige priser.<br>Ingen overraskelser.</h2></div>
-      <p class="lead">To faste pakker som passer de fleste — og tilpassede prosjekter når du trenger mer. Du vet alltid hva som er inkludert, og prisen er avtalt før vi starter.</p>
-    </div>
-
-    <div class="psub rv"><h3>Faste priser — levert på dager</h3><p>Det de fleste velger. Betaling via sikker kortlenke, oppstart når innholdet er på plass.</p></div>
-    <div class="offers rv">
-      <div class="offer">
-        <div><span class="tag">Mest valgt</span><h3>Website Sprint</h3></div>
-        <div class="price">16 000 kr<small>50 % ved oppstart · 50 % ved levering</small></div>
-        <p>Komplett nettside for bedriften din, klar på ca. fem virkedager etter mottatt innhold.</p>
-        <ul>
-          <li>Forside + inntil 4 undersider (tjenester, om oss, kontakt, priser eller galleri)</li>
-          <li>Skreddersydd design, mobil først, rask og ren</li>
-          <li>Tekst strukturert og finpusset — du gir oss råstoffet</li>
-          <li>Kontaktskjema, kart, åpningstider, klikk-for-å-ringe</li>
-          <li>Grunnleggende lokal SEO + Google-bedriftsinfo</li>
-          <li>Domene, hosting og publisering satt opp</li>
-        </ul>
-        <a class="primary" href="/start.html?pakke=sprint">Start en Website Sprint <span class="arrow" aria-hidden="true">↗</span></a>
-        <a class="text-link" href="/sprint">Alt om Website Sprint <span class="arrow" aria-hidden="true">↗</span></a>
-      </div>
-      <div class="offer">
-        <div><h3>Landing Page Sprint</h3></div>
-        <div class="price">7 900 kr<small>Betales ved oppstart</small></div>
-        <p>Én sterk side som selger én ting — perfekt hvis du i dag bare har Instagram eller Facebook.</p>
-        <ul>
-          <li>Én mobiltilpasset salgsside</li>
-          <li>Tydelig budskap, bilder og priser</li>
-          <li>Kontakt-/bookingskjema eller ring-knapp</li>
-          <li>Klar på ca. tre virkedager</li>
-        </ul>
-        <a class="primary" href="/start.html?pakke=landing">Start med en landingsside <span class="arrow" aria-hidden="true">↗</span></a>
-      </div>
-    </div>
-
-    <div class="psub rv"><h3>Tilpassede prosjekter</h3><p>Startpriser for prosjekter med eget omfang — flere sider, CMS, booking eller integrasjoner. Du får fast pris før vi starter.</p></div>
-    <div class="rows">
-    <div class="row rv">
-      <div class="nm">Launch<small>Levering ca. 7–14 dager</small></div>
-      <div class="pr">fra 7 900 kr<small>50 % ved start</small></div>
-      <div><p class="who">For bedrifter som vil oppgradere førsteinntrykket uten et stort prosjekt.</p>
-        <ul><li>1–3 sider, skreddersydd design</li><li>Mobil først, rask og ren</li><li>Kontakt- eller leadskjema</li><li>Grunnleggende SEO + ytelse</li><li>Lanseringsstøtte</li></ul></div>
-      <a class="outline" href="/start.html?pakke=launch">Start med Launch <span class="arrow" aria-hidden="true">↗</span></a>
-    </div>
-    <div class="row rv">
-      <div class="nm">Growth<small>Levering ca. 2–3 uker</small></div>
-      <div class="pr">fra 12 900 kr<small>50 % ved start</small></div>
-      <div><p class="who">For bedrifter som trenger en komplett side som bygger tillit og genererer henvendelser.</p>
-        <ul><li>3–6 sider, skreddersydd UI/UX</li><li>Konverteringsfokusert layout</li><li>Kontakt-, booking- og leadskjema</li><li>SEO-grunnmur + analyseoppsett</li><li>Enkel redigering av innhold, lanseringsstøtte</li></ul></div>
-      <a class="outline" href="/start.html?pakke=growth">Start med Growth <span class="arrow" aria-hidden="true">↗</span></a>
-    </div>
-    <div class="row rv">
-      <div class="nm">Signature<small>Levering ca. 3–5 uker</small></div>
-      <div class="pr">fra 19 900 kr<small>40 / 30 / 30</small></div>
-      <div><p class="who">For ambisiøse prosjekter med høyere krav til design, funksjonalitet og integrasjoner.</p>
-        <ul><li>Større skreddersydd side, avansert UI/UX</li><li>Tydelig merkevareretning + eget visuelt system</li><li>Eget komponentbibliotek og interaksjoner</li><li>CMS, booking, CRM og integrasjoner ved behov</li><li>Sterkere SEO-struktur, analyse, finpuss etter lansering</li></ul></div>
-      <a class="outline" href="/start.html?pakke=signature">Start med Signature <span class="arrow" aria-hidden="true">↗</span></a>
-    </div>
-    <div class="row rv">
-      <div class="nm">Care<small>Løpende · månedlig</small></div>
-      <div class="pr">fra 1 490 kr<small>per måned</small></div>
-      <div><p class="who">Vedlikehold, innholdsoppdateringer, teknisk støtte, analysegjennomgang, små design- og ytelsesforbedringer, SEO-finpuss og nye seksjoner etter avtale.</p></div>
-      <a class="outline" href="/start.html?pakke=care">Spør om Care <span class="arrow" aria-hidden="true">↗</span></a>
-    </div>
-    </div>
-
-    <div class="pnotes rv">
-      <p>Alle prosjekter tilpasses behov og omfang — større eller mer komplekse prosjekter får et eget tilbud. <a href="/start.html?type=custom">Trenger du noe mer omfattende? Vi lager gjerne et skreddersydd tilbud.</a></p>
-      <p>Betaling: 50 % ved start, 50 % før lansering (større prosjekter 40 / 30 / 30). Design, kode og innhold er ditt når prosjektet er betalt.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= STUDIO (obsidian) ================= -->
-<section class="studio dark pad" id="studio" aria-labelledby="studio-title">
+<!-- ================= STUDIO ================= -->
+<section class="studio pad" id="studio" aria-labelledby="studio-title">
   <div class="wrap">
     <div class="studio-grid">
       <div>
         <span class="label">Studio</span>
-        <h2 id="studio-title" class="h-l" style="margin-top:22px">Et studio,<br>ikke en malbutikk.</h2>
-        <p class="lead">StayMotion er et lite, uavhengig norsk studio i Stavanger. Du jobber direkte med den som designer og bygger — ingen mellomledd, ingen kontoansvarlige.</p>
+        <h2 id="studio-title" class="h-l" style="margin-top:20px">Et studio,<br>ikke en malbutikk.</h2>
+        <p class="lead">StayMotion er et lite, uavhengig studio i Stavanger. Du jobber direkte med den som designer og bygger — ingen mellomledd, ingen kontoansvarlige. Design og teknologi i samme hånd, så helheten henger sammen fra skisse til publisert side.</p>
+        <ul class="honest">
+          <li>Ingen falske logoer, ingen oppdiktede anmeldelser. Konseptarbeid er merket som det.</li>
+          <li>Denne siden er første bevis — bygget slik vi bygger for kunder.</li>
+          <li>Ekte resultater vises kun når dataene finnes.</li>
+        </ul>
       </div>
-      <div class="studio-points rv">
-        <div class="pt"><span>01</span><h3>Design først</h3><p>Vi starter aldri fra en mal. Hver side tegnes for din bedrift, dine kunder og ditt mål.</p></div>
-        <div class="pt"><span>02</span><h3>Bygget for å konvertere</h3><p>Hver seksjon har en jobb: bygge tillit, fjerne tvil, eller flytte besøkeren videre.</p></div>
-        <div class="pt"><span>03</span><h3>Mobil er ikke en ettertanke</h3><p>De fleste besøkende er på mobil. Vi designer for den skjermen først.</p></div>
-        <div class="pt"><span>04</span><h3>Raskt uten å se forhastet ut</h3><p>Et tydelig leveringssystem betyr lansering på uker, ikke måneder — med kvaliteten intakt.</p></div>
-        <div class="pt"><span>05</span><h3>Design og teknologi i samme hånd</h3><p>Vi designer og bygger under ett tak, så helheten henger sammen fra skisse til publisert side.</p></div>
-        <div class="pt"><span>06</span><h3>Direkte samarbeid</h3><p>Du snakker med designeren. Avgjørelser går raskt, ingenting forsvinner i overleveringer.</p></div>
+      <div class="founder rv">
+        <span class="fmark" aria-hidden="true"><img src="img/logo-mono.png" alt="" width="30" height="24"></span>
+        <p>Mange lager nettsider uten egentlig å bry seg om resultatet. <em>Jeg gjør det motsatte.</em> Jeg vil at kunden min skal lykkes og sitte igjen med en side de er stolte av — for førsteinntrykket avgjør ofte om noen tar kontakt eller går videre. Derfor bygger jeg hver side som om det var min egen bedrift. Det er dette jeg brenner for.
+          <span class="sig">— Michael, StayMotion</span>
+        </p>
       </div>
     </div>
-    <div class="honest rv">
-      <div><h3>Ingen falske logoer. Ingen oppdiktede anmeldelser.</h3><p>StayMotion er et nytt studio, og vi vil heller vise deg tankegangen vår enn å låne andres troverdighet. Konseptretningene over er merket som det. Når kundeprosjekter lanseres, vises de her med ekte resultater.</p></div>
+    <div class="svc-list rv" id="tjenester">
+      <span class="label">Det vi gjør</span>
       <ul>
-        <li>Denne siden er første bevis — bygget slik vi bygger for kunder.</li>
-        <li>Hvert førsteside-konsept kommer med begrunnelsen bak hver avgjørelse.</li>
-        <li>Ekte, målbare resultater vises kun når dataene finnes.</li>
+        <li>Webdesign</li><li>UI / UX</li><li>Mobil først</li><li>Landingssider</li><li>Webutvikling</li><li>Redesign</li><li>Tekst og innhold</li><li>SEO-grunnmur</li><li>Google-bedriftsprofil</li><li>Booking og skjema</li><li>Integrasjoner</li><li>Analyse</li><li>Konverteringsoptimalisering</li><li>Vedlikehold (Care)</li>
       </ul>
-    </div>
-    <div class="founder rv">
-      <span class="fmark" aria-hidden="true"><img src="img/logo-mono.png" alt="" width="30" height="24"></span>
-      <p>Mange lager nettsider uten egentlig å bry seg om resultatet. <em>Jeg gjør det motsatte.</em> Jeg vil at kunden min skal lykkes og sitte igjen med en side de er stolte av — for førsteinntrykket avgjør ofte om noen tar kontakt eller går videre. Derfor bygger jeg hver side som om det var min egen bedrift. Det er dette jeg brenner for.
-        <span class="sig">— Michael, StayMotion</span>
-      </p>
     </div>
   </div>
 </section>
 
 <!-- ================= FAQ ================= -->
-<section class="faq pad" id="faq" aria-labelledby="faq-title">
+<section class="faq pad" id="faq" aria-labelledby="faq-title" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head">
-      <div><span class="label">Spørsmål</span><h2 id="faq-title" class="h-l">Det folk spør om før de starter.</h2></div>
-    </div>
+    <div class="sec-head"><div><span class="label">Spørsmål</span><h2 id="faq-title" class="h-l">Før du starter.</h2></div></div>
     <div class="list rv">
-      <details><summary>Hva koster en nettside?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Website Sprint 16 000 kr og Landing Page Sprint 7 900 kr er faste priser. Launch fra 7 900 kr, Growth fra 12 900 kr og Signature fra 19 900 kr er startpriser — endelig pris avhenger av omfang: sider, integrasjoner og hvor mye strategi- og innholdsarbeid som trengs. Du får alltid fast pris før vi starter.</div></details>
-      <details><summary>Hvor lang tid tar det?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Website Sprint ca. fem virkedager etter mottatt innhold, Landing Page Sprint ca. tre. Launch 7–14 dager, Growth 2–3 uker, Signature 3–5 uker. Den største faktoren er hvor raskt vi får innhold og tilbakemelding fra deg.</div></details>
-      <details><summary>Hva er et gratis førsteside-konsept?<span class="pm" aria-hidden="true">+</span></summary><div class="a">En konkret skisse av hvordan forsiden din kan bli — retning, budskap og struktur — laget for din bedrift og sendt deg uforpliktende. Du ser en mulig vei før du bestemmer deg for et prosjekt.</div></details>
-      <details><summary>Kan dere redesigne den eksisterende nettsiden min?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja — de fleste prosjektene våre er redesign. Vi beholder det som funker (innhold, SEO-verdi, integrasjoner) og bygger opplevelsen på nytt.</div></details>
-      <details><summary>Eier jeg nettsiden?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Design, kode og innhold er ditt når prosjektet er betalt. Ingen binding.</div></details>
-      <details><summary>Kan jeg redigere innhold selv?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Growth og Signature kan settes opp med enkel redigering (CMS) så du oppdaterer tekst, bilder og sider selv. Eller la oss ta det gjennom Care — små endringer er inkludert.</div></details>
-      <details><summary>Skriver dere teksten?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Du gir oss råstoffet — hva dere gjør, for hvem, og hva som gjør dere gode — så strukturerer og skriver vi teksten. God tekst er halve konverteringen.</div></details>
-      <details><summary>Håndterer dere hosting?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Sidene kjører på rask, moderne hosting med globalt CDN. Hosting og vedlikehold er del av Care, eller vi setter det opp i ditt navn.</div></details>
-      <details><summary>Kan dere bygge booking, skjema og integrasjoner?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja — bookingsystemer, kontaktskjema, CRM, betaling, nyhetsbrev og mer. Fortell oss hva bedriften din trenger for å gå rundt.</div></details>
-      <details><summary>Hva skjer etter lansering?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Du får lanseringsstøtte inkludert. Etter det holder Care siden i utvikling — oppdateringer, analyse, konverteringsjusteringer og nye sider — eller du driver den selv.</div></details>
+      <details><summary>Hva koster en nettside?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Website Sprint 16 000 kr og Landing Page Sprint 7 900 kr er faste priser. Launch, Growth og Signature er startpriser for prosjekter med eget omfang. Du får alltid fast pris før vi starter.</div></details>
+      <details><summary>Hvor lang tid tar det?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Website Sprint ca. fem virkedager etter mottatt innhold, Landing Page Sprint ca. tre. Den største faktoren er hvor raskt vi får logo, bilder og tilbakemelding fra deg.</div></details>
+      <details><summary>Hva er et gratis førsteside-konsept?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Et konkret forslag til hvordan forsiden din kan bli — budskap, struktur og retning — laget for din bedrift og sendt deg uforpliktende. Du ser en mulig vei før du bestemmer deg.</div></details>
+      <details><summary>Jeg har ingen bilder eller tekst. Går det?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Vi skriver teksten ut fra en kort samtale med deg. Bilder tar du med mobilen etter en enkel huskeliste vi sender, eller vi bruker gode illustrasjoner til dine egne er klare.</div></details>
+      <details><summary>Kan dere redesigne siden jeg har?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja — de fleste prosjekter er redesign. Vi beholder det som funker (innhold, SEO-verdi, integrasjoner) og bygger opplevelsen på nytt.</div></details>
+      <details><summary>Eier jeg nettsiden?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Design, kode og innhold er ditt når prosjektet er betalt. Ingen binding. Hosting og domene settes opp i ditt navn, eller vi drifter det gjennom Care.</div></details>
+      <details><summary>Kan dere bygge booking, skjema og integrasjoner?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja — bookingsystemer, kontaktskjema, betaling, nyhetsbrev og CRM. Fortell oss hva bedriften din trenger for å gå rundt.</div></details>
+      <details><summary>Hva skjer etter lansering?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Lanseringsstøtte er inkludert. Etterpå holder Care siden i utvikling — oppdateringer, analyse, små forbedringer og nye sider — eller du driver den selv.</div></details>
     </div>
   </div>
 </section>
 
-<!-- ================= CLOSING (cobalt) ================= -->
+<!-- ================= CLOSING ================= -->
 <section class="closing" id="kontakt" aria-labelledby="contact-title">
   <svg class="band" viewBox="0 0 600 600" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-    <defs><linearGradient id="cb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".0"/><stop offset=".5" stop-color="#ffffff" stop-opacity=".35"/><stop offset="1" stop-color="#ffffff" stop-opacity=".05"/></linearGradient></defs>
+    <defs><linearGradient id="cb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset=".5" stop-color="#ffffff" stop-opacity=".35"/><stop offset="1" stop-color="#ffffff" stop-opacity=".05"/></linearGradient></defs>
     <path d="M-40 420 C 120 300, 260 520, 420 360 S 640 180, 700 80" fill="none" stroke="url(#cb)" stroke-width="70" stroke-linecap="round"/>
     <path d="M-40 420 C 120 300, 260 520, 420 360 S 640 180, 700 80" fill="none" stroke="#dfe6ff" stroke-width="2" opacity=".5" transform="translate(0,-40)"/>
   </svg>
   <div class="wrap closing-inner">
     <div>
       <span class="label">Neste trekk er ditt</span>
-      <h2 id="contact-title" class="h-l">La oss gjøre<br>førsteinntrykket<br>verdt det.</h2>
+      <h2 id="contact-title" class="h-l">Se hvordan<br>forsiden din<br>kan bli.</h2>
     </div>
     <div>
-      <p>Send nettsiden din og et par ord om bedriften. Vi starter med hvordan forsiden kan bli — uforpliktende.</p>
+      <p>Send nettsiden din og et par ord om bedriften. Du får et konkret førsteside-konsept — gratis og uforpliktende.</p>
       <a class="primary light" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a>
       <a class="text-link alt" href="mailto:michael@staymotion.no?subject=Gratis%20f%C3%B8rsteside-konsept&body=Hei%20Michael!%0A%0ABedrift%3A%20%0ANettside%3A%20%0ADette%20%C3%B8nsker%20jeg%20%C3%A5%20forbedre%3A%20">Eller skriv direkte: michael@staymotion.no <span class="arrow" aria-hidden="true">↗</span></a>
       <small>Svar som regel innen én virkedag. Ingen binding, ingen press.</small>
@@ -830,15 +639,14 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
 
 </main>
 
-<!-- ================= FOOTER ================= -->
 <footer>
   <div class="wrap">
     <div class="fgrid">
       <div>
         <a class="brand" href="#top" aria-label="StayMotion, til toppen"><img src="img/logo-mono.png" alt="" width="34" height="27">STAYMOTION</a>
-        <p>Selvstendig webdesignstudio i Stavanger. Nettsider, redesign og responsive løsninger for bedrifter som vil videre.</p>
+        <p>Selvstendig webdesignstudio i Stavanger. Nettsider, redesign og landingssider for bedrifter som vil videre.</p>
       </div>
-      <div><h4>Studio</h4><a class="fl" href="#arbeid">Arbeid</a><a class="fl" href="#tjenester">Tjenester</a><a class="fl" href="#sprint">Slik jobber vi</a><a class="fl" href="#priser">Priser</a></div>
+      <div><h4>Studio</h4><a class="fl" href="#arbeid">Arbeid</a><a class="fl" href="#sprint">Slik funker det</a><a class="fl" href="#priser">Priser</a><a class="fl" href="#studio">Studio</a></div>
       <div><h4>Kunder</h4><a class="fl" href="/start.html">Start prosjekt</a><a class="fl" href="/sprint">Website Sprint</a><a class="fl" href="/minside.html">Kundeportal</a><a class="fl" href="#faq">Spørsmål</a></div>
       <div><h4>Kontakt</h4><a class="fl" href="mailto:michael@staymotion.no">michael@staymotion.no</a><a class="fl" href="/personvern.html">Personvern</a><a class="fl" href="/vilkar.html">Vilkår</a></div>
     </div>
@@ -855,13 +663,11 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   d.documentElement.classList.add('js');
 
-  // Header state + sticky mobile CTA + scroll progress
   var hdr=$('#siteHeader'), stick=$('#stick'), hero=$('#top'), prog=$('#scrollProgress');
   function onScroll(){ var y=window.scrollY||0; hdr.classList.toggle('sc', y>10); if(stick) stick.classList.toggle('on', y>(hero?hero.offsetHeight:600));
     if(prog){ var h=d.documentElement.scrollHeight-innerHeight; prog.style.width=(h>0?Math.min(100,(y/h)*100):0)+'%'; } }
   addEventListener('scroll', onScroll, {passive:true}); addEventListener('resize', onScroll); onScroll();
 
-  // Active section highlight in nav
   var navLinks=$$('#navigation a[href^="#"]');
   var secMap=navLinks.map(function(a){ var id=a.getAttribute('href').slice(1); return {a:a, el:d.getElementById(id)}; }).filter(function(x){return x.el;});
   if('IntersectionObserver' in window && secMap.length){
@@ -870,20 +676,18 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
     secMap.forEach(function(x){ secIo.observe(x.el); });
   }
 
-  // Mobile menu — aria-expanded, Escape, close on navigation
   var menu=$('.menu-toggle'), nav=$('#navigation');
   function closeMenu(){ menu.setAttribute('aria-expanded','false'); menu.setAttribute('aria-label','Åpne meny'); menu.textContent='☰'; nav.classList.remove('open'); }
   menu.addEventListener('click', function(){ var open=menu.getAttribute('aria-expanded')!=='true'; menu.setAttribute('aria-expanded',String(open)); menu.setAttribute('aria-label',open?'Lukk meny':'Åpne meny'); menu.textContent=open?'✕':'☰'; nav.classList.toggle('open',open); });
   $$('a',nav).forEach(function(a){ a.addEventListener('click', closeMenu); });
   d.addEventListener('keydown', function(e){ if(e.key==='Escape' && menu.getAttribute('aria-expanded')==='true'){ closeMenu(); menu.focus(); } });
 
-  // Reveal on scroll — content is visible without JS; with JS it eases in once
   if('IntersectionObserver' in window && !reduce){
     var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:.12, rootMargin:'0px 0px -6% 0px'});
     $$('.rv').forEach(function(el){ io.observe(el); });
   } else { $$('.rv').forEach(function(el){ el.classList.add('in'); }); }
 
-  // Before / after — real HTML layers, range + buttons, keyboard-friendly
+  // Before / after — range + buttons, keyboard-friendly, plus a one-time intro sweep
   var range=$('#reveal'), scene=$('#comparison'), btns=$$('[data-reveal]');
   if(range && scene){
     function update(){
@@ -895,27 +699,25 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
     range.addEventListener('input', update);
     btns.forEach(function(b){ b.addEventListener('click', function(){ range.value=b.dataset.reveal; update(); }); });
     update();
+    if(!reduce){
+      var touched=false; range.addEventListener('pointerdown', function(){ touched=true; }, {once:true});
+      var t0=null, from=48, to=22, dur=1400;
+      function sweep(ts){ if(touched) return; if(!t0) t0=ts; var k=Math.min(1,(ts-t0)/dur); var e=1-Math.pow(1-k,3);
+        range.value=Math.round(from+(to-from)*e); update(); if(k<1) requestAnimationFrame(sweep); }
+      setTimeout(function(){ requestAnimationFrame(sweep); }, 900);
+    }
   }
 
-  // Gentle scroll drift on project surfaces and motion layers (rAF, no scroll-jacking)
   var drifters=$$('[data-drift]');
   if(drifters.length && !reduce){
     var ticking=false;
-    function drift(){
-      ticking=false;
-      var vh=innerHeight, mid=vh/2;
-      drifters.forEach(function(el){
-        var r=el.getBoundingClientRect();
-        if(r.bottom<-200 || r.top>vh+200) return;
-        var c=r.top+r.height/2, off=(c-mid)*Number(el.dataset.drift);
-        el.style.setProperty('--drift', off.toFixed(1)+'px');
-      });
-    }
+    function drift(){ ticking=false; var vh=innerHeight, mid=vh/2;
+      drifters.forEach(function(el){ var r=el.getBoundingClientRect(); if(r.bottom<-200 || r.top>vh+200) return;
+        var c=r.top+r.height/2, off=(c-mid)*Number(el.dataset.drift); el.style.setProperty('--drift', off.toFixed(1)+'px'); }); }
     function req(){ if(!ticking){ ticking=true; requestAnimationFrame(drift); } }
     addEventListener('scroll', req, {passive:true}); addEventListener('resize', req); req();
   }
 
-  // ROI calculator — illustrative, honest (the viewer's own numbers, no fake stats)
   (function(){
     var rV=$('#rV'), rC=$('#rC'), rK=$('#rK'); if(!rV||!rC||!rK) return;
     function nf(n){ return Math.round(n).toLocaleString('nb-NO'); }
@@ -925,7 +727,7 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
       $('#oV').textContent=nf(v);
       $('#oC').textContent=c.toLocaleString('nb-NO',{minimumFractionDigits:1,maximumFractionDigits:1})+' %';
       $('#oK').textContent=nf(k)+' kr';
-      var extra=v*0.01; // +1 prosentpoeng
+      var extra=v*0.01;
       $('#oRes').textContent='+ '+(extra>=1?nf(extra):extra.toFixed(1))+' kunder / mnd';
       $('#oVal').textContent='≈ '+nf(extra*k)+' kr ekstra omsetning per måned';
       [rV,rC,rK].forEach(setp);
