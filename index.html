@@ -105,24 +105,24 @@ section{position:relative}
   .navcta{justify-content:center;margin-top:14px;padding:15px 20px}
 }
 
-/* ================= HERO ================= */
+/* ================= HERO — copy + live before/after demo ================= */
 .hero{position:relative;isolation:isolate;overflow:clip}
 .hero::before{content:"";position:absolute;top:-30%;right:-10%;width:min(70vw,900px);height:min(70vw,900px);background:radial-gradient(closest-side,rgba(18,72,255,.14),rgba(18,72,255,.04) 55%,transparent 72%);pointer-events:none;z-index:0;filter:blur(6px)}
-.hero::after{content:"";position:absolute;bottom:-30%;left:-12%;width:min(60vw,780px);height:min(60vw,780px);background:radial-gradient(closest-side,rgba(18,72,255,.08),transparent 70%);pointer-events:none;z-index:0}
 .hero .wrap{position:relative;z-index:1}
-.hero-inner{max-width:880px;margin:0 auto;text-align:center;padding-top:clamp(52px,7vw,116px);padding-bottom:clamp(44px,5vw,80px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(30px,5vw,80px);align-items:center;padding-top:clamp(36px,5vw,72px);padding-bottom:clamp(36px,5vw,64px)}
 .hero h1 span{display:block}
 .hero h1 .accent{color:var(--cobalt)}
-.hero-description{max-width:600px;margin:24px auto 0;font-size:18px;line-height:1.6;letter-spacing:-.02em;color:var(--ink2)}
-.hero-cta{margin-top:30px;display:flex;gap:14px 22px;align-items:center;justify-content:center;flex-wrap:wrap}
-.hero-facts{margin:38px auto 0;display:inline-grid;grid-template-columns:repeat(3,auto);gap:18px 44px;justify-content:center;border-top:1px solid var(--line);padding-top:24px}
-.hero-facts b{display:block;font-size:24px;font-weight:500;letter-spacing:-.04em;line-height:1}
+.hero-description{max-width:420px;margin-top:26px;font-size:18px;line-height:1.6;letter-spacing:-.02em;color:var(--ink2)}
+.hero-cta{margin-top:30px;display:flex;gap:14px 22px;align-items:center;flex-wrap:wrap}
+.hero-facts{margin-top:34px;display:grid;grid-template-columns:repeat(3,auto);gap:18px 28px;justify-content:start;border-top:1px solid var(--line);padding-top:20px}
+.hero-facts b{display:block;font-size:22px;font-weight:500;letter-spacing:-.04em;line-height:1}
 .hero-facts span{display:block;font-size:12.5px;color:var(--muted);margin-top:6px}
-@media(max-width:600px){.hero-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.hero-facts b{font-size:17px}.hero-facts span{font-size:11px}.hero-cta .primary{width:100%;max-width:420px}}
+.hero-demo{position:relative}
+.hero-note{margin-top:12px;font-size:12px;color:var(--faint)}
+@media(max-width:1000px){.hero-grid{grid-template-columns:1fr;gap:34px}}
+@media(max-width:600px){.hero-facts{grid-template-columns:repeat(3,1fr);gap:12px}.hero-facts b{font-size:17px}.hero-facts span{font-size:11px}.hero-cta .primary{width:100%;max-width:420px}}
 
-/* ================= REVEAL — before/after with real website screenshots ================= */
-.reveal-sec{background:var(--pearl2)}
-.reveal-shell{max-width:1080px;margin-inline:auto}
+/* Before/after — real website screenshots */
 .compare-labels{display:flex;justify-content:space-between;margin-bottom:12px;font-size:12px;letter-spacing:.06em;color:var(--muted)}
 .compare{--cut:48%;aspect-ratio:3/2;position:relative;overflow:hidden;border:1px solid #c9cbd0;border-radius:14px;isolation:isolate;box-shadow:0 40px 90px -40px rgba(10,20,60,.45);background:#e7e7e7}
 .specimen{position:absolute;inset:0;overflow:hidden;pointer-events:none}
@@ -136,7 +136,6 @@ section{position:relative}
 .compare-buttons{display:flex;gap:8px}
 .compare-buttons button{border:1px solid var(--line);padding:6px 12px;border-radius:4px;font-size:12px;transition:background .2s;background:#fff}
 .compare-buttons button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.reveal-note{margin-top:14px;font-size:12px;color:var(--faint);text-align:center}
 @media(max-width:600px){.compare{border-radius:10px}.compare-handle{width:40px;height:40px;font-size:17px}}
 
 /* ================= PROMISE strip (obsidian) ================= */
@@ -337,51 +336,44 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 <!-- ================= HERO ================= -->
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="wrap">
-    <div class="hero-inner">
-      <span class="label">Webdesignstudio · Stavanger</span>
-      <h1 id="hero-title" class="h-xl" style="margin-top:18px"><span>Nettsiden som får</span><span>kunden til å <span class="accent">ta kontakt.</span></span></h1>
-      <p class="hero-description">Vi designer og bygger nettsider for norske bedrifter. Fast pris, levert på dager — og hver side er bygget for én ting: at folk ringer, booker eller sender en melding.</p>
-      <div class="hero-cta">
-        <a class="primary" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a>
-        <a class="text-link" href="#arbeid">Se forskjellen <span class="arrow" aria-hidden="true">↓</span></a>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="label">Webdesignstudio · Stavanger</span>
+        <h1 id="hero-title" class="h-xl" style="margin-top:18px"><span>Nettsiden som får</span><span>kunden til å</span><span class="accent">ta kontakt.</span></h1>
+        <p class="hero-description">Vi designer og bygger nettsider for norske bedrifter. Fast pris, levert på dager — og hver side er bygget for én ting: at folk ringer, booker eller sender en melding.</p>
+        <div class="hero-cta">
+          <a class="primary" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#priser">Se priser <span class="arrow" aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-facts" aria-label="Nøkkelfakta">
+          <div><b>16 000 kr</b><span>Komplett nettside, fast pris</span></div>
+          <div><b>5 dager</b><span>Levering etter mottatt innhold</span></div>
+          <div><b>100 %</b><span>Du eier design, kode og innhold</span></div>
+        </div>
       </div>
-      <div class="hero-facts" aria-label="Nøkkelfakta">
-        <div><b>16 000 kr</b><span>Komplett nettside, fast pris</span></div>
-        <div><b>5 dager</b><span>Levering etter mottatt innhold</span></div>
-        <div><b>100 %</b><span>Du eier design, kode og innhold</span></div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ================= REVEAL · before/after (real screenshots) ================= -->
-<section class="reveal-sec pad" id="arbeid" aria-labelledby="reveal-title">
-  <div class="wrap">
-    <div class="sec-head">
-      <div><span class="label">Arbeid</span><h2 id="reveal-title" class="h-l">Se forskjellen.</h2></div>
-      <p class="lead">Samme restaurant, samme innhold — men en tydeligere retning. Dra i midten for å sammenligne en typisk gammel side med hvordan vi ville bygget den.</p>
-    </div>
-    <div class="reveal-shell rv">
-      <div class="compare-labels" aria-hidden="true"><span>Før / standardoppsett</span><span>Etter / ny retning</span></div>
-      <div class="compare" id="comparison">
-        <div class="specimen after" aria-hidden="true">
-          <img class="after-photo" src="img/work/salt-brod/salt-brod-after.png" alt="Etter: ny nettside for Salt og Brød AS" width="1536" height="1024" loading="lazy" decoding="async">
+      <div class="hero-demo rv">
+        <div class="compare-labels" aria-hidden="true"><span>Før / standardoppsett</span><span>Etter / ny retning</span></div>
+        <div class="compare" id="comparison">
+          <div class="specimen after" aria-hidden="true">
+            <img class="after-photo" src="img/work/salt-brod/salt-brod-after.png" alt="Etter: ny nettside for Salt og Brød AS" width="1536" height="1024" fetchpriority="high" decoding="async">
+          </div>
+          <div class="specimen before" aria-hidden="true">
+            <img class="before-photo" src="img/work/salt-brod/salt-brod-before.png" alt="Før: eldre nettside for Salt og Brød AS" width="1536" height="1024" decoding="async">
+          </div>
+          <div class="compare-line" aria-hidden="true"><span class="compare-handle">‹ ›</span></div>
+          <label class="sr" for="reveal">Sammenlign standardoppsett og ny designretning</label>
+          <input class="compare-range" type="range" id="reveal" min="0" max="100" value="48" aria-describedby="compare-description">
         </div>
-        <div class="specimen before" aria-hidden="true">
-          <img class="before-photo" src="img/work/salt-brod/salt-brod-before.png" alt="Før: eldre nettside for Salt og Brød AS" width="1536" height="1024" loading="lazy" decoding="async">
+        <div class="compare-help">
+          <span id="compare-description">Dra for å se. Samme restaurant, ny retning.</span>
+          <div class="compare-buttons">
+            <button type="button" data-reveal="100" aria-pressed="false">Før</button>
+            <button type="button" data-reveal="0" aria-pressed="false">Etter</button>
+          </div>
         </div>
-        <div class="compare-line" aria-hidden="true"><span class="compare-handle">‹ ›</span></div>
-        <label class="sr" for="reveal">Sammenlign standardoppsett og ny designretning</label>
-        <input class="compare-range" type="range" id="reveal" min="0" max="100" value="48" aria-describedby="compare-description">
+        <p class="hero-note">Illustrert før/etter-konsept — ikke en faktisk kunde.</p>
       </div>
-      <div class="compare-help">
-        <span id="compare-description">Dra for å se. Piltaster med tastatur.</span>
-        <div class="compare-buttons">
-          <button type="button" data-reveal="100" aria-pressed="false">Før</button>
-          <button type="button" data-reveal="0" aria-pressed="false">Etter</button>
-        </div>
-      </div>
-      <p class="reveal-note">Illustrert før/etter-konsept for en fiktiv restaurant — ikke en faktisk kunde.</p>
     </div>
   </div>
 </section>
@@ -409,10 +401,10 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 </section>
 
 <!-- ================= WORK ================= -->
-<section class="work pad" id="portefolje" aria-labelledby="work-title">
+<section class="work pad" id="arbeid" aria-labelledby="work-title">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="label">Portefølje</span><h2 id="work-title" class="h-l">Slik tenker vi.</h2></div>
+      <div><span class="label">Arbeid</span><h2 id="work-title" class="h-l">Slik tenker vi.</h2></div>
       <p class="lead">Ett eget produkt vi har designet og bygget fra bunnen — og fire retninger for bransjene vi jobber mest mot. Konseptarbeid er merket som det.</p>
     </div>
 
