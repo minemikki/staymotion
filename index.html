@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://staymotion.no/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ProfessionalService","name":"StayMotion","description":"Selvstendig norsk webdesignstudio. Nettsider, motion og digitale opplevelser for bedrifter.","url":"https://staymotion.no/","email":"michael@staymotion.no","areaServed":"NO","address":{"@type":"PostalAddress","addressLocality":"Stavanger","addressCountry":"NO"},"priceRange":"7900 NOK - 60000 NOK","serviceType":["Webdesign","UI/UX","Webutvikling","Motion design","3D","Konverteringsoptimalisering"]}
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"StayMotion","description":"Selvstendig norsk webdesignstudio. Nettsider, redesign og responsive nettsider for bedrifter.","url":"https://staymotion.no/","email":"michael@staymotion.no","areaServed":"NO","address":{"@type":"PostalAddress","addressLocality":"Stavanger","addressCountry":"NO"},"priceRange":"7900 NOK - 60000 NOK","serviceType":["Webdesign","UI/UX","Webutvikling","Responsivt design","Landingssider","Konverteringsoptimalisering","SEO"]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -166,7 +166,7 @@ section{position:relative}
 .specimen-header strong{font:400 22px Georgia,"Times New Roman",serif}
 .specimen-header small{font-size:10px;letter-spacing:.1em}
 .after{background:#17191a;color:#fff}
-.after-photo{position:absolute;width:100%;height:100%;object-fit:cover;opacity:.72;inset:0}
+.after-photo{position:absolute;inset:0;background:linear-gradient(150deg,#17203a,#0d1016 62%),radial-gradient(120% 90% at 78% 24%,#2a3c72,transparent 55%)}
 .after::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,#101419cc 10%,transparent 62%),linear-gradient(0deg,#10141999,transparent 50%);z-index:0}
 .after .specimen-header{position:relative;z-index:1}
 .after .specimen-copy{position:absolute;z-index:1;right:0;bottom:0;width:52%;padding:30px 30px 34px;text-align:left}
@@ -180,7 +180,7 @@ section{position:relative}
 .before .specimen-copy{padding:27px 26px}
 .before h3{font:700 26px/1.2 Arial,sans-serif;margin-bottom:12px}
 .before .specimen-copy p{font-size:13px;max-width:370px;color:#666}
-.before-photo{height:150px;width:100%;object-fit:cover;filter:saturate(.5);margin-top:24px}
+.before-photo{height:150px;width:100%;margin-top:24px;background:repeating-linear-gradient(135deg,#dedcd5,#dedcd5 12px,#d5d3cb 12px,#d5d3cb 24px);border:1px solid #cfcdc6}
 .compare-line{position:absolute;z-index:3;left:var(--cut);top:0;bottom:0;width:1px;background:#fff;pointer-events:none}
 .compare-handle{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:var(--cobalt);border:2px solid #fff;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:20px;color:#fff;box-shadow:0 4px 16px #0006}
 .compare-range{position:absolute;z-index:4;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
@@ -234,37 +234,9 @@ section{position:relative}
 .cs-craft .cs-cta{background:var(--cobalt);color:#fff;border-color:var(--cobalt)}
 .cs-clinic{background:#eef3f2;color:#0f2a2a}.cs-clinic .cs-nav{border-color:#00000018}.cs-clinic .cs-img{background-image:linear-gradient(160deg,#cfe3df,#9ec4bd);border-color:#00000018}
 .cs-clinic .cs-cta{background:#0f2a2a;color:#fff;border-color:#0f2a2a}
-.cs-estate{background:#0f141b;color:#eef3f6}.cs-estate .cs-img{background-image:url("img/fjord.jpg")}
-.cs-estate .cs-cta{background:#fff;color:#0f141b;border-color:#fff}
+.cs-salon{background:#f6eef0;color:#2a1620}.cs-salon .cs-nav{border-color:#00000014}.cs-salon .cs-img{background-image:linear-gradient(160deg,#e7c9cf,#caa2ad);border-color:#00000014}
+.cs-salon .cs-cta{background:#2a1620;color:#fff;border-color:#2a1620}
 @media(max-width:860px){.case{grid-template-columns:1fr;gap:26px;padding:34px 0}.case .surface{order:-1}.concept-surface .cs-body{grid-template-columns:1fr}.concept-surface .cs-img{min-height:90px}}
-
-/* ================= 3D & MOTION ================= */
-.motion{overflow:hidden}
-.stage{position:relative;margin-top:clamp(32px,4vw,56px);height:clamp(380px,46vw,640px);perspective:1400px}
-.layer{position:absolute;border:1px solid #ffffff2a;box-shadow:0 40px 90px -30px #000c;overflow:hidden;background:var(--obsidian2);transform:translateY(var(--drift,0)) rotateY(var(--ry,0)) rotateX(var(--rx,0));will-change:transform;transition:transform .6s var(--ease)}
-.layer img{width:100%;height:100%;object-fit:cover}
-.l1{left:4%;top:6%;width:52%;height:66%;z-index:1}
-.l2{left:38%;top:24%;width:44%;height:60%;z-index:3;--ry:-10deg;--rx:3deg}
-.l3{left:60%;top:2%;width:34%;height:44%;z-index:2;background:var(--pearl);color:var(--ink);padding:22px}
-.l3 h4{font-size:clamp(20px,2vw,30px);font-weight:400;letter-spacing:-.05em;line-height:1.02}
-.l3 p{font-size:12px;color:var(--muted);margin-top:12px;max-width:24ch}
-.l3 .bar{margin-top:16px;height:1px;background:var(--line)}
-.l3 .cta{display:inline-block;margin-top:14px;font-size:10px;letter-spacing:.08em;background:var(--cobalt);color:#fff;padding:8px 12px}
-.l4{left:10%;top:60%;width:30%;height:32%;z-index:4;background:linear-gradient(135deg,#2164ff,#0038ec);border-color:#6f8cff55;display:grid;place-items:center}
-.l4 svg{width:70%;height:70%}
-.stage .grid-lines{position:absolute;inset:0;background-image:linear-gradient(#ffffff0c 1px,transparent 1px),linear-gradient(90deg,#ffffff0c 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at center,#000 40%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse at center,#000 40%,transparent 80%)}
-.stage .tag{position:absolute;right:2%;bottom:2%;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8d919b;z-index:5}
-.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:clamp(40px,4vw,64px);border-top:1px solid var(--line-dark)}
-.cap{padding:28px clamp(0px,2vw,28px) 6px 0;border-right:1px solid var(--line-dark)}
-.cap:last-child{border-right:0}
-.cap+.cap{padding-left:clamp(18px,2.4vw,32px)}
-.cap span{font-size:12px;color:#7d8cff;letter-spacing:.12em}
-.cap h3{font-size:20px;font-weight:500;letter-spacing:-.035em;margin-top:12px}
-.cap p{font-size:15px;color:var(--on-dark-muted);margin-top:8px;max-width:34ch}
-@media(max-width:760px){
-  .stage{height:420px}.l1{left:0;top:4%;width:70%;height:56%}.l2{left:30%;top:36%;width:68%;height:56%}.l3{left:52%;top:0;width:48%;height:38%;padding:14px}.l3 p{display:none}.l4{left:2%;top:70%;width:34%;height:26%}
-  .caps{grid-template-columns:1fr}.cap{border-right:0;border-bottom:1px solid var(--line-dark);padding:22px 0 20px}.cap+.cap{padding-left:0}.cap:last-child{border-bottom:0}
-}
 
 /* ================= SERVICES (numbered index) ================= */
 .services .group{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,2fr);gap:clamp(20px,4vw,80px);border-top:1px solid var(--ink);padding:clamp(28px,3.5vw,48px) 0}
@@ -404,7 +376,6 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
     <button class="menu-toggle" type="button" aria-controls="navigation" aria-expanded="false" aria-label="Åpne meny">☰</button>
     <nav class="nav" id="navigation" aria-label="Hovedmeny">
       <a href="#arbeid">Arbeid</a>
-      <a href="#motion">3D &amp; motion</a>
       <a href="#tjenester">Tjenester</a>
       <a href="#sprint">Website Sprint</a>
       <a href="#priser">Priser</a>
@@ -436,7 +407,7 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
     </div>
     <div class="hero-meta">
       <span><b>Stavanger</b> · norsk studio</span>
-      <span><b>Design · utvikling · motion</b> under ett tak</span>
+      <span><b>Design · utvikling · SEO</b> under ett tak</span>
       <span>Du snakker <b>direkte med designeren</b></span>
     </div>
   </div>
@@ -471,20 +442,20 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
         <div class="compare-labels" aria-hidden="true"><span>Før / standardoppsett</span><span>Etter / ny retning</span></div>
         <div class="compare" id="comparison">
           <div class="specimen after" aria-hidden="true">
-            <img class="after-photo" src="img/interior.jpg" width="1344" height="768" alt="" loading="lazy" decoding="async">
-            <div class="specimen-header"><strong>Fjordrom.</strong><small>Stedet &nbsp; Opphold &nbsp; Kontakt</small></div>
+            <div class="after-photo"></div>
+            <div class="specimen-header"><strong>Salt &amp; Brød</strong><small>Meny &nbsp; Bord &nbsp; Kontakt</small></div>
             <div class="specimen-copy">
-              <h3>Et sted å<br>senke skuldrene.</h3>
-              <p>Fjorden utenfor. Roen innenfor.<br>Finn ditt neste pusterom.</p>
-              <span class="sample-cta">Utforsk oppholdet ↗</span>
+              <h3>Kortreist mat,<br>midt i byen.</h3>
+              <p>Sesongmeny og naturvin.<br>Book bord på under ett minutt.</p>
+              <span class="sample-cta">Bestill bord ↗</span>
             </div>
           </div>
           <div class="specimen before" aria-hidden="true">
-            <div class="specimen-header"><strong>FJORDROM</strong><small>Hjem &nbsp; Om oss &nbsp; Kontakt</small></div>
+            <div class="specimen-header"><strong>SALT OG BRØD AS</strong><small>Hjem &nbsp; Om oss &nbsp; Kontakt</small></div>
             <div class="specimen-copy">
-              <h3>Velkommen til Fjordrom</h3>
-              <p>Vi tilbyr overnatting i fine omgivelser. Ta kontakt for mer informasjon om våre tilbud.</p>
-              <img class="before-photo" src="img/interior.jpg" width="1344" height="768" alt="" loading="lazy" decoding="async">
+              <h3>Velkommen til Salt og Brød</h3>
+              <p>Vi serverer god mat i hyggelige omgivelser. Ta kontakt for åpningstider og bordbestilling.</p>
+              <div class="before-photo"></div>
             </div>
           </div>
           <div class="compare-line" aria-hidden="true"><span class="compare-handle">‹ ›</span></div>
@@ -500,7 +471,7 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
         </div>
       </div>
     </div>
-    <div class="work-footer"><strong>Fjordrom / fiktiv konseptstudie</strong><span>Budskap · Design · Responsiv opplevelse</span></div>
+    <div class="work-footer"><strong>Salt &amp; Brød / fiktiv konseptstudie</strong><span>Budskap · Design · Responsiv opplevelse</span></div>
   </div>
 
   <!-- Case studies — editorial -->
@@ -564,44 +535,16 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
 
     <article class="case rv">
       <div>
-        <span class="idx concept"><i></i>Konseptretning · Eiendom &amp; utleie</span>
-        <h3 class="h-m">Objektene selger. Merkevaren beroliger.</h3>
-        <p>Store bilder, tydelig tilgjengelighet og én bookinghandling. Bygget for hytte, Airbnb og eiendom i Rogaland.</p>
-        <a class="text-link go" href="/start.html?type=redesign&bransje=eiendom">Få et førsteside-konsept for utleien din <span class="arrow" aria-hidden="true">↗</span></a>
+        <span class="idx concept"><i></i>Konseptretning · Frisør &amp; skjønnhet</span>
+        <h3 class="h-m">Enkelt å booke. Lett å stole på.</h3>
+        <p>Tjenester, priser og timebestilling der kunden forventer det — og en side som ser like bra ut på mobil som på skjerm.</p>
+        <a class="text-link go" href="/start.html?type=redesign&bransje=klinikk">Få et førsteside-konsept for salongen din <span class="arrow" aria-hidden="true">↗</span></a>
       </div>
-      <div class="surface concept-surface cs-estate" data-drift="-0.04" aria-hidden="true">
-        <div class="cs-nav"><span>Fjordhytta</span><span>Hyttene · Ledig · Kontakt</span></div>
-        <div class="cs-body"><div><h4>Stillhet<br>med utsikt.</h4><p>Tre hytter ved fjorden. Se ledige datoer og book direkte.</p><span class="cs-cta">Se ledig</span></div><div class="cs-img"></div></div>
+      <div class="surface concept-surface cs-salon" data-drift="-0.04" aria-hidden="true">
+        <div class="cs-nav"><span>Studio Nord</span><span>Tjenester · Priser · Book</span></div>
+        <div class="cs-body"><div><h4>Håret ditt,<br>i trygge hender.</h4><p>Klipp, farge og styling i sentrum. Book på 30 sekunder.</p><span class="cs-cta">Book time</span></div><div class="cs-img"></div></div>
       </div>
     </article>
-  </div>
-</section>
-
-<!-- ================= 3D & MOTION (obsidian, deeper) ================= -->
-<section class="motion dark pad" id="motion" aria-labelledby="motion-title" style="background:#0d0e11">
-  <div class="wrap">
-    <div class="sec-head">
-      <div><span class="label">02 / 3D &amp; motion</span><h2 id="motion-title" class="h-l">Når et stillbilde ikke er nok.</h2></div>
-      <p class="lead">Vi bygger nettsider i lag: film, materiale, typografi og interaksjon. Bevegelsen er rolig og har en jobb — å gi dybde, lede blikket og gjøre førsteinntrykket sterkere.</p>
-    </div>
-    <div class="stage rv" id="stage" aria-hidden="true">
-      <div class="grid-lines"></div>
-      <div class="layer l1" data-drift="-0.03"><img src="img/statement-room.jpg" alt="" loading="lazy" decoding="async" width="1920" height="1120"></div>
-      <div class="layer l3" data-drift="-0.08"><h4>Rommet før<br>du kommer.</h4><p>Filmatisk hero, rolig kamera, ekte materialer.</p><div class="bar"></div><span class="cta">Se oppholdet</span></div>
-      <div class="layer l2" data-drift="-0.05"><img src="img/fjord.jpg" alt="" loading="lazy" decoding="async" width="1536" height="672"></div>
-      <div class="layer l4" data-drift="-0.1">
-        <svg viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
-          <path d="M20 90 L60 20 L100 90 Z" opacity=".9"/><path d="M20 90 L60 60 L100 90" opacity=".5"/><path d="M60 20 L60 60" opacity=".5"/>
-          <circle cx="60" cy="60" r="44" opacity=".25"/>
-        </svg>
-      </div>
-      <span class="tag">Lag 01–04 · film · materiale · type · interaksjon</span>
-    </div>
-    <div class="caps">
-      <div class="cap rv"><span>01</span><h3>Filmatisk motion</h3><p>Hero-filmer, animerte overganger og visuell historiefortelling — subtilt, aldri støyende.</p></div>
-      <div class="cap rv d1"><span>02</span><h3>Skreddersydd 3D</h3><p>Objekter, miljøer, produktvisualisering og merkevareanimasjon bygget for web.</p></div>
-      <div class="cap rv d2"><span>03</span><h3>Interaktive opplevelser</h3><p>Scroll-drevet dybde og interaksjoner som svarer på den besøkende. Alltid med reduced-motion-fallback.</p></div>
-    </div>
   </div>
 </section>
 
@@ -632,12 +575,12 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
       </div>
     </div>
     <div class="group rv">
-      <div><h3>Bevegelse</h3><p class="gsub">Dybden som skiller dere ut.</p></div>
+      <div><h3>Vekst</h3><p class="gsub">Flere av de besøkende du allerede har.</p></div>
       <div>
-        <div class="svc"><span class="n">09</span><h4>Motion design</h4><p>Filmatiske hero-sekvenser, overganger og visuell historiefortelling.</p></div>
-        <div class="svc"><span class="n">10</span><h4>3D og visuelle opplevelser</h4><p>3D-objekter, miljøer og merkevareanimasjon bygget for web.</p></div>
-        <div class="svc"><span class="n">11</span><h4>Interaktive opplevelser</h4><p>Scroll-drevet bevegelse og interaksjoner som svarer på den besøkende.</p></div>
-        <div class="svc"><span class="n">12</span><h4>Konverteringsoptimalisering</h4><p>Hver seksjon gjør seg fortjent til plassen ved å flytte folk videre.</p></div>
+        <div class="svc"><span class="n">09</span><h4>Konverteringsoptimalisering</h4><p>Hver seksjon gjør seg fortjent til plassen ved å flytte folk videre.</p></div>
+        <div class="svc"><span class="n">10</span><h4>Innhold &amp; tekst</h4><p>Tydeligere budskap som får folk til å forstå og handle.</p></div>
+        <div class="svc"><span class="n">11</span><h4>Vedlikehold &amp; Care</h4><p>Løpende oppdateringer, trygghet og små forbedringer over tid.</p></div>
+        <div class="svc"><span class="n">12</span><h4>Redesign</h4><p>Løft den siden dere har — behold det som funker, bygg opplevelsen på nytt.</p></div>
       </div>
     </div>
   </div>
@@ -712,21 +655,21 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
       <div class="nm">Launch<small>Levering ca. 7–14 dager</small></div>
       <div class="pr">fra 7 900 kr<small>50 % ved start</small></div>
       <div><p class="who">For bedrifter som vil oppgradere førsteinntrykket uten et stort byråprosjekt.</p>
-        <ul><li>1–3 sider, skreddersydd design</li><li>Mobil først, med rolig bevegelse</li><li>Kontakt- eller leadskjema</li><li>Grunnleggende SEO + ytelse</li><li>Lanseringsstøtte</li></ul></div>
+        <ul><li>1–3 sider, skreddersydd design</li><li>Mobil først, rask og ren</li><li>Kontakt- eller leadskjema</li><li>Grunnleggende SEO + ytelse</li><li>Lanseringsstøtte</li></ul></div>
       <a class="outline" href="/start.html?pakke=launch">Start med Launch <span class="arrow" aria-hidden="true">↗</span></a>
     </div>
     <div class="row hi rv">
       <div class="nm">Growth<small>Levering ca. 2–3 uker · mest valgt</small></div>
       <div class="pr">fra 12 900 kr<small>50 % ved start</small></div>
       <div><p class="who">For bedrifter som trenger en komplett, moderne side som bygger tillit og genererer henvendelser.</p>
-        <ul><li>3–6 sider, skreddersydd UI/UX</li><li>Tydeligere visuell retning, konverteringsfokusert layout</li><li>Kontakt-, booking- og leadskjema</li><li>SEO-grunnmur + analyseoppsett</li><li>Forfinet bevegelse, innholdsstruktur, lanseringsstøtte</li></ul></div>
+        <ul><li>3–6 sider, skreddersydd UI/UX</li><li>Tydeligere visuell retning, konverteringsfokusert layout</li><li>Kontakt-, booking- og leadskjema</li><li>SEO-grunnmur + analyseoppsett</li><li>Gjennomarbeidet innholdsstruktur og lanseringsstøtte</li></ul></div>
       <a class="outline" href="/start.html?pakke=growth">Start med Growth <span class="arrow" aria-hidden="true">↗</span></a>
     </div>
     <div class="row rv">
       <div class="nm">Signature<small>Levering ca. 3–5 uker</small></div>
       <div class="pr">fra 19 900 kr<small>40 / 30 / 30</small></div>
       <div><p class="who">For mer ambisiøse prosjekter med høyere krav til design, funksjonalitet og integrasjoner.</p>
-        <ul><li>Større skreddersydd side, avansert UI/UX</li><li>Tydelig merkevareretning + eget visuelt system</li><li>Mulighet for 3D, filmatisk hero og avanserte interaksjoner</li><li>CMS, booking, CRM og integrasjoner ved behov</li><li>Sterkere SEO-struktur, analyse, finpuss etter lansering</li></ul></div>
+        <ul><li>Større skreddersydd side, avansert UI/UX</li><li>Tydelig merkevareretning + eget visuelt system</li><li>Eget komponentbibliotek og avanserte interaksjoner</li><li>CMS, booking, CRM og integrasjoner ved behov</li><li>Sterkere SEO-struktur, analyse, finpuss etter lansering</li></ul></div>
       <a class="outline" href="/start.html?pakke=signature">Start med Signature <span class="arrow" aria-hidden="true">↗</span></a>
     </div>
     <div class="row rv">
@@ -738,7 +681,7 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
 
     <div class="pnotes rv">
       <p>Introduksjonspriser som startpunkt. Alle prosjekter tilpasses behov, omfang og funksjonalitet — større eller mer komplekse prosjekter får et eget tilbud. <a href="/start.html?type=custom">Trenger du noe mer omfattende? Vi lager gjerne et skreddersydd tilbud.</a></p>
-      <p>Avansert 3D, filmproduksjon og spesialinteraksjoner prises etter omfang. Betaling: 50 % ved start, 50 % før lansering (større prosjekter 40 / 30 / 30).</p>
+      <p>Avanserte integrasjoner og spesialløsninger prises etter omfang. Betaling: 50 % ved start, 50 % før lansering (større prosjekter 40 / 30 / 30).</p>
     </div>
   </div>
 </section>
@@ -757,7 +700,7 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
         <div class="pt"><span>02</span><h3>Bygget for å konvertere</h3><p>Hver seksjon har en jobb: bygge tillit, fjerne tvil, eller flytte besøkeren videre.</p></div>
         <div class="pt"><span>03</span><h3>Mobil er ikke en ettertanke</h3><p>De fleste besøkende er på mobil. Vi designer for den skjermen først.</p></div>
         <div class="pt"><span>04</span><h3>Raskt uten å se forhastet ut</h3><p>Et tydelig leveringssystem betyr lansering på uker, ikke måneder — med kvaliteten intakt.</p></div>
-        <div class="pt"><span>05</span><h3>Mer enn statiske nettsider</h3><p>Design, motion og teknologi sammen gir nettsider som føles levende.</p></div>
+        <div class="pt"><span>05</span><h3>Design og teknologi i samme hånd</h3><p>Vi designer og bygger under ett tak, så helheten henger sammen fra skisse til publisert side.</p></div>
         <div class="pt"><span>06</span><h3>Direkte samarbeid</h3><p>Du snakker med designeren. Avgjørelser går raskt, ingenting forsvinner i overleveringer.</p></div>
       </div>
     </div>
@@ -822,13 +765,13 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
     <div class="fgrid">
       <div>
         <a class="brand" href="#top" aria-label="StayMotion, til toppen"><img src="img/logo-mono.png" alt="" width="34" height="27">STAYMOTION</a>
-        <p>Selvstendig webdesignstudio i Stavanger. Nettsider, motion og digitale opplevelser for bedrifter som vil videre.</p>
+        <p>Selvstendig webdesignstudio i Stavanger. Nettsider, redesign og responsive løsninger for bedrifter som vil videre.</p>
       </div>
-      <div><h4>Studio</h4><a class="fl" href="#arbeid">Arbeid</a><a class="fl" href="#motion">3D &amp; motion</a><a class="fl" href="#tjenester">Tjenester</a><a class="fl" href="#prosess">Prosess</a><a class="fl" href="#priser">Priser</a></div>
+      <div><h4>Studio</h4><a class="fl" href="#arbeid">Arbeid</a><a class="fl" href="#tjenester">Tjenester</a><a class="fl" href="#sprint">Website Sprint</a><a class="fl" href="#prosess">Prosess</a><a class="fl" href="#priser">Priser</a></div>
       <div><h4>Kunder</h4><a class="fl" href="/start.html">Start prosjekt</a><a class="fl" href="/sprint">Website Sprint</a><a class="fl" href="/minside.html">Kundeportal</a><a class="fl" href="#faq">Spørsmål</a></div>
       <div><h4>Kontakt</h4><a class="fl" href="mailto:michael@staymotion.no">michael@staymotion.no</a><a class="fl" href="/personvern.html">Personvern</a><a class="fl" href="/vilkar.html">Vilkår</a></div>
     </div>
-    <div class="fbot"><span>StayMotion · Org.nr 937 492 472 · Stavanger, Norge · © 2026</span><span>Design · Utvikling · Motion</span></div>
+    <div class="fbot"><span>StayMotion · Org.nr 937 492 472 · Stavanger, Norge · © 2026</span><span>Design · Utvikling · Konvertering</span></div>
   </div>
 </footer>
 
@@ -889,17 +832,6 @@ footer{padding:clamp(40px,5vw,64px) 0 28px}
     }
     function req(){ if(!ticking){ ticking=true; requestAnimationFrame(drift); } }
     addEventListener('scroll', req, {passive:true}); addEventListener('resize', req); req();
-  }
-
-  // Motion stage — subtle pointer parallax on desktop only
-  var stage=$('#stage');
-  if(stage && matchMedia('(pointer:fine)').matches && !reduce){
-    var layers=$$('.layer',stage);
-    stage.addEventListener('mousemove', function(e){
-      var r=stage.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
-      layers.forEach(function(l,i){ var k=(i+1)*2.2; l.style.setProperty('--ry', (x*k)+'deg'); l.style.setProperty('--rx', (-y*k)+'deg'); });
-    });
-    stage.addEventListener('mouseleave', function(){ layers.forEach(function(l){ l.style.removeProperty('--ry'); l.style.removeProperty('--rx'); }); });
   }
 })();
 </script>

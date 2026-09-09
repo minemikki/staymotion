@@ -125,7 +125,7 @@ a:hover .arrow,button:hover .arrow{transform:translate(3px,-3px)}
 .sp-h{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;font-size:12px;gap:12px}
 .sp-h strong{font:400 21px Georgia,serif}.sp-h small{font-size:10px;letter-spacing:.08em}
 .after{background:#17191a;color:#fff}
-.after-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.72}
+.after-photo{position:absolute;inset:0;background:linear-gradient(150deg,#17203a,#0d1016 62%),radial-gradient(120% 90% at 78% 24%,#2a3c72,transparent 55%)}
 .after::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,#101419cc 8%,transparent 60%),linear-gradient(0deg,#10141999,transparent 52%);z-index:0}
 .after .sp-h{position:relative;z-index:1}
 .after .sp-c{position:absolute;z-index:1;right:0;bottom:0;width:54%;padding:26px 28px 30px}
@@ -138,7 +138,7 @@ a:hover .arrow,button:hover .arrow{transform:translate(3px,-3px)}
 .before .sp-c{padding:26px 24px}
 .before h3{font:700 24px/1.2 Arial,sans-serif;margin-bottom:12px}
 .before .sp-c p{font-size:13px;max-width:360px;color:#666}
-.before-photo{height:140px;width:100%;object-fit:cover;filter:saturate(.5);margin-top:22px}
+.before-photo{height:140px;width:100%;margin-top:22px;background:repeating-linear-gradient(135deg,#dedcd5,#dedcd5 12px,#d5d3cb 12px,#d5d3cb 24px);border:1px solid #cfcdc6}
 .compare-line{position:absolute;z-index:3;left:var(--cut);top:0;bottom:0;width:1px;background:#fff;pointer-events:none}
 .compare-handle{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:var(--cobalt);border:2px solid #fff;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:19px;color:#fff;box-shadow:0 4px 16px #0006}
 .compare-range{position:absolute;z-index:4;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
@@ -322,13 +322,13 @@ footer{padding:clamp(36px,4vw,56px) 0 30px;border-top:1px solid var(--line)}
         <div class="compare-labels" aria-hidden="true"><span>Før / standardoppsett</span><span>Etter / Website Sprint</span></div>
         <div class="compare" id="comparison">
           <div class="specimen after" aria-hidden="true">
-            <img class="after-photo" src="img/interior.jpg" width="1344" height="768" alt="" loading="lazy" decoding="async">
-            <div class="sp-h"><strong>Fjordrom.</strong><small>Stedet &nbsp; Opphold &nbsp; Kontakt</small></div>
-            <div class="sp-c"><h3>Et sted å<br>senke skuldrene.</h3><p>Fjorden utenfor. Roen innenfor.</p><span class="cta-s">Utforsk oppholdet ↗</span></div>
+            <div class="after-photo"></div>
+            <div class="sp-h"><strong>Salt &amp; Brød</strong><small>Meny &nbsp; Bord &nbsp; Kontakt</small></div>
+            <div class="sp-c"><h3>Kortreist mat,<br>midt i byen.</h3><p>Sesongmeny og naturvin. Book bord på minutter.</p><span class="cta-s">Bestill bord ↗</span></div>
           </div>
           <div class="specimen before" aria-hidden="true">
-            <div class="sp-h"><strong>FJORDROM</strong><small>Hjem &nbsp; Om oss &nbsp; Kontakt</small></div>
-            <div class="sp-c"><h3>Velkommen til Fjordrom</h3><p>Vi tilbyr overnatting i fine omgivelser. Ta kontakt for mer informasjon om våre tilbud.</p><img class="before-photo" src="img/interior.jpg" width="1344" height="768" alt="" loading="lazy" decoding="async"></div>
+            <div class="sp-h"><strong>SALT OG BRØD AS</strong><small>Hjem &nbsp; Om oss &nbsp; Kontakt</small></div>
+            <div class="sp-c"><h3>Velkommen til Salt og Brød</h3><p>Vi serverer god mat i hyggelige omgivelser. Ta kontakt for åpningstider og bordbestilling.</p><div class="before-photo"></div></div>
           </div>
           <div class="compare-line" aria-hidden="true"><span class="compare-handle">‹ ›</span></div>
           <label class="hp" for="reveal">Sammenlign standardoppsett og ny designretning</label>
