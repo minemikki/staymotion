@@ -134,11 +134,11 @@ function Manager({ session }: { session: Session }) {
         <div className="m-done"><span>Løst siste døgn</span><strong>{loading ? '—' : resolvedToday.length}</strong><small>Ferdigbehandlet</small></div>
       </div>
 
-      <div className="mgr-grid">
+      <div className={`mgr-grid${!loading && needs.length === 0 && watching.length > 0 ? ' watch-first' : ''}`}>
       <div className="mgr-main">
       <section className="sect" id="na" aria-labelledby="h-needs">
         <div className="sect-h"><h2 id="h-needs">Dette trenger deg</h2><span className="small">{needs.length ? `${needs.length} sak${needs.length > 1 ? 'er' : ''}` : 'Ingenting akkurat nå'}</span></div>
-        {loading ? <div className="empty" role="status">Henter saker …</div> : needs.length === 0 ? <div className="empty"><b>Ingenting venter på deg.</b>Nye saker fra ansatte vises her i sanntid.</div> : (
+        {loading ? <div className="empty" role="status">Henter saker …</div> : needs.length === 0 ? <div className="empty mgr-empty"><b>Ingenting venter på deg.</b>{watching.length ? 'Alle åpne saker har en eier og følges opp.' : 'Nye saker fra ansatte vises her i sanntid.'}</div> : (
           <div className="need" data-testid="needs">
             {needs.map((i) => {
               const overdue = !!(i.dueAt && Date.parse(i.dueAt) <= now);
