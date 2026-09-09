@@ -89,20 +89,20 @@ section{position:relative}
 .brand .brand-word{display:inline-flex;flex-direction:column;line-height:1}
 .brand .brand-word em{font-style:normal;font-weight:500;font-size:9.5px;letter-spacing:.32em;color:var(--cobalt);margin-top:3px;text-transform:uppercase}
 .nav{display:flex;align-items:center;gap:28px;font-size:14px}
-.nav>a:not(.navcta){padding-block:12px;position:relative;color:var(--ink2)}
-.nav>a:not(.navcta)::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:2px;border-radius:2px;background:var(--cobalt);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
-.nav>a:not(.navcta):hover::after,.nav>a.active::after{transform:scaleX(1)}
-.navcta{background:linear-gradient(165deg,#2164ff,#0038ec 78%);color:#fff;border:1px solid #2a63ff;border-radius:50px;padding:11px 20px;font-weight:600;box-shadow:inset 0 1px 0 #ffffff40,0 8px 18px -8px rgba(18,72,255,.7);transition:transform .25s var(--ease);display:inline-flex;align-items:center;gap:8px}
-.navcta:hover{transform:translateY(-2px)}
+.nav>a:not(.navbtn){padding-block:12px;position:relative;color:var(--ink2)}
+.nav>a:not(.navbtn)::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:2px;border-radius:2px;background:var(--cobalt);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav>a:not(.navbtn):hover::after,.nav>a.active::after{transform:scaleX(1)}
+.navbtn{border:1px solid var(--line);border-radius:50px;padding:9px 20px;font-weight:500;color:var(--ink);transition:background .2s,color .2s,border-color .2s;display:inline-flex;align-items:center;gap:8px}
+.navbtn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
 .menu-toggle{display:none;border:1px solid var(--line);border-radius:12px;width:46px;height:46px;font-size:20px;align-items:center;justify-content:center;background:#fff;color:var(--ink)}
 @media(max-width:860px){
   .hdr{min-height:70px}.brand{font-size:15px;gap:10px}.brand .mark{width:38px;height:38px}.brand .mark img{width:24px}
   .menu-toggle{display:inline-flex}
   .nav{display:none;position:absolute;top:70px;left:0;right:0;background:color-mix(in srgb,var(--pearl) 97%,transparent);backdrop-filter:blur(16px);padding:14px var(--gutter) 22px;border-bottom:1px solid var(--line);box-shadow:0 18px 34px -14px rgba(10,20,60,.25);align-items:stretch}
   .nav.open{display:flex;flex-direction:column;gap:2px}
-  .nav>a:not(.navcta){padding-block:14px;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink)}
-  .nav>a:not(.navcta)::after{display:none}
-  .navcta{justify-content:center;margin-top:14px;padding:15px 20px}
+  .nav>a:not(.navbtn){padding-block:14px;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink)}
+  .nav>a:not(.navbtn)::after{display:none}
+  .navbtn{justify-content:center;margin-top:14px;padding:15px 20px}
 }
 
 /* ================= HERO — copy + live before/after demo ================= */
@@ -325,7 +325,8 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
       <a href="#arbeid">Arbeid</a>
       <a href="#sprint">Slik funker det</a>
       <a href="#priser">Priser</a>
-      <a href="#studio">Studio</a>
+      <a href="#studio">Om oss</a>
+      <a class="navbtn" href="#kontakt">Kontakt</a>
     </nav>
   </div>
 </header>
