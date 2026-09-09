@@ -113,7 +113,7 @@ function Manager({ session }: { session: Session }) {
   );
 
   return (
-    <div className="wrapW rise">
+    <div className="wrapW rise mgr">
       <div className="eyebrow">Leder · {session.locationName || session.organizationName}</div>
       <h1 className="h1">{welcome ? `Velkommen, ${first}.` : `Hei, ${first}.`}</h1>
       <p className="lead">{welcome ? 'Bedriften er satt opp. Første vakt har rutinene sine, og alt som meldes inn lander her.' : 'Her er det som trenger deg nå. Resten følger StayMotion med på.'}</p>
@@ -134,6 +134,8 @@ function Manager({ session }: { session: Session }) {
         <div className="m-done"><span>Løst siste døgn</span><strong>{loading ? '—' : resolvedToday.length}</strong><small>Ferdigbehandlet</small></div>
       </div>
 
+      <div className="mgr-grid">
+      <div className="mgr-main">
       <section className="sect" id="na" aria-labelledby="h-needs">
         <div className="sect-h"><h2 id="h-needs">Dette trenger deg</h2><span className="small">{needs.length ? `${needs.length} sak${needs.length > 1 ? 'er' : ''}` : 'Ingenting akkurat nå'}</span></div>
         {loading ? <div className="empty" role="status">Henter saker …</div> : needs.length === 0 ? <div className="empty"><b>Ingenting venter på deg.</b>Nye saker fra ansatte vises her i sanntid.</div> : (
@@ -171,6 +173,8 @@ function Manager({ session }: { session: Session }) {
         )}
       </section>
 
+      </div>
+      <div className="mgr-side">
       <section className="sect" id="folges-opp" aria-labelledby="h-watch">
         <div className="sect-h"><h2 id="h-watch">Følges opp</h2><span className="small">{watching.length ? `${watching.length} sak${watching.length > 1 ? 'er' : ''}` : 'Ingen'}</span></div>
         {watching.length === 0 ? <div className="empty"><b>Ingen saker under oppfølging.</b>Saker du har tatt eller sendt videre vises her til de er løst.</div> : (
@@ -199,6 +203,9 @@ function Manager({ session }: { session: Session }) {
           </div>
         )}
       </section>
+
+      </div>
+      </div>
 
       <section className="sect" id="innsikt" aria-labelledby="h-insight">
         <div className="sect-h"><h2 id="h-insight">Innsikt</h2><span className="small">fra dagens registreringer</span></div>

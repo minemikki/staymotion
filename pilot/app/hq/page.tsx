@@ -54,7 +54,9 @@ function HQ({ session }: { session: Session }) {
         </div>
       </section>
 
-      <section className="sect" id="risiko" aria-labelledby="h-risk">
+            <div className="hq-grid-wrap">
+      <div className="hq-main">
+<section className="sect" id="risiko" aria-labelledby="h-risk">
         <div className="sect-h"><h2 id="h-risk">Risiko</h2><span className="small">hvor trengs hjelp</span></div>
         <div className="dark insight" data-testid="insight">
           <span className="pill dim"><span className="dot" aria-hidden />StayMotion ser</span>
@@ -73,24 +75,7 @@ function HQ({ session }: { session: Session }) {
           </>)}
         </div>
       </section>
-
-      <section className="sect" id="monstre" aria-labelledby="h-pat">
-        <div className="sect-h"><h2 id="h-pat">Mønstre</h2><span className="small">siste 30 dager</span></div>
-        {patterns.length === 0 ? <div className="empty"><b>Ingen gjentakende avvik.</b>Når samme utstyr får flere saker på 30 dager, vises det her med en anbefaling.</div> : (
-          <div className="hq-grid">
-            {patterns.slice(0, 4).map((p) => (
-              <div className="insight-card" key={`${p.loc}-${p.label}`}>
-                <span className="pill info"><span className="dot" aria-hidden />{p.loc}</span>
-                <h3>{p.label}</h3>
-                <p>{p.count} ganger på 30 dager. Gjentatte avvik på samme enhet er som regel billigere å løse med service enn med matsvinn.</p>
-                <div className="rec"><b>Anbefalt:</b><span>Bestill service og be lokasjonen bekrefte neste avlesning i appen.</span></div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section className="sect" id="lokasjoner" aria-labelledby="h-locs">
+<section className="sect" id="lokasjoner" aria-labelledby="h-locs">
         <div className="sect-h"><h2 id="h-locs">Lokasjoner</h2><span className="small">driftshelse · beregnet nå</span></div>
         <div className="card pad">
           {health.length === 0 ? <div className="empty"><b>Ingen lokasjoner.</b>Legg til den første i onboarding.</div> : (
@@ -107,8 +92,9 @@ function HQ({ session }: { session: Session }) {
           <div className="small" style={{ marginTop: 12 }}>Score: 100 minus 4 per åpen sak, 8 per kritisk, 6 per sak over frist, og opptil 20 for uferdige rutiner.</div>
         </div>
       </section>
-
-      <section className="sect" id="spor" aria-labelledby="h-ask">
+      </div>
+      <div className="hq-side">
+<section className="sect" id="spor" aria-labelledby="h-ask">
         <div className="sect-h"><h2 id="h-ask">Spør StayMotion</h2></div>
         <form className="ask" onSubmit={(e) => { e.preventDefault(); ask(q); }}>
           <input className="input" placeholder="Spør om driften på tvers av lokasjoner …" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Spør StayMotion" />
@@ -120,6 +106,24 @@ function HQ({ session }: { session: Session }) {
         {answer && <div className="answer" aria-live="polite" data-testid="answer"><b>StayMotion</b>{answer}</div>}
         <p className="small" style={{ marginTop: 10 }}>Svarene bygger kun på registrerte saker og rutiner i denne organisasjonen.</p>
       </section>
+<section className="sect" id="monstre" aria-labelledby="h-pat">
+        <div className="sect-h"><h2 id="h-pat">Mønstre</h2><span className="small">siste 30 dager</span></div>
+        {patterns.length === 0 ? <div className="empty"><b>Ingen gjentakende avvik.</b>Når samme utstyr får flere saker på 30 dager, vises det her med en anbefaling.</div> : (
+          <div className="hq-grid">
+            {patterns.slice(0, 4).map((p) => (
+              <div className="insight-card" key={`${p.loc}-${p.label}`}>
+                <span className="pill info"><span className="dot" aria-hidden />{p.loc}</span>
+                <h3>{p.label}</h3>
+                <p>{p.count} ganger på 30 dager. Gjentatte avvik på samme enhet er som regel billigere å løse med service enn med matsvinn.</p>
+                <div className="rec"><b>Anbefalt:</b><span>Bestill service og be lokasjonen bekrefte neste avlesning i appen.</span></div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+      </div>
+      </div>
+
     </div>
   );
 }

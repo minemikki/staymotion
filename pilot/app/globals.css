@@ -471,7 +471,6 @@ textarea.input{min-height:84px;resize:vertical}
 /* =====================================================================
    HQ
    ===================================================================== */
-.hq{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s-4);margin-top:var(--s-6)}
 .locs{display:grid;gap:6px}
 .loc{display:grid;grid-template-columns:1fr auto 110px;gap:var(--s-3);align-items:center;padding:12px 14px;border-radius:16px;text-decoration:none;color:inherit;border:1px solid transparent;transition:background var(--t-press)}
 .loc:hover{background:var(--surface-2)}
@@ -634,7 +633,7 @@ textarea.input{min-height:84px;resize:vertical}
   .main{padding:24px 20px calc(var(--tabbar) + 40px + var(--safe-b))}
   .main.single{padding-bottom:calc(var(--s-8) + var(--safe-b))}
   .h1{font-size:1.9rem}
-  .hq,.auto,.hq-grid{grid-template-columns:1fr}
+  .auto,.hq-grid{grid-template-columns:1fr}
   .tabbar{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + var(--safe-b));z-index:40;gap:2px;padding:6px;border-radius:22px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);box-shadow:var(--sh-2)}
   .tabbar a{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:54px;border-radius:16px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:-.01em;text-decoration:none;padding:5px 0;line-height:1.2;text-align:center;transition:background var(--t-press),color var(--t-press)}
   .tabbar a span{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -787,4 +786,36 @@ textarea.input{min-height:84px;resize:vertical}
   .sig-lg{--sig:326px}
   .hero-card{padding:30px 36px 32px}
   .hero-card .h1{font-size:2.6rem}
+}
+
+
+/* =====================================================================
+   Manager & HQ — command-center grids (desktop). One column on mobile.
+   ===================================================================== */
+@media(min-width:901px){
+  /* Manager: exceptions dominate the main column; follow-up + resolved sit in a calm rail. */
+  .mgr-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:var(--s-6);align-items:start;margin-top:var(--s-7)}
+  .mgr-main{min-width:0;display:grid;gap:var(--s-6);align-content:start}
+  .mgr-side{min-width:0;display:grid;gap:var(--s-6);align-content:start}
+  .mgr-main>.sect,.mgr-side>.sect{margin-top:0}
+  .mgr .calm{margin-top:var(--s-6)}
+  .mgr .ops-metrics{margin:var(--s-4) 0 0}
+  .mgr .calm h2{font-size:clamp(1.5rem,2vw,1.9rem)}
+  .mgr .need-i strong{font-size:var(--fs-4)}
+  .mgr .need-i p{font-size:var(--fs-2)}
+  .mgr .need-i .btn.sm{min-height:44px}
+  /* the wide insight footer keeps its two-card row */
+  .mgr>#innsikt{margin-top:var(--s-7)}
+
+  /* HQ: risk + locations lead; Spør StayMotion and patterns form the rail. */
+  .hq-grid-wrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);gap:var(--s-6);align-items:start;margin-top:var(--s-6)}
+  .hq-main{min-width:0;display:grid;gap:var(--s-6);align-content:start}
+  .hq-side{min-width:0;display:grid;gap:var(--s-6);align-content:start}
+  .hq-main>.sect,.hq-side>.sect{margin-top:0}
+  .hq-side .hq-grid{grid-template-columns:1fr}
+  .hq-main .insight h3{font-size:var(--fs-6)}
+}
+@media(min-width:1280px){
+  .mgr-grid{grid-template-columns:minmax(0,1.6fr) minmax(340px,1fr);gap:var(--s-7)}
+  .hq-grid-wrap{grid-template-columns:minmax(0,1.55fr) minmax(360px,1fr);gap:var(--s-7)}
 }
