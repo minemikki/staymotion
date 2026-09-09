@@ -228,7 +228,8 @@ section{position:relative}
 .offer li::after{content:"";position:absolute;left:5px;top:6px;width:9px;height:6px;border-left:2px solid var(--cobalt);border-bottom:2px solid var(--cobalt);transform:rotate(-45deg)}
 .offer.hi li::before{background:rgba(96,140,255,.22)}
 .offer.hi li::after{border-color:#9db8ff}
-.offer .primary{margin-top:auto;align-self:stretch;justify-content:center}
+.offer-foot{margin-top:auto;display:flex;flex-direction:column;gap:12px;padding-top:8px}
+.offer .primary{align-self:stretch;justify-content:center}
 .offer .text-link{align-self:flex-start}
 .offer.hi .text-link:hover{color:#9fb4ff}
 .offer .orline{font-size:13px;color:var(--muted)}
@@ -238,20 +239,24 @@ section{position:relative}
 .offer .pay{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--faint);margin-top:-4px}
 .offer.hi .pay{color:#8b93a8}
 .offer .pay::before{content:"";width:14px;height:14px;flex:none;background:currentColor;-webkit-mask:no-repeat center/contain;mask:no-repeat center/contain;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='10' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0110 0v4'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='10' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0110 0v4'/%3E%3C/svg%3E")}
-.psub{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-top:clamp(44px,5vw,64px);margin-bottom:8px}
+.psub{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-top:clamp(44px,5vw,68px);margin-bottom:4px}
 .psub h3{font-size:clamp(22px,2.2vw,30px);font-weight:400;letter-spacing:-.05em}
 .psub p{color:var(--muted);font-size:14px;max-width:52ch}
-.row{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,.7fr) minmax(0,1.7fr) auto;gap:clamp(16px,3vw,48px);align-items:start;padding:22px 0;border-top:1px solid var(--line)}
-.row:last-of-type{border-bottom:1px solid var(--line)}
-.row .nm{font-size:22px;font-weight:500;letter-spacing:-.04em;line-height:1.05}
-.row .nm small{display:block;font-size:13px;color:var(--muted);letter-spacing:0;margin-top:6px;font-weight:400}
-.row .pr{font-size:20px;letter-spacing:-.03em;white-space:nowrap}
-.row .pr small{display:block;font-size:12px;color:var(--muted);letter-spacing:0;margin-top:5px}
-.row .who{font-size:14.5px;color:var(--muted);max-width:60ch}
-.row .outline{white-space:nowrap}
-.pnotes{margin-top:22px;font-size:13px;color:var(--muted);max-width:76ch;display:grid;gap:6px}
+.tiers{margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tier{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px 22px;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
+.tier::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--cobalt),#7f9bff);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.tier:hover{transform:translateY(-6px);border-color:#c0c8ff;box-shadow:0 34px 70px -42px rgba(18,72,255,.55)}
+.tier:hover::before{transform:scaleX(1)}
+.tier .tname{font-size:19px;font-weight:600;letter-spacing:-.03em}
+.tier .tmeta{font-size:12px;color:var(--muted);margin-top:5px}
+.tier .tprice{font-size:26px;font-weight:500;letter-spacing:-.04em;margin-top:16px;color:var(--ink);line-height:1}
+.tier .tprice small{display:block;font-size:11.5px;color:var(--muted);margin-top:5px;font-weight:400;letter-spacing:0}
+.tier .tdesc{font-size:13.5px;color:var(--muted);margin-top:14px;line-height:1.5;flex:1}
+.tier .tgo{margin-top:18px;display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--cobalt);font-weight:500}
+.pnotes{margin-top:24px;font-size:13px;color:var(--muted);max-width:76ch;display:grid;gap:6px}
 .pnotes a{color:var(--ink);border-bottom:1px solid currentColor}
-@media(max-width:900px){.offers{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}.row .who{grid-column:1/-1}.row .outline{grid-column:1/-1;justify-self:start}}
+@media(max-width:900px){.offers{grid-template-columns:1fr}.tiers{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.tiers{grid-template-columns:1fr}}
 
 /* ================= ROI (obsidian) ================= */
 .roi{overflow:hidden}
@@ -512,9 +517,9 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
     <div class="offers rv">
       <div class="offer hi">
         <span class="tag">Mest valgt</span>
-        <h3>Website Sprint</h3>
+        <h3>Komplett nettside</h3>
         <div class="price">16 000 kr<small>50 % ved oppstart · 50 % ved levering</small></div>
-        <p>Komplett nettside for bedriften din — klar ca. fem virkedager etter at vi har fått innholdet.</p>
+        <p>Hele nettsiden for bedriften din — klar ca. fem virkedager etter at vi har fått innholdet.</p>
         <ul>
           <li>Forside + inntil 4 undersider (tjenester, om oss, kontakt, priser eller galleri)</li>
           <li>Skreddersydd design, mobil først, rask og ren</li>
@@ -523,13 +528,14 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
           <li>Grunnleggende lokal SEO + Google-bedriftsprofil</li>
           <li>Domene, hosting og publisering satt opp</li>
         </ul>
-        <a class="primary" href="/api/checkout?pkg=sprint">Betal oppstart — 8 000 kr <span class="arrow" aria-hidden="true">↗</span></a>
-        <span class="pay">Sikker betaling via Stripe · resten (8 000) ved levering</span>
-        <span class="orline"><a class="text-link" href="/start.html?pakke=sprint">Eller få et gratis konsept først <span class="arrow" aria-hidden="true">↗</span></a></span>
-        <a class="text-link" href="/sprint">Alt om Website Sprint <span class="arrow" aria-hidden="true">↗</span></a>
+        <div class="offer-foot">
+          <a class="primary" href="/api/checkout?pkg=sprint">Betal oppstart — 8 000 kr <span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="pay">Sikker betaling via Stripe · resten (8 000) ved levering</span>
+          <span class="orline"><a class="text-link" href="/start.html?pakke=sprint">Eller få et gratis konsept først <span class="arrow" aria-hidden="true">↗</span></a></span>
+        </div>
       </div>
       <div class="offer">
-        <h3>Landing Page Sprint</h3>
+        <h3>Landingsside</h3>
         <div class="price">7 900 kr<small>Betales ved oppstart</small></div>
         <p>Én sterk side som selger én ting — perfekt hvis du i dag bare har Instagram, Facebook eller ingenting.</p>
         <ul>
@@ -539,18 +545,40 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
           <li>Domene og publisering satt opp</li>
           <li>Klar ca. tre virkedager etter mottatt innhold</li>
         </ul>
-        <a class="primary" href="/api/checkout?pkg=landing">Kjøp nå — 7 900 kr <span class="arrow" aria-hidden="true">↗</span></a>
-        <span class="pay">Sikker betaling via Stripe · full pris ved oppstart</span>
-        <span class="orline"><a class="text-link" href="/start.html?pakke=landing">Eller få et gratis konsept først <span class="arrow" aria-hidden="true">↗</span></a></span>
+        <div class="offer-foot">
+          <a class="primary" href="/api/checkout?pkg=landing">Kjøp nå — 7 900 kr <span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="pay">Sikker betaling via Stripe · full pris ved oppstart</span>
+          <span class="orline"><a class="text-link" href="/start.html?pakke=landing">Eller få et gratis konsept først <span class="arrow" aria-hidden="true">↗</span></a></span>
+        </div>
       </div>
     </div>
 
-    <div class="psub rv"><h3>Trenger du mer?</h3><p>Startpriser for prosjekter med eget omfang — flere sider, redigering selv, booking eller integrasjoner. Fast pris før vi starter.</p></div>
-    <div class="rows rv">
-      <div class="row"><div class="nm">Launch<small>ca. 7–14 dager</small></div><div class="pr">fra 7 900 kr<small>50 % ved start</small></div><p class="who">1–3 sider med skreddersydd design, kontaktskjema, grunnleggende SEO og lanseringsstøtte. For et raskt løft av førsteinntrykket.</p><a class="outline" href="/start.html?pakke=launch">Launch <span class="arrow" aria-hidden="true">↗</span></a></div>
-      <div class="row"><div class="nm">Growth<small>ca. 2–3 uker</small></div><div class="pr">fra 12 900 kr<small>50 % ved start</small></div><p class="who">3–6 sider, konverteringsfokusert layout, kontakt-, booking- og leadskjema, SEO-grunnmur, analyse og enkel redigering av innhold selv.</p><a class="outline" href="/start.html?pakke=growth">Growth <span class="arrow" aria-hidden="true">↗</span></a></div>
-      <div class="row"><div class="nm">Signature<small>ca. 3–5 uker</small></div><div class="pr">fra 19 900 kr<small>40 / 30 / 30</small></div><p class="who">Større skreddersydd side med eget visuelt system, komponentbibliotek, CMS, booking, CRM og integrasjoner ved behov. Finpuss etter lansering.</p><a class="outline" href="/start.html?pakke=signature">Signature <span class="arrow" aria-hidden="true">↗</span></a></div>
-      <div class="row"><div class="nm">Care<small>løpende</small></div><div class="pr">fra 1 490 kr<small>per måned</small></div><p class="who">Vedlikehold, innholdsoppdateringer, teknisk støtte, analysegjennomgang, små design- og ytelsesforbedringer, SEO-finpuss og nye seksjoner etter avtale.</p><a class="outline" href="/start.html?pakke=care">Care <span class="arrow" aria-hidden="true">↗</span></a></div>
+    <div class="psub rv"><h3>Trenger du mer?</h3><p>Startpriser for større prosjekter med eget omfang — flere sider, redigering selv, booking eller integrasjoner. Fast pris før vi starter.</p></div>
+    <div class="tiers rv">
+      <a class="tier" href="/start.html?pakke=launch">
+        <span class="tname">Oppstart</span><span class="tmeta">Levering ca. 7–14 dager</span>
+        <span class="tprice">fra 7 900 kr<small>50 % ved start</small></span>
+        <span class="tdesc">1–3 sider med skreddersydd design, kontaktskjema, grunnleggende SEO og lanseringsstøtte.</span>
+        <span class="tgo">Velg Oppstart <span class="arrow" aria-hidden="true">↗</span></span>
+      </a>
+      <a class="tier" href="/start.html?pakke=growth">
+        <span class="tname">Vekst</span><span class="tmeta">Levering ca. 2–3 uker</span>
+        <span class="tprice">fra 12 900 kr<small>50 % ved start</small></span>
+        <span class="tdesc">3–6 sider, konverteringsfokusert layout, booking- og leadskjema, SEO-grunnmur, analyse og enkel redigering selv.</span>
+        <span class="tgo">Velg Vekst <span class="arrow" aria-hidden="true">↗</span></span>
+      </a>
+      <a class="tier" href="/start.html?pakke=signature">
+        <span class="tname">Signatur</span><span class="tmeta">Levering ca. 3–5 uker</span>
+        <span class="tprice">fra 19 900 kr<small>40 / 30 / 30</small></span>
+        <span class="tdesc">Større skreddersydd side med eget visuelt system, CMS, booking, CRM og integrasjoner ved behov.</span>
+        <span class="tgo">Velg Signatur <span class="arrow" aria-hidden="true">↗</span></span>
+      </a>
+      <a class="tier" href="/start.html?pakke=care">
+        <span class="tname">Vedlikehold</span><span class="tmeta">Løpende · månedlig</span>
+        <span class="tprice">fra 1 490 kr<small>per måned</small></span>
+        <span class="tdesc">Oppdateringer, teknisk støtte, analyse, små design- og ytelsesforbedringer, SEO-finpuss og nye seksjoner.</span>
+        <span class="tgo">Spør om Vedlikehold <span class="arrow" aria-hidden="true">↗</span></span>
+      </a>
     </div>
     <div class="pnotes rv">
       <p>Alle prosjekter tilpasses behov og omfang. <a href="/start.html?type=custom">Trenger du noe mer omfattende? Vi lager gjerne et skreddersydd tilbud.</a></p>
@@ -565,7 +593,7 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
     <div>
       <span class="label">Regnestykket</span>
       <h2 id="roi-title" class="h-l">Hva er én kunde til verdt?</h2>
-      <p class="lead">Ingen oppblåste løfter — bare enkel matte. Hvis en tydeligere side gjør at litt flere av de som allerede finner deg tar kontakt, betaler en Website Sprint seg ofte på første kunde. Dra i tallene dine.</p>
+      <p class="lead">Ingen oppblåste løfter — bare enkel matte. Hvis en tydeligere side gjør at litt flere av de som allerede finner deg tar kontakt, betaler en komplett nettside seg ofte på første kunde. Dra i tallene dine.</p>
       <p class="fine">Illustrerende eksempel basert på dine egne tall — ikke en garanti eller en statistikk.</p>
     </div>
     <div class="calc rv">
@@ -616,8 +644,8 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
   <div class="wrap">
     <div class="sec-head"><div><span class="label">Spørsmål</span><h2 id="faq-title" class="h-l">Før du starter.</h2></div></div>
     <div class="list rv">
-      <details><summary>Hva koster en nettside?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Website Sprint 16 000 kr og Landing Page Sprint 7 900 kr er faste priser. Launch, Growth og Signature er startpriser for prosjekter med eget omfang. Du får alltid fast pris før vi starter.</div></details>
-      <details><summary>Hvor lang tid tar det?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Website Sprint ca. fem virkedager etter mottatt innhold, Landing Page Sprint ca. tre. Den største faktoren er hvor raskt vi får logo, bilder og tilbakemelding fra deg.</div></details>
+      <details><summary>Hva koster en nettside?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Komplett nettside 16 000 kr og landingsside 7 900 kr er faste priser. Oppstart, Vekst og Signatur er startpriser for større prosjekter med eget omfang. Du får alltid fast pris før vi starter.</div></details>
+      <details><summary>Hvor lang tid tar det?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Komplett nettside ca. fem virkedager etter mottatt innhold, landingsside ca. tre. Den største faktoren er hvor raskt vi får logo, bilder og tilbakemelding fra deg.</div></details>
       <details><summary>Hva er et gratis førsteside-konsept?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Et konkret forslag til hvordan forsiden din kan bli — budskap, struktur og retning — laget for din bedrift og sendt deg uforpliktende. Du ser en mulig vei før du bestemmer deg.</div></details>
       <details><summary>Jeg har ingen bilder eller tekst. Går det?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja. Vi skriver teksten ut fra en kort samtale med deg. Bilder tar du med mobilen etter en enkel huskeliste vi sender, eller vi bruker gode illustrasjoner til dine egne er klare.</div></details>
       <details><summary>Kan dere redesigne siden jeg har?<span class="pm" aria-hidden="true">+</span></summary><div class="a">Ja — de fleste prosjekter er redesign. Vi beholder det som funker (innhold, SEO-verdi, integrasjoner) og bygger opplevelsen på nytt.</div></details>
@@ -659,7 +687,7 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
         <p>Selvstendig webdesign i Stavanger. Nettsider, redesign og landingssider for bedrifter som vil videre.</p>
       </div>
       <div><h4>Meny</h4><a class="fl" href="#arbeid">Arbeid</a><a class="fl" href="#sprint">Slik funker det</a><a class="fl" href="#priser">Priser</a><a class="fl" href="#studio">Om oss</a></div>
-      <div><h4>Kunder</h4><a class="fl" href="/start.html">Start prosjekt</a><a class="fl" href="/sprint">Website Sprint</a><a class="fl" href="/minside.html">Kundeportal</a><a class="fl" href="#faq">Spørsmål</a></div>
+      <div><h4>Kunder</h4><a class="fl" href="/start.html">Start prosjekt</a><a class="fl" href="/sprint">Komplett nettside</a><a class="fl" href="/minside.html">Kundeportal</a><a class="fl" href="#faq">Spørsmål</a></div>
       <div><h4>Kontakt</h4><a class="fl" href="mailto:michael@staymotion.no">michael@staymotion.no</a><a class="fl" href="/personvern.html">Personvern</a><a class="fl" href="/vilkar.html">Vilkår</a></div>
     </div>
     <div class="fbot"><span>StayMotion · Org.nr 937 492 472 · Stavanger, Norge · © 2026</span><span>Design · Utvikling · Konvertering</span></div>
