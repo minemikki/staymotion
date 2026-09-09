@@ -408,6 +408,7 @@ function renderLeads(){
   $('lead-list').innerHTML=list.map(leadCard).join('');
   [].forEach.call($('lead-list').querySelectorAll('[data-act]'),function(b){b.onclick=function(){leadAction(b.getAttribute('data-act'),b.getAttribute('data-id'));};});
 }
+function webHref(u){u=String(u||'').trim();if(!u)return '';return /^https?:\/\//i.test(u)?u:'https://'+u;}
 function leadCard(l){
   var score=Number(l.priorityScore||l.leadScore)||0;
   var addr=l.email?classifyLabel(l.email):'';
@@ -415,11 +416,11 @@ function leadCard(l){
     '<div class="lh"><div><span class="co">'+esc(l.company||'Uten navn')+'</span>'+
       (l.demo?'<span class="tag demo">DEMO</span>':'')+
       '<span class="tag">'+esc(STAGE_LABELS[l.stage]||l.stage||'Ny')+'</span>'+
-      '<div class="sub">'+esc(l.segment||'')+(l.location?' · '+esc(l.location):'')+(l.website?' · '+esc(l.website):'')+'</div></div>'+
+      '<div class="sub">'+esc(l.segment||'')+(l.location?' · '+esc(l.location):'')+(l.website?' · <a href="'+esc(webHref(l.website))+'" target="_blank" rel="noopener">'+esc(l.website)+' ↗</a>':'')+'</div></div>'+
       '<div style="text-align:right"><div class="score">'+score+'</div><div class="sub">prioritet</div></div></div>'+
     '<div class="meta">'+
-      (l.email?'<span>✉ <b>'+esc(l.email)+'</b> '+addr+'</span>':'<span class="muted">Ingen e-post</span>')+
-      (l.phone?'<span>☎ '+esc(l.phone)+'</span>':'')+
+      (l.email?'<span>✉ <a href="mailto:'+esc(l.email)+'"><b>'+esc(l.email)+'</b></a> '+addr+'</span>':'<span class="muted">Ingen e-post</span>')+
+      (l.phone?'<span>☎ <a href="tel:'+esc(String(l.phone).replace(/\s+/g,""))+'">'+esc(l.phone)+'</a></span>':'')+
       (l.websiteQuality?'<span>Kvalitet: <b>'+esc(l.websiteQuality)+'</b></span>':'')+
       (l.mobileIssue?'<span>Mobil: '+esc(l.mobileIssue)+'</span>':'')+
       (l.offer?'<span>Tilbud: <b>'+esc(l.offer)+'</b></span>':'')+
