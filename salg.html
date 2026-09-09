@@ -364,16 +364,27 @@ function showView(v){VIEW=v;
 
 /* ---------- load ---------- */
 function loadAll(){loadMetrics();loadLeads();loadQueueCount();}
-function loadMetrics(){api('sales-metrics').then(function(d){METRICS=d;renderMetrics();}).catch(function(){});}
-function renderMetrics(){if(!METRICS)return;var g=METRICS.goal,f=METRICS.funnel;
+function loadMetrics(){api('sales-metrics').then(function(d){METRICS=d;renderMetrics();}).catch(function(e){renderMetricsFallback(e&&e.message);});}
+function metGoal(){var c=CONFIG||{};var goalKr=Number(c.goalKr)||16000;var deadline=c.deadline||'2026-09-25';
+  var dl=new Date(deadline+'T23:59:59+02:00');var daysLeft=Math.max(0,Math.ceil((dl-new Date())/86400000));
+  return {goalKr:goalKr,deadline:deadline,daysLeft:daysLeft,receivedKr:0,remainingKr:goalKr,progressPct:0};}
+function paintGoal(g,f,sending,won,note){
   $('maal-dl').textContent='Frist '+g.deadline+' · '+g.daysLeft+' dager igjen';
   $('maal-recv').textContent=nok(g.receivedKr)+' mottatt';
   $('maal-remain').textContent='av '+nok(g.goalKr)+' — mangler '+nok(g.remainingKr);
-  $('maal-bar').style.width=g.progressPct+'%';
-  var stats=[['Dager igjen',g.daysLeft,'til '+g.deadline],['Kontaktede',f.contacted,'bedrifter'],['Svar',f.replies,''],['Bookede samtaler',f.booked,''],['Sendte tilbud',f.proposals,''],['Vunnet',f.won,''],['Avtalt verdi',nok(f.agreedValue),''],['Sendt i dag',METRICS.sending.sentToday+' / '+METRICS.sending.dailyCap,'e-poster']];
+  $('maal-bar').style.width=(g.progressPct||0)+'%';
+  var cap=(sending&&sending.dailyCap)||(CONFIG&&CONFIG.dailyCap)||12;
+  var sent=(sending&&sending.sentToday)||0;
+  var stats=[['Dager igjen',g.daysLeft,'til '+g.deadline],['Kontaktede',f.contacted,'bedrifter'],['Svar',f.replies,''],['Bookede samtaler',f.booked,''],['Sendte tilbud',f.proposals,''],['Vunnet',f.won,''],['Avtalt verdi',nok(f.agreedValue),''],['Sendt i dag',sent+' / '+cap,'e-poster']];
   $('maal-stats').innerHTML=stats.map(function(s){return '<div class="stat"><div class="k">'+esc(s[0])+'</div><div class="v">'+esc(s[1])+'</div><div class="s">'+esc(s[2])+'</div></div>';}).join('');
-  $('maal-won').innerHTML=(METRICS.wonLeads&&METRICS.wonLeads.length)?METRICS.wonLeads.map(function(w){return '<div class="switchrow"><span>'+esc(w.company)+'</span><span class="muted">'+nok(w.startPaidKr)+' mottatt / '+nok(w.agreedPriceKr)+' avtalt</span></div>';}).join(''):'<div class="empty small">Ingen vunne kunder ennå. Fokus: svar → samtale → tilbud → oppstartsbetaling.</div>';
+  $('maal-won').innerHTML=(won&&won.length)?won.map(function(w){return '<div class="switchrow"><span>'+esc(w.company)+'</span><span class="muted">'+nok(w.startPaidKr)+' mottatt / '+nok(w.agreedPriceKr)+' avtalt</span></div>';}).join(''):'<div class="empty small">Ingen vunne kunder ennå. Fokus: svar → samtale → tilbud → oppstartsbetaling.</div>';
+  if(note!=null&&$('maal-note'))$('maal-note').textContent=note;
 }
+function renderMetrics(){if(!METRICS){renderMetricsFallback();return;}
+  paintGoal(METRICS.goal||metGoal(),METRICS.funnel||{contacted:0,replies:0,booked:0,proposals:0,won:0,agreedValue:0},METRICS.sending,METRICS.wonLeads,'Tallene kommer fra ekte registrerte leads (demo teller ikke med).');}
+function renderMetricsFallback(msg){
+  paintGoal(metGoal(),{contacted:0,replies:0,booked:0,proposals:0,won:0,agreedValue:0},null,[],
+    'Kunne ikke hente live måltall'+(msg?(' ('+msg+')'):'')+' — viser mål og nuller. Last siden på nytt, eller sjekk at ADMIN_KEY er satt.');}
 
 /* ---------- leads ---------- */
 function loadLeads(){$('lead-list').innerHTML='<div class="empty small">Laster…</div>';
