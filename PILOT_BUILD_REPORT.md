@@ -270,3 +270,45 @@ status uten å ringe eller lete i meldinger»*, half-built.
 **Constraints honoured:** no change to Supabase/auth/RLS/realtime/data model; all existing test-ids and
 flows preserved; no fake data or simulated AI in the production path; marketing site and other projects
 untouched; not merged and no PR.
+
+---
+
+## Phase 4 — «Kom i gang» first-run + clearer Demo marker · branch `gpt/phase3-live-supabase`
+
+Not merged. A premium/sellability lift focused on the first five minutes a real business spends in the app.
+
+### Why
+Onboarding was already strong, but a freshly set-up organization landed on `/manager?welcome=1` with
+empty screens — the exact moment a prospect judges whether the product looks finished. And the only
+demo/live signal was a tiny developer-ish «lokal modus» tag.
+
+### What was built
+- `src/ui/FirstRunGuide.tsx` — a calm, dismissible «Kom i gang» card on the manager home, shown **only
+  while the organization is genuinely fresh** (no case ever reported), so the approved exception-first
+  layout is untouched the moment real work exists. Three steps reflect **real state** — routines set
+  (from onboarding), team invited (`profiles > 1`), first case reported (`incidents > 0`) — each linking
+  to the actual action (Min dag, Team, Meld fra). Live progress bar; retires automatically once the loop
+  is live, or on dismiss (persisted per-org in `localStorage`, with try/catch for private mode).
+- Shell demo marker: «lokal modus» → a customer-facing «Demo · eksempeldata» pill (amber dot, tooltip
+  explaining a real business starts empty), repositioned bottom-right so it never overlaps the sidebar or
+  the mobile tab bar. Absent in live mode.
+- CSS appended to `app/globals.css` (same token system, no design-system change).
+- 2 e2e tests (fresh org shows the guide with correct step states + dismiss persists across reload;
+  the guide never shows once a location already has cases).
+
+### Honest status
+- **Done and tested (local/demo):** typecheck ✓, lint ✓, 26 unit ✓, production build ✓ (14/14),
+  Playwright **86 passed / 7 skipped** (desktop 28, iphone-13 29, iphone-se 29). Verified at 390 and 1440;
+  no horizontal overflow; nothing hidden behind the mobile tab bar.
+- **Built, depends on environment:** identical behaviour in real Supabase mode — the guide reads only the
+  counts the UI already loads and writes nothing; the demo marker is hidden in live mode. Not yet
+  exercised against a live Supabase project (needs env vars in Vercel + a first live run).
+- **Deliberately not built now:** an in-app routine/settings editor (steps link to existing surfaces;
+  editing routines after onboarding is the recommended next phase), and per-location first-run for chains.
+- **Recommended next phase:** an owner «Innstillinger» surface (edit routines, departments, confirmation
+  rules, locations) so a pilot customer can tune the setup without re-onboarding — the natural next step
+  toward a self-serve, sellable product.
+
+**Constraints honoured:** no change to Supabase/auth/RLS/realtime/data model; no fake data (every step
+reflects real state); all existing test-ids and flows preserved; marketing site and other projects
+untouched; not merged and no PR.

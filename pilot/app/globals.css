@@ -94,7 +94,8 @@ a{color:inherit}
 .wrapW{max-width:1240px;margin:0 auto}
 .rise{animation:rise var(--t-state) var(--ease)}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.devmode{position:fixed;left:8px;bottom:calc(8px + var(--safe-b));z-index:35;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--faint);background:rgba(244,246,250,.85);padding:3px 7px;border-radius:6px;pointer-events:none}
+.devmode{position:fixed;right:12px;bottom:calc(12px + var(--safe-b));z-index:35;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:650;color:var(--muted);background:rgba(244,246,250,.92);border:1px solid var(--line);padding:4px 9px;border-radius:999px;pointer-events:none;box-shadow:var(--sh-1)}
+.devmode .dot{width:6px;height:6px;border-radius:50%;background:var(--sun);flex:none}
 
 /* ---------- type ---------- */
 .page-head{margin-bottom:var(--s-6)}
@@ -863,3 +864,29 @@ textarea.input{min-height:84px;resize:vertical}
 .case-acts{display:flex;flex-wrap:wrap;gap:var(--s-2)}
 .case-f-read{padding-top:var(--s-3)}
 .case-f-read .small{margin:0;color:var(--muted)}
+
+/* ---- «Kom i gang» first-run guide (manager home, fresh org only) ---- */
+.kom{margin-top:var(--s-5);padding:var(--s-5);border-radius:var(--r-5);background:
+  radial-gradient(120% 140% at 100% 0%,rgba(36,87,245,.10),transparent 55%),var(--surface);
+  border:1px solid var(--line);box-shadow:var(--sh-1)}
+.kom-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s-3)}
+.kom-head h2{font-size:var(--fs-4);letter-spacing:-.01em;margin-top:2px}
+.kom-skip{flex:none;color:var(--muted)}
+.kom-progress{height:6px;border-radius:999px;background:var(--line);overflow:hidden;margin:var(--s-4) 0 var(--s-4)}
+.kom-progress i{display:block;height:100%;background:var(--cobalt);border-radius:999px;transition:width var(--t-state,.3s) var(--spring,ease)}
+.kom-steps{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-2)}
+.kom-step{display:flex;align-items:center;gap:var(--s-3);padding:var(--s-3);border-radius:var(--r-4,14px);background:var(--bg);border:1px solid var(--line)}
+.kom-step.current{border-color:color-mix(in srgb,var(--cobalt) 45%,var(--line))}
+.kom-step.done{opacity:.72}
+.kom-mark{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:var(--fs-1);background:var(--line);color:var(--muted)}
+.kom-step.current .kom-mark{background:var(--cobalt);color:#fff}
+.kom-step.done .kom-mark{background:var(--mint);color:#fff}
+.kom-body{flex:1;min-width:0}
+.kom-body strong{display:block;font-size:var(--fs-2)}
+.kom-body p{color:var(--muted);font-size:var(--fs-1);margin-top:1px}
+.kom-step .btn,.kom-state{flex:none}
+@media(max-width:640px){
+  .kom-step{flex-wrap:wrap}
+  .kom-step .btn,.kom-state{margin-left:40px}
+  .devmode{bottom:calc(76px + var(--safe-b));right:10px}
+}

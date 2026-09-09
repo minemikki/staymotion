@@ -5,6 +5,7 @@ import { Shell } from '@/src/ui/Shell';
 import { useToast } from '@/src/ui/Toast';
 import { Signal } from '@/src/ui/Signal';
 import { CaseSheet } from '@/src/ui/CaseSheet';
+import { FirstRunGuide } from '@/src/ui/FirstRunGuide';
 import { Icon, categoryIcon } from '@/src/ui/icons';
 import { getProvider } from '@/src/data';
 import type { DataProvider } from '@/src/data/provider';
@@ -47,7 +48,12 @@ function Manager({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true);
   const [now, setNow] = useState(() => Date.now());
   const [openCase, setOpenCase] = useState<Incident | null>(null);
+  const [guideHidden, setGuideHidden] = useState(true); // hidden until storage is read, so a dismissed guide never flashes
   const actor = useMemo(() => actorOf(session), [session]);
+
+  const guideKey = `sm-komigang-${session.organizationId}`;
+  useEffect(() => { try { setGuideHidden(localStorage.getItem(guideKey) === '1'); } catch { setGuideHidden(false); } }, [guideKey]);
+  const dismissGuide = () => { try { localStorage.setItem(guideKey, '1'); } catch { /* private mode */ } setGuideHidden(true); };
 
   const load = useCallback(async (p: DataProvider) => {
     try {
@@ -120,6 +126,17 @@ function Manager({ session }: { session: Session }) {
       <h1 className="h1">{welcome ? `Velkommen, ${first}.` : `Hei, ${first}.`}</h1>
       <p className="lead">{welcome ? 'Bedriften er satt opp. Første vakt har rutinene sine, og alt som meldes inn lander her.' : 'Her er det som trenger deg nå. Resten følger StayMotion med på.'}</p>
       {error && <div className="load-error" role="alert">{error} <button className="linkbtn" onClick={() => db ? void load(db) : window.location.reload()}>Prøv igjen</button></div>}
+
+      {!loading && incidents.length === 0 && !guideHidden && (
+        <FirstRunGuide
+          onDismiss={dismissGuide}
+          steps={[
+            { key: 'rutiner', title: 'Rutinene er lagt inn', body: 'Vaktene har startrutinene sine fra oppsettet — juster dem når som helst.', done: tasks.length > 0, href: '/employee', cta: 'Se Min dag' },
+            { key: 'team', title: 'Inviter teamet ditt', body: 'Legg til folk, så får saker riktige navn og tydelige eiere.', done: people.length > 1, href: '/team', cta: 'Åpne team' },
+            { key: 'meld', title: 'Meld din første sak', body: 'Prøv «Meld fra» én gang — da ser du hele flyten fra melding til løst.', done: incidents.length > 0, href: '/employee?meld=1', cta: 'Prøv nå' },
+          ]}
+        />
+      )}
 
       <div className="calm" data-testid="calm">
         <div>

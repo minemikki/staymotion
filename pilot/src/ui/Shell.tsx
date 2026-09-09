@@ -165,7 +165,7 @@ export function Shell({ children, view }: { children: (s: Session) => React.Reac
       <nav className="tabbar" aria-label="Visninger">
         {primary.map((item) => <Link key={item.key} href={item.href} className={item.report ? 'nav-report' : undefined} aria-current={isCurrent(item) ? 'page' : undefined}><NavIcon name={item.icon} /><span>{item.short || item.label}</span></Link>)}
       </nav>
-      {isLocalMode() && <div className="devmode" aria-hidden>lokal modus</div>}
+      {isLocalMode() && <div className="devmode" title="Du ser en demo med eksempeldata. En ekte bedrift starter tomt og fylles av det teamet faktisk registrerer."><span className="dot" aria-hidden />Demo · eksempeldata</div>}
     </ToastProvider>
   );
 }

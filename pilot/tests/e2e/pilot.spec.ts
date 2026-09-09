@@ -396,3 +396,40 @@ test('27 the reporter opens their own case read-only and sees the manager note',
   await expect(page.getByTestId('case-note')).toHaveCount(0); // read-only: no composer
   await expect(page.getByText('Sjekket – bestiller service.')).toBeVisible(); // but the note is visible
 });
+
+async function onboardFresh(page: Page, org: string) {
+  await page.goto('/signin');
+  await page.getByTestId('start-onboarding').click();
+  await page.getByTestId('org-name').fill(org);
+  await page.getByTestId('owner-name').fill('Kari Nord');
+  await page.getByTestId('ob-next').click();
+  await page.getByTestId('loc-name').fill('Bergen sentrum');
+  await page.getByTestId('ob-next').click(); // departments (pre-filled)
+  await page.getByTestId('ob-next').click(); // routines (pre-filled)
+  await page.getByTestId('ob-next').click(); // people
+  await page.getByTestId('ob-finish').click();
+  await expect(page).toHaveURL(/\/manager/);
+}
+
+test('28 a fresh organization gets the Kom i gang guide, and dismissing it persists', async ({ page }) => {
+  await onboardFresh(page, 'Bryggen Bistro');
+  const guide = page.getByTestId('first-run');
+  await expect(guide).toBeVisible();
+  await expect(page.getByTestId('first-run-step')).toHaveCount(3);
+  // routines came from onboarding → step 1 done; a first report has not happened → step 3 open
+  await expect(page.locator('[data-testid="first-run-step"][data-done="1"]')).toHaveCount(1);
+  await expect(page.getByTestId('first-run-cta-team')).toBeVisible();
+  await expect(page.getByTestId('first-run-cta-meld')).toBeVisible();
+  // dismiss and confirm it stays gone across a reload
+  await page.getByTestId('first-run-dismiss').click();
+  await expect(guide).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByTestId('calm')).toBeVisible();
+  await expect(page.getByTestId('first-run')).toHaveCount(0);
+});
+
+test('29 the guide never shows once the location already has cases (demo tenant)', async ({ page }) => {
+  await signIn(page, 'location_manager');
+  await expect(page.getByTestId('calm')).toBeVisible();
+  await expect(page.getByTestId('first-run')).toHaveCount(0);
+});
