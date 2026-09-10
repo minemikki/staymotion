@@ -520,48 +520,71 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 .pho::after{content:"";position:absolute;left:50%;top:19px;transform:translateX(-50%);width:82px;height:23px;border-radius:20px;background:#08090c;z-index:3}
 .scr{height:100%;min-height:0;border-radius:38px;overflow:hidden;display:flex;flex-direction:column;font-size:11.5px;line-height:1.4;position:relative}
 
-.s-top{display:flex;align-items:center;justify-content:space-between;padding:40px 18px 0;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
-.s-top i{width:17px;height:1.5px;background:currentColor;box-shadow:0 5px 0 currentColor;opacity:.8}
-.s-head{padding:22px 18px 16px}
+.s-top{display:flex;align-items:center;justify-content:space-between;padding:34px 18px 0;font-size:9px;letter-spacing:.15em;text-transform:uppercase;opacity:.85}
+.s-brand{display:flex;align-items:center;gap:8px}
+.s-logo{width:20px;height:20px;border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;
+  font-size:9.5px;font-weight:800;letter-spacing:0;text-transform:uppercase;
+  background:color-mix(in srgb, currentColor 16%, transparent)}
+.s-menu{width:16px;height:1.5px;background:currentColor;box-shadow:0 5px 0 currentColor;opacity:.7}
+.s-head{padding:16px 18px 14px}
 .s-kick{display:block;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
 .s-head h5{margin:9px 0 0;font-weight:400;font-size:26px;line-height:1.02;letter-spacing:-.045em;max-width:11ch}
-.s-tabs{display:flex;gap:16px;padding:0 18px 12px;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
-.s-tabs b{font-weight:600;padding-bottom:5px;border-bottom:1.5px solid currentColor}
-.s-tabs span{opacity:.45;padding-bottom:5px}
-.s-list{padding:4px 18px;display:grid;gap:11px}
-.s-row{display:grid;gap:2px;padding-bottom:10px;border-bottom:1px solid currentColor;border-color:color-mix(in srgb,currentColor 16%,transparent)}
-.s-row em{font-style:normal;font-size:12.5px;letter-spacing:-.02em}
-.s-row span{font-size:10px;opacity:.55}
+.s-tabs{display:flex;gap:6px;padding:2px 18px 14px;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
+.s-tabs b,.s-tabs span{padding:6px 13px;border-radius:50px}
+.s-tabs b{font-weight:700;background:color-mix(in srgb, currentColor 15%, transparent)}
+.s-tabs span{opacity:.5;font-weight:500}
+.s-list{padding:6px 18px;display:grid;gap:7px}
+.s-row{display:flex;align-items:center;gap:11px;padding:10px 11px;border-radius:13px;
+  background:color-mix(in srgb, currentColor 5.5%, transparent)}
+.s-ic{width:29px;height:29px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;
+  font-size:10.5px;font-weight:800;background:color-mix(in srgb, currentColor 13%, transparent)}
+.s-rt{flex:1;min-width:0;display:grid;gap:2px}
+.s-rt em{font-style:normal;font-size:12px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.s-rt span{font-size:9.5px;opacity:.58}
+.s-pr{font-size:11px;font-weight:700;letter-spacing:-.01em;opacity:.9;flex:none;white-space:nowrap}
 .s-bar{margin-top:auto;padding:14px 18px 26px}
-.s-bar span{display:block;text-align:center;border-radius:8px;padding:11px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.s-bar span{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:11px;padding:13px;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  box-shadow:0 14px 26px -14px rgba(0,0,0,.4)}
+.s-bar span::after{content:"\2192";font-weight:400;font-size:12px}
 
 /* håndverker-skjerm */
-.s-ba{margin:2px 18px 0;height:92px;border-radius:9px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;position:relative}
-.s-ba .ba{display:flex;align-items:flex-end;padding:7px 9px;font-size:8px;letter-spacing:.12em;text-transform:uppercase}
-.s-ba .ba-a{background:linear-gradient(160deg,#9ba0a8,#6d7178);color:#f2f2f0}
-.s-ba .ba-b{background:linear-gradient(160deg,#e9e7df,#cfcabb);color:#22242a}
+.s-ba{margin:2px 18px 0;height:106px;border-radius:13px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;position:relative;
+  box-shadow:0 12px 22px -16px rgba(0,0,0,.35)}
+.s-ba .ba{display:flex;align-items:flex-end;padding:9px 11px;font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.s-ba .ba-a{background:linear-gradient(160deg,#a3a9b1,#6d7178);color:#f2f2f0}
+.s-ba .ba-b{background:linear-gradient(160deg,#eeece3,#cfcabb);color:#22242a}
+.s-cap{padding:9px 18px 0;font-size:9.5px;opacity:.6}
 .s-chips{display:flex;flex-wrap:wrap;gap:6px;padding:13px 18px 0}
-.s-chips span{font-size:9px;padding:5px 9px;border-radius:50px;border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 22%,transparent);opacity:.8}
+.s-chips span{font-size:9px;font-weight:600;padding:6px 11px;border-radius:50px;border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 22%,transparent);opacity:.75}
+.s-chips .on{opacity:1;border-color:transparent}
 .s-form{padding:14px 18px 0;display:grid;gap:7px}
-.s-fld{font-size:9.5px;padding:9px 10px;border-radius:7px;opacity:.62;background:color-mix(in srgb,currentColor 7%,transparent);border:1px solid color-mix(in srgb,currentColor 14%,transparent)}
-.s-fld-img{display:flex;align-items:center;gap:7px}
-.s-fld-img::before{content:"";width:13px;height:13px;border-radius:3px;border:1px dashed currentColor;opacity:.7;flex:none}
+.s-fld{position:relative;font-size:9.5px;font-weight:500;padding:10px 12px 10px 30px;border-radius:9px;opacity:.7;
+  background:color-mix(in srgb,currentColor 6.5%, transparent);border:1px solid color-mix(in srgb,currentColor 13%,transparent)}
+.s-fld::before{content:"";position:absolute;left:11px;top:50%;transform:translateY(-50%);
+  width:7px;height:7px;border-radius:50%;background:color-mix(in srgb,currentColor 45%,transparent)}
+.s-fld-img{display:flex;align-items:center;gap:7px;padding-left:30px}
+.s-fld-img::before{content:"";left:11px;top:50%;transform:translateY(-50%);position:absolute;
+  width:12px;height:12px;border-radius:3px;border:1.4px dashed currentColor;opacity:.75;background:none}
 
 /* klinikk-skjerm */
-.s-slots{display:flex;gap:6px;padding:16px 18px 0}
-.s-slots span{font-size:9px;padding:7px 9px;border-radius:6px;border:1px solid color-mix(in srgb,currentColor 20%,transparent);opacity:.62}
-.s-slots .on{opacity:1;font-weight:600;border-color:currentColor}
+.s-slots{display:flex;gap:7px;padding:14px 18px 0;flex-wrap:wrap}
+.s-slots span{font-size:9.5px;font-weight:600;padding:8px 12px;border-radius:10px;
+  background:color-mix(in srgb,currentColor 6%, transparent);opacity:.62}
+.s-slots .on{opacity:1;box-shadow:0 8px 16px -10px rgba(0,0,0,.4)}
 
 /* overnatting-skjerm */
 .s-cal{padding:6px 18px 0}
 .s-cal-h{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.72;margin-bottom:9px}
 .s-days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.s-days i{font-style:normal;font-size:8.5px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:5px;background:color-mix(in srgb,currentColor 10%,transparent)}
+.s-days i{font-style:normal;font-size:8.5px;font-weight:500;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;background:color-mix(in srgb,currentColor 9%,transparent)}
 .s-days i.x{opacity:.2}
 .s-days i.v{background:#f2f6ff;color:#0e1a2f;font-weight:600}
-.s-sum{display:flex;justify-content:space-between;align-items:baseline;margin:16px 18px 0;padding-top:11px;border-top:1px solid color-mix(in srgb,currentColor 18%,transparent);font-size:10px}
-.s-sum b{font-size:13px;font-weight:500;letter-spacing:-.02em}
-.s-sum span{opacity:.6}
+.s-sum{display:flex;justify-content:space-between;align-items:center;margin:14px 18px 0;padding:12px 14px;
+  border-radius:12px;background:color-mix(in srgb,currentColor 6%, transparent);font-size:10px}
+.s-sum b{font-size:13.5px;font-weight:700;letter-spacing:-.02em;display:block}
+.s-sum em{font-style:normal;font-size:9.5px;opacity:.6;display:block;margin-top:1px}
+.s-sum span{opacity:.7;font-weight:600;font-size:11px}
 
 /* ---- telefonen ruller innholdet, som om noen blar gjennom siden ----
    Topplinja, overskriften og bestill-knappen ligger utenfor rulleområdet,
@@ -583,13 +606,15 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 @media (prefers-reduced-motion: reduce){ .s-scrollin{animation:none} }
 
 /* fargetemaer — samme palett som bransjekortene på forsiden */
-.t-rest{background:linear-gradient(178deg,#1d1512 0%,#120e0c 62%);color:#f4ebe0;--sc:205px}
+.t-rest{background:linear-gradient(178deg,#1d1512 0%,#120e0c 62%);color:#f4ebe0;--sc:256px}
 .t-rest .s-bar span{background:#e8c9a0;color:#1a1412}
-.t-craft{background:linear-gradient(178deg,#f4f3ee,#e4e3dc);color:#16171a;--sc:86px}
+.t-craft{background:linear-gradient(178deg,#f4f3ee,#e4e3dc);color:#16171a;--sc:138px}
 .t-craft .s-bar span{background:var(--cobalt);color:#fff}
-.t-clin{background:linear-gradient(178deg,#f0f6f4,#dde8e6);color:#0f2a2a;--sc:144px}
+.t-craft .s-chips .on{background:var(--cobalt);color:#fff}
+.t-clin{background:linear-gradient(178deg,#f0f6f4,#dde8e6);color:#0f2a2a;--sc:177px}
 .t-clin .s-bar span{background:#0f2a2a;color:#fff}
-.t-stay{background:linear-gradient(178deg,#101c31,#0a1120);color:#e9eefb;--sc:160px}
+.t-clin .s-slots .on{background:#0f2a2a;color:#fff}
+.t-stay{background:linear-gradient(178deg,#101c31,#0a1120);color:#e9eefb;--sc:187px}
 .t-stay .s-bar span{background:#fff;color:#0f1a2e}
 
 /* liten notis som svever ved siden av telefonen */
@@ -603,31 +628,6 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
   .dev .chip{right:max(0px,calc(50% - 196px));bottom:22%}
 }
 @media(max-width:420px){.dev .chip{display:none}}
-
-/* ---- stemningsbildet ----
-   Ikke en stripe over hele bredden. Bildet står i en seksjon sammen med en
-   linje som sier hva det har med saken å gjøre, i to spalter — da hører det
-   til siden i stedet for å ligge der tilfeldig.
-   Mindre bilde er også skarpere: 640 px vist mot 1100 px kilde tåler
-   skjermer med høy pikseltetthet, der full bredde ble strukket og uklart. */
-.lp-foto{padding:0 0 clamp(58px,7vw,90px)}
-.lp-foto .wrap{display:grid;gap:clamp(22px,3vw,40px);align-items:center}
-.lp-foto figure{margin:0;min-width:0}
-.lp-foto .ramme{position:relative;border-radius:16px;overflow:hidden;
-  border:1px solid var(--line);background:var(--pearl2);
-  box-shadow:0 30px 60px -42px rgba(10,20,60,.40), 0 2px 5px -3px rgba(10,20,60,.10)}
-.lp-foto .ramme::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
-.lp-foto img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
-.lp-foto .poeng{margin:0;font-size:clamp(16.5px,1.5vw,19px);line-height:1.55;color:var(--ink2);max-width:34ch}
-.lp-foto .kilde{margin:14px 0 0;font-size:12.5px;line-height:1.5;color:var(--faint);max-width:44ch}
-@media(min-width:861px){
-  .lp-foto .wrap{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
-}
-@media(max-width:860px){
-  .lp-foto .ramme{border-radius:13px}
-  .lp-foto img{aspect-ratio:3/2}
-}
 
 /* ---- bildet gjentas i liten skala i løsningsseksjonen ---- */
 .lp-sec .sec-visual{margin:0 0 36px;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
@@ -669,13 +669,13 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 
     <div class="dev rv">
       <div class="pho"><div class="scr t-stay">
-      <div class="s-top"><span>Fjordbu</span><i></i></div>
+      <div class="s-top"><span class="s-brand"><i class="s-logo">F</i>Fjordbu</span><i class="s-menu"></i></div>
       <div class="s-head"><span class="s-kick">Ryfylke</span><h5>Book direkte. Ingen mellomledd.</h5></div>
       <div class="s-scroll"><div class="s-scrollin"><div class="s-cal">
         <div class="s-cal-h"><b>Oktober</b><span>Ledig</span></div>
         <div class="s-days"><i class="">1</i><i class="">2</i><i class="">3</i><i class="x">4</i><i class="x">5</i><i class="x">6</i><i class="">7</i><i class="">8</i><i class="">9</i><i class="v">10</i><i class="v">11</i><i class="v">12</i><i class="x">13</i><i class="">14</i><i class="">15</i><i class="">16</i><i class="">17</i><i class="">18</i><i class="">19</i><i class="">20</i><i class="x">21</i><i class="x">22</i><i class="">23</i><i class="">24</i><i class="">25</i><i class="">26</i><i class="x">27</i><i class="x">28</i><i class="">29</i><i class="">30</i><i class="">31</i></div>
       </div>
-      <div class="s-sum"><b>3 netter</b><span>Direkte hos oss</span></div>
+      <div class="s-sum"><div><b>3 netter</b><em>fra 1 890,- / natt</em></div><span>5 670,-</span></div>
       <div class="s-cal" style="padding-top:18px">
         <div class="s-cal-h"><b>November</b><span>Ledig</span></div>
         <div class="s-days"><i class="">1</i><i class="">2</i><i class="x">3</i><i class="x">4</i><i class="">5</i><i class="">6</i><i class="">7</i><i class="">8</i><i class="">9</i><i class="x">10</i><i class="x">11</i><i class="">12</i><i class="">13</i><i class="">14</i><i class="">15</i><i class="">16</i><i class="x">17</i><i class="x">18</i><i class="">19</i><i class="">20</i><i class="">21</i><i class="">22</i><i class="">23</i><i class="x">24</i><i class="x">25</i><i class="">26</i><i class="">27</i><i class="">28</i><i class="">29</i><i class="">30</i><i class="x">31</i></div>
@@ -684,18 +684,6 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
     </div></div>
       <div class="chip"><b>Booket direkte</b><span>0 kr i provisjon</span></div>
       <p class="note">Illustrert konsept &mdash; ikke en faktisk kunde.</p>
-    </div>
-  </div>
-</section>
-
-<section class="lp-foto">
-  <div class="wrap">
-    <figure>
-      <div class="ramme"><img src="/img/bransje/overnatting.webp" alt="Stemningsbilde: hytte ved sj&oslash;en i blåtimen" width="1100" height="506" sizes="(max-width:860px) 92vw, 640px" loading="lazy" decoding="async"></div>
-    </figure>
-    <div class="ord">
-      <p class="poeng">Stedet vist som det er. Store bilder, i din rekkef&oslash;lge, uten portalens rammer rundt.</p>
-      <p class="kilde">Stemningsbilde &mdash; illustrasjon, ikke et faktisk utleiested.</p>
     </div>
   </div>
 </section>
