@@ -1,0 +1,62 @@
+# StayMotion
+
+> Selvstendig webdesign i Stavanger. Designer og bygger nettsider for norske
+> småbedrifter — fast pris, levert på dager, bygget for at besøkende skal
+> ringe, booke eller sende en melding.
+
+StayMotion drives av Michael Byberg. Kunden jobber direkte med den som
+designer og bygger; det er ingen prosjektledere eller kundeansvarlige i
+mellom. Design og utvikling gjøres av samme person.
+
+## Hva som tilbys
+
+- **Første trekk** — landingsside, 7 900 kr. Én mobiltilpasset salgsside med
+  budskap, bilder, priser og kontakt- eller bookingskjema. Klar cirka tre
+  virkedager etter mottatt innhold.
+- **Momentum** — komplett nettside, 16 000 kr. Forside og inntil fire
+  undersider, skreddersydd design, teknisk SEO-grunnmur, Google-bedriftsprofil,
+  skjema, domene og publisering. 50 % ved oppstart, 50 % ved levering.
+- **Signatur** — større skreddersydd nettopplevelse, fra 19 900 kr. Eget
+  visuelt system, flere sider, CMS, booking og integrasjoner ved behov.
+- **Videre** — drift og oppfølging, fra 1 490 kr per måned. Oppdateringer,
+  teknisk støtte, analyse og nye seksjoner etter lansering. Ingen binding.
+
+Alle priser er faste og avtales før arbeidet starter. Kunden eier design,
+kode og innhold når prosjektet er betalt.
+
+## Arbeidsmåte
+
+1. Gratis førsteside-konsept. Kunden sender nettsiden sin eller bare navnet på
+   bedriften, og får et konkret forslag til ny forside — uforpliktende.
+2. Design og bygg, etter avtalt omfang og fast pris.
+3. Godkjenning og lansering, inkludert domene og Google-bedriftsprofil.
+
+Første komplette utkast av Momentum leveres innen fem virkedager etter at
+innhold, nødvendige tilganger og oppstartbetaling er mottatt.
+
+## Bransjer
+
+Restaurant og kafé, håndverk og bygg, klinikk og frisør, overnatting og
+opplevelser. Sidene tegnes for den enkelte bedriften, ikke fra maler.
+
+## Fakta
+
+- Sted: Stavanger, Rogaland. Betjener hele Norge.
+- Språk: norsk og engelsk.
+- Kontakt: michael@staymotion.no
+- Nettsted: https://staymotion.no/
+- Org.nr: 937 492 472
+
+## Om innholdet på nettstedet
+
+Bransjeeksemplene på forsiden er konseptarbeid og er merket som det. Det
+brukes ikke oppdiktede kundelogoer, anmeldelser eller resultattall. SiamConnect
+er et eget produkt som faktisk er bygget og er i drift.
+
+## Sider
+
+- [Forsiden](https://staymotion.no/): tjenester, priser, arbeidsmåte og spørsmål
+- [Start prosjekt](https://staymotion.no/start.html): skjema for gratis konsept
+- [SiamConnect](https://staymotion.no/siamconnect.html): eget produkt, digital plattform
+- [Vilkår](https://staymotion.no/vilkar.html)
+- [Personvern](https://staymotion.no/personvern.html)

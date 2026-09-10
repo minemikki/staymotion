@@ -6,3 +6,5 @@ Disallow: /admin.html
 Disallow: /admin
 
 Sitemap: https://staymotion.no/sitemap.xml
+
+# AI-lesbar oppsummering: https://staymotion.no/llms.txt
