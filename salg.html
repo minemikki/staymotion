@@ -350,7 +350,8 @@ var STAGES=Object.keys(STAGE_LABELS);
 function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});}
 function nok(n){return (Number(n)||0).toLocaleString('nb-NO')+' kr';}
 function toast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove();},2600);}
-function api(path,opts){opts=opts||{};var sep=path.indexOf('?')<0?'?':'&';var url='/api/'+path+sep+'key='+encodeURIComponent(KEY);
+function api(path,opts){opts=opts||{};var sep=path.indexOf('?')<0?'?':'&';var url='/api/'+path+sep+'key='+encodeURIComponent(KEY)+'&_='+Date.now();
+  opts.cache='no-store';opts.headers=opts.headers||{};if(!opts.headers['Cache-Control'])opts.headers['Cache-Control']='no-cache';
   return fetch(url,opts).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||('HTTP '+r.status));return j;});});}
 function post(path,body){return api(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})});}
 
@@ -647,7 +648,7 @@ function stepCard(s,st){
 }
 function queueOp(op,id){post('sales-queue',{op:op,leadId:id}).then(function(){toast('OK');loadQueue();loadMetrics();}).catch(function(e){alert(e.message);});}
 function sendStep(leadId,stepId,btn){btn.disabled=true;btn.textContent='Sender…';
-  post('sales-send',{op:'send',leadId:leadId,stepId:stepId}).then(function(d){
+  post('sales-send',{op:'send',leadId:leadId,stepId:stepId,force:true}).then(function(d){
     var r=d.result||{};
     if(r.status==='sent')toast('Sendt ✓ ('+d.sentToday+'/'+d.dailyCap+' i dag)');
     else if(r.status==='would-send')toast('Dry-run: '+(r.reason||'ikke sendt'));
@@ -676,10 +677,11 @@ function renderSwitches(){var c=CONFIG;
   [].forEach.call($('send-switches').querySelectorAll('[data-sw]'),function(cb){cb.onchange=function(){var patch={};patch[cb.getAttribute('data-sw')]=cb.checked;post('sales-config',{patch:patch}).then(function(d){CONFIG=d.config;renderSendState($('send-state'),d.sendState,false);toast('Lagret');}).catch(function(e){alert(e.message);});};});
 }
 $('send-savecap').onclick=function(){post('sales-config',{patch:{dailyCap:Number($('set-cap').value)||12}}).then(function(){toast('Dagsgrense lagret');});};
-$('send-run').onclick=function(){this.disabled=true;var b=this;post('sales-send',{op:'run-due'}).then(function(d){
+$('send-run').onclick=function(){this.disabled=true;var b=this;post('sales-send',{op:'run-due',force:true}).then(function(d){
   var sent=(d.results||[]).filter(function(r){return r.status==='sent';}).length;
   var would=(d.results||[]).filter(function(r){return r.status==='would-send';}).length;
-  toast('Kjørt: '+sent+' sendt'+(would?', '+would+' i dry-run (ikke sendt)':''));b.disabled=false;loadLog();loadMetrics();
+  var outside=(d.results||[]).filter(function(r){return r.status==='outside-hours';}).length;
+  toast('Kjørt: '+sent+' sendt'+(would?', '+would+' i dry-run':'')+(outside?', '+outside+' utenfor tid':''));b.disabled=false;loadLog();loadMetrics();loadQueue();
 }).catch(function(e){alert(e.message);b.disabled=false;});};
 function loadLog(){api('sales-log').catch(function(){return {entries:[]};}).then(function(d){var es=(d.entries||[]).slice(0,60);
   $('send-log').innerHTML=es.length?es.map(function(e){var t=new Date(e.at).toLocaleString('nb-NO');return '<div class="logline"><span class="kd '+esc(e.kind)+'">'+esc(e.kind)+'</span> '+t+' — '+esc(e.email||'')+' '+esc(e.step||'')+' '+(e.dryRun?'<span class="tag">dry</span>':'')+(e.reason?' '+esc(e.reason):'')+(e.error?' '+esc(e.error):'')+'</div>';}).join(''):'<div class="empty small">Ingen logg ennå.</div>';});}

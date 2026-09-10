@@ -81,7 +81,10 @@ export default async function handler(req, res) {
   if (!authed(req)) return res.status(401).json({ error: 'Ikke autorisert' });
   try {
     if (req.method === 'GET') {
-      const seqs = await listSequences();
+      const all = await listSequences();
+      // Hide rejected sequences (marked, not deleted — avoids Blob list() lag
+      // showing a just-removed sequence as still present/approved).
+      const seqs = all.filter((s) => s.status !== 'rejected');
       seqs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
       const pending = seqs.filter((s) => s.status === 'pending').length;
       return res.json({ sequences: seqs, pending });
@@ -113,7 +116,10 @@ export default async function handler(req, res) {
     }
 
     if (op === 'reject') {
-      await deleteSequence(b.leadId);
+      // Mark rejected (strongly-consistent overwrite) instead of deleting, so it
+      // disappears immediately instead of lingering via Blob list() lag.
+      const seq = await getSequence(b.leadId);
+      if (seq) { seq.status = 'rejected'; seq.rejectedAt = Date.now(); await saveSequence(seq); }
       return res.json({ ok: true });
     }
 

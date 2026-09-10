@@ -57,7 +57,7 @@ async function realSend({ to, subject, text }) {
 }
 
 // Try to send/advance a single step. Returns a structured outcome, never throws.
-async function processStep(seq, step, config, origin, sentTodayRef) {
+async function processStep(seq, step, config, origin, sentTodayRef, force) {
   const email = seq.email;
   // 1. sequence-level stop
   if (seq.status === 'stopped') return { status: 'stopped', reason: seq.stoppedReason || 'Sekvens stoppet.' };
@@ -78,8 +78,8 @@ async function processStep(seq, step, config, origin, sentTodayRef) {
     return { status: 'would-send', reason: g.reasons.join(' '), preview: compose(step, email, origin) };
   }
 
-  // 4. working hours
-  if (!isWithinWorkingHours(config)) {
+  // 4. working hours — skipped when Michael sends manually (force)
+  if (!force && !isWithinWorkingHours(config)) {
     return { status: 'outside-hours', reason: 'Utenfor norsk arbeidstid.' };
   }
 
@@ -140,7 +140,7 @@ export default async function handler(req, res) {
       if (!seq) return res.status(404).json({ error: 'Fant ikke sekvens' });
       const step = seq.steps.find((s) => s.id === b.stepId);
       if (!step) return res.status(404).json({ error: 'Fant ikke steg' });
-      const out = await processStep(seq, step, config, origin, sentTodayRef);
+      const out = await processStep(seq, step, config, origin, sentTodayRef, !!b.force);
       await saveSequence(seq);
       if (out.status === 'sent' && step.id === 'email1') await markContacted(seq.leadId);
       return res.json({ ok: out.status === 'sent', result: out, sentToday: sentTodayRef.count, dailyCap: config.dailyCap });
@@ -155,7 +155,7 @@ export default async function handler(req, res) {
         for (const step of seq.steps) {
           if (step.status !== 'planned') continue;
           if (step.sendAt == null || step.sendAt > now) continue;
-          const out = await processStep(seq, step, config, origin, sentTodayRef);
+          const out = await processStep(seq, step, config, origin, sentTodayRef, !!b.force);
           results.push({ leadId: seq.leadId, company: seq.company, step: step.id, ...out });
           if (out.status === 'sent' && step.id === 'email1') await markContacted(seq.leadId);
           if (out.status === 'cap-reached') break;
