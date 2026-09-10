@@ -130,6 +130,19 @@ export default async function handler(req, res) {
       return res.json({ ok: true });
     }
 
+    if (op === 'stop') {
+      // Halt an approved sequence without suppressing the address: the lead can
+      // still be contacted later, the queued follow-ups just never fire. run-due
+      // only processes sequences whose status is 'approved'.
+      const seq = await getSequence(b.leadId);
+      if (!seq) return res.status(404).json({ error: 'Fant ikke sekvens' });
+      seq.status = 'stopped';
+      seq.stoppedReason = 'Stoppet manuelt.';
+      seq.stoppedAt = Date.now();
+      await saveSequence(seq);
+      return res.json({ ok: true, sequence: seq });
+    }
+
     if (op === 'edit') {
       const seq = await getSequence(b.leadId);
       if (!seq) return res.status(404).json({ error: 'Fant ikke sekvens' });
