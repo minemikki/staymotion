@@ -123,7 +123,7 @@ ${shell.header}
 </section>
 
 <figure class="lp-shot">
-  <img src="/img/bransje/${v.foto.fil}" alt="${v.foto.alt}" width="1100" height="506" loading="lazy" decoding="async">
+  <div class="ramme"><img src="/img/bransje/${v.foto.fil}" alt="${v.foto.alt}" width="1100" height="506" loading="lazy" decoding="async"></div>
   <figcaption>${v.foto.tekst}</figcaption>
 </figure>
 

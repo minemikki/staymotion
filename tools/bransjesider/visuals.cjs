@@ -22,6 +22,11 @@ const dager = (ledige, valgt) => {
 
 const rad = (n, m) => `<div class="s-row"><em>${n}</em><span>${m}</span></div>`;
 
+// Innholdet som ruller. Topplinja, overskriften og bestill-knappen ligger
+// utenfor, akkurat som i en ekte app der de er festet. Da ser telefonen
+// levende ut uten at det viktigste i mockupen forsvinner ut av bildet.
+const rull = (innhold) => `<div class="s-scroll"><div class="s-scrollin">${innhold}</div></div>`;
+
 module.exports = {
 
   restaurant: {
@@ -29,13 +34,17 @@ module.exports = {
       <div class="s-top"><span>Brasserie Vik</span><i></i></div>
       <div class="s-head"><span class="s-kick">Pedersgata &middot; Stavanger</span><h5>Kveldene som blir lange.</h5></div>
       <div class="s-tabs"><b>Kveld</b><span>Lunsj</span><span>Vin</span></div>
-      <div class="s-list">
+      ${rull(`<div class="s-list">
         ${rad('Kamskjell', 'brunet sm&oslash;r, eple')}
         ${rad('R&aring;kokt asparges', 'urteolje, hasselr&oslash;tter')}
         ${rad('Kveite fra Karm&oslash;y', 'fennikel, sitron')}
         ${rad('Lam fra J&aelig;ren', 'sellerirot, timian')}
         ${rad('Br&oslash;d og smaksmeny', 'fire retter')}
-      </div>
+        ${rad('Sj&oslash;kreps', 'dill, r&oslash;mme')}
+        ${rad('Andebryst', 'kirseb&aelig;r, sellerirot')}
+        ${rad('Brunost-is', 'karamell, havsalt')}
+        ${rad('Ost fra Jæren', 'tre slag')}
+      </div>`)}
       <div class="s-bar"><span>Bestill bord</span></div>
     </div>`,
     chip: ['Bord for 2', 'fredag 19:30'],
@@ -50,13 +59,16 @@ module.exports = {
     skjerm: `<div class="scr t-craft">
       <div class="s-top"><span>Nordvik Bygg</span><i></i></div>
       <div class="s-head"><span class="s-kick">Stavanger &middot; Sandnes &middot; Sola</span><h5>Bad, tilbygg og tak.</h5></div>
-      <div class="s-ba"><span class="ba ba-a">F&oslash;r</span><span class="ba ba-b">Etter</span></div>
-      <div class="s-chips"><span>Bad</span><span>Tilbygg</span><span>Tak</span><span>Kj&oslash;kken</span></div>
+      ${rull(`<div class="s-ba"><span class="ba ba-a">F&oslash;r</span><span class="ba ba-b">Etter</span></div>
+      <div class="s-chips"><span>Bad</span><span>Tilbygg</span><span>Tak</span><span>Kj&oslash;kken</span><span>Terrasse</span><span>Vinduer</span></div>
       <div class="s-form">
         <div class="s-fld">Hva slags jobb?</div>
         <div class="s-fld">Adresse</div>
         <div class="s-fld s-fld-img">Legg ved bilder</div>
+        <div class="s-fld">N&aring;r passer det?</div>
+        <div class="s-fld">Telefon</div>
       </div>
+      <div class="s-chips" style="padding-top:14px"><span>Sentral godkjenning</span><span>Mesterbrev</span></div>`)}
       <div class="s-bar"><span>Be om tilbud</span></div>
     </div>`,
     chip: ['Ny foresp&oslash;rsel', 'bad &middot; Hundv&aring;g'],
@@ -71,13 +83,17 @@ module.exports = {
     skjerm: `<div class="scr t-clin">
       <div class="s-top"><span>Klinikk Sola</span><i></i></div>
       <div class="s-head"><span class="s-kick">Sola &middot; Stavanger</span><h5>Ledig time denne uka.</h5></div>
-      <div class="s-list">
+      ${rull(`<div class="s-list">
         ${rad('Ansiktsbehandling', '60 min')}
         ${rad('Hudanalyse', '30 min')}
         ${rad('Klipp og f&oslash;n', '45 min')}
         ${rad('Farge og str&aring;ler', '90 min')}
+        ${rad('Voksing', '30 min')}
+        ${rad('Bryn og vipper', '45 min')}
+        ${rad('Massasje', '60 min')}
       </div>
       <div class="s-slots"><span>Tor 09:00</span><span class="on">Tor 13:30</span><span>Fre 10:15</span></div>
+      <div class="s-slots" style="padding-top:8px"><span>Fre 14:00</span><span>Man 08:30</span><span>Man 16:00</span></div>`)}
       <div class="s-bar"><span>Book time</span></div>
     </div>`,
     chip: ['Time bekreftet', 'torsdag 13:30'],
@@ -92,11 +108,15 @@ module.exports = {
     skjerm: `<div class="scr t-stay">
       <div class="s-top"><span>Fjordbu</span><i></i></div>
       <div class="s-head"><span class="s-kick">Ryfylke</span><h5>Book direkte. Ingen mellomledd.</h5></div>
-      <div class="s-cal">
+      ${rull(`<div class="s-cal">
         <div class="s-cal-h"><b>Oktober</b><span>Ledig</span></div>
         <div class="s-days">${dager([1,2,3,7,8,9,10,11,14,15,16,17,18,19,20,23,24,25,26,29,30,31], [10,11,12])}</div>
       </div>
       <div class="s-sum"><b>3 netter</b><span>Direkte hos oss</span></div>
+      <div class="s-cal" style="padding-top:18px">
+        <div class="s-cal-h"><b>November</b><span>Ledig</span></div>
+        <div class="s-days">${dager([1,2,5,6,7,8,9,12,13,14,15,16,19,20,21,22,23,26,27,28,29,30], [])}</div>
+      </div>`)}
       <div class="s-bar"><span>Se ledige datoer</span></div>
     </div>`,
     chip: ['Booket direkte', '0 kr i provisjon'],
