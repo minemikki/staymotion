@@ -372,6 +372,7 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
   .js .rv{opacity:1;transform:none}
   .surface{transform:none!important}
 }
+.langsw{display:inline-flex;align-items:center;gap:2px;margin-left:16px;border:1px solid var(--line);border-radius:999px;padding:2px;background:#fff}.langsw button{appearance:none;background:none;border:0;border-radius:999px;padding:5px 10px;font:inherit;font-size:11.5px;font-weight:700;letter-spacing:.05em;color:var(--muted);cursor:pointer;line-height:1.5;transition:background-color .2s ease,color .2s ease}.langsw button:hover{color:var(--ink)}.langsw button.on{background:var(--ink);color:var(--pearl)}.langsw button:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px}@media(max-width:900px){.langsw{margin:12px 0 0;align-self:flex-start}}
 </style>
 </head>
 <body>
@@ -391,6 +392,7 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
       <a href="#priser">Priser</a>
       <a href="#studio">Om oss</a>
       <a class="navbtn" href="#kontakt">Kontakt</a>
+      <span class="langsw" role="group" aria-label="Språk / Language"><button type="button" data-lang-btn="no" aria-pressed="true" lang="nb">NO</button><button type="button" data-lang-btn="en" aria-pressed="false" lang="en">EN</button></span>
     </nav>
   </div>
 </header>
@@ -761,6 +763,7 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 
 <div class="stick" id="stick"><a class="primary" href="/start.html?type=konsept">Få et gratis førsteside-konsept <span class="arrow" aria-hidden="true">↗</span></a></div>
 
+<script src="/js/i18n.js"></script>
 <script>
 (function(){
   'use strict';
@@ -782,8 +785,8 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
   }
 
   var menu=$('.menu-toggle'), nav=$('#navigation');
-  function closeMenu(){ menu.setAttribute('aria-expanded','false'); menu.setAttribute('aria-label','Åpne meny'); menu.textContent='☰'; nav.classList.remove('open'); }
-  menu.addEventListener('click', function(){ var open=menu.getAttribute('aria-expanded')!=='true'; menu.setAttribute('aria-expanded',String(open)); menu.setAttribute('aria-label',open?'Lukk meny':'Åpne meny'); menu.textContent=open?'✕':'☰'; nav.classList.toggle('open',open); });
+  function closeMenu(){ menu.setAttribute('aria-expanded','false'); menu.setAttribute('aria-label',SMLang.t('Åpne meny')); menu.textContent='☰'; nav.classList.remove('open'); }
+  menu.addEventListener('click', function(){ var open=menu.getAttribute('aria-expanded')!=='true'; menu.setAttribute('aria-expanded',String(open)); menu.setAttribute('aria-label',SMLang.t(open?'Lukk meny':'Åpne meny')); menu.textContent=open?'✕':'☰'; nav.classList.toggle('open',open); });
   $$('a',nav).forEach(function(a){ a.addEventListener('click', closeMenu); });
   d.addEventListener('keydown', function(e){ if(e.key==='Escape' && menu.getAttribute('aria-expanded')==='true'){ closeMenu(); menu.focus(); } });
 
@@ -825,19 +828,24 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 
   (function(){
     var rV=$('#rV'), rC=$('#rC'), rK=$('#rK'); if(!rV||!rC||!rK) return;
-    function nf(n){ return Math.round(n).toLocaleString('nb-NO'); }
+    function loc(){ return (window.SM_LANG==='en') ? 'en-GB' : 'nb-NO'; }
+    function nf(n){ return Math.round(n).toLocaleString(loc()); }
+    function kr(n){ return window.SM_LANG==='en' ? 'NOK '+nf(n) : nf(n)+' kr'; }
     function setp(el){ var mn=+el.min, mx=+el.max, v=+el.value; el.style.setProperty('--p', ((v-mn)/(mx-mn)*100)+'%'); }
     function calc(){
       var v=+rV.value, c=+rC.value, k=+rK.value;
       $('#oV').textContent=nf(v);
-      $('#oC').textContent=c.toLocaleString('nb-NO',{minimumFractionDigits:1,maximumFractionDigits:1})+' %';
-      $('#oK').textContent=nf(k)+' kr';
+      $('#oC').textContent=c.toLocaleString(loc(),{minimumFractionDigits:1,maximumFractionDigits:1})+' %';
+      $('#oK').textContent=kr(k);
       var extra=v*0.01;
-      $('#oRes').textContent='+ '+(extra>=1?nf(extra):extra.toFixed(1))+' kunder / mnd';
-      $('#oVal').textContent='≈ '+nf(extra*k)+' kr ekstra omsetning per måned';
+      $('#oRes').textContent='+ '+(extra>=1?nf(extra):extra.toFixed(1))+' '+SMLang.t('kunder / mnd');
+      $('#oVal').textContent=window.SM_LANG==='en'
+        ? '≈ '+kr(extra*k)+' '+SMLang.t('kr ekstra omsetning per måned')
+        : '≈ '+nf(extra*k)+' '+SMLang.t('kr ekstra omsetning per måned');
       [rV,rC,rK].forEach(setp);
     }
     [rV,rC,rK].forEach(function(r){ r.addEventListener('input', calc); });
+    document.addEventListener('sm:lang', calc);
     calc();
   })();
 })();
