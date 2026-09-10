@@ -608,12 +608,28 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 /* fargetemaer — samme palett som bransjekortene på forsiden */
 .t-rest{background:linear-gradient(178deg,#1d1512 0%,#120e0c 62%);color:#f4ebe0;--sc:256px}
 .t-rest .s-bar span{background:#e8c9a0;color:#1a1412}
-.t-craft{background:linear-gradient(178deg,#f4f3ee,#e4e3dc);color:#16171a;--sc:138px}
+.t-craft{background:linear-gradient(168deg,#f6f4ee 0%,#eae7dc 55%,#dcd8c9 100%);color:#16171a;--sc:138px}
 .t-craft .s-bar span{background:var(--cobalt);color:#fff}
 .t-craft .s-chips .on{background:var(--cobalt);color:#fff}
-.t-clin{background:linear-gradient(178deg,#f0f6f4,#dde8e6);color:#0f2a2a;--sc:177px}
+/* Skjemafeltene lå som en gråaktig tint av teksten selv — flatt, uten egen
+   farge. Nå er de hvite kort med kant og skygge, slik et ekte skjema ser ut,
+   og prikken foran hvert felt får bygg-fargen som aksent. */
+.t-craft .s-fld{background:#fff;border-color:rgba(22,23,26,.10);opacity:1;box-shadow:0 2px 5px -3px rgba(22,23,26,.10)}
+.t-craft .s-fld::before{background:var(--cobalt)}
+.t-craft .s-fld-img::before{border-color:var(--cobalt);opacity:1}
+.t-craft .s-chips span{background:#fff}
+
+/* Sagegrønt mot en lys bunn druknet i seg selv — radene ble en gråaktig tåke
+   uten egen farge, akkurat det som ble påpekt. Kortene er nå hvite med tydelig
+   kant og skygge, og ikonchipen får en dyp smaragdgradient som faktisk
+   fremhever seg — én bevisst fargeflekk per rad, ikke gjennomsiktig gjetning. */
+.t-clin{background:linear-gradient(168deg,#f7f3ea 0%,#e6efe9 55%,#cfe1da 100%);color:#0f2a2a;--sc:177px}
 .t-clin .s-bar span{background:#0f2a2a;color:#fff}
-.t-clin .s-slots .on{background:#0f2a2a;color:#fff}
+.t-clin .s-row{background:#fff;box-shadow:0 3px 10px -6px rgba(15,42,42,.22)}
+.t-clin .s-ic{background:linear-gradient(150deg,#2f6f63,#123531);color:#eafaf3}
+.t-clin .s-rt span{opacity:.62}
+.t-clin .s-slots span{background:#fff;box-shadow:0 2px 6px -4px rgba(15,42,42,.18)}
+.t-clin .s-slots .on{background:#0f2a2a;color:#fff;box-shadow:0 8px 16px -10px rgba(15,42,42,.5)}
 .t-stay{background:linear-gradient(178deg,#101c31,#0a1120);color:#e9eefb;--sc:187px}
 .t-stay .s-bar span{background:#fff;color:#0f1a2e}
 
