@@ -10,7 +10,7 @@ import { saveOrder, deadlineFor, newRef } from '../lib/orders.js';
 export default async function handler(req, res) {
   try {
     const src = req.method === 'POST' ? (req.body || {}) : (req.query || {});
-    const p = resolvePackage(src.pkg, src.express, src.both);
+    const p = resolvePackage(src.pkg, src.express, src.both, src.rest);
     if (!p) return res.status(400).json({ error: 'Ukjent pakke' });
     const fmt = p.both ? '9:16 + 16:9' : (src.fmt || '9:16');
 
