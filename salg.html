@@ -334,6 +334,10 @@
     </div>
     <div class="panel">
       <div class="ph"><h2>Reservasjonsliste</h2><span class="small muted" id="supp-count"></span></div>
+      <div class="row" style="margin-bottom:12px">
+        <input id="supp-add" type="email" placeholder="navn@firma.no" style="flex:1;min-width:180px">
+        <button class="btn sm" id="supp-addbtn">Marker avmeldt</button>
+      </div>
       <div id="supp-list" class="small muted"></div>
     </div>
     <div class="panel">
@@ -612,7 +616,8 @@ function leadCard(l){
       '<button class="btn sm" data-act="msg" data-id="'+l.id+'">Meldinger</button>'+
       (l.email&&!supp?'<button class="btn sm primary" data-act="queue" data-id="'+l.id+'">Til godkjenningskø</button>':'')+
       (supp?'<span class="tag r" style="align-self:center">Avmeldt — ikke kontakt</span>'+
-        '<button class="btn sm ghost" data-act="resub" data-id="'+l.id+'" title="Fjern fra reservasjonslisten så du kan kontakte igjen">Meld på igjen</button>':'')+
+        '<button class="btn sm ghost" data-act="resub" data-id="'+l.id+'" title="Fjern fra reservasjonslisten så du kan kontakte igjen">Meld på igjen</button>'
+        :(l.email?'<button class="btn sm ghost" data-act="unsub" data-id="'+l.id+'" title="Legg adressen på reservasjonslisten så det ikke sendes mer">Marker avmeldt</button>':''))+
       '<div class="spacer"></div>'+
       '<button class="btn sm ghost" data-act="reply" data-id="'+l.id+'">Svar mottatt</button>'+
       '<button class="btn sm ghost danger" data-act="del" data-id="'+l.id+'">Slett</button>'+
@@ -636,6 +641,9 @@ function leadAction(act,id){var l=leadById(id);
   if(act==='resub'){if(!l||!l.email)return;
     if(!confirm('Fjerne '+l.email+' fra reservasjonslisten? Da kan du kontakte adressen igjen. Gjør dette kun hvis kunden selv har bedt om det.'))return;
     post('sales-suppression',{op:'remove',email:l.email}).then(function(){toast('Meldt på igjen');loadSupp();}).catch(function(e){alert(e.message);});return;}
+  if(act==='unsub'){if(!l||!l.email)return;
+    if(!confirm('Markere '+l.email+' som avmeldt? Da stopper all utsending til adressen, og den kan ikke legges i køen.'))return;
+    post('sales-suppression',{op:'add',email:l.email,reason:'manual'}).then(function(){toast('Markert avmeldt');loadSupp();}).catch(function(e){alert(e.message);});return;}
 }
 
 /* ---------- lead modal ---------- */
@@ -855,7 +863,13 @@ function loadLog(){api('sales-log').catch(function(){return {entries:[]};}).then
   $('send-log').innerHTML=es.length?es.map(function(e){var t=new Date(e.at).toLocaleString('nb-NO');return '<div class="logline"><span class="kd '+esc(e.kind)+'">'+esc(e.kind)+'</span> '+t+' — '+esc(e.email||'')+' '+esc(e.step||'')+' '+(e.dryRun?'<span class="tag">dry</span>':'')+(e.reason?' '+esc(e.reason):'')+(e.error?' '+esc(e.error):'')+'</div>';}).join(''):'<div class="empty small">Ingen logg ennå.</div>';});}
 function loadSupp(){api('sales-suppression').catch(function(){return {list:{}};}).then(function(d){SUPP=d.list||{};if(LEADS&&LEADS.length)renderLeads();if(VIEW==='ko'&&SEQS&&SEQS.length)renderQueue();var keys=Object.keys(SUPP);$('supp-count').textContent=keys.length+' adresser';
   $('supp-list').innerHTML=keys.length?keys.map(function(k){return '<div class="switchrow" style="padding:6px 0"><span>'+esc(k)+' <span class="tag">'+esc(SUPP[k].reason)+'</span></span><button class="btn sm ghost" onclick="unsupp(\''+esc(k)+'\')">Fjern</button></div>';}).join(''):'<div class="small muted">Tom. Avmeldinger, bounce og klager havner her og stopper utsending automatisk.</div>';});}
-function unsupp(email){post('sales-suppression',{op:'remove',email:email}).then(function(){toast('Fjernet');loadSupp();});}
+function unsupp(email){post('sales-suppression',{op:'remove',email:email}).then(function(){toast('Meldt på igjen');loadSupp();});}
+$('supp-addbtn').onclick=function(){
+  var e=$('supp-add').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){alert('Skriv inn en gyldig e-postadresse.');return;}
+  post('sales-suppression',{op:'add',email:e,reason:'manual'})
+    .then(function(){toast('Markert avmeldt');$('supp-add').value='';loadSupp();})
+    .catch(function(err){alert(err.message);});};
 
 /* ---------- leveranse ----------
    Reads/writes /api/admin-delivery, which stores the checklist inside the
