@@ -636,7 +636,9 @@ function loadQueue(){$('ko-list').innerHTML='<div class="empty small">Laster…<
 function renderQueue(){if(!SEQS.length){$('ko-list').innerHTML='<div class="empty"><div class="big">✅</div>Køen er tom. Legg leads i kø fra Leads-fanen.</div>';return;}
   $('ko-list').innerHTML=SEQS.map(function(s){
     var elig=s.autosendEligible?'<span class="tag g">autosend</span>':'<span class="tag a">manuell</span>';
-    var stTag=s.status==='pending'?'<span class="tag a">venter godkjenning</span>':(s.status==='approved'?'<span class="tag g">godkjent</span>':'<span class="tag r">stoppet</span>');
+    var supp=s.email&&SUPP&&SUPP[s.email.toLowerCase()];
+    var unsub=supp||/avmeld/i.test(s.stoppedReason||'');
+    var stTag=s.status==='pending'?'<span class="tag a">venter godkjenning</span>':(s.status==='approved'?'<span class="tag g">godkjent</span>':(unsub?'<span class="tag r">⛔ Avmeldt</span>':'<span class="tag r">stoppet</span>'));
     var open=QOPEN[s.leadId];
     var head='<div class="qhead" data-toggle="'+esc(s.leadId)+'">'+
       '<div class="qmain"><span class="qco">'+esc(s.company||s.leadId)+'</span> '+stTag+' '+elig+
@@ -645,6 +647,7 @@ function renderQueue(){if(!SEQS.length){$('ko-list').innerHTML='<div class="empt
       (s.status!=='stopped'?'<button class="btn sm ghost danger" data-q="reject" data-id="'+esc(s.leadId)+'">Fjern</button>':'')+
       '<span class="qchev">▾</span></div>';
     var body='<div class="qbody" id="qb-'+esc(s.leadId)+'"'+(open?'':' hidden')+'>'+
+      (unsub?'<div class="banner warn small">⛔ Mottakeren er <b>avmeldt</b> — vi sender ikke flere e-poster til denne adressen.</div>':'')+
       '<div class="banner '+(s.autosendEligible?'ok':'warn')+' small">'+esc(s.decisionReason||'')+(s.suggestion?' <b>'+esc(s.suggestion)+'</b>':'')+'</div>'+
       s.steps.map(function(st){return stepCard(s,st);}).join('')+
       (s.status==='approved'?'<div class="row" style="margin-top:6px"><button class="btn ghost" data-q="stop" data-id="'+esc(s.leadId)+'">Stopp sekvens</button></div>':'')+
@@ -723,7 +726,7 @@ $('send-run').onclick=function(){this.disabled=true;var b=this;post('sales-send'
 }).catch(function(e){alert(e.message);b.disabled=false;});};
 function loadLog(){api('sales-log').catch(function(){return {entries:[]};}).then(function(d){var es=(d.entries||[]).slice(0,60);
   $('send-log').innerHTML=es.length?es.map(function(e){var t=new Date(e.at).toLocaleString('nb-NO');return '<div class="logline"><span class="kd '+esc(e.kind)+'">'+esc(e.kind)+'</span> '+t+' — '+esc(e.email||'')+' '+esc(e.step||'')+' '+(e.dryRun?'<span class="tag">dry</span>':'')+(e.reason?' '+esc(e.reason):'')+(e.error?' '+esc(e.error):'')+'</div>';}).join(''):'<div class="empty small">Ingen logg ennå.</div>';});}
-function loadSupp(){api('sales-suppression').catch(function(){return {list:{}};}).then(function(d){SUPP=d.list||{};if(LEADS&&LEADS.length)renderLeads();var keys=Object.keys(SUPP);$('supp-count').textContent=keys.length+' adresser';
+function loadSupp(){api('sales-suppression').catch(function(){return {list:{}};}).then(function(d){SUPP=d.list||{};if(LEADS&&LEADS.length)renderLeads();if(VIEW==='ko'&&SEQS&&SEQS.length)renderQueue();var keys=Object.keys(SUPP);$('supp-count').textContent=keys.length+' adresser';
   $('supp-list').innerHTML=keys.length?keys.map(function(k){return '<div class="switchrow" style="padding:6px 0"><span>'+esc(k)+' <span class="tag">'+esc(SUPP[k].reason)+'</span></span><button class="btn sm ghost" onclick="unsupp(\''+esc(k)+'\')">Fjern</button></div>';}).join(''):'<div class="small muted">Tom. Avmeldinger, bounce og klager havner her og stopper utsending automatisk.</div>';});}
 function unsupp(email){post('sales-suppression',{op:'remove',email:email}).then(function(){toast('Fjernet');loadSupp();});}
 
