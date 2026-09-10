@@ -49,7 +49,7 @@ async function buildSequence(lead, config, opts) {
   const pl = priceLines(offer, config.vatMode);
   const ctx = {
     company: lead.company || '', contact: lead.contact || lead.contactName || '',
-    observation: opts.observation || lead.topOpportunity || '',
+    observation: opts.observation || lead.observation || lead.topOpportunity || '',
     // The business-specific consequence, and a concept already built for them.
     // Both are optional; the templates drop the lines when they're empty.
     angle: opts.angle || lead.angle || '',

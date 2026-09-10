@@ -671,6 +671,15 @@ function editLead(l){var isNew=!l.id;
     inp('Nettsidekvalitet','m-websiteQuality',f('websiteQuality'))+inp('Mobilproblem','m-mobileIssue',f('mobileIssue'))+
     '</div>'+
     lbl('Tydeligste forbedring')+'<input id="m-topOpportunity" value="'+f('topOpportunity')+'">'+
+    /* These two feed the outreach templates directly. Observation opens the
+       mail, angle names the consequence, conceptUrl turns the first mail from
+       an offer into a gift that already exists. */
+    lbl('Observasjon — åpner e-posten (det du faktisk la merke til)')+
+      '<input id="m-observation" placeholder="Jeg kom over dere på nett — småretter i Pedersgata, det ser skikkelig bra ut" value="'+f('observation')+'">'+
+    lbl('Konsekvens — hva det koster dem (én setning)')+
+      '<input id="m-angle" placeholder="Men nettsiden viser ingenting av det. Forsiden er tom, og menyen ligger bak en lenke." value="'+f('angle')+'">'+
+    lbl('Konseptlenke — har du bygget et utkast, lim inn her')+
+      '<input id="m-conceptUrl" placeholder="https://claude.ai/code/artifact/…" value="'+f('conceptUrl')+'">'+
     '<div class="grid g2" style="margin-top:10px">'+
     inp('Stadie-select','m-stage','',stageSelect(l.stage))+inp('Tilbud','m-offer','',offerSelect(l.offer))+
     inp('Avtalt pris (kr)','m-agreedPriceKr',f('agreedPriceKr'))+inp('Betalt oppstart (kr)','m-startPaidKr',f('startPaidKr'))+
@@ -681,7 +690,7 @@ function editLead(l){var isNew=!l.id;
   $('m-cancel').onclick=closeModal;
   $('m-save').onclick=function(){
     var lead=Object.assign({},l);
-    ['company','location','website','email','phone','contact','src','priorityScore','estValue','websiteQuality','mobileIssue','topOpportunity','agreedPriceKr','startPaidKr','nextAction','nextActionDate','notes','segment','stage','offer'].forEach(function(k){
+    ['company','location','website','email','phone','contact','src','priorityScore','estValue','websiteQuality','mobileIssue','topOpportunity','observation','angle','conceptUrl','agreedPriceKr','startPaidKr','nextAction','nextActionDate','notes','segment','stage','offer'].forEach(function(k){
       var el=$('m-'+k);if(el)lead[k]=el.value;});
     ['priorityScore','estValue','agreedPriceKr','startPaidKr'].forEach(function(k){lead[k]=Number(lead[k])||0;});
     if(lead.email)lead.email=lead.email.trim().toLowerCase();
@@ -727,9 +736,33 @@ function showMessages(l){modal('<h2>Meldinger — '+esc(l.company)+'</h2><div cl
 function copyText(btn){var t=btn.getAttribute('data-t');if(navigator.clipboard)navigator.clipboard.writeText(t);toast('Kopiert');}
 
 /* ---------- create sequence -> queue ---------- */
-function createSequence(l){var obs=prompt('Konkret observasjon for første e-post (valgfritt):', l.topOpportunity||'');
-  var offer=prompt('Tilbud for denne (sprint = Momentum / landing = Første trekk / tom):', l.offer||'sprint')||'';
-  post('sales-queue',{op:'create',leadId:l.id,observation:obs||undefined,offer:offer||undefined}).then(function(){toast('Lagt i godkjenningskø');loadQueueCount();showView('ko');}).catch(function(e){alert(e.message);});}
+/* Everything the first mail is built from, in one place, pre-filled from the
+   lead. What you type here is saved back onto the lead, so the next sequence
+   for the same company starts where you left off. */
+function createSequence(l){
+  var f=function(k){return esc(l[k]||'');};
+  modal('<h2>Legg '+esc(l.company||'lead')+' i køen</h2>'+
+    '<p class="small muted" style="margin-top:-4px">Dette former første e-post. Tomme felter droppes fra teksten.</p>'+
+    lbl('Observasjon — det du faktisk la merke til')+
+      '<input id="q-obs" placeholder="Jeg kom over dere på nett — småretter i Pedersgata, det ser skikkelig bra ut" value="'+(f('observation')||f('topOpportunity'))+'">'+
+    lbl('Konsekvens — hva det koster dem')+
+      '<input id="q-angle" placeholder="Men nettsiden viser ingenting av det. Forsiden er tom, og menyen ligger bak en lenke." value="'+f('angle')+'">'+
+    lbl('Konseptlenke — har du bygget et utkast, blir e-posten mye sterkere')+
+      '<input id="q-url" placeholder="https://claude.ai/code/artifact/…" value="'+f('conceptUrl')+'">'+
+    lbl('Tilbud')+offerSelect(l.offer||'sprint').replace('__ID__','q-offer2')+
+    '<div class="row" style="margin-top:14px"><button class="btn primary" id="q-go">Legg i kø</button>'+
+    '<button class="btn ghost" id="q-cancel">Avbryt</button></div>');
+  $('q-cancel').onclick=closeModal;
+  $('q-go').onclick=function(){
+    var obs=$('q-obs').value.trim(), ang=$('q-angle').value.trim(), url=$('q-url').value.trim(), off=$('q-offer2').value;
+    // Remember them on the lead so they survive to the next sequence.
+    var lead=Object.assign({},l,{observation:obs,angle:ang,conceptUrl:url,offer:off});
+    post('admin-leads',{lead:lead}).catch(function(){});
+    post('sales-queue',{op:'create',leadId:l.id,observation:obs||undefined,angle:ang||undefined,conceptUrl:url||undefined,offer:off||undefined})
+      .then(function(){toast('Lagt i godkjenningskø');closeModal();loadLeads();loadQueueCount();showView('ko');})
+      .catch(function(e){alert(e.message);});
+  };
+}
 
 /* ---------- CSV import ---------- */
 $('lead-import').onclick=function(){
