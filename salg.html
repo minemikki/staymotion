@@ -374,7 +374,7 @@ function showView(v){VIEW=v;
 }
 
 /* ---------- load ---------- */
-function loadAll(){loadMetrics();loadLeads();loadQueueCount();loadOrders();}
+function loadAll(){loadMetrics();loadLeads();loadQueueCount();loadOrders();loadSupp();}
 function loadMetrics(){api('sales-metrics').then(function(d){METRICS=d;renderMetrics();}).catch(function(e){renderMetricsFallback(e&&e.message);});}
 function metGoal(){var c=CONFIG||{};var goalKr=Number(c.goalKr)||16000;var deadline=c.deadline||'2026-09-25';
   var dl=new Date(deadline+'T23:59:59+02:00');var daysLeft=Math.max(0,Math.ceil((dl-new Date())/86400000));
@@ -456,9 +456,11 @@ function webHref(u){u=String(u||'').trim();if(!u)return '';return /^https?:\/\//
 function leadCard(l){
   var score=Number(l.priorityScore||l.leadScore)||0;
   var addr=l.email?classifyLabel(l.email):'';
-  return '<div class="lead st-'+esc(l.stage||'ny')+(l.demo?' demo':'')+'">'+
+  var supp=l.email&&SUPP&&SUPP[l.email.toLowerCase()];
+  return '<div class="lead st-'+esc(l.stage||'ny')+(l.demo?' demo':'')+'"'+(supp?' style="opacity:.7"':'')+'>'+
     '<div class="lh"><div><span class="co">'+esc(l.company||'Uten navn')+'</span>'+
       (l.demo?'<span class="tag demo">DEMO</span>':'')+
+      (supp?'<span class="tag r">⛔ Avmeldt</span>':'')+
       '<span class="tag">'+esc(STAGE_LABELS[l.stage]||l.stage||'Ny')+'</span>'+
       '<div class="sub">'+esc(l.segment||'')+(l.location?' · '+esc(l.location):'')+(l.website?' · <a href="'+esc(webHref(l.website))+'" target="_blank" rel="noopener">'+esc(l.website)+' ↗</a>':'')+'</div></div>'+
       '<div style="text-align:right"><div class="score">'+score+'</div><div class="sub">prioritet</div></div></div>'+
@@ -475,7 +477,8 @@ function leadCard(l){
       '<button class="btn sm" data-act="edit" data-id="'+l.id+'">Rediger</button>'+
       (l.website?'<button class="btn sm" data-act="audit" data-id="'+l.id+'">Analyser side</button>':'')+
       '<button class="btn sm" data-act="msg" data-id="'+l.id+'">Meldinger</button>'+
-      (l.email?'<button class="btn sm primary" data-act="queue" data-id="'+l.id+'">Til godkjenningskø</button>':'')+
+      (l.email&&!supp?'<button class="btn sm primary" data-act="queue" data-id="'+l.id+'">Til godkjenningskø</button>':'')+
+      (supp?'<span class="tag r" style="align-self:center">Avmeldt — ikke kontakt</span>':'')+
       '<div class="spacer"></div>'+
       '<button class="btn sm ghost" data-act="reply" data-id="'+l.id+'">Svar mottatt</button>'+
       '<button class="btn sm ghost danger" data-act="del" data-id="'+l.id+'">Slett</button>'+
@@ -701,7 +704,7 @@ $('send-run').onclick=function(){this.disabled=true;var b=this;post('sales-send'
 }).catch(function(e){alert(e.message);b.disabled=false;});};
 function loadLog(){api('sales-log').catch(function(){return {entries:[]};}).then(function(d){var es=(d.entries||[]).slice(0,60);
   $('send-log').innerHTML=es.length?es.map(function(e){var t=new Date(e.at).toLocaleString('nb-NO');return '<div class="logline"><span class="kd '+esc(e.kind)+'">'+esc(e.kind)+'</span> '+t+' — '+esc(e.email||'')+' '+esc(e.step||'')+' '+(e.dryRun?'<span class="tag">dry</span>':'')+(e.reason?' '+esc(e.reason):'')+(e.error?' '+esc(e.error):'')+'</div>';}).join(''):'<div class="empty small">Ingen logg ennå.</div>';});}
-function loadSupp(){api('sales-suppression').catch(function(){return {list:{}};}).then(function(d){SUPP=d.list||{};var keys=Object.keys(SUPP);$('supp-count').textContent=keys.length+' adresser';
+function loadSupp(){api('sales-suppression').catch(function(){return {list:{}};}).then(function(d){SUPP=d.list||{};if(LEADS&&LEADS.length)renderLeads();var keys=Object.keys(SUPP);$('supp-count').textContent=keys.length+' adresser';
   $('supp-list').innerHTML=keys.length?keys.map(function(k){return '<div class="switchrow" style="padding:6px 0"><span>'+esc(k)+' <span class="tag">'+esc(SUPP[k].reason)+'</span></span><button class="btn sm ghost" onclick="unsupp(\''+esc(k)+'\')">Fjern</button></div>';}).join(''):'<div class="small muted">Tom. Avmeldinger, bounce og klager havner her og stopper utsending automatisk.</div>';});}
 function unsupp(email){post('sales-suppression',{op:'remove',email:email}).then(function(){toast('Fjernet');loadSupp();});}
 
