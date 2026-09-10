@@ -119,7 +119,7 @@ ${header}
       <h1 class="h-xl" style="margin-top:18px"><span>${esc(s.h1[0])}</span><br><span class="accent">${esc(s.h1[1])}</span></h1>
       <p class="lead">${esc(s.ingress)}</p>
       <div class="hero-cta">
-        <a class="primary" href="/start.html?type=redesign&amp;bransje=${s.bransje}">F&aring; et gratis f&oslash;rsteside-konsept <span class="arrow" aria-hidden="true">&#8599;&#65038;</span></a>
+        <a class="primary" href="/start.html?type=redesign&amp;bransje=${s.bransje}">F&aring; et gratis konsept <span class="arrow" aria-hidden="true">&#8599;&#65038;</span></a>
         <a class="text-link" href="/#priser">Se priser <span class="arrow" aria-hidden="true">&#8595;&#65038;</span></a>
       </div>
     </div>
@@ -163,7 +163,7 @@ ${header}
     </div>
     <div>
       <p style="margin-bottom:22px">Send nettsiden deres, eller bare navnet p&aring; bedriften. Du f&aring;r et konkret forslag &mdash; gratis og uforpliktende.</p>
-      <a class="primary" href="/start.html?type=konsept&amp;bransje=${s.bransje}">F&aring; et gratis f&oslash;rsteside-konsept <span class="arrow" aria-hidden="true">&#8599;&#65038;</span></a>
+      <a class="primary" href="/start.html?type=konsept&amp;bransje=${s.bransje}">F&aring; et gratis konsept <span class="arrow" aria-hidden="true">&#8599;&#65038;</span></a>
     </div>
   </div>
 </section>

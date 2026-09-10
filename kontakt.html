@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Kontakt · StayMotion</title>
+<meta name="description" content="Skriv en kort melding, så svarer vi deg direkte på e-post — som regel innen én virkedag.">
+<meta name="theme-color" content="#f5f5f2">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pearl:#f5f5f2;--pearl2:#ecece8;--ink:#151619;--ink2:#2c2e33;--muted:#61636b;--faint:#8c8f97;
+  --cobalt:#1248ff;--cobalt2:#0038ec;--cobalt-deep:#1034b1;--cobalt-tint:#eef1ff;--silver:#c3c6cc;
+  --line:#d7d8d9;--line2:#c9cbc6;
+  --f:"Inter Tight",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;--ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(900px 520px at 82% -12%,#1248ff14,transparent 60%),var(--pearl);color:var(--ink);font-family:var(--f);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100svh}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::selection{background:var(--cobalt);color:#fff}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px;border-radius:3px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:20px clamp(18px,4vw,40px);border-bottom:1px solid transparent}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .mark{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(160deg,#1b1d22,#0c0d10);box-shadow:0 8px 18px -8px rgba(10,20,60,.5),inset 0 1px 0 #ffffff1f;flex:none}
+.brand .mark img{width:24px;height:auto;display:block}
+.brand b{font-size:12px;letter-spacing:.22em;font-weight:700;color:var(--ink)}
+.close{color:var(--muted);font-size:13.5px;display:inline-flex;gap:8px;align-items:center}
+.close:hover{color:var(--ink)}
+.wrap{width:min(560px,calc(100% - 36px));margin:0 auto;padding:clamp(20px,5vw,56px) 0 120px}
+.stepn{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--cobalt);font-weight:600;margin-bottom:14px}
+h1{font-weight:600;letter-spacing:-.04em;line-height:1.04;font-size:clamp(1.9rem,5vw,2.6rem);margin-bottom:10px}
+.hint{color:var(--muted);font-size:15px;margin-bottom:30px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
+.field input,.field textarea{width:100%;background:#fff;border:1px solid var(--line);border-radius:12px;color:var(--ink);padding:15px 16px;font-family:inherit;font-size:16px;transition:border-color .2s,box-shadow .2s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--cobalt);box-shadow:0 0 0 3px var(--cobalt-tint)}
+.field textarea{min-height:140px;resize:vertical}
+.nav{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border-radius:12px;font-weight:500;font-size:15px;border:1px solid transparent;transition:transform .25s var(--ease),box-shadow .25s,background .2s,border-color .2s;font-family:inherit;cursor:pointer;width:100%}
+.btn.c{background:linear-gradient(165deg,#2164ff,#0038ec 78%);color:#fff;border-color:#2a63ff;box-shadow:inset 0 1px 0 #ffffff40,0 6px 14px #1646d51f}
+.btn.c:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 #ffffff55,0 14px 30px -12px #1646d566}
+.btn.g{background:#fff;color:var(--ink2);border-color:var(--line2);width:auto}
+.btn.g:hover{border-color:var(--ink);color:var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.err{color:#c0392b;font-size:13.5px;min-height:20px;margin-top:10px}
+.done{text-align:center;padding:40px 0}
+.done .ok{width:64px;height:64px;border-radius:50%;background:var(--cobalt-tint);border:1px solid #c3d0ff;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--cobalt);margin:0 auto 22px}
+.done p{color:var(--ink2);max-width:46ch;margin:12px auto 0;font-size:16px}
+.fine{color:var(--faint);font-size:12.5px;margin-top:22px;text-align:center}
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="brand" href="/"><span class="mark"><img src="img/logo-mono.png" alt="" width="24" height="19"></span><b>STAYMOTION</b></a>
+  <a class="close" href="/">Lukk ✕</a>
+</div>
+
+<div class="wrap">
+  <form id="f" novalidate>
+    <div class="stepn">Kontakt</div>
+    <h1>Send oss en melding.</h1>
+    <p class="hint">Skriv kort hva det gjelder, så svarer vi deg direkte på e-post — som regel innen én virkedag.</p>
+
+    <input type="text" name="website_hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+
+    <div class="field"><label for="name">Navn (valgfritt)</label><input id="name" name="name" type="text" autocomplete="name" placeholder="Ola Nordmann"></div>
+    <div class="field"><label for="email">E-post</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="deg@bedrift.no"></div>
+    <div class="field"><label for="message">Melding</label><textarea id="message" name="message" required placeholder="Hva kan vi hjelpe deg med?"></textarea></div>
+
+    <div class="nav">
+      <button type="submit" class="btn c" id="send">Send melding →</button>
+    </div>
+    <p class="err" id="err"></p>
+  </form>
+
+  <div class="done" id="done" hidden>
+    <div class="ok">✓</div>
+    <h1>Takk — meldingen er sendt.</h1>
+    <p>Den har gått rett til innboksen vår. Vi svarer deg på e-post, som regel innen én virkedag.</p>
+    <p style="margin-top:26px"><a class="btn g" href="/">Til forsiden</a></p>
+  </div>
+  <p class="fine">Ingen binding. Vi deler aldri informasjonen din. <a href="/personvern.html" style="color:var(--muted);text-decoration:underline">Personvern</a></p>
+</div>
+
+<script>
+(function(){
+  function $(s){ return document.querySelector(s); }
+  $('#f').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var email = $('#email').value.trim();
+    var message = $('#message').value.trim();
+    var errEl = $('#err');
+    errEl.textContent = '';
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ errEl.textContent = 'Skriv inn en gyldig e-postadresse.'; return; }
+    if(!message){ errEl.textContent = 'Skriv en kort melding.'; return; }
+    var btn = $('#send');
+    btn.disabled = true; btn.textContent = 'Sender …';
+    var payload = { name: $('#name').value.trim(), email: email, message: message, hp: document.querySelector('[name=website_hp]').value };
+    try{
+      var r = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      if(!r.ok){ var j = await r.json().catch(function(){ return {}; }); throw new Error(j.error || 'Noe gikk galt'); }
+      $('#f').hidden = true; $('#done').hidden = false; window.scrollTo({top:0,behavior:'smooth'});
+    }catch(err){
+      errEl.textContent = 'Kunne ikke sende: ' + err.message + ' — prøv igjen, eller send e-post til michael@staymotion.no';
+      btn.disabled = false; btn.textContent = 'Send melding →';
+    }
+  });
+})();
+</script>
+</body>
+</html>
