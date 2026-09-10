@@ -368,7 +368,7 @@
 
   <!-- BESTILLINGER -->
   <section id="v-ordre" class="hide">
-    <div class="banner info">Betalte og ubetalte bestillinger fra nettsiden. Bekreft betaling når Stripe har trukket, og oppdater status mens du jobber.</div>
+    <div class="banner info">Faktiske bestillinger fra nettsiden. Bekreft betaling når Stripe har trukket, og oppdater status mens du jobber. Gratis konsept og henvendelser ligger under <b>Leads</b>.</div>
     <div id="ordre-list"><div class="empty small">Laster…</div></div>
   </section>
 
@@ -490,9 +490,35 @@ var OSTATUS=['ubehandlet','oppstart','design','levering','fullført'];
 function loadOrders(){api('admin-orders').then(function(d){ORDERS=(d.orders||[]).filter(function(o){return !o.demo;});
   var pending=ORDERS.filter(function(o){return o.paid && o.status!=='fullført';}).length;
   $('c-ordre').textContent=pending;renderOrders();}).catch(function(e){if($('ordre-list'))$('ordre-list').innerHTML='<div class="empty">Kunne ikke hente bestillinger.</div>';});}
+/* An order row is created the moment someone clicks a buy button, before any
+   money moves. Those abandoned attempts are not orders — they're noise here.
+   Real orders = paid, or something actually happened (a message, photos, or
+   work already started). Abandoned attempts are tucked away, not deleted, so
+   Michael can still recover or remove them by hand. */
+function isRealOrder(o){
+  return !!o.paid || !!o.melding || (o.photoCount||0)>0 || !!o.project
+    || (o.status && o.status!=='avventer');
+}
 function renderOrders(){var el=$('ordre-list');if(!el)return;
-  if(!ORDERS.length){el.innerHTML='<div class="empty">Ingen bestillinger ennå. Når noen kjøper via nettsiden, dukker de opp her.</div>';return;}
-  el.innerHTML=ORDERS.map(function(o){
+  var real=ORDERS.filter(isRealOrder), junk=ORDERS.filter(function(o){return !isRealOrder(o);});
+  var junkHtml=junk.length?'<details class="lfsec" style="margin-top:14px"><summary class="lfsum">'+
+    '<span>Ufullførte kjøpsforsøk</span><span class="c">'+junk.length+' — trykket kjøp, betalte aldri</span></summary>'+
+    '<div style="padding:12px 15px">'+
+    '<div class="small muted" style="margin-bottom:10px">Disse er ikke bestillinger. De opprettes automatisk når noen trykker på en kjøpsknapp. Slett dem når du vil.</div>'+
+    junk.map(function(o){
+      return '<div class="switchrow"><span>'+esc(o.id)+' <span class="tag">'+esc(o.pakke||o.pkg||'—')+'</span>'+
+        (o.email?' <span class="small muted">'+esc(o.email)+'</span>':'')+
+        (o.created?' <span class="small muted">'+new Date(o.created).toLocaleDateString('nb-NO')+'</span>':'')+'</span>'+
+        '<span class="row" style="gap:6px">'+
+        '<button class="btn sm" data-paid="'+esc(o.id)+'">Bekreft betalt</button>'+
+        '<button class="btn sm ghost danger" data-del="'+esc(o.id)+'">Slett</button></span></div>';
+    }).join('')+
+    '<div class="row" style="margin-top:12px"><button class="btn sm ghost danger" id="ord-purge">Slett alle '+junk.length+'</button></div>'+
+    '</div></details>':'';
+  if(!real.length){
+    el.innerHTML='<div class="empty">Ingen bestillinger ennå. Når noen faktisk kjøper via nettsiden, dukker de opp her.<div class="small" style="margin-top:8px">Gratis konsept og henvendelser havner under <b>Leads</b>.</div></div>'+junkHtml;
+    bindOrderRows(el);return;}
+  el.innerHTML=real.map(function(o){
     var paid=!!o.paid;
     var badge=paid?'<span class="badge ok">Betalt</span>':'<span class="badge avv">Ubetalt</span>';
     var when=o.created?new Date(o.created).toLocaleDateString('nb-NO'):'';
@@ -510,11 +536,31 @@ function renderOrders(){var el=$('ordre-list');if(!el)return;
         +(paid?'':'<button class="btn primary" data-paid="'+esc(o.id)+'">✓ Bekreft betalt</button>')
         +'<label class="muted" style="margin:0">Status</label><select data-status="'+esc(o.id)+'">'+opts+'</select>'
         +'<a class="btn sm ghost" href="mailto:'+esc(o.email||'')+'">Send e-post</a>'
+        +'<span class="spacer"></span>'
+        +'<button class="btn sm ghost danger" data-del="'+esc(o.id)+'">Slett</button>'
       +'</div>'
     +'</div>';
-  }).join('');
+  }).join('')+junkHtml;
+  bindOrderRows(el);
+}
+function bindOrderRows(el){
   [].forEach.call(el.querySelectorAll('[data-paid]'),function(b){b.onclick=function(){var id=b.getAttribute('data-paid');b.disabled=true;post('admin-orders',{id:id,paid:true}).then(function(){toast('Markert som betalt');loadOrders();}).catch(function(e){alert(e.message);b.disabled=false;});};});
   [].forEach.call(el.querySelectorAll('[data-status]'),function(s){s.onchange=function(){post('admin-orders',{id:s.getAttribute('data-status'),status:s.value}).then(function(){toast('Status oppdatert');}).catch(function(e){alert(e.message);});};});
+  [].forEach.call(el.querySelectorAll('[data-del]'),function(b){b.onclick=function(){
+    var id=b.getAttribute('data-del');
+    if(!confirm('Slette '+id+' for godt? Dette kan ikke angres.'))return;
+    b.disabled=true;
+    post('admin-orders',{id:id,delete:true}).then(function(){toast('Slettet');loadOrders();})
+      .catch(function(e){alert(e.message);b.disabled=false;});};});
+  var purge=$('ord-purge');
+  if(purge)purge.onclick=function(){
+    var ids=[].map.call(el.querySelectorAll('details [data-del]'),function(x){return x.getAttribute('data-del');});
+    if(!ids.length)return;
+    if(!confirm('Slette '+ids.length+' ufullførte kjøpsforsøk for godt?'))return;
+    purge.disabled=true;
+    Promise.all(ids.map(function(id){return post('admin-orders',{id:id,delete:true});}))
+      .then(function(){toast('Slettet '+ids.length);loadOrders();})
+      .catch(function(e){alert(e.message);purge.disabled=false;});};
 }
 
 /* ---------- leads ---------- */
@@ -565,7 +611,8 @@ function leadCard(l){
       (l.website?'<button class="btn sm" data-act="audit" data-id="'+l.id+'">Analyser side</button>':'')+
       '<button class="btn sm" data-act="msg" data-id="'+l.id+'">Meldinger</button>'+
       (l.email&&!supp?'<button class="btn sm primary" data-act="queue" data-id="'+l.id+'">Til godkjenningskø</button>':'')+
-      (supp?'<span class="tag r" style="align-self:center">Avmeldt — ikke kontakt</span>':'')+
+      (supp?'<span class="tag r" style="align-self:center">Avmeldt — ikke kontakt</span>'+
+        '<button class="btn sm ghost" data-act="resub" data-id="'+l.id+'" title="Fjern fra reservasjonslisten så du kan kontakte igjen">Meld på igjen</button>':'')+
       '<div class="spacer"></div>'+
       '<button class="btn sm ghost" data-act="reply" data-id="'+l.id+'">Svar mottatt</button>'+
       '<button class="btn sm ghost danger" data-act="del" data-id="'+l.id+'">Slett</button>'+
@@ -586,6 +633,9 @@ function leadAction(act,id){var l=leadById(id);
   if(act==='msg')return showMessages(l);
   if(act==='queue')return createSequence(l);
   if(act==='reply'){post('sales-event',{op:'reply',leadId:id}).then(function(){toast('Markert: svar mottatt');loadLeads();loadMetrics();});return;}
+  if(act==='resub'){if(!l||!l.email)return;
+    if(!confirm('Fjerne '+l.email+' fra reservasjonslisten? Da kan du kontakte adressen igjen. Gjør dette kun hvis kunden selv har bedt om det.'))return;
+    post('sales-suppression',{op:'remove',email:l.email}).then(function(){toast('Meldt på igjen');loadSupp();}).catch(function(e){alert(e.message);});return;}
 }
 
 /* ---------- lead modal ---------- */
