@@ -638,12 +638,21 @@ function leadAction(act,id){var l=leadById(id);
   if(act==='msg')return showMessages(l);
   if(act==='queue')return createSequence(l);
   if(act==='reply'){post('sales-event',{op:'reply',leadId:id}).then(function(){toast('Markert: svar mottatt');loadLeads();loadMetrics();});return;}
+  /* Suppression toggles update SUPP locally first, so the card flips the moment
+     you click. The Blob-backed list can lag a beat behind a write, and waiting
+     for it made the button look dead. loadSupp() reconciles right after. */
   if(act==='resub'){if(!l||!l.email)return;
     if(!confirm('Fjerne '+l.email+' fra reservasjonslisten? Da kan du kontakte adressen igjen. Gjør dette kun hvis kunden selv har bedt om det.'))return;
-    post('sales-suppression',{op:'remove',email:l.email}).then(function(){toast('Meldt på igjen');loadSupp();}).catch(function(e){alert(e.message);});return;}
+    var kr=l.email.toLowerCase();
+    post('sales-suppression',{op:'remove',email:l.email}).then(function(){
+      delete SUPP[kr];renderLeads();toast('Meldt på igjen');loadSupp();
+    }).catch(function(e){alert(e.message);});return;}
   if(act==='unsub'){if(!l||!l.email)return;
     if(!confirm('Markere '+l.email+' som avmeldt? Da stopper all utsending til adressen, og den kan ikke legges i køen.'))return;
-    post('sales-suppression',{op:'add',email:l.email,reason:'manual'}).then(function(){toast('Markert avmeldt');loadSupp();}).catch(function(e){alert(e.message);});return;}
+    var ka=l.email.toLowerCase();
+    post('sales-suppression',{op:'add',email:l.email,reason:'manual'}).then(function(){
+      SUPP[ka]={reason:'manual',at:Date.now()};renderLeads();toast('Markert avmeldt');loadSupp();
+    }).catch(function(e){alert(e.message);});return;}
 }
 
 /* ---------- lead modal ---------- */

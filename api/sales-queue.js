@@ -50,9 +50,14 @@ async function buildSequence(lead, config, opts) {
   const ctx = {
     company: lead.company || '', contact: lead.contact || lead.contactName || '',
     observation: opts.observation || lead.topOpportunity || '',
+    // The business-specific consequence, and a concept already built for them.
+    // Both are optional; the templates drop the lines when they're empty.
+    angle: opts.angle || lead.angle || '',
+    conceptUrl: opts.conceptUrl || lead.conceptUrl || '',
     senderName: config.senderName, studioName: config.studioName,
     contactEmail: config.contactEmail, contactPhone: config.contactPhone,
     offer, priceLine: pl.priceLine, depositLine: pl.depositLine,
+    deliver: (PACKAGES[offer] || {}).deliver || '',
   };
   const plan = [
     { id: 'email1', type: 'email1', offsetDays: 0 },
@@ -100,7 +105,9 @@ export default async function handler(req, res) {
       const lead = leads.find((l) => l.id === b.leadId);
       if (!lead) return res.status(404).json({ error: 'Fant ikke lead' });
       if (!lead.email) return res.status(400).json({ error: 'Lead mangler e-postadresse' });
-      const seq = await buildSequence(lead, config, { observation: b.observation, offer: b.offer });
+      const seq = await buildSequence(lead, config, {
+        observation: b.observation, offer: b.offer, angle: b.angle, conceptUrl: b.conceptUrl,
+      });
       await saveSequence(seq);
       return res.json({ ok: true, sequence: seq });
     }
