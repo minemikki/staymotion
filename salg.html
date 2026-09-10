@@ -485,7 +485,7 @@ function classifyLabel(email){var e=email.toLowerCase();var lp=e.split('@')[0];v
   var general=['post','hei','hallo','kontakt','booking','info','firmapost','salg','kundeservice','support'];
   if(personal.indexOf(dom)>=0)return '<span class="tag r">privat</span>';
   if(general.indexOf(lp)>=0)return '<span class="tag g">generell</span>';
-  return '<span class="tag a">personlig</span>';}
+  return '<span class="tag g">bedrift</span>';}
 
 function leadById(id){for(var i=0;i<LEADS.length;i++)if(LEADS[i].id===id)return LEADS[i];return null;}
 function leadAction(act,id){var l=leadById(id);
