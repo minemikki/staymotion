@@ -57,7 +57,7 @@ export default async function handler(req, res) {
     const row = (k, v) => `<tr><td style="padding:6px 12px 6px 0;color:#71808A;font-size:13px;white-space:nowrap">${k}</td><td style="padding:6px 0;color:#111820;font-size:14px;font-weight:600">${esc(v || '—')}</td></tr>`;
 
     // 1) Owner: the full brief
-    await sendEmail({
+    const ownerMail = await sendEmail({
       to: owner,
       subject: `Ny prosjekthenvendelse — ${company} (${lead.budget || 'budsjett ikke satt'})`,
       html: renderEmail({
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
 
     // 2) Prospect: calm, premium confirmation
     const first = name.split(' ')[0];
-    await sendEmail({
+    const customerMail = await sendEmail({
       to: email,
       subject: 'Vi har mottatt prosjektet ditt — StayMotion',
       html: renderEmail({
@@ -88,6 +88,16 @@ export default async function handler(req, res) {
         refLabel: 'Ditt behov', refValue: `${lead.need || 'Nettside'} · ${lead.budget || 'budsjett åpent'}`,
       }),
     });
+
+    // Record whether the two mails actually left the building. sendEmail never
+    // throws, so without this a silent Resend failure looks exactly like a
+    // successful send — the prospect gets a thank-you page and nothing else.
+    // Written back onto the lead so the failure is visible in the sales panel.
+    lead.mailConfirmOk = customerMail ? !!customerMail.ok : false;
+    lead.mailOwnerOk = ownerMail ? !!ownerMail.ok : false;
+    const mailErr = (customerMail && customerMail.error) || (ownerMail && ownerMail.error) || '';
+    if (mailErr) lead.mailError = String(mailErr).slice(0, 300);
+    try { await saveLead(lead); } catch (e) { console.error('[project-intake] mail-status', e.message); }
 
     res.json({ ok: true, id: lead.id });
   } catch (e) {

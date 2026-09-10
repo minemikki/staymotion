@@ -492,7 +492,7 @@ function renderMetricsFallback(msg){
 var ORDERS=[];
 var OSTATUS=['ubehandlet','oppstart','design','levering','fullført'];
 function loadOrders(){api('admin-orders').then(function(d){ORDERS=(d.orders||[]).filter(function(o){return !o.demo;});
-  var pending=ORDERS.filter(function(o){return o.paid && o.status!=='fullført';}).length;
+  var pending=ORDERS.filter(function(o){return !isReel(o) && o.paid && o.status!=='fullført';}).length;
   $('c-ordre').textContent=pending;renderOrders();}).catch(function(e){if($('ordre-list'))$('ordre-list').innerHTML='<div class="empty">Kunne ikke hente bestillinger.</div>';});}
 /* An order row is created the moment someone clicks a buy button, before any
    money moves. Those abandoned attempts are not orders — they're noise here.
@@ -503,8 +503,28 @@ function isRealOrder(o){
   return !!o.paid || !!o.melding || (o.photoCount||0)>0 || !!o.project
     || (o.status && o.status!=='avventer');
 }
+/* Bestillinger fra den gamle videobiten (cinematiske reels av kundens egne
+   bilder). Kundene som kjøpte dem har fortsatt tilgang via Min side, så
+   ordrene blir liggende — men de hører ikke hjemme i webdesign-panelet.
+   Samme liste som REEL_PACKAGE_IDS i lib/packages.js. */
+var REEL_PKG=['bilder','enkelt','signatur'];
+function isReel(o){return !o.project && REEL_PKG.indexOf(o.pkg)>=0;}
 function renderOrders(){var el=$('ordre-list');if(!el)return;
-  var real=ORDERS.filter(isRealOrder), junk=ORDERS.filter(function(o){return !isRealOrder(o);});
+  var web=ORDERS.filter(function(o){return !isReel(o);});
+  var reels=ORDERS.filter(isReel);
+  var real=web.filter(isRealOrder), junk=web.filter(function(o){return !isRealOrder(o);});
+  var reelHtml=reels.length?'<details class="lfsec" style="margin-top:14px"><summary class="lfsum">'+
+    '<span>Gamle videobestillinger</span><span class="c">'+reels.length+' — fra reel-tjenesten</span></summary>'+
+    '<div style="padding:12px 15px">'+
+    '<div class="small muted" style="margin-bottom:10px">Fra den gamle tjenesten med cinematiske reels. De hører ikke til webdesign, men ligger her så kundene beholder tilgangen sin. Slett dem når du er ferdig med dem.</div>'+
+    reels.map(function(o){
+      return '<div class="switchrow"><span>'+esc(o.id)+' <span class="tag">'+esc(o.pakke||o.pkg||'—')+'</span>'+
+        (o.paid?' <span class="tag g">betalt</span>':'')+
+        (o.email?' <span class="small muted">'+esc(o.email)+'</span>':'')+
+        (o.created?' <span class="small muted">'+new Date(o.created).toLocaleDateString('nb-NO')+'</span>':'')+'</span>'+
+        '<button class="btn sm ghost danger" data-del="'+esc(o.id)+'">Slett</button></div>';
+    }).join('')+
+    '</div></details>':'';
   var junkHtml=junk.length?'<details class="lfsec" style="margin-top:14px"><summary class="lfsum">'+
     '<span>Ufullførte kjøpsforsøk</span><span class="c">'+junk.length+' — trykket kjøp, betalte aldri</span></summary>'+
     '<div style="padding:12px 15px">'+
@@ -520,7 +540,7 @@ function renderOrders(){var el=$('ordre-list');if(!el)return;
     '<div class="row" style="margin-top:12px"><button class="btn sm ghost danger" id="ord-purge">Slett alle '+junk.length+'</button></div>'+
     '</div></details>':'';
   if(!real.length){
-    el.innerHTML='<div class="empty">Ingen bestillinger ennå. Når noen faktisk kjøper via nettsiden, dukker de opp her.<div class="small" style="margin-top:8px">Gratis konsept og henvendelser havner under <b>Leads</b>.</div></div>'+junkHtml;
+    el.innerHTML='<div class="empty">Ingen bestillinger ennå. Når noen faktisk kjøper via nettsiden, dukker de opp her.<div class="small" style="margin-top:8px">Gratis konsept og henvendelser havner under <b>Leads</b>.</div></div>'+junkHtml+reelHtml;
     bindOrderRows(el);return;}
   el.innerHTML=real.map(function(o){
     var paid=!!o.paid;
@@ -544,7 +564,7 @@ function renderOrders(){var el=$('ordre-list');if(!el)return;
         +'<button class="btn sm ghost danger" data-del="'+esc(o.id)+'">Slett</button>'
       +'</div>'
     +'</div>';
-  }).join('')+junkHtml;
+  }).join('')+junkHtml+reelHtml;
   bindOrderRows(el);
 }
 function bindOrderRows(el){
@@ -598,6 +618,9 @@ function leadCard(l){
     '<div class="lh"><div><span class="co">'+esc(l.company||'Uten navn')+'</span>'+
       (l.demo?'<span class="tag demo">DEMO</span>':'')+
       (supp?'<span class="tag r">⛔ Avmeldt</span>':'')+
+      /* Innsendinger fra nettsiden lagres før e-posten sendes. Går sendingen i
+         stå, får kunden takkesiden og ingenting mer — det skal synes her. */
+      (l.source==='intake'&&l.mailConfirmOk===false?'<span class="tag r" title="'+esc(l.mailError||'Ukjent feil')+'">✉ Bekreftelse ikke sendt</span>':'')+
       '<span class="tag">'+esc(STAGE_LABELS[l.stage]||l.stage||'Ny')+'</span>'+
       '<div class="sub">'+esc(l.segment||'')+(l.location?' · '+esc(l.location):'')+(l.website?' · <a href="'+esc(webHref(l.website))+'" target="_blank" rel="noopener">'+esc(l.website)+' ↗</a>':'')+'</div></div>'+
       '<div style="text-align:right"><div class="score">'+score+'</div><div class="sub">prioritet</div></div></div>'+

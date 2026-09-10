@@ -12,6 +12,7 @@
 // Never stores passwords or secrets; lib/delivery.js enforces that.
 
 import { listOrders } from '../lib/orders.js';
+import { isReelOrder } from '../lib/packages.js';
 import { loadOrder } from '../lib/project.js';
 import { getConfig } from '../lib/sales-store.js';
 import { summarise, setItem, setFacts, generateReport, PHASES, FACT_SECTIONS, STATUS_LABEL } from '../lib/delivery.js';
@@ -23,9 +24,12 @@ function authed(req) {
   return given === key;
 }
 
-// A project worth showing on the delivery board: anything paid, or already
-// moved into the web-project workflow. Keeps abandoned checkout attempts out.
+// A project worth showing on the delivery board: a WEBDESIGN order that is
+// paid or already moved into the web-project workflow. Orders from the old
+// video business have no delivery checklist to run and only add noise here.
+// Abandoned checkout attempts stay out too.
 function isProject(o) {
+  if (isReelOrder(o)) return false;
   return !!o.paid || !!o.project || o.status === 'ubehandlet' || o.status === 'under_arbeid' || o.status === 'behandlet';
 }
 
