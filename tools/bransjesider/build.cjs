@@ -6,6 +6,15 @@ const shell = JSON.parse(fs.readFileSync(__dirname + '/shell.json', 'utf8'));
 const ROT = __dirname + '/../..';
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+// Header og footer er hentet rett ut av index.html, der "#top", "#arbeid",
+// "#priser" osv. er ankere til seksjoner PÅ FORSIDEN. På en bransjeside
+// finnes ingen slike id-er, så klikk på logoen eller menyen gjorde
+// ingenting — man kom aldri "hjem". Gjør dem om til /#anker, som alltid
+// går til forsiden og hopper til riktig sted der.
+const tilForsiden = (html) => html.replace(/href="#/g, 'href="/#');
+const header = tilForsiden(shell.header);
+const footer = tilForsiden(shell.footer);
+
 // Sidespesifikk stil. Arver alt fra forsiden, legger bare til det de nye
 // seksjonene trenger.
 const EKSTRA = `
@@ -98,7 +107,7 @@ ${JSON.stringify(graf, null, 1)}
 </head>
 <body>
 <a class="skip" href="#hovedinnhold">Hopp til innhold</a>
-${shell.header}
+${header}
 <main id="hovedinnhold">
 
 <section class="lp-hero">
@@ -159,7 +168,7 @@ ${shell.header}
 </section>
 
 </main>
-${shell.footer}
+${footer}
 ${shell.script}
 </body>
 </html>`;
