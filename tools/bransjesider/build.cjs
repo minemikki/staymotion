@@ -122,10 +122,17 @@ ${shell.header}
   </div>
 </section>
 
-<figure class="lp-shot">
-  <div class="ramme"><img src="/img/bransje/${v.foto.fil}" alt="${v.foto.alt}" width="1100" height="506" loading="lazy" decoding="async"></div>
-  <figcaption>${v.foto.tekst}</figcaption>
-</figure>
+<section class="lp-foto">
+  <div class="wrap">
+    <figure>
+      <div class="ramme"><img src="/img/bransje/${v.foto.fil}" alt="${v.foto.alt}" width="1100" height="506" sizes="(max-width:860px) 92vw, 640px" loading="lazy" decoding="async"></div>
+    </figure>
+    <div class="ord">
+      <p class="poeng">${v.foto.poeng}</p>
+      <p class="kilde">${v.foto.tekst}</p>
+    </div>
+  </div>
+</section>
 
 <section class="lp-band">
   <div class="wrap">
