@@ -70,6 +70,7 @@ const html = `<!doctype html>
 <meta name="theme-color" content="#f5f5f2">
 <title>${esc(tittel)}</title>
 <meta name="description" content="${esc(beskrivelse)}">
+<meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="${url}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">

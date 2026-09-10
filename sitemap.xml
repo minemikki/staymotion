@@ -7,28 +7,4 @@
   <url><loc>https://staymotion.no/personvern.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://staymotion.no/vilkar.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://staymotion.no/siamconnect.html</loc></url>
-  <url>
-    <loc>https://staymotion.no/nettside-restaurant</loc>
-    <lastmod>2026-09-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://staymotion.no/nettside-handverker</loc>
-    <lastmod>2026-09-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://staymotion.no/nettside-klinikk</loc>
-    <lastmod>2026-09-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://staymotion.no/nettside-overnatting</loc>
-    <lastmod>2026-09-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
 </urlset>

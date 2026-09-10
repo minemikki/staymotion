@@ -90,6 +90,7 @@ for (const s of sider) {
 <meta name="theme-color" content="#f5f5f2">
 <title>${esc(s.tittel)}</title>
 <meta name="description" content="${esc(s.beskrivelse)}">
+<meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="${url}">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="preload" href="/fonts/inter-tight-400-latin.woff2" as="font" type="font/woff2" crossorigin>
