@@ -41,21 +41,29 @@ function bodyToHtml(text) {
 // dark chip) + unsubscribe. Deliberately not a flashy marketing template.
 function htmlEmail(bodyText, unsubUrl, origin) {
   const logo = origin + '/img/logo-mono.png';
-  return '<!doctype html><html><body style="margin:0;background:#f5f5f2;padding:24px 12px">'
-    + '<div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e6e6e2;border-radius:14px;'
-    + 'padding:30px 30px 22px;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Helvetica,Arial,sans-serif;'
-    + 'font-size:15px;line-height:1.6;color:#1a1c1f">'
-    + bodyToHtml(bodyText)
-    + '<div style="margin-top:24px;border-top:1px solid #ececec;padding-top:16px">'
+  const F = "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+  return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>'
+    + '<body style="margin:0;padding:0;background:#eceef2;' + F + '">'
+    + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#eceef2" style="background:#eceef2;padding:26px 12px">'
+    + '<tr><td align="center">'
+    + '<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="width:560px;max-width:100%;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e1e3e9">'
+    // header band (cobalt) — brand shows even if the logo image is blocked
+    + '<tr><td bgcolor="#1248ff" style="background:#1248ff;background:linear-gradient(135deg,#2164ff,#0038ec 80%);padding:18px 28px">'
     + '<table role="presentation" cellpadding="0" cellspacing="0"><tr>'
-    + '<td bgcolor="#121316" style="background:#121316;border-radius:8px;padding:7px 8px;line-height:0">'
-    + '<img src="' + logo + '" width="26" height="20" alt="StayMotion" style="display:block;border:0"></td>'
-    + '<td style="padding-left:10px;font-size:13px;color:#61636b;line-height:1.45">'
-    + '<b style="color:#1248ff;letter-spacing:.06em">STAYMOTION</b><br>Webdesign · Stavanger</td>'
-    + '</tr></table></div>'
-    + '<div style="margin-top:14px;font-size:11px;color:#9a9ca2;line-height:1.5">Du får denne e-posten fordi vi tror en bedre '
-    + 'nettside kan hjelpe bedriften din. Vil du ikke høre fra oss? <a href="' + escHtml(unsubUrl) + '" style="color:#9a9ca2">Meld deg av her</a>.</div>'
-    + '</div></body></html>';
+    + '<td style="line-height:0"><span style="display:inline-block;background:#0c0d10;border-radius:9px;padding:8px 9px">'
+    + '<img src="' + logo + '" width="24" height="19" alt="StayMotion" style="display:block;border:0"></span></td>'
+    + '<td style="padding-left:12px;color:#ffffff;font-weight:700;letter-spacing:.16em;font-size:15px">STAYMOTION</td>'
+    + '</tr></table></td></tr>'
+    // body
+    + '<tr><td style="padding:30px 30px 10px;font-size:15px;line-height:1.62;color:#1a1c1f;' + F + '">'
+    + bodyToHtml(bodyText) + '</td></tr>'
+    // footer
+    + '<tr><td style="padding:4px 30px 26px">'
+    + '<div style="border-top:1px solid #ededed;padding-top:16px;font-size:12px;color:#8c8f97;line-height:1.6">'
+    + '<b style="color:#1a1c1f">StayMotion</b> · Webdesign i Stavanger · <a href="' + escHtml(origin) + '" style="color:#1248ff;text-decoration:none">staymotion.no</a><br>'
+    + 'Vil du ikke høre fra oss? <a href="' + escHtml(unsubUrl) + '" style="color:#8c8f97">Meld deg av her</a>.'
+    + '</div></td></tr>'
+    + '</table></td></tr></table></body></html>';
 }
 
 // Compose the full outgoing message (plain text + HTML + unsubscribe footer).
