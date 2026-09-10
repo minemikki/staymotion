@@ -45,6 +45,16 @@
   .badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.03em;padding:3px 9px;border-radius:50px;vertical-align:middle;margin-left:6px}
   .badge.ok{background:var(--green-tint,#e6f4ec);color:#155e39}
   .badge.avv{background:var(--amber-tint,#fbf1d6);color:#6f560f}
+  .qrow{border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:#fff;overflow:hidden}
+  .qrow.open{border-color:var(--cobalt);box-shadow:0 6px 18px -12px rgba(18,72,255,.4)}
+  .qhead{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;user-select:none}
+  .qhead:hover{background:var(--cobalt-tint)}
+  .qmain{flex:1;min-width:0}
+  .qmain .qco{font-weight:600;font-size:15px}
+  .qmain .qsub{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .qchev{color:var(--muted);transition:transform .2s;flex:none}
+  .qrow.open .qchev{transform:rotate(180deg)}
+  .qbody{padding:12px 14px 14px;border-top:1px solid var(--line)}
   .btn.danger:hover{border-color:var(--red);color:var(--red)}
   .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
   input,select,textarea{background:#fff;border:1px solid var(--line2);color:var(--ink);padding:10px 12px;border-radius:9px;font-size:14px;font-family:inherit;width:100%}
@@ -342,7 +352,7 @@
 var $=function(id){return document.getElementById(id);};
 var KEY='';
 var CONFIG=null, LEADS=[], SEQS=[], METRICS=null, LOG=null, SUPP={};
-var VIEW='maal', LFILTER='', LSEG='', LQ='';
+var VIEW='maal', LFILTER='', LSEG='', LQ='', QOPEN={};
 var PKG={sprint:{name:'Komplett nettside',from:16000,dep:50},landing:{name:'Landingsside',from:7900,dep:100},growth:{name:'Vekst',from:12900,dep:50},signature:{name:'Signatur',from:19900,dep:40}};
 var STAGE_LABELS={ny:'Ny',undersokt:'Undersøkt',klar:'Klar for kontakt',kontaktet:'Kontaktet',svar:'Svar mottatt',mote:'Samtale booket',tilbud:'Tilbud sendt',vunnet:'Vunnet',tapt:'Tapt'};
 var STAGES=Object.keys(STAGE_LABELS);
@@ -625,18 +635,27 @@ function loadQueue(){$('ko-list').innerHTML='<div class="empty small">Laster…<
   Promise.all([api('sales-queue'),api('sales-config')]).then(function(a){SEQS=a[0].sequences||[];CONFIG=a[1].config;renderSendState($('ko-state'),a[1].sendState,true);renderQueue();$('c-ko').textContent=a[0].pending||0;}).catch(function(e){$('ko-list').innerHTML='<div class="empty">Feil: '+esc(e.message)+'</div>';});}
 function renderQueue(){if(!SEQS.length){$('ko-list').innerHTML='<div class="empty"><div class="big">✅</div>Køen er tom. Legg leads i kø fra Leads-fanen.</div>';return;}
   $('ko-list').innerHTML=SEQS.map(function(s){
-    var elig=s.autosendEligible?'<span class="tag g">autosend tillatt</span>':'<span class="tag a">manuell kanal</span>';
+    var elig=s.autosendEligible?'<span class="tag g">autosend</span>':'<span class="tag a">manuell</span>';
     var stTag=s.status==='pending'?'<span class="tag a">venter godkjenning</span>':(s.status==='approved'?'<span class="tag g">godkjent</span>':'<span class="tag r">stoppet</span>');
-    return '<div class="panel"><div class="ph"><h2>'+esc(s.company||s.leadId)+' '+stTag+'</h2><span class="small muted">'+esc(s.email)+'</span></div>'+
-      '<div class="banner '+(s.autosendEligible?'ok':'warn')+' small">'+elig+' — '+esc(s.decisionReason||'')+(s.suggestion?' <b>'+esc(s.suggestion)+'</b>':'')+'</div>'+
+    var open=QOPEN[s.leadId];
+    var head='<div class="qhead" data-toggle="'+esc(s.leadId)+'">'+
+      '<div class="qmain"><span class="qco">'+esc(s.company||s.leadId)+'</span> '+stTag+' '+elig+
+        '<div class="qsub">'+esc(s.email)+'</div></div>'+
+      (s.status==='pending'?'<button class="btn sm primary" data-q="approve" data-id="'+esc(s.leadId)+'">Godkjenn</button>':'')+
+      (s.status!=='stopped'?'<button class="btn sm ghost danger" data-q="reject" data-id="'+esc(s.leadId)+'">Fjern</button>':'')+
+      '<span class="qchev">▾</span></div>';
+    var body='<div class="qbody" id="qb-'+esc(s.leadId)+'"'+(open?'':' hidden')+'>'+
+      '<div class="banner '+(s.autosendEligible?'ok':'warn')+' small">'+esc(s.decisionReason||'')+(s.suggestion?' <b>'+esc(s.suggestion)+'</b>':'')+'</div>'+
       s.steps.map(function(st){return stepCard(s,st);}).join('')+
-      '<div class="row" style="margin-top:6px">'+
-        (s.status==='pending'?'<button class="btn primary" data-q="approve" data-id="'+s.leadId+'">Godkjenn sekvens</button>':'')+
-        (s.status!=='stopped'?'<button class="btn ghost danger" data-q="reject" data-id="'+s.leadId+'">Fjern</button>':'')+
-        (s.status==='approved'?'<button class="btn ghost" data-q="stop" data-id="'+s.leadId+'">Stopp</button>':'')+
-      '</div></div>';
+      (s.status==='approved'?'<div class="row" style="margin-top:6px"><button class="btn ghost" data-q="stop" data-id="'+esc(s.leadId)+'">Stopp sekvens</button></div>':'')+
+      '</div>';
+    return '<div class="qrow'+(open?' open':'')+'">'+head+body+'</div>';
   }).join('');
-  [].forEach.call($('ko-list').querySelectorAll('[data-q]'),function(b){b.onclick=function(){queueOp(b.getAttribute('data-q'),b.getAttribute('data-id'));};});
+  [].forEach.call($('ko-list').querySelectorAll('.qhead'),function(h){h.onclick=function(e){
+    if(e.target.closest('[data-q],[data-send],[data-editstep],a,button')&&!e.target.classList.contains('qchev'))return;
+    var id=h.getAttribute('data-toggle');var b=document.getElementById('qb-'+id);if(!b)return;
+    b.hidden=!b.hidden;QOPEN[id]=!b.hidden;h.parentNode.classList.toggle('open',!b.hidden);};});
+  [].forEach.call($('ko-list').querySelectorAll('[data-q]'),function(b){b.onclick=function(ev){ev.stopPropagation();queueOp(b.getAttribute('data-q'),b.getAttribute('data-id'));};});
   [].forEach.call($('ko-list').querySelectorAll('[data-send]'),function(b){b.onclick=function(){sendStep(b.getAttribute('data-lead'),b.getAttribute('data-send'),b);};});
   [].forEach.call($('ko-list').querySelectorAll('[data-editstep]'),function(b){b.onclick=function(){editStepModal(b.getAttribute('data-lead'),b.getAttribute('data-editstep'));};});
 }
