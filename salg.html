@@ -308,6 +308,12 @@
         <option value="renhold">Renhold/vedlikehold</option>
         <option value="annet">Annet</option>
       </select>
+      <select id="lead-sort" style="max-width:150px" aria-label="Sortering">
+        <option value="prio">Høyest prioritet</option>
+        <option value="ny">Nyeste først</option>
+        <option value="gammel">Eldste først</option>
+        <option value="rort">Sist rørt</option>
+      </select>
       <div class="spacer"></div>
       <button class="btn sm" id="lead-import">Importer CSV</button>
       <button class="btn sm primary" id="lead-add">+ Ny lead</button>
@@ -373,6 +379,13 @@
   <!-- BESTILLINGER -->
   <section id="v-ordre" class="hide">
     <div class="banner info">Faktiske bestillinger fra nettsiden. Bekreft betaling når Stripe har trukket, og oppdater status mens du jobber. Gratis konsept og henvendelser ligger under <b>Leads</b>.</div>
+    <div class="row" style="margin-bottom:12px">
+      <select id="ordre-sort" style="max-width:150px" aria-label="Sortering">
+        <option value="ny">Nyeste først</option>
+        <option value="gammel">Eldste først</option>
+      </select>
+      <div class="spacer"></div>
+    </div>
     <div id="ordre-list"><div class="empty small">Laster…</div></div>
   </section>
 
@@ -438,6 +451,9 @@ var $=function(id){return document.getElementById(id);};
 var KEY='';
 var CONFIG=null, LEADS=[], SEQS=[], METRICS=null, LOG=null, SUPP={};
 var VIEW='maal', LFILTER='', LSEG='', LQ='', QOPEN={};
+var LSORT=huskSort('sm_lead_sort','prio'), OSORT=huskSort('sm_ordre_sort','ny');
+function huskSort(k,fb){try{return sessionStorage.getItem(k)||fb;}catch(e){return fb;}}
+function lagreSort(k,v){try{sessionStorage.setItem(k,v);}catch(e){}}
 // Display names mirror lib/packages.js. Ids are frozen; only labels changed.
 var PKG={sprint:{name:'Momentum',tag:'Komplett nettside',from:16000,dep:50},landing:{name:'Første trekk',tag:'Landingsside',from:7900,dep:100},signature:{name:'Signatur',tag:'Skreddersydd',from:19900,dep:40,fra:1},care:{name:'Videre',tag:'Drift og oppfølging',from:1490,dep:100,fra:1,mnd:1},growth:{name:'Vekst',tag:'Flere sider (utgått)',from:12900,dep:50},launch:{name:'Oppstart',tag:'Mindre nettside (utgått)',from:7900,dep:50}};
 var STAGE_LABELS={ny:'Ny',undersokt:'Undersøkt',klar:'Klar for kontakt',kontaktet:'Kontaktet',svar:'Svar mottatt',mote:'Samtale booket',tilbud:'Tilbud sendt',vunnet:'Vunnet',tapt:'Tapt'};
@@ -526,7 +542,7 @@ function isReel(o){
 }
 function renderOrders(){var el=$('ordre-list');if(!el)return;
   var web=ORDERS.filter(function(o){return !isReel(o);});
-  var real=web.filter(isRealOrder), junk=web.filter(function(o){return !isRealOrder(o);});
+  var real=web.filter(isRealOrder).sort(byTid(OSORT)), junk=web.filter(function(o){return !isRealOrder(o);});
   var junkHtml=junk.length?'<details class="lfsec" style="margin-top:14px"><summary class="lfsum">'+
     '<span>Ufullførte kjøpsforsøk</span><span class="c">'+junk.length+' — trykket kjøp, betalte aldri</span></summary>'+
     '<div style="padding:12px 15px">'+
@@ -594,6 +610,10 @@ function loadLeads(){$('lead-list').innerHTML='<div class="empty small">Laster�
   api('admin-leads').then(function(d){LEADS=d.leads||[];renderLeads();$('c-leads').textContent=LEADS.filter(function(l){return !l.demo;}).length;}).catch(function(e){$('lead-list').innerHTML='<div class="empty">Kunne ikke hente leads.</div>';});}
 $('lead-q').oninput=function(){LQ=this.value.toLowerCase();renderLeads();};
 $('lead-seg').onchange=function(){LSEG=this.value;renderLeads();};
+$('lead-sort').value=LSORT;
+$('lead-sort').onchange=function(){LSORT=this.value;lagreSort('sm_lead_sort',LSORT);renderLeads();};
+$('ordre-sort').value=OSORT;
+$('ordre-sort').onchange=function(){OSORT=this.value;lagreSort('sm_ordre_sort',OSORT);renderOrders();};
 function renderLeads(){
   var counts={};STAGES.forEach(function(s){counts[s]=0;});LEADS.forEach(function(l){var st=stageOf(l);if(counts[st]!=null)counts[st]++;});
   var pipe='<span class="p'+(LFILTER===''?' active':'')+'" data-st="">Alle <b>'+LEADS.length+'</b></span>';
@@ -606,7 +626,9 @@ function renderLeads(){
     if(LQ){var hay=((l.company||'')+' '+(l.location||'')+' '+(l.email||'')+' '+(l.website||'')).toLowerCase();if(hay.indexOf(LQ)<0)return false;}
     return true;
   });
-  list.sort(function(a,b){return prio(b)-prio(a);});
+  if(LSORT==='ny' || LSORT==='gammel') list.sort(byTid(LSORT));
+  else if(LSORT==='rort') list.sort(function(a,b){return (Number(b.updated)||tid(b))-(Number(a.updated)||tid(a));});
+  else list.sort(function(a,b){return prio(b)-prio(a);});
   if(!list.length){$('lead-list').innerHTML='<div class="empty"><div class="big">◎</div>Ingen leads her ennå. Legg til en, eller importer CSV.</div>';return;}
   $('lead-list').innerHTML=list.map(leadCard).join('');
   [].forEach.call($('lead-list').querySelectorAll('[data-act]'),function(b){b.onclick=function(){leadAction(b.getAttribute('data-act'),b.getAttribute('data-id'));};});
@@ -618,6 +640,20 @@ function renderLeads(){
 /* Eldre innsendinger ble lagret med fasen 'kvalifisert', som aldri har vært
    en del av pipelinen. De ble ikke talt i noen fase, og forsvant så snart et
    fasefilter var valgt. Ukjente faser regnes som «klar for kontakt». */
+/* Dato å sortere på. Ikke alle leads har created — CSV-importerte og eldre
+   poster kan mangle den — så vi faller tilbake på updated. Poster helt uten
+   dato havner bakerst uansett retning; å kalle dem «eldst» ville vært å
+   påstå noe vi ikke vet. */
+function tid(l){ return Number(l && (l.created || l.updated)) || 0; }
+function byTid(retning){
+  return function(a,b){
+    var x=tid(a), y=tid(b);
+    if(!x && !y) return 0;
+    if(!x) return 1;
+    if(!y) return -1;
+    return retning==='ny' ? y-x : x-y;
+  };
+}
 function stageOf(l){ var st=l.stage||'ny'; return STAGE_LABELS[st]?st:'klar'; }
 function prio(l){
   var n=Number(l.priorityScore||l.leadScore)||0;
@@ -645,6 +681,7 @@ function leadCard(l){
       (l.websiteQuality?'<span>Kvalitet: <b>'+esc(l.websiteQuality)+'</b></span>':'')+
       (l.mobileIssue?'<span>Mobil: '+esc(l.mobileIssue)+'</span>':'')+
       (l.offer?'<span>Tilbud: <b>'+esc(l.offer)+'</b></span>':'')+
+      (tid(l)?'<span title="Lagt inn i CRM-en">🕘 '+new Date(tid(l)).toLocaleDateString('nb-NO',{day:'numeric',month:'short',year:'numeric'})+'</span>':'')+
     '</div>'+
     (l.topOpportunity?'<div class="small" style="color:var(--champagne)">→ '+esc(l.topOpportunity)+'</div>':'')+
     (l.nextAction?'<div class="small muted" style="margin-top:4px">Neste: '+esc(l.nextAction)+(l.nextActionDate?' ('+esc(l.nextActionDate)+')':'')+'</div>':'')+
