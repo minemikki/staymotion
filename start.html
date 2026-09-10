@@ -204,7 +204,11 @@ h1{font-weight:600;letter-spacing:-.04em;line-height:1.04;font-size:clamp(1.9rem
 
   // prefill from URL (from pricing / portfolio cards)
   var q=new URLSearchParams(location.search);
-  var pk=q.get('pakke'); if(pk==='launch')data.budget='Under 10k'; if(pk==='growth')data.budget='10–20k'; if(pk==='signature')data.budget='20–40k'; if(pk==='care')data.need='Care / vedlikehold';
+  var pk=q.get('pakke');
+  // legacy ids still arrive from old links/bookmarks — steer them onto the
+  // package we sell today (see supersededBy in lib/packages.js).
+  if(pk==='launch')pk='landing'; if(pk==='growth')pk='sprint';
+  if(pk==='landing')data.budget='Under 10k'; if(pk==='sprint')data.budget='10–20k'; if(pk==='signature')data.budget='20–40k'; if(pk==='care')data.need='Videre / drift og oppfølging';
   if(q.get('type')==='redesign')data.need='Redesign'; if(q.get('type')==='custom')data.need='Skreddersøm';
   var br={bygg:'Bygg / håndverk',restaurant:'Restaurant / hotell',bil:'Bil',klinikk:'Klinikk / estetikk',eiendom:'Eiendom',b2b:'B2B'}; if(br[q.get('bransje')])data.business=br[q.get('bransje')];
 

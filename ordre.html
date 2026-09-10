@@ -277,7 +277,8 @@
   const t = q.get('t') || '';
   let data = null, lastSig='', busy=false, polling=false;
 
-  const PKG = { launch:'StayMotion Launch', growth:'StayMotion Growth', signature:'StayMotion Signature', care:'StayMotion Care', bilder:'Launch', enkelt:'Growth', signatur:'Signature' };
+  // Display names. Legacy ids keep resolving so old orders still read correctly.
+  const PKG = { sprint:'Momentum (komplett nettside)', landing:'Første trekk (landingsside)', signature:'Signatur (skreddersydd)', care:'Videre (drift og oppfølging)', launch:'Oppstart (mindre nettside)', growth:'Vekst (flere sider)', bilder:'Oppstart', enkelt:'Vekst', signatur:'Signatur' };
   const MONTHS=['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
   function esc(s){ return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
   function fmtDay(ms){ try{ const d=new Date(ms); return d.getDate()+'. '+MONTHS[d.getMonth()]; }catch(e){ return ''; } }

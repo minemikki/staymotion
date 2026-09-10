@@ -9,7 +9,7 @@
 <script>
   // Old video-order page → new project intake. Map legacy package params.
   (function(){
-    var q=new URLSearchParams(location.search), p=q.get('pkg')||'', map={bilder:'launch',enkelt:'growth',signatur:'signature'};
+    var q=new URLSearchParams(location.search), p=q.get('pkg')||'', map={bilder:'landing',enkelt:'sprint',signatur:'signature'};
     var to='/start.html'+(map[p]?'?pakke='+map[p]:'');
     location.replace(to);
   })();

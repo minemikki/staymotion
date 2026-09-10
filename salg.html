@@ -55,6 +55,76 @@
   .qchev{color:var(--muted);transition:transform .2s;flex:none}
   .qrow.open .qchev{transform:rotate(180deg)}
   .qbody{padding:12px 14px 14px;border-top:1px solid var(--line)}
+  /* ---------- Leveranse ---------- */
+  .lrow{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:.15s}
+  .lrow:hover{border-color:var(--cobalt);box-shadow:0 6px 18px -12px rgba(18,72,255,.4)}
+  .lrow .lco{font-weight:600;font-size:15px}
+  .lrow .lsub{font-size:12px;color:var(--muted);margin-top:2px}
+  .lbar{height:5px;border-radius:4px;background:var(--pearl2);overflow:hidden;margin-top:8px;max-width:230px}
+  .lbar i{display:block;height:100%;background:linear-gradient(90deg,#2164ff,#0038ec);border-radius:4px;transition:width .5s var(--ease)}
+  .lbar.rdy i{background:linear-gradient(90deg,#1c7d4d,#12603a)}
+  .lpct{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
+  /* calm progress ring */
+  .lvtop{display:flex;align-items:center;gap:clamp(18px,3vw,34px);flex-wrap:wrap;margin-bottom:18px}
+  .ring{position:relative;width:118px;height:118px;flex:none}
+  .ring svg{transform:rotate(-90deg);display:block}
+  .ring .trk{stroke:var(--pearl2)}
+  .ring .arc{stroke:var(--cobalt);stroke-linecap:round;transition:stroke-dashoffset .7s var(--ease),stroke .4s}
+  .ring.rdy .arc{stroke:var(--green)}
+  .ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .lvstate{flex:1;min-width:220px}
+  .lvstate .big{font-size:19px;font-weight:600;letter-spacing:-.02em}
+  .lvstate .big.rdy{color:var(--green)}
+  .lvstate .big.blk{color:var(--red)}
+  .lvstate p{margin:5px 0 0;font-size:13.5px;color:var(--muted);max-width:56ch}
+  /* phase switcher — one phase at a time */
+  .lvph{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 14px}
+  .lvph button{background:#fff;border:1px solid var(--line2);border-radius:50px;padding:8px 15px;font-size:13.5px;font-family:inherit;cursor:pointer;color:var(--muted);display:inline-flex;align-items:center;gap:8px;transition:.15s}
+  .lvph button:hover{border-color:var(--ink);color:var(--ink)}
+  .lvph button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .lvph .n{font-size:11px;opacity:.75;font-variant-numeric:tabular-nums}
+  .lvph button.done{border-color:#bcdcc9;color:#155e39;background:var(--green-tint)}
+  .lvph button.done.on{background:var(--green);border-color:var(--green);color:#fff}
+  .lvph button.blk{border-color:#e6bdb8;color:var(--red);background:var(--red-tint)}
+  .lvph button.blk.on{background:var(--red);border-color:var(--red);color:#fff}
+  .phblurb{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+  /* checklist item */
+  .litem{border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:8px;overflow:hidden;transition:.15s}
+  .litem.s-done{background:#fcfdfc;border-color:#d6e7dd}
+  .litem.s-waiting{border-color:#e8d9ac;background:#fffdf7}
+  .litem.s-blocked{border-color:#e6bdb8;background:#fffaf9}
+  .lihead{display:flex;align-items:flex-start;gap:12px;padding:13px 15px}
+  .lichk{flex:none;width:23px;height:23px;border-radius:50%;border:1.5px solid var(--line2);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:.18s var(--ease);color:transparent;font-size:12px;margin-top:1px}
+  .lichk:hover{border-color:var(--cobalt);transform:scale(1.08)}
+  .s-done .lichk{background:var(--green);border-color:var(--green);color:#fff}
+  .s-waiting .lichk{border-color:#c9a227}
+  .s-blocked .lichk{border-color:var(--red);color:var(--red)}
+  .s-blocked .lichk::after{content:"!";font-weight:700}
+  .lititle{flex:1;min-width:0;cursor:pointer;font-size:14.5px;line-height:1.45}
+  .s-done .lititle{color:var(--muted)}
+  .lititle .blk{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);background:var(--red-tint);border-radius:4px;padding:2px 6px;margin-left:7px;vertical-align:1px;font-weight:600}
+  .linote{font-size:12.5px;color:var(--muted);margin-top:4px;display:block}
+  .listat{flex:none}
+  .listat select{width:auto;padding:5px 9px;font-size:12.5px;border-radius:8px}
+  .libody{padding:0 15px 14px 50px;border-top:1px solid var(--line);margin-top:2px;padding-top:12px}
+  .libody .hint{font-size:13px;color:var(--muted);margin:0 0 10px}
+  .libody ul{margin:0 0 12px;padding-left:18px;font-size:13px;color:var(--muted);display:grid;gap:3px}
+  /* facts */
+  .lfsec{border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:8px;overflow:hidden}
+  .lfsum{padding:12px 15px;cursor:pointer;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none}
+  .lfsum::-webkit-details-marker{display:none}
+  .lfsum:hover{background:var(--cobalt-tint)}
+  .lfsum .c{font-size:11.5px;color:var(--muted);font-weight:400}
+  .lfsec[open] .lfsum{border-bottom:1px solid var(--line)}
+  .lfgrid{padding:14px 15px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .lfgrid .full{grid-column:1/-1}
+  @media(max-width:640px){
+    .lfgrid{grid-template-columns:1fr}
+    .libody{padding-left:15px}
+    .lvtop{gap:16px}.ring{width:96px;height:96px}.ring b{font-size:21px}
+    .lrow{flex-wrap:wrap;gap:8px}
+    .lihead{flex-wrap:wrap}.listat{width:100%;padding-left:35px}.listat select{width:100%}
+  }
   .btn.danger:hover{border-color:var(--red);color:var(--red)}
   .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
   input,select,textarea{background:#fff;border:1px solid var(--line2);color:var(--ink);padding:10px 12px;border-radius:9px;font-size:14px;font-family:inherit;width:100%}
@@ -187,6 +257,7 @@
     <button class="n" data-v="send">Utsending</button>
     <button class="n" data-v="tilbud">Tilbud</button>
     <button class="n" data-v="ordre">Bestillinger <span class="c" id="c-ordre">0</span></button>
+    <button class="n" data-v="lev">Leveranse <span class="c" id="c-lev">0</span></button>
     <button class="n" data-v="innst">Innstillinger</button>
   </div>
 
@@ -281,10 +352,10 @@
         <div><label>Kundens e-post</label><input id="q-email" type="email"></div>
         <div><label>Pakke</label>
           <select id="q-pkg">
-            <option value="sprint">Komplett nettside — 16 000</option>
-            <option value="landing">Landingsside — 7 900</option>
-            <option value="growth">Vekst — 12 900</option>
-            <option value="signature">Signatur — 19 900</option>
+            <option value="sprint">Momentum — komplett nettside — 16 000</option>
+            <option value="landing">Første trekk — landingsside — 7 900</option>
+            <option value="signature">Signatur — skreddersydd — fra 19 900</option>
+            <option value="care">Videre — drift og oppfølging — fra 1 490/mnd</option>
           </select>
         </div>
       </div>
@@ -299,6 +370,11 @@
   <section id="v-ordre" class="hide">
     <div class="banner info">Betalte og ubetalte bestillinger fra nettsiden. Bekreft betaling når Stripe har trukket, og oppdater status mens du jobber.</div>
     <div id="ordre-list"><div class="empty small">Laster…</div></div>
+  </section>
+
+  <section id="v-lev" class="hide">
+    <div id="lev-list"><div class="empty small">Laster…</div></div>
+    <div id="lev-detail" class="hide"></div>
   </section>
 
   <!-- INNSTILLINGER -->
@@ -353,7 +429,8 @@ var $=function(id){return document.getElementById(id);};
 var KEY='';
 var CONFIG=null, LEADS=[], SEQS=[], METRICS=null, LOG=null, SUPP={};
 var VIEW='maal', LFILTER='', LSEG='', LQ='', QOPEN={};
-var PKG={sprint:{name:'Komplett nettside',from:16000,dep:50},landing:{name:'Landingsside',from:7900,dep:100},growth:{name:'Vekst',from:12900,dep:50},signature:{name:'Signatur',from:19900,dep:40}};
+// Display names mirror lib/packages.js. Ids are frozen; only labels changed.
+var PKG={sprint:{name:'Momentum',tag:'Komplett nettside',from:16000,dep:50},landing:{name:'Første trekk',tag:'Landingsside',from:7900,dep:100},signature:{name:'Signatur',tag:'Skreddersydd',from:19900,dep:40,fra:1},care:{name:'Videre',tag:'Drift og oppfølging',from:1490,dep:100,fra:1,mnd:1},growth:{name:'Vekst',tag:'Flere sider (utgått)',from:12900,dep:50},launch:{name:'Oppstart',tag:'Mindre nettside (utgått)',from:7900,dep:50}};
 var STAGE_LABELS={ny:'Ny',undersokt:'Undersøkt',klar:'Klar for kontakt',kontaktet:'Kontaktet',svar:'Svar mottatt',mote:'Samtale booket',tilbud:'Tilbud sendt',vunnet:'Vunnet',tapt:'Tapt'};
 var STAGES=Object.keys(STAGE_LABELS);
 
@@ -378,9 +455,9 @@ $('logout').onclick=function(){try{sessionStorage.removeItem('sm_admin');}catch(
 /* ---------- nav ---------- */
 [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.onclick=function(){showView(n.getAttribute('data-v'));};});
 function showView(v){VIEW=v;
-  ['maal','idag','leads','ko','send','tilbud','ordre','innst'].forEach(function(x){$('v-'+x).classList.toggle('hide',x!==v);});
+  ['maal','idag','leads','ko','send','tilbud','ordre','lev','innst'].forEach(function(x){$('v-'+x).classList.toggle('hide',x!==v);});
   [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.classList.toggle('active',n.getAttribute('data-v')===v);});
-  if(v==='idag')loadToday();if(v==='ko')loadQueue();if(v==='send')loadSend();if(v==='innst')fillSettings();if(v==='ordre')loadOrders();
+  if(v==='idag')loadToday();if(v==='ko')loadQueue();if(v==='send')loadSend();if(v==='innst')fillSettings();if(v==='ordre')loadOrders();if(v==='lev')loadDelivery();
 }
 
 /* ---------- load ---------- */
@@ -550,7 +627,7 @@ function lbl(t){return '<label>'+esc(t)+'</label>';}
 function selEl(id,opts,cur){return '<select id="'+id+'">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===cur?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>';}
 function segSelect(cur){return selEl('__ID__',[['handverker','Håndverker'],['klinikk','Klinikk/frisør/skjønnhet'],['restaurant','Restaurant/hospitality'],['eiendom','Eiendom/Airbnb/hytte'],['renhold','Renhold/vedlikehold'],['annet','Annet']],cur||'annet');}
 function stageSelect(cur){return selEl('__ID__',STAGES.map(function(s){return [s,STAGE_LABELS[s]];}),cur||'ny');}
-function offerSelect(cur){return selEl('__ID__',[['','— ingen —'],['sprint','Komplett nettside 16 000'],['landing','Landingsside 7 900'],['growth','Vekst 12 900'],['signature','Signatur 19 900']],cur||'');}
+function offerSelect(cur){return selEl('__ID__',[['','— ingen —'],['sprint','Momentum — komplett nettside 16 000'],['landing','Første trekk — landingsside 7 900'],['signature','Signatur — skreddersydd fra 19 900'],['care','Videre — drift fra 1 490/mnd']],cur||'');}
 $('lead-add').onclick=function(){editLead({});};
 
 /* ---------- audit ---------- */
@@ -584,7 +661,7 @@ function copyText(btn){var t=btn.getAttribute('data-t');if(navigator.clipboard)n
 
 /* ---------- create sequence -> queue ---------- */
 function createSequence(l){var obs=prompt('Konkret observasjon for første e-post (valgfritt):', l.topOpportunity||'');
-  var offer=prompt('Tilbud for denne (sprint / landing / tom):', l.offer||'sprint')||'';
+  var offer=prompt('Tilbud for denne (sprint = Momentum / landing = Første trekk / tom):', l.offer||'sprint')||'';
   post('sales-queue',{op:'create',leadId:l.id,observation:obs||undefined,offer:offer||undefined}).then(function(){toast('Lagt i godkjenningskø');loadQueueCount();showView('ko');}).catch(function(e){alert(e.message);});}
 
 /* ---------- CSV import ---------- */
@@ -615,7 +692,7 @@ function renderToday(d){$('c-idag').textContent=Object.keys(d.counts).reduce(fun
   var b=d.buckets;
   var sections=[
     ['💳 Betalinger å følge opp',b.payments,'Tilbud sendt, venter oppstartsbetaling — ring/påminn.'],
-    ['📄 Klar for tilbud',b.proposals,'Har svart/booket — send Website Sprint-tilbud.'],
+    ['📄 Klar for tilbud',b.proposals,'Har svart/booket — send Momentum-tilbud.'],
     ['📞 Ring / book samtale',b.calls,'Har svart — book 15-min samtale.'],
     ['↻ Oppfølginger forfalt',b.followups,'Godkjente sekvenssteg som er klare.'],
     ['✅ Godkjenn utsending',b.approvals,'Første kontakt venter din godkjenning.'],
@@ -730,6 +807,197 @@ function loadSupp(){api('sales-suppression').catch(function(){return {list:{}};}
   $('supp-list').innerHTML=keys.length?keys.map(function(k){return '<div class="switchrow" style="padding:6px 0"><span>'+esc(k)+' <span class="tag">'+esc(SUPP[k].reason)+'</span></span><button class="btn sm ghost" onclick="unsupp(\''+esc(k)+'\')">Fjern</button></div>';}).join(''):'<div class="small muted">Tom. Avmeldinger, bounce og klager havner her og stopper utsending automatisk.</div>';});}
 function unsupp(email){post('sales-suppression',{op:'remove',email:email}).then(function(){toast('Fjernet');loadSupp();});}
 
+/* ---------- leveranse ----------
+   Reads/writes /api/admin-delivery, which stores the checklist inside the
+   existing order (orders/<id>/order.json → project.delivery). No new store. */
+var LEVSPEC=null, LEVLIST=[], LEVCUR=null, LEVPHASE='', LIOPEN={};
+var LSTAT=[['todo','Ikke startet'],['waiting','Venter på kunde'],['blocked','Blokkert'],['done','Ferdig']];
+
+function loadDelivery(){
+  $('lev-detail').classList.add('hide'); $('lev-list').classList.remove('hide');
+  api('admin-delivery').then(function(d){
+    LEVSPEC=d.spec||null; LEVLIST=d.projects||[]; renderLevList();
+    var open=LEVLIST.filter(function(p){return !p.launchReady;}).length;
+    $('c-lev').textContent=open;
+  }).catch(function(e){$('lev-list').innerHTML='<div class="empty">Feil: '+esc(e.message)+'</div>';});
+}
+
+function renderLevList(){
+  if(!LEVLIST.length){$('lev-list').innerHTML='<div class="empty"><div class="big">📦</div>Ingen prosjekter ennå. Betalte bestillinger dukker opp her automatisk.</div>';return;}
+  $('lev-list').innerHTML='<div class="banner info">Velg et prosjekt for å se hva som er ferdig, hva som mangler og hva som blokkerer lansering.</div>'+
+    LEVLIST.map(function(p){
+      var chips='';
+      if(p.launchReady)chips+='<span class="tag" style="background:var(--green-tint);border-color:#bcdcc9;color:#155e39">Leveringsklar</span>';
+      if(p.blockerCount)chips+='<span class="tag" style="background:var(--red-tint);border-color:#e6bdb8;color:var(--red)">'+p.blockerCount+' blokkerer</span>';
+      else if(!p.launchReady&&p.remaining)chips+='<span class="tag">'+p.remaining+' igjen før lansering</span>';
+      if(p.waitingCount)chips+='<span class="tag" style="background:var(--amber-tint);border-color:#e8d9ac;color:var(--amber)">venter på kunde</span>';
+      return '<div class="lrow" data-open="'+esc(p.orderId)+'">'+
+        '<div style="flex:1;min-width:0">'+
+          '<div class="lco">'+esc(p.company||p.orderId)+chips+'</div>'+
+          '<div class="lsub">'+esc(String(p.orderId).toUpperCase())+(p.pkgName?' · '+esc(p.pkgName):'')+(p.paid?'':' · <b>ikke betalt</b>')+'</div>'+
+          '<div class="lbar'+(p.launchReady?' rdy':'')+'"><i style="width:'+p.pct+'%"></i></div>'+
+        '</div>'+
+        '<span class="lpct">'+p.done+'/'+p.total+'</span>'+
+        '<span class="qchev">›</span></div>';
+    }).join('');
+  [].forEach.call($('lev-list').querySelectorAll('[data-open]'),function(r){
+    r.onclick=function(){openProject(r.getAttribute('data-open'));};});
+}
+
+function openProject(id){
+  api('admin-delivery?id='+encodeURIComponent(id)).then(function(d){
+    LEVCUR=d.project; if(d.spec)LEVSPEC=d.spec; LEVPHASE=LEVCUR.currentPhase; LIOPEN={};
+    $('lev-list').classList.add('hide'); $('lev-detail').classList.remove('hide');
+    renderLevDetail(); window.scrollTo({top:0,behavior:'smooth'});
+  }).catch(function(e){alert(e.message);});
+}
+
+function ringSvg(pct,ready){
+  var r=52,c=2*Math.PI*r,off=c-(c*pct/100);
+  return '<div class="ring'+(ready?' rdy':'')+'"><svg width="118" height="118" viewBox="0 0 118 118">'+
+    '<circle class="trk" cx="59" cy="59" r="'+r+'" fill="none" stroke-width="9"></circle>'+
+    '<circle class="arc" cx="59" cy="59" r="'+r+'" fill="none" stroke-width="9" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"></circle>'+
+    '</svg><b>'+pct+'%</b></div>';
+}
+
+function renderLevDetail(){
+  var p=LEVCUR; if(!p)return;
+  var ph=(p.phases||[]).filter(function(x){return x.key===LEVPHASE;})[0]||p.phases[0];
+  var hard=(p.hardBlockers||[]).length, rest=(p.blockers||[]).length-hard;
+  var ready=p.launchReady;
+  var stateTitle = ready ? 'Leveringsklar' : (hard ? 'Må løses før lansering' : 'Under arbeid');
+  var stateNote = ready
+    ? 'Alt som må stemme før publisering er kontrollert. Trygg å sende og publisere.'
+    : (hard ? 'Dette stopper lansering nå:'
+            : 'Ingenting er blokkert. '+rest+' punkt'+(rest===1?'':'er')+' gjenstår før lansering.');
+
+  var html='<div class="row" style="margin-bottom:14px"><button class="btn ghost sm" id="lev-back">← Alle prosjekter</button><span class="spacer"></span>'+
+    (p.liveUrl?'<a class="btn sm" href="'+esc(p.liveUrl)+'" target="_blank" rel="noopener">Åpne live ↗</a>':'')+'</div>'+
+    '<div class="panel"><div class="ph"><div><h2>'+esc(p.company||p.orderId)+'</h2>'+
+      '<div class="small muted">'+esc(String(p.orderId).toUpperCase())+(p.pkgName?' · '+esc(p.pkgName):'')+(p.paid?'':' · <b>ikke betalt</b>')+'</div></div></div>'+
+    '<div class="lvtop">'+ringSvg(p.pct,ready)+
+      '<div class="lvstate"><div class="big '+(ready?'rdy':(hard?'blk':''))+'">'+stateTitle+'</div>'+
+        '<p>'+esc(stateNote)+'</p>'+
+        (hard?'<ul style="margin:9px 0 0;padding-left:18px;font-size:13.5px;color:var(--red);display:grid;gap:4px">'+
+          p.hardBlockers.map(function(b){return '<li><b>'+esc(b.title)+'</b> — <span class="muted">'+esc(b.why)+'</span></li>';}).join('')+'</ul>':'')+
+        (p.waitingOnCustomer.length?'<p style="margin-top:9px"><b>Venter på kunden:</b> '+esc(p.waitingOnCustomer.join(' · '))+'</p>':'')+
+      '</div></div>'+
+    /* one phase at a time */
+    '<div class="lvph">'+p.phases.map(function(x){
+      var cls=(x.key===ph.key?'on ':'')+(x.complete?'done':(x.blocked?'blk':''));
+      return '<button class="'+cls.trim()+'" data-ph="'+esc(x.key)+'">'+esc(x.title)+' <span class="n">'+x.done+'/'+x.total+'</span></button>';
+    }).join('')+'</div>'+
+    '<p class="phblurb">'+esc(ph.blurb)+'</p>'+
+    ph.items.map(levItem).join('')+
+    '</div>'+
+    /* compact intake record */
+    '<div class="panel" style="margin-top:14px"><div class="ph"><div><h2>Prosjektfakta</h2>'+
+      '<div class="small muted">Kort registrering. Vi lagrer aldri passord — bare hvem som eier kontoen og om tilgang er gitt.</div></div>'+
+      '<button class="btn sm primary" id="lev-facts-save">Lagre fakta</button></div>'+
+      (LEVSPEC&&LEVSPEC.facts?LEVSPEC.facts.map(levFactSec).join(''):'')+'</div>'+
+    /* handover */
+    '<div class="panel" style="margin-top:14px"><div class="ph"><div><h2>Overlevering</h2>'+
+      '<div class="small muted">Kort oppsummering du kan sende kunden.</div></div>'+
+      '<button class="btn primary" id="lev-report">Generer leveranserapport</button></div>'+
+      '<div id="lev-report-out">'+(p.report&&p.report.text?'<div class="msgbox">'+esc(p.report.text)+'</div><div class="small muted">Sist generert '+new Date(p.report.at).toLocaleString('nb-NO')+'</div>':'<div class="small muted">Ingen rapport generert ennå.</div>')+'</div></div>';
+
+  $('lev-detail').innerHTML=html;
+  $('lev-back').onclick=loadDelivery;
+  [].forEach.call($('lev-detail').querySelectorAll('[data-ph]'),function(b){
+    b.onclick=function(){LEVPHASE=b.getAttribute('data-ph');renderLevDetail();};});
+  [].forEach.call($('lev-detail').querySelectorAll('[data-chk]'),function(b){
+    b.onclick=function(){var k=b.getAttribute('data-chk');var it=findItem(k);
+      levSave(k,{status:it&&it.status==='done'?'todo':'done'});};});
+  [].forEach.call($('lev-detail').querySelectorAll('[data-st]'),function(s){
+    s.onchange=function(){levSave(s.getAttribute('data-st'),{status:s.value});};});
+  [].forEach.call($('lev-detail').querySelectorAll('[data-exp]'),function(t){
+    t.onclick=function(){var k=t.getAttribute('data-exp');LIOPEN[k]=!LIOPEN[k];renderLevDetail();};});
+  [].forEach.call($('lev-detail').querySelectorAll('[data-savenote]'),function(b){
+    b.onclick=function(){var k=b.getAttribute('data-savenote');
+      levSave(k,{note:$('note-'+k).value,doc:$('doc-'+k).value});};});
+  $('lev-facts-save').onclick=saveFacts;
+  $('lev-report').onclick=genReport;
+}
+
+function findItem(key){
+  var all=(LEVCUR.phases||[]).reduce(function(a,p){return a.concat(p.items);},[]);
+  for(var i=0;i<all.length;i++)if(all[i].key===key)return all[i];
+  return null;
+}
+
+function levItem(it){
+  var open=LIOPEN[it.key];
+  var head='<div class="lihead">'+
+    '<button class="lichk" data-chk="'+esc(it.key)+'" title="Merk som ferdig">'+(it.status==='done'?'✓':'')+'</button>'+
+    '<span class="lititle" data-exp="'+esc(it.key)+'">'+esc(it.title)+
+      (it.blocker&&it.status!=='done'?'<span class="blk">blokkerer lansering</span>':'')+
+      (it.note&&!open?'<span class="linote">'+esc(it.note)+'</span>':'')+
+      (it.doc&&!open?'<span class="linote">📎 dokumentasjon</span>':'')+
+    '</span>'+
+    '<span class="listat">'+selEl2('data-st="'+esc(it.key)+'"',LSTAT,it.status)+'</span></div>';
+  var body=open?'<div class="libody">'+
+    (it.hint?'<p class="hint">'+esc(it.hint)+'</p>':'')+
+    (it.details&&it.details.length?'<ul>'+it.details.map(function(d){return '<li>'+esc(d)+'</li>';}).join('')+'</ul>':'')+
+    '<label>Kort notat</label><textarea id="note-'+esc(it.key)+'" style="min-height:60px" placeholder="F.eks. «MX-poster hos Domeneshop — må beholdes»">'+esc(it.note)+'</textarea>'+
+    '<label style="margin-top:10px">Dokumentasjonslenke</label><input id="doc-'+esc(it.key)+'" value="'+esc(it.doc)+'" placeholder="https://…">'+
+    '<div class="row" style="margin-top:10px"><button class="btn sm primary" data-savenote="'+esc(it.key)+'">Lagre</button>'+
+      (it.at?'<span class="small muted">Sist endret '+new Date(it.at).toLocaleString('nb-NO')+'</span>':'')+'</div>'+
+    '</div>':'';
+  return '<div class="litem s-'+esc(it.status)+'">'+head+body+'</div>';
+}
+/* select with an arbitrary attribute instead of an id */
+function selEl2(attr,opts,cur){
+  return '<select '+attr+'>'+opts.map(function(o){
+    return '<option value="'+o[0]+'"'+(o[0]===cur?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>';
+}
+
+function levFactSec(sec){
+  var f=LEVCUR.facts||{};
+  var filled=sec.fields.filter(function(x){return f[x.key];}).length;
+  return '<details class="lfsec"><summary class="lfsum"><span>'+esc(sec.title)+'</span>'+
+    '<span class="c">'+filled+'/'+sec.fields.length+' utfylt</span></summary><div class="lfgrid">'+
+    sec.fields.map(function(x){
+      var v=f[x.key]||'';
+      var input;
+      if(x.choices)input=selEl2('id="f-'+esc(x.key)+'"',x.choices.map(function(c){return [c,c||'— ikke satt —'];}),v);
+      else if(x.long)input='<textarea id="f-'+esc(x.key)+'" style="min-height:56px">'+esc(v)+'</textarea>';
+      else input='<input id="f-'+esc(x.key)+'" value="'+esc(v)+'">';
+      return '<div'+(x.long?' class="full"':'')+'><label>'+esc(x.label)+'</label>'+input+'</div>';
+    }).join('')+'</div></details>';
+}
+
+function saveFacts(){
+  var out={};
+  (LEVSPEC.facts||[]).forEach(function(sec){sec.fields.forEach(function(x){
+    var el=$('f-'+x.key); if(el)out[x.key]=el.value;});});
+  post('admin-delivery',{orderId:LEVCUR.orderId,op:'facts',facts:out})
+    .then(function(d){LEVCUR=d.project;toast('Fakta lagret');renderLevDetail();})
+    .catch(function(e){alert(e.message);});
+}
+
+function levSave(itemKey,patch){
+  var b={orderId:LEVCUR.orderId,op:'item',itemKey:itemKey};
+  for(var k in patch)b[k]=patch[k];
+  post('admin-delivery',b).then(function(d){
+    LEVCUR=d.project;
+    if(patch.note!==undefined){LIOPEN[itemKey]=false;toast('Lagret');}
+    renderLevDetail();
+  }).catch(function(e){alert(e.message);});
+}
+
+function genReport(){
+  post('admin-delivery',{orderId:LEVCUR.orderId,op:'report'}).then(function(d){
+    LEVCUR=d.project; renderLevDetail();
+    modal('<h2>Leveranserapport</h2><div class="small muted" style="margin-bottom:10px">Kopier og send til kunden. Sjekk den gjennom først.</div>'+
+      '<textarea id="rep-txt" style="min-height:340px">'+esc(d.report)+'</textarea>'+
+      '<div class="row" style="margin-top:12px"><button class="btn primary" id="rep-copy">Kopier</button>'+
+      '<button class="btn ghost" id="rep-close">Lukk</button></div>');
+    $('rep-close').onclick=closeModal;
+    $('rep-copy').onclick=function(){var t=$('rep-txt');t.select();
+      try{document.execCommand('copy');toast('Kopiert');}catch(e){alert('Kopier manuelt.');}};
+  }).catch(function(e){alert(e.message);});
+}
+
 /* ---------- tilbud ---------- */
 $('q-build').onclick=function(){
   var name=$('q-name').value.trim(),company=$('q-company').value.trim(),email=$('q-email').value.trim(),pkg=$('q-pkg').value;
@@ -743,10 +1011,10 @@ $('q-build').onclick=function(){
   $('q-out').innerHTML='<div class="ph"><h2>Tilbud — '+esc(company||name)+'</h2><span class="tag">gyldig til '+valid+'</span></div>'+
     '<div class="msgbox">'+
     'Kunde: '+esc(name||'')+(company?' — '+esc(company):'')+'\n'+
-    'Pakke: StayMotion '+esc(p.name)+'\n'+
-    'Pris: '+nok(p.from)+vat+'\n'+
-    (p.dep<100?'Oppstart: '+nok(deposit)+' ('+p.dep+' %)\nRest ved levering: '+nok(rest):'Betales ved oppstart: '+nok(p.from))+'\n'+
-    'Leveranse: moderne, mobiltilpasset nettside · struktur & tekst · kontaktskjema · lokal SEO'+(pkg==='sprint'?' · levering ca. 5 virkedager etter innhold':'')+'\n'+
+    'Pakke: '+esc(p.name)+' — '+esc(p.tag)+'\n'+
+    'Pris: '+(p.fra?'fra ':'')+nok(p.from)+(p.mnd?' per måned':'')+vat+'\n'+
+    (p.mnd?'Betales månedlig. Ingen binding.':(p.dep<100?'Oppstartbetaling: '+nok(deposit)+' ('+p.dep+' %)\nRest ved levering: '+nok(rest):'Betales ved oppstart: '+nok(p.from)))+'\n'+
+    'Leveranse: moderne, mobiltilpasset nettside · struktur & tekst · kontaktskjema · lokal SEO'+(pkg==='sprint'?'\nLeveringstid: f\u00f8rste komplette utkast innen 5 virkedager etter mottatt innhold, tilganger og oppstartbetaling':'')+'\n'+
     'Gyldig til: '+valid+'\n'+
     'Betaling/oppstart: '+link+
     '</div>'+

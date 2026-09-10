@@ -33,7 +33,7 @@ function priceLines(offer, vatMode) {
   return {
     priceLine: p.fromKr.toLocaleString('nb-NO') + ' NOK' + (vat ? ' ' + vat : ''),
     depositLine: p.depositPct < 100
-      ? 'Oppstart: ' + deposit.toLocaleString('nb-NO') + ' NOK (' + p.depositPct + ' %). Resten ved levering.'
+      ? 'Oppstartbetaling: ' + deposit.toLocaleString('nb-NO') + ' NOK (' + p.depositPct + ' %). Resten ved levering.'
       : 'Betales ved oppstart.',
   };
 }
