@@ -852,7 +852,7 @@ function editStepModal(leadId,stepId){
     .then(function(){toast('Lagret');closeModal();loadQueue();}).catch(function(e){alert(e.message);});};
 }
 function stepCard(s,st){
-  var stat=st.status==='sent'?'<span class="tag g">sendt</span>':(st.status==='blocked'?'<span class="tag r">blokkert</span>':(st.status==='skipped'?'<span class="tag">hoppet over</span>':'<span class="tag">planlagt</span>'));
+  var stat=st.status==='sent'?'<span class="tag g">sendt</span>':(st.status==='blocked'?'<span class="tag r">blokkert</span>':(st.status==='skipped'?'<span class="tag">hoppet over</span>':(st.sendAt?'<span class="tag">går ut '+new Date(st.sendAt).toLocaleDateString('nb-NO')+'</span>':'<span class="tag">utkast</span>')));
   var canSend=st.status==='planned'&&s.status!=='stopped'&&s.autosendEligible;
   return '<div class="step"><div class="sh"><b>'+esc(st.label)+'</b>'+stat+'</div>'+
     '<div class="small muted" style="margin-bottom:6px">'+esc(st.subject)+'</div>'+
