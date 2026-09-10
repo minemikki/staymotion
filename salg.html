@@ -42,6 +42,9 @@
   .btn.ghost:hover{border-color:var(--ink)}
   .btn.sm{padding:6px 11px;font-size:13px}
   .btn.danger{color:var(--red)}
+  .badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.03em;padding:3px 9px;border-radius:50px;vertical-align:middle;margin-left:6px}
+  .badge.ok{background:var(--green-tint,#e6f4ec);color:#155e39}
+  .badge.avv{background:var(--amber-tint,#fbf1d6);color:#6f560f}
   .btn.danger:hover{border-color:var(--red);color:var(--red)}
   .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
   input,select,textarea{background:#fff;border:1px solid var(--line2);color:var(--ink);padding:10px 12px;border-radius:9px;font-size:14px;font-family:inherit;width:100%}
@@ -163,7 +166,6 @@
     <a class="brand" href="#" aria-label="StayMotion"><img src="img/logo-mono.png" alt="" width="30" height="24">STAYMOTION</a>
     <span class="role">Salg</span>
     <div class="spacer"></div>
-    <a class="btn sm ghost" href="/admin.html">Adminpanel →</a>
     <button class="btn sm ghost" id="logout">Logg ut</button>
   </header>
 
@@ -174,6 +176,7 @@
     <button class="n" data-v="ko">Godkjenningskø <span class="c" id="c-ko">0</span></button>
     <button class="n" data-v="send">Utsending</button>
     <button class="n" data-v="tilbud">Tilbud</button>
+    <button class="n" data-v="ordre">Bestillinger <span class="c" id="c-ordre">0</span></button>
     <button class="n" data-v="innst">Innstillinger</button>
   </div>
 
@@ -268,10 +271,10 @@
         <div><label>Kundens e-post</label><input id="q-email" type="email"></div>
         <div><label>Pakke</label>
           <select id="q-pkg">
-            <option value="sprint">Website Sprint — 16 000</option>
-            <option value="landing">Landing Page Sprint — 7 900</option>
-            <option value="growth">Growth — 12 900</option>
-            <option value="signature">Signature — 19 900</option>
+            <option value="sprint">Komplett nettside — 16 000</option>
+            <option value="landing">Landingsside — 7 900</option>
+            <option value="growth">Vekst — 12 900</option>
+            <option value="signature">Signatur — 19 900</option>
           </select>
         </div>
       </div>
@@ -280,6 +283,12 @@
       </div>
     </div>
     <div class="panel hide" id="q-out"></div>
+  </section>
+
+  <!-- BESTILLINGER -->
+  <section id="v-ordre" class="hide">
+    <div class="banner info">Betalte og ubetalte bestillinger fra nettsiden. Bekreft betaling når Stripe har trukket, og oppdater status mens du jobber.</div>
+    <div id="ordre-list"><div class="empty small">Laster…</div></div>
   </section>
 
   <!-- INNSTILLINGER -->
@@ -348,7 +357,8 @@ function post(path,body){return api(path,{method:'POST',headers:{'Content-Type':
 /* ---------- gate ---------- */
 function enter(){KEY=$('key').value.trim();if(!KEY){$('gerr').textContent='Skriv inn nøkkel.';return;}
   try{sessionStorage.setItem('sm_admin',KEY);}catch(e){}
-  api('sales-config').then(function(d){CONFIG=d.config;$('gate').classList.add('hide');$('app').classList.remove('hide');loadAll();})
+  api('sales-config').then(function(d){CONFIG=d.config;$('gate').classList.add('hide');$('app').classList.remove('hide');loadAll();
+    try{var qv=new URLSearchParams(location.search).get('v');if(qv&&$('v-'+qv))showView(qv);}catch(e){}})
     .catch(function(e){$('gerr').textContent='Feil nøkkel eller server: '+e.message;});}
 $('enter').onclick=enter;$('key').addEventListener('keydown',function(e){if(e.key==='Enter')enter();});
 $('logout').onclick=function(){try{sessionStorage.removeItem('sm_admin');}catch(e){}location.reload();};
@@ -357,13 +367,13 @@ $('logout').onclick=function(){try{sessionStorage.removeItem('sm_admin');}catch(
 /* ---------- nav ---------- */
 [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.onclick=function(){showView(n.getAttribute('data-v'));};});
 function showView(v){VIEW=v;
-  ['maal','idag','leads','ko','send','tilbud','innst'].forEach(function(x){$('v-'+x).classList.toggle('hide',x!==v);});
+  ['maal','idag','leads','ko','send','tilbud','ordre','innst'].forEach(function(x){$('v-'+x).classList.toggle('hide',x!==v);});
   [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.classList.toggle('active',n.getAttribute('data-v')===v);});
-  if(v==='idag')loadToday();if(v==='ko')loadQueue();if(v==='send')loadSend();if(v==='innst')fillSettings();
+  if(v==='idag')loadToday();if(v==='ko')loadQueue();if(v==='send')loadSend();if(v==='innst')fillSettings();if(v==='ordre')loadOrders();
 }
 
 /* ---------- load ---------- */
-function loadAll(){loadMetrics();loadLeads();loadQueueCount();}
+function loadAll(){loadMetrics();loadLeads();loadQueueCount();loadOrders();}
 function loadMetrics(){api('sales-metrics').then(function(d){METRICS=d;renderMetrics();}).catch(function(e){renderMetricsFallback(e&&e.message);});}
 function metGoal(){var c=CONFIG||{};var goalKr=Number(c.goalKr)||16000;var deadline=c.deadline||'2026-09-25';
   var dl=new Date(deadline+'T23:59:59+02:00');var daysLeft=Math.max(0,Math.ceil((dl-new Date())/86400000));
@@ -385,6 +395,39 @@ function renderMetrics(){if(!METRICS){renderMetricsFallback();return;}
 function renderMetricsFallback(msg){
   paintGoal(metGoal(),{contacted:0,replies:0,booked:0,proposals:0,won:0,agreedValue:0},null,[],
     'Kunne ikke hente live måltall'+(msg?(' ('+msg+')'):'')+' — viser mål og nuller. Last siden på nytt, eller sjekk at ADMIN_KEY er satt.');}
+
+/* ---------- bestillinger ---------- */
+var ORDERS=[];
+var OSTATUS=['ubehandlet','oppstart','design','levering','fullført'];
+function loadOrders(){api('admin-orders').then(function(d){ORDERS=(d.orders||[]).filter(function(o){return !o.demo;});
+  var pending=ORDERS.filter(function(o){return o.paid && o.status!=='fullført';}).length;
+  $('c-ordre').textContent=pending;renderOrders();}).catch(function(e){if($('ordre-list'))$('ordre-list').innerHTML='<div class="empty">Kunne ikke hente bestillinger.</div>';});}
+function renderOrders(){var el=$('ordre-list');if(!el)return;
+  if(!ORDERS.length){el.innerHTML='<div class="empty">Ingen bestillinger ennå. Når noen kjøper via nettsiden, dukker de opp her.</div>';return;}
+  el.innerHTML=ORDERS.map(function(o){
+    var paid=!!o.paid;
+    var badge=paid?'<span class="badge ok">Betalt</span>':'<span class="badge avv">Ubetalt</span>';
+    var when=o.created?new Date(o.created).toLocaleDateString('nb-NO'):'';
+    var opts=OSTATUS.map(function(s){return '<option value="'+s+'"'+(o.status===s?' selected':'')+'>'+esc(s)+'</option>';}).join('');
+    return '<div class="panel" style="margin-bottom:12px">'
+      +'<div class="ph"><h2 style="font-size:16px">'+esc(o.navn||o.email||o.id)+' '+badge+'</h2><span class="muted">'+esc(when)+'</span></div>'
+      +'<div class="grid g4" style="margin:8px 0">'
+        +'<div class="stat"><div class="k">Pakke</div><div class="v" style="font-size:15px">'+esc(o.pakke||o.pkg||'—')+'</div></div>'
+        +'<div class="stat"><div class="k">Beløp</div><div class="v" style="font-size:15px">'+nok(o.amountKr)+'</div></div>'
+        +'<div class="stat"><div class="k">E-post</div><div class="v" style="font-size:13px">'+esc(o.email||'—')+'</div></div>'
+        +'<div class="stat"><div class="k">Ref</div><div class="v" style="font-size:13px">'+esc(o.id)+'</div></div>'
+      +'</div>'
+      +(o.melding?'<div class="muted" style="margin-bottom:8px">«'+esc(o.melding)+'»</div>':'')
+      +'<div class="row" style="gap:8px;align-items:center">'
+        +(paid?'':'<button class="btn primary" data-paid="'+esc(o.id)+'">✓ Bekreft betalt</button>')
+        +'<label class="muted" style="margin:0">Status</label><select data-status="'+esc(o.id)+'">'+opts+'</select>'
+        +'<a class="btn sm ghost" href="mailto:'+esc(o.email||'')+'">Send e-post</a>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+  [].forEach.call(el.querySelectorAll('[data-paid]'),function(b){b.onclick=function(){var id=b.getAttribute('data-paid');b.disabled=true;post('admin-orders',{id:id,paid:true}).then(function(){toast('Markert som betalt');loadOrders();}).catch(function(e){alert(e.message);b.disabled=false;});};});
+  [].forEach.call(el.querySelectorAll('[data-status]'),function(s){s.onchange=function(){post('admin-orders',{id:s.getAttribute('data-status'),status:s.value}).then(function(){toast('Status oppdatert');}).catch(function(e){alert(e.message);});};});
+}
 
 /* ---------- leads ---------- */
 function loadLeads(){$('lead-list').innerHTML='<div class="empty small">Laster…</div>';

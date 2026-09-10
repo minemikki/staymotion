@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /salg.html
 Disallow: /salg
+Disallow: /admin.html
+Disallow: /admin
 
 Sitemap: https://staymotion.no/sitemap.xml
