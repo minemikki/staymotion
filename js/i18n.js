@@ -33,6 +33,9 @@
     'Vi designer og bygger nettsider for norske bedrifter. Fast pris, levert på dager — og hver side er bygget for én ting: at folk ringer, booker eller sender en melding.':
       'We design and build websites for Norwegian businesses. Fixed price, delivered in days — and every page is built for one thing: to make people call, book or send a message.',
     'Få et gratis førsteside-konsept': 'Get a free homepage concept',
+    'Se hva det koster': 'See what it costs',
+    'Få et gratis konsept': 'Get a free concept',
+    'Slik bygger vi': 'How we build it',
     'Se priser': 'See pricing',
     'Før / standardoppsett': 'Before / stock template',
     'Etter / ny retning': 'After / new direction',
