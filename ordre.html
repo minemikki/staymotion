@@ -75,7 +75,6 @@
   .delivery{border:1px solid rgba(105,212,224,.4);background:linear-gradient(180deg,rgba(105,212,224,.1),rgba(105,212,224,.02))}
   .delivery .dk{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px}
   .delivery h2{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
-  .fvid{width:100%;max-width:300px;aspect-ratio:9/16;border-radius:14px;background:#000;display:block;margin:0 auto 8px;border:1px solid var(--line)}
   .fmeta{text-align:center;color:var(--slate);font-size:12px;margin-bottom:16px}
   .dbtns{display:flex;flex-direction:column;gap:10px}
   .revinfo{text-align:center;color:var(--slate);font-size:12.5px;margin-top:12px}
@@ -202,7 +201,6 @@
       <div class="card delivery hide" id="delivery">
         <div class="dk">Din leveranse</div>
         <h2 id="delivTitle">Leveransen din er klar 🚀</h2>
-        <video id="finalVid" class="fvid" controls playsinline preload="metadata"></video>
         <div class="fmeta" id="finalMeta"></div>
         <div class="dbtns">
           <a id="finalDl" class="btn cyan">⤓ Åpne / last ned</a>
@@ -278,14 +276,14 @@
   let data = null, lastSig='', busy=false, polling=false;
 
   // Display names. Legacy ids keep resolving so old orders still read correctly.
-  const PKG = { sprint:'Momentum (komplett nettside)', landing:'Første trekk (landingsside)', signature:'Signatur (skreddersydd)', care:'Videre (drift og oppfølging)', launch:'Oppstart (mindre nettside)', growth:'Vekst (flere sider)', bilder:'Oppstart', enkelt:'Vekst', signatur:'Signatur' };
+  const PKG = { sprint:'Momentum (komplett nettside)', landing:'Første trekk (landingsside)', signature:'Signatur (skreddersydd)', care:'Videre (drift og oppfølging)', launch:'Oppstart (mindre nettside)', growth:'Vekst (flere sider)' };
   const MONTHS=['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
   function esc(s){ return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
   function fmtDay(ms){ try{ const d=new Date(ms); return d.getDate()+'. '+MONTHS[d.getMonth()]; }catch(e){ return ''; } }
   function fmtDayTime(ms){ try{ const d=new Date(ms); const hh=('0'+d.getHours()).slice(-2), mm=('0'+d.getMinutes()).slice(-2); return d.getDate()+'. '+MONTHS[d.getMonth()]+' · '+hh+':'+mm; }catch(e){ return ''; } }
   function fmtTime(ms){ try{ return new Date(ms).toLocaleString('no-NO',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
 
-  function sigOf(d){ return (d.status||'')+'|'+(d.finalStatus||'')+'|'+((d.replies||[]).length)+'|'+((d.notes||[]).length)+'|'+((d.deliverables||[]).length)+'|'+((d.photos||[]).length)+'|'+(d.final?('F'+d.final.version+d.final.deliveredAt):'0')+'|'+(d.revisionsRemaining!=null?d.revisionsRemaining:'')+'|'+(d.revisionPending?1:0)+'|'+(d.projectStage||'')+'|'+(d.stagingUrl||'')+'|'+(d.liveUrl||''); }
+  function sigOf(d){ return (d.status||'')+'|'+((d.replies||[]).length)+'|'+((d.notes||[]).length)+'|'+((d.deliverables||[]).length)+'|'+((d.photos||[]).length)+'|'+'|'+(d.revisionsRemaining!=null?d.revisionsRemaining:'')+'|'+(d.projectStage||'')+'|'+(d.stagingUrl||'')+'|'+(d.liveUrl||''); }
 
   async function load(){
     if(!ref || !t){ show('denied'); return; }
@@ -311,10 +309,9 @@
   const PSTAGE={strategi:1,design:2,bygg:2,review:3,lansert:4};
   function stage(){
     if(data.projectStage && PSTAGE[data.projectStage]) return PSTAGE[data.projectStage];
-    if(data.final || (data.deliverables||[]).length) return 4;   // klar
-    if(data.finalStatus==='qc') return 3;                        // kvalitetssjekk
+    if(data.liveUrl || (data.deliverables||[]).length) return 4;   // klar
     const s=data.status||'';
-    if(s==='under_arbeid' || data.finalStatus==='revision_requested') return 2;
+    if(s==='under_arbeid') return 2;
     return 1;                                                    // mottatt
   }
   const STAGE_NAME=['','Strategi','Design & bygg','Gjennomgang','Lansert'];
@@ -334,7 +331,7 @@
 
     // STATUS card
     const big=$('statusBig'); big.textContent=STAGE_NAME[st]; big.classList.toggle('klar', st===4);
-    if(st===4 && (data.launchedAt || (data.final && data.final.deliveredAt))){ $('delivLab').textContent='Lansert'; $('delivDate').innerHTML=fmtDay(data.launchedAt || data.final.deliveredAt); }
+    if(st===4 && data.launchedAt){ $('delivLab').textContent='Lansert'; $('delivDate').innerHTML=fmtDay(data.launchedAt); }
     else if(data.deadline){ $('delivLab').textContent='Lansering senest'; $('delivDate').innerHTML=fmtDayTime(data.deadline); }
     else { $('delivLab').textContent='Lansering'; $('delivDate').textContent='Avtales'; }
 
@@ -353,9 +350,6 @@
       nc.classList.add('act'); $('nowIc').textContent='📸';
       $('nowText').textContent='Vi trenger innhold fra deg før vi kan sette i gang — logo, bilder og tekst.';
       cta.textContent='Last opp innhold'; cta.dataset.mode='upload'; cta.classList.remove('hide');
-    } else if(data.revisionPending){
-      $('nowIc').textContent='✏️';
-      $('nowText').textContent='Vi har mottatt endringsønsket ditt og lager en ny versjon. Vi sier fra når den er klar.';
     } else if(st===1){
       $('nowIc').textContent='✅';
       $('nowText').textContent='Vi har alt vi trenger og legger strategi og retning for siden. Du trenger ikke gjøre noe nå.';
@@ -377,28 +371,16 @@
     // delivery hero
     if(data.liveUrl){
       $('delivery').classList.remove('hide');
-      $('finalVid').classList.add('hide'); $('delivTitle').textContent='Nettsiden din er live 🚀'; $('finalMeta').textContent='Lansert' + (data.launchedAt ? ' · ' + fmtDay(data.launchedAt) : '');
+      $('delivTitle').textContent='Nettsiden din er live 🚀'; $('finalMeta').textContent='Lansert' + (data.launchedAt ? ' · ' + fmtDay(data.launchedAt) : '');
       const dl=$('finalDl'); dl.textContent='Åpne nettsiden ↗'; dl.href=data.liveUrl; dl.target='_blank'; dl.rel='noopener'; dl.classList.remove('hide');
       const rem=data.revisionsRemaining, rb=$('revBtn'); rb.classList.remove('hide');
-      if(data.revisionPending){ $('revInfo').textContent='Endringen din er mottatt – vi er i gang. ✏️'; rb.disabled=true; rb.textContent='Endring bestilt'; }
-      else { $('revInfo').textContent= rem>0 ? (rem+' justeringsrunde'+(rem>1?'r':'')+' inkludert etter lansering.') : 'Ønsker du en endring? Ta kontakt, eller spør om StayMotion Care.'; rb.disabled=false; rb.textContent='Be om en justering'; }
-    } else if(data.final){
-      $('delivery').classList.remove('hide');
-      const v=$('finalVid'); if(v.getAttribute('data-src')!==data.final.preview){ v.src=data.final.preview||''; v.poster=data.final.poster||''; v.setAttribute('data-src',data.final.preview||''); }
-      const res=(data.final.width&&data.final.height)?(data.final.width+' × '+data.final.height):'1080 × 1920';
-      $('finalMeta').textContent='Leveranse · v'+(data.final.version||1);
-      $('finalDl').href='/api/order-download?ref='+encodeURIComponent(ref)+'&t='+encodeURIComponent(t)+'&which=master';
-      const rem=data.revisionsRemaining, rb=$('revBtn');
-      if(data.revisionPending){ $('revInfo').textContent='Endringen din er mottatt – vi er i gang. ✏️'; rb.disabled=true; rb.textContent='Endring bestilt'; }
-      else if(rem>0){ $('revInfo').textContent=rem+' revisjonsrunde'+(rem>1?'r':'')+' inkludert.'; rb.disabled=false; rb.textContent='Be om en endring'; }
-      else { $('revInfo').textContent='Ønsker du en endring? Ta kontakt.'; rb.disabled=false; rb.textContent='Be om en endring'; }
+      $('revInfo').textContent = rem>0 ? (rem+' justeringsrunde'+(rem>1?'r':'')+' inkludert etter lansering.') : 'Ønsker du en endring? Ta kontakt, eller spør om Videre.';
+      rb.disabled=false; rb.textContent='Be om en justering';
     } else if((data.deliverables||[]).length){
       $('delivery').classList.remove('hide');
-      $('finalVid').classList.add('hide'); $('finalMeta').textContent=''; $('revBtn').classList.add('hide');
+      $('finalMeta').textContent=''; $('revBtn').classList.add('hide');
       const box=$('deliverList'); box.innerHTML='';
       data.deliverables.forEach(d=>{
-        const isVid=/\.(mp4|mov|webm|m4v)$/i.test(d.name);
-        if(isVid){ const v=document.createElement('video'); v.src=d.url; v.controls=true; v.playsInline=true; v.className='fvid'; box.appendChild(v); }
         const a=document.createElement('a'); a.href=d.url; a.download=d.name; a.className='btn cyan'; a.textContent='⤓ Last ned '+d.name; a.style.marginTop='8px'; box.appendChild(a);
       });
       $('finalDl').classList.add('hide');
@@ -496,9 +478,9 @@
     if(txt===null) return; const text=txt.trim(); if(!text) return;
     b.disabled=true; const old=b.textContent; b.textContent='Sender …';
     try{
-      const r=await fetch('/api/order-revision',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ref,t,text}) });
-      const j=await r.json(); if(!r.ok||j.error) throw new Error(j.error||'feil');
-      alert('Takk! Endringsforespørselen er sendt. Vi er i gang. ✏️'); lastSig=''; load();
+      const r=await fetch('/api/order-note',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ref,t,note:'Ønsker en justering: '+text}) });
+      if(!r.ok) throw new Error('feil');
+      alert('Takk! Vi har fått beskjeden og tar kontakt. ✏️'); lastSig=''; load();
     }catch(e){ b.disabled=false; b.textContent=old; alert('Kunne ikke sende: '+e.message); }
   });
   $('nowCta').addEventListener('click', ()=>{ if($('nowCta').dataset.mode==='review' && data.stagingUrl){ window.open(data.stagingUrl,'_blank','noopener'); return; } $('drop').scrollIntoView({behavior:'smooth',block:'center'}); input.click(); });

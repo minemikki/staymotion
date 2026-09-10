@@ -39,7 +39,7 @@ export default async function handler(req, res) {
             to: o.email,
             subject: 'Du var nesten i mål med bestillingen',
             html: `<p>Hei${o.navn ? ' ' + o.navn.split(' ')[0] : ''}!</p>
-              <p>Jeg så at du var nesten ferdig med å bestille <b>${o.pakke || 'en video'}</b> hos StayMotion, men at betalingen ikke gikk helt gjennom.</p>
+              <p>Jeg så at du var nesten ferdig med å bestille <b>${o.pakke || 'en nettside'}</b> hos StayMotion, men at betalingen ikke gikk helt gjennom.</p>
               <p>Vil du fullføre? Det tar et halvt minutt: <a href="${link}">Fullfør bestillingen her</a>.</p>
               <p>Er det noe du lurer på, bare svar på denne e-posten.</p>
               <p>Michael, StayMotion</p>`,
@@ -55,10 +55,10 @@ export default async function handler(req, res) {
         if (!dry) {
           await sendEmail({
             to: o.email,
-            subject: 'Vi er klare — vi mangler bare bildene dine',
+            subject: 'Vi er klare — vi mangler bare innholdet ditt',
             html: `<p>Hei${o.navn ? ' ' + o.navn.split(' ')[0] : ''}!</p>
-              <p>Takk for bestillingen din på <b>${o.pakke || 'video'}</b>. Vi er klare til å sette i gang så snart vi har bildene dine.</p>
-              <p>Fant du ikke opplastingslenken? Svar på denne e-posten med bildene, så ordner vi resten.</p>
+              <p>Takk for bestillingen din på <b>${o.pakke || 'nettside'}</b>. Vi er klare til å sette i gang så snart vi har innholdet ditt — logo, bilder og tekst.</p>
+              <p>Fant du ikke opplastingslenken? Svar på denne e-posten med filene, så ordner vi resten.</p>
               <p>Michael, StayMotion</p>`,
           });
           o.uploadNudged = true;

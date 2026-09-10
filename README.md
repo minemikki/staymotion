@@ -14,7 +14,7 @@ Stripe + Vipps (depositum) · Resend (e-post) · signerte portal-tokens.
 | `start.html` | 7-stegs prosjekt-intake → `api/project-intake.js` → Leads CRM + e-post |
 | `minside.html` / `ordre.html` | Kundeportal (prosjektstatus, filer, meldinger, leveranse) |
 | `takk.html` | Bekreftelse etter depositum |
-| `admin.html` | Dashboard: salgspipeline (Leads), prosjekter, pipeline-tavle |
+| `admin.html` | Flyttet — sender til `salg.html` |
 | `salg.html` | **Salgssystem** (adminbeskyttet): resultatmål, CRM, nettsideanalyse, meldingsgenerator, godkjenningskø, lovlig utsending, «I dag», tilbud |
 | `sprint.html` | Offentlig konverteringsside: Website Sprint + Landing Page Sprint + gratis nettsidesjekk (`/sprint`) |
 | `bestill.html` | Redirect til `start.html` (gammel lenke) |
@@ -27,13 +27,17 @@ avsenderdomene før ekte e-post sendes. Suppression-liste, stopp ved svar/bounce
 norsk arbeidstid, kill switch, sendelogg. Sprint-pakker + MVA-visning ligger i `lib/packages.js`.
 
 ## Tilbud (`lib/packages.js`)
-Launch fra 7 900 · Growth fra 12 900 · Signature fra 19 900 · Care fra 1 490/mnd (introduksjonspriser; større prosjekter får eget tilbud).
-Checkout belaster **depositum** (50 % / 40 %). Care faktureres månedlig.
+Første trekk 7 900 · Momentum 16 000 · Signatur fra 19 900 · Videre fra 1 490/mnd (større prosjekter får eget tilbud).
+Checkout belaster **depositum** (Momentum 50 %, Signatur 40 %). Første trekk betales i sin helhet ved oppstart. Videre faktureres månedlig.
 
 ## Miljøvariabler (Vercel)
 `ADMIN_KEY`, `ORDER_SECRET`, `RESEND_API_KEY`, `MAIL_FROM`, `OWNER_EMAIL`, `STRIPE_SECRET_KEY`,
-`STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`, `VIPPS_*`, `MCP_TOKEN`.
+`STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`, `VIPPS_*`.
 `SALES_LIVE` — settes til `1` **kun etter** at avsenderdomene + SPF/DKIM/DMARC er verifisert i Resend;
 uten den er salgssystemet i dry-run og sender ingen ekte e-post.
 
-Se `docs/PIVOT_PLAN.md` for revisjonen fra video-selskap til webdesign-studio, og hva som er beholdt.
+Se `docs/PIVOT_PLAN.md` for hvorfor arkitekturen ser ut som den gjør.
+
+StayMotion selger webdesign. Den tidligere videotjenesten er avviklet og fjernet fra
+kodebasen. Gamle ordrer fra den ligger fortsatt i `orders/`-lageret og filtreres bort
+via `REEL_PACKAGE_IDS` i `lib/packages.js` — uten det dukker de opp som webprosjekter.
