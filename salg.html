@@ -200,6 +200,19 @@
   .ov{position:fixed;inset:0;background:rgba(18,19,22,.55);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:50;overflow:auto}
   .modal{background:var(--ivory);border:1px solid var(--line2);border-radius:16px;max-width:640px;width:100%;padding:24px;box-shadow:0 40px 80px -30px #0007}
   .modal h2{margin-bottom:14px}
+  /* Redigeringsskjemaet: seksjonsoverskrifter og en skuff for det man sjelden
+     rører, så det man faktisk trenger står øverst og lesbart. */
+  .msec{margin:20px 0 11px;padding-top:15px;border-top:1px solid var(--line2);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .msec.first{margin-top:2px;padding-top:0;border-top:0}
+  .fld{margin-top:12px}
+  .grid .fld{margin-top:0}
+  .mmore{margin-top:18px;border:1px solid var(--line2);border-radius:11px;background:#fff}
+  .mmore>summary{cursor:pointer;padding:12px 15px;font-size:13px;color:var(--muted);list-style:none;user-select:none}
+  .mmore>summary::-webkit-details-marker{display:none}
+  .mmore>summary::before{content:'+';display:inline-block;width:16px;font-weight:700;color:var(--faint)}
+  .mmore[open]>summary::before{content:'–'}
+  .mmore>.mbody{padding:2px 15px 16px;border-top:1px solid var(--line2)}
+  .mnote{margin:-6px 0 16px;font-size:13px;color:var(--muted)}
   .msgbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;white-space:pre-wrap;font-size:13.5px;margin-bottom:8px;color:var(--ink2)}
   /* gate */
   .gate{max-width:400px;margin:12vh auto 0;text-align:center;background:var(--ivory);border:1px solid var(--line);border-radius:18px;padding:38px 34px;box-shadow:0 30px 70px -40px #0006}
@@ -736,32 +749,60 @@ function modal(html){var r=$('modal-root');r.innerHTML='<div class="ov"><div cla
 function closeModal(){$('modal-root').innerHTML='';}
 function editLead(l){var isNew=!l.id;
   var f=function(k){return esc(l[k]||'');};
-  modal('<h2>'+(isNew?'Ny lead':'Rediger lead')+'</h2>'+
+  /* Kort og lesbart øverst: hvem det er, hvordan man når dem, hva som skjer
+     videre. Tall, utsendingstekster og det «Analyser side» fyller inn ligger
+     i skuffen — det trengs sjelden, og gjorde skjemaet uoversiktlig. */
+  var kilde = l.source==='intake'
+    ? '<p class="mnote">Sendte inn skjemaet på nettsiden'+(tid(l)?' '+new Date(tid(l)).toLocaleDateString('nb-NO',{day:'numeric',month:'long',year:'numeric'}):'')
+      +(l.need?' · '+esc(l.need):'')+(l.budget?' · budsjett '+esc(l.budget):'')+'.</p>'
+    : '';
+  modal('<h2>'+(isNew?'Ny lead':esc(l.company||'Rediger lead'))+'</h2>'+ kilde +
+
+    '<div class="msec first">Bedriften</div>'+
     '<div class="grid g2">'+
-    inp('Bedrift','m-company',f('company'))+inp('Bransje-select','m-segment','',segSelect(l.segment))+
-    inp('By','m-location',f('location'))+inp('Nettside','m-website',f('website'))+
-    inp('E-post','m-email',f('email'))+inp('Telefon','m-phone',f('phone'))+
-    inp('Kontaktnavn','m-contact',f('contact'))+inp('Kilde-URL','m-src',f('src'))+
-    inp('Prioritet (0-100)','m-priorityScore',f('priorityScore')||f('leadScore'))+inp('Anslått verdi (kr)','m-estValue',f('estValue')||f('value'))+
-    inp('Nettsidekvalitet','m-websiteQuality',f('websiteQuality'))+inp('Mobilproblem','m-mobileIssue',f('mobileIssue'))+
+      inp('Bedrift','m-company',f('company'))+inp('Bransje-select','m-segment','',segSelect(l.segment))+
+      inp('By','m-location',f('location'))+inp('Nettside','m-website',f('website'))+
     '</div>'+
-    lbl('Tydeligste forbedring')+'<input id="m-topOpportunity" value="'+f('topOpportunity')+'">'+
-    /* These two feed the outreach templates directly. Observation opens the
-       mail, angle names the consequence, conceptUrl turns the first mail from
-       an offer into a gift that already exists. */
-    lbl('Observasjon — åpner e-posten (det du faktisk la merke til)')+
-      '<input id="m-observation" placeholder="Jeg kom over dere på nett — småretter i Pedersgata, det ser skikkelig bra ut" value="'+f('observation')+'">'+
-    lbl('Konsekvens — hva det koster dem (én setning)')+
-      '<input id="m-angle" placeholder="Men nettsiden viser ingenting av det. Forsiden er tom, og menyen ligger bak en lenke." value="'+f('angle')+'">'+
-    lbl('Konseptlenke — har du bygget et utkast, lim inn her')+
-      '<input id="m-conceptUrl" placeholder="https://claude.ai/code/artifact/…" value="'+f('conceptUrl')+'">'+
-    '<div class="grid g2" style="margin-top:10px">'+
-    inp('Stadie-select','m-stage','',stageSelect(l.stage))+inp('Tilbud','m-offer','',offerSelect(l.offer))+
-    inp('Avtalt pris (kr)','m-agreedPriceKr',f('agreedPriceKr'))+inp('Betalt oppstart (kr)','m-startPaidKr',f('startPaidKr'))+
-    inp('Neste handling','m-nextAction',f('nextAction'))+inp('Oppfølgingsdato','m-nextActionDate',f('nextActionDate'))+
+
+    '<div class="msec">Kontakt</div>'+
+    '<div class="fld" style="margin-top:0">'+lbl('Kontaktnavn')+'<input id="m-contact" value="'+f('contact')+'"></div>'+
+    '<div class="grid g2 fld">'+
+      inp('E-post','m-email',f('email'))+inp('Telefon','m-phone',f('phone'))+
     '</div>'+
-    lbl('Notater')+'<textarea id="m-notes">'+f('notes')+'</textarea>'+
-    '<div class="row" style="margin-top:14px"><button class="btn primary" id="m-save">Lagre</button><button class="btn ghost" id="m-cancel">Avbryt</button></div>');
+
+    '<div class="msec">Hvor det står</div>'+
+    '<div class="grid g2">'+
+      inp('Stadie-select','m-stage','',stageSelect(l.stage))+inp('Tilbud-select','m-offer','',offerSelect(l.offer))+
+      inp('Neste handling','m-nextAction',f('nextAction'))+inp('Oppfølgingsdato','m-nextActionDate',f('nextActionDate'))+
+    '</div>'+
+    '<div class="fld">'+lbl('Notat')+'<textarea id="m-notes" placeholder="Hva som er sagt, hva de trenger, hva du lovet.">'+f('notes')+'</textarea></div>'+
+
+    '<details class="mmore"><summary>Tall, e-posttekster og nettsidesjekk</summary><div class="mbody">'+
+      '<div class="msec first">Tall</div>'+
+      '<div class="grid g2">'+
+        inp('Avtalt pris (kr)','m-agreedPriceKr',f('agreedPriceKr'))+inp('Betalt oppstart (kr)','m-startPaidKr',f('startPaidKr'))+
+        inp('Prioritet (0–100)','m-priorityScore',f('priorityScore')||f('leadScore'))+inp('Anslått verdi (kr)','m-estValue',f('estValue')||f('value'))+
+      '</div>'+
+      /* Disse to går rett inn i e-postmalene: observasjonen åpner mailen,
+         konsekvensen sier hva det koster dem, og en konseptlenke gjør første
+         mail til noe som allerede finnes i stedet for et tilbud. */
+      '<div class="msec">Til første e-post</div>'+
+      '<div class="fld" style="margin-top:0">'+lbl('Observasjon — det du faktisk la merke til')+
+        '<input id="m-observation" placeholder="Jeg kom over dere på nett — småretter i Pedersgata, det ser skikkelig bra ut" value="'+f('observation')+'"></div>'+
+      '<div class="fld">'+lbl('Konsekvens — hva det koster dem')+
+        '<input id="m-angle" placeholder="Men nettsiden viser ingenting av det. Forsiden er tom, og menyen ligger bak en lenke." value="'+f('angle')+'"></div>'+
+      '<div class="fld">'+lbl('Konseptlenke — hvis du har bygget et utkast')+
+        '<input id="m-conceptUrl" placeholder="https://claude.ai/code/artifact/…" value="'+f('conceptUrl')+'"></div>'+
+
+      '<div class="msec">Fra nettsidesjekken</div>'+
+      '<div class="grid g2">'+
+        inp('Nettsidekvalitet','m-websiteQuality',f('websiteQuality'))+inp('Mobilproblem','m-mobileIssue',f('mobileIssue'))+
+      '</div>'+
+      '<div class="fld">'+lbl('Tydeligste forbedring')+'<input id="m-topOpportunity" value="'+f('topOpportunity')+'"></div>'+
+      '<div class="fld">'+lbl('Kilde-URL')+'<input id="m-src" value="'+f('src')+'"></div>'+
+    '</div></details>'+
+
+    '<div class="row" style="margin-top:16px"><button class="btn primary" id="m-save">Lagre</button><button class="btn ghost" id="m-cancel">Avbryt</button></div>');
   $('m-cancel').onclick=closeModal;
   $('m-save').onclick=function(){
     var lead=Object.assign({},l);
@@ -773,7 +814,10 @@ function editLead(l){var isNew=!l.id;
     post('admin-leads',{lead:lead}).then(function(){toast('Lagret');closeModal();loadLeads();loadMetrics();}).catch(function(e){alert(e.message);});
   };
 }
-function inp(label,id,val,customEl){if(customEl)return lbl(label.replace('-select',''))+customEl.replace('__ID__',id);return lbl(label)+'<input id="'+id+'" value="'+esc(val)+'">';}
+function inp(label,id,val,customEl){
+  var inner = customEl ? customEl.replace('__ID__',id) : '<input id="'+id+'" value="'+esc(val)+'">';
+  return '<div class="fld">'+lbl(label.replace('-select',''))+inner+'</div>';
+}
 function lbl(t){return '<label>'+esc(t)+'</label>';}
 function selEl(id,opts,cur){return '<select id="'+id+'">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===cur?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>';}
 function segSelect(cur){return selEl('__ID__',[['handverker','Håndverker'],['klinikk','Klinikk/frisør/skjønnhet'],['restaurant','Restaurant/hospitality'],['eiendom','Eiendom/Airbnb/hytte'],['renhold','Renhold/vedlikehold'],['annet','Annet']],cur||'annet');}
