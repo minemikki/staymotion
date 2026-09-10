@@ -39,7 +39,7 @@ async function fulfil(req, { ref, email, navn, amountKr, uploadUrl }) {
         emailP(`Pakke: <b style="color:#EEF3F6">${order?.pakke || '?'}</b><br>Beløp: <b style="color:#EEF3F6">${(amountKr != null ? amountKr : (order?.amountKr || 0)).toLocaleString('no-NO')} kr</b><br>Frist: ${frist}<br>Ref: <b style="color:#E8D3A6">${String(ref).toUpperCase()}</b>`) +
         (order?.melding ? emailP(`<b style="color:#EEF3F6">Melding fra kunde:</b><br>${String(order.melding).replace(/</g, '&lt;')}`) : ''),
       ctaText: 'Åpne admin-panelet',
-      ctaUrl: `${origin}/admin.html`,
+      ctaUrl: `${origin}/salg.html?v=ordre`,
     }),
   });
 

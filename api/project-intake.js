@@ -10,6 +10,16 @@ import { sendEmail, renderEmail, emailP } from '../lib/email.js';
 const s = (v, n) => String(v == null ? '' : v).trim().slice(0, n);
 const esc = (t) => String(t).replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
 
+// Bransjevalget i skjemaet → segmentet CRM-en filtrerer på. Uten dette står
+// leadet uten segment, og forsvinner så snart et bransjefilter er valgt.
+const SEGMENT = {
+  'Eiendom': 'eiendom',
+  'Bygg / håndverk': 'handverker',
+  'Klinikk / estetikk': 'klinikk',
+  'Trening / velvære': 'klinikk',
+  'Restaurant / hotell': 'restaurant',
+};
+
 // Budget range → suggested package + rough value for the pipeline.
 function suggest(budget) {
   if (/40k\+/.test(budget)) return { pkg: 'Skreddersydd', value: 40000 };
@@ -33,7 +43,11 @@ export default async function handler(req, res) {
     }
     const lead = {
       source: 'intake',
-      stage: 'kvalifisert',           // arrived via the site → already qualified themselves
+      // Må være en fase som finnes i pipelinen (STAGE_LABELS i salg.html).
+      // 'kvalifisert' gjorde det ikke, så leadet ble ikke talt i noen fase og
+      // forsvant straks et fasefilter var valgt. De har tatt kontakt selv og
+      // venter på svar — altså klar for kontakt.
+      stage: 'klar',
       company, contact: name, email,
       phone: s(b.phone, 40),
       website: s(b.url, 300),
@@ -50,6 +64,11 @@ export default async function handler(req, res) {
     const sug = suggest(lead.budget);
     lead.proposedPackage = sug.pkg;
     lead.value = sug.value;
+    lead.segment = SEGMENT[lead.niche] || 'annet';
+    // Noen som selv har fylt ut sju steg og bedt om et konsept er det varmeste
+    // som finnes. Uten en score havner de på 0, og CRM-lista sorterer synkende
+    // — altså bakerst, bak hver eneste kalde lead. Innkommende skal ligge øverst.
+    lead.priorityScore = 95;
     await saveLead(lead);
 
     const owner = process.env.OWNER_EMAIL || 'michael@staymotion.no';
@@ -70,7 +89,7 @@ export default async function handler(req, res) {
           + row('Foreslått pakke', `${sug.pkg} (~${sug.value.toLocaleString('nb-NO')} kr)`)
           + `</table>`
           + (lead.notes ? emailP(`<b style="color:#111820">Notat:</b><br>${esc(lead.notes)}`) : ''),
-        ctaText: 'Åpne i admin', ctaUrl: `${origin}/admin.html`,
+        ctaText: 'Åpne i salgspanelet', ctaUrl: `${origin}/salg.html?v=leads`,
       }),
     });
 

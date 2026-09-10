@@ -30,7 +30,7 @@ export default async function handler(req, res) {
             emailP(`<b style="color:#EEF3F6">${order.navn || order.kunde || 'Kunde'}</b> (ref <b style="color:#E8D3A6">${String(ref).toUpperCase()}</b>) skrev:`) +
             emailP(`<span style="color:#EEF3F6">«${note.replace(/</g, '&lt;')}»</span>`),
           ctaText: 'Åpne admin-panelet',
-          ctaUrl: `${origin}/admin.html`,
+          ctaUrl: `${origin}/salg.html?v=ordre`,
         }),
       });
     } catch (e) { console.error('[order-note] email', e.message); }

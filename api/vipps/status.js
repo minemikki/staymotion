@@ -47,7 +47,7 @@ export default async function handler(req, res) {
         Frist: ${deadline}<br>
         Ref: ${ref}</p>
         ${order?.melding ? `<p><b>Melding fra kunde:</b><br>${String(order.melding).replace(/</g, '&lt;')}</p>` : ''}
-        <p>Kunden laster opp bildene nå. Se alle bestillinger i <a href="https://${req.headers.host}/admin.html">admin-panelet</a>.</p>`,
+        <p>Kunden laster opp innholdet nå. Se alle bestillinger i <a href="https://${req.headers.host}/salg.html?v=ordre">salgspanelet</a>.</p>`,
     });
 
     const orderToken = signOrder({

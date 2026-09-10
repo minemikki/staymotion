@@ -595,35 +595,48 @@ function loadLeads(){$('lead-list').innerHTML='<div class="empty small">Laster�
 $('lead-q').oninput=function(){LQ=this.value.toLowerCase();renderLeads();};
 $('lead-seg').onchange=function(){LSEG=this.value;renderLeads();};
 function renderLeads(){
-  var counts={};STAGES.forEach(function(s){counts[s]=0;});LEADS.forEach(function(l){if(counts[l.stage]!=null)counts[l.stage]++;});
+  var counts={};STAGES.forEach(function(s){counts[s]=0;});LEADS.forEach(function(l){var st=stageOf(l);if(counts[st]!=null)counts[st]++;});
   var pipe='<span class="p'+(LFILTER===''?' active':'')+'" data-st="">Alle <b>'+LEADS.length+'</b></span>';
   STAGES.forEach(function(s){pipe+='<span class="p'+(LFILTER===s?' active':'')+'" data-st="'+s+'">'+STAGE_LABELS[s]+' <b>'+counts[s]+'</b></span>';});
   $('lead-pipe').innerHTML=pipe;
   [].forEach.call($('lead-pipe').querySelectorAll('.p'),function(p){p.onclick=function(){LFILTER=p.getAttribute('data-st');renderLeads();};});
   var list=LEADS.filter(function(l){
-    if(LFILTER&&l.stage!==LFILTER)return false;
+    if(LFILTER&&stageOf(l)!==LFILTER)return false;
     if(LSEG&&l.segment!==LSEG)return false;
     if(LQ){var hay=((l.company||'')+' '+(l.location||'')+' '+(l.email||'')+' '+(l.website||'')).toLowerCase();if(hay.indexOf(LQ)<0)return false;}
     return true;
   });
-  list.sort(function(a,b){return (Number(b.priorityScore||b.leadScore)||0)-(Number(a.priorityScore||a.leadScore)||0);});
+  list.sort(function(a,b){return prio(b)-prio(a);});
   if(!list.length){$('lead-list').innerHTML='<div class="empty"><div class="big">◎</div>Ingen leads her ennå. Legg til en, eller importer CSV.</div>';return;}
   $('lead-list').innerHTML=list.map(leadCard).join('');
   [].forEach.call($('lead-list').querySelectorAll('[data-act]'),function(b){b.onclick=function(){leadAction(b.getAttribute('data-act'),b.getAttribute('data-id'));};});
 }
+/* Lista sorterer synkende på prioritet. Leads som er sendt inn via nettsiden
+   ble lagret uten score, altså 0 — de havnet bakerst, bak hver eneste kalde
+   lead. Nye får 95 fra api/project-intake.js; dette løfter også de som
+   allerede ligger lagret uten score, uten å måtte redigere dem. */
+/* Eldre innsendinger ble lagret med fasen 'kvalifisert', som aldri har vært
+   en del av pipelinen. De ble ikke talt i noen fase, og forsvant så snart et
+   fasefilter var valgt. Ukjente faser regnes som «klar for kontakt». */
+function stageOf(l){ var st=l.stage||'ny'; return STAGE_LABELS[st]?st:'klar'; }
+function prio(l){
+  var n=Number(l.priorityScore||l.leadScore)||0;
+  return l.source==='intake' ? Math.max(n,95) : n;
+}
 function webHref(u){u=String(u||'').trim();if(!u)return '';return /^https?:\/\//i.test(u)?u:'https://'+u;}
 function leadCard(l){
-  var score=Number(l.priorityScore||l.leadScore)||0;
+  var score=prio(l);
   var addr=l.email?classifyLabel(l.email):'';
   var supp=l.email&&SUPP&&SUPP[l.email.toLowerCase()];
-  return '<div class="lead st-'+esc(l.stage||'ny')+(l.demo?' demo':'')+'"'+(supp?' style="opacity:.7"':'')+'>'+
+  return '<div class="lead st-'+esc(stageOf(l))+(l.demo?' demo':'')+'"'+(supp?' style="opacity:.7"':'')+'>'+
     '<div class="lh"><div><span class="co">'+esc(l.company||'Uten navn')+'</span>'+
       (l.demo?'<span class="tag demo">DEMO</span>':'')+
       (supp?'<span class="tag r">⛔ Avmeldt</span>':'')+
+      (l.source==='intake'?'<span class="tag g">★ Henvendelse fra nettsiden</span>':'')+
       /* Innsendinger fra nettsiden lagres før e-posten sendes. Går sendingen i
          stå, får kunden takkesiden og ingenting mer — det skal synes her. */
       (l.source==='intake'&&l.mailConfirmOk===false?'<span class="tag r" title="'+esc(l.mailError||'Ukjent feil')+'">✉ Bekreftelse ikke sendt</span>':'')+
-      '<span class="tag">'+esc(STAGE_LABELS[l.stage]||l.stage||'Ny')+'</span>'+
+      '<span class="tag">'+esc(STAGE_LABELS[stageOf(l)])+'</span>'+
       '<div class="sub">'+esc(l.segment||'')+(l.location?' · '+esc(l.location):'')+(l.website?' · <a href="'+esc(webHref(l.website))+'" target="_blank" rel="noopener">'+esc(l.website)+' ↗</a>':'')+'</div></div>'+
       '<div style="text-align:right"><div class="score">'+score+'</div><div class="sub">prioritet</div></div></div>'+
     '<div class="meta">'+
