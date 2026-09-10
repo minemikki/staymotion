@@ -27,20 +27,53 @@ function osloDayBounds(now = new Date()) {
   return { start, end: start + 86400000 };
 }
 
-// Compose the full outgoing text (message + required unsubscribe footer).
+function escHtml(s) {
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+// Body → clean paragraphs, keeping it plain and personal (good for deliverability).
+function bodyToHtml(text) {
+  return escHtml(String(text || '').trim())
+    .split(/\n{2,}/)
+    .map((p) => '<p style="margin:0 0 15px">' + p.replace(/\n/g, '<br>') + '</p>')
+    .join('');
+}
+// Light, professional HTML: personal text + a small branded signature (logo on a
+// dark chip) + unsubscribe. Deliberately not a flashy marketing template.
+function htmlEmail(bodyText, unsubUrl, origin) {
+  const logo = origin + '/img/logo-mono.png';
+  return '<!doctype html><html><body style="margin:0;background:#f5f5f2;padding:24px 12px">'
+    + '<div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e6e6e2;border-radius:14px;'
+    + 'padding:30px 30px 22px;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Helvetica,Arial,sans-serif;'
+    + 'font-size:15px;line-height:1.6;color:#1a1c1f">'
+    + bodyToHtml(bodyText)
+    + '<div style="margin-top:24px;border-top:1px solid #ececec;padding-top:16px">'
+    + '<table role="presentation" cellpadding="0" cellspacing="0"><tr>'
+    + '<td bgcolor="#121316" style="background:#121316;border-radius:8px;padding:7px 8px;line-height:0">'
+    + '<img src="' + logo + '" width="26" height="20" alt="StayMotion" style="display:block;border:0"></td>'
+    + '<td style="padding-left:10px;font-size:13px;color:#61636b;line-height:1.45">'
+    + '<b style="color:#1248ff;letter-spacing:.06em">STAYMOTION</b><br>Webdesign · Stavanger</td>'
+    + '</tr></table></div>'
+    + '<div style="margin-top:14px;font-size:11px;color:#9a9ca2;line-height:1.5">Du får denne e-posten fordi vi tror en bedre '
+    + 'nettside kan hjelpe bedriften din. Vil du ikke høre fra oss? <a href="' + escHtml(unsubUrl) + '" style="color:#9a9ca2">Meld deg av her</a>.</div>'
+    + '</div></body></html>';
+}
+
+// Compose the full outgoing message (plain text + HTML + unsubscribe footer).
 function compose(step, email, origin) {
   const foot = unsubscribeFooter(email, origin);
   let text = String(step.body || '').trim();
   if (!text.includes(foot.url)) text += foot.text;
-  return { subject: step.subject, text, unsubUrl: foot.url };
+  const html = htmlEmail(step.body || '', foot.url, origin);
+  return { subject: step.subject, text, html, unsubUrl: foot.url };
 }
 
-async function realSend({ to, subject, text }) {
+async function realSend({ to, subject, text, html }) {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { sent: false, error: 'RESEND_API_KEY mangler.' };
-  const from = process.env.MAIL_FROM || 'StayMotion <hei@staymotion.no>';
+  const from = process.env.MAIL_FROM || 'StayMotion <michael@send.staymotion.no>';
   const replyTo = process.env.OWNER_EMAIL || '';
   const payload = { from, to: [to], subject, text };
+  if (html) payload.html = html;
   if (replyTo) payload.reply_to = replyTo;
   try {
     const r = await fetch('https://api.resend.com/emails', {
@@ -90,7 +123,7 @@ async function processStep(seq, step, config, origin, sentTodayRef, force) {
 
   // 6. send for real
   const msg = compose(step, email, origin);
-  const r = await realSend({ to: email, subject: msg.subject, text: msg.text });
+  const r = await realSend({ to: email, subject: msg.subject, text: msg.text, html: msg.html });
   if (!r.sent) {
     await appendLog({ kind: 'error', leadId: seq.leadId, email, step: step.id, error: r.error });
     return { status: 'error', reason: r.error };

@@ -343,7 +343,7 @@ var $=function(id){return document.getElementById(id);};
 var KEY='';
 var CONFIG=null, LEADS=[], SEQS=[], METRICS=null, LOG=null, SUPP={};
 var VIEW='maal', LFILTER='', LSEG='', LQ='';
-var PKG={sprint:{name:'Website Sprint',from:16000,dep:50},landing:{name:'Landing Page Sprint',from:7900,dep:100},growth:{name:'Growth',from:12900,dep:50},signature:{name:'Signature',from:19900,dep:40}};
+var PKG={sprint:{name:'Komplett nettside',from:16000,dep:50},landing:{name:'Landingsside',from:7900,dep:100},growth:{name:'Vekst',from:12900,dep:50},signature:{name:'Signatur',from:19900,dep:40}};
 var STAGE_LABELS={ny:'Ny',undersokt:'Undersøkt',klar:'Klar for kontakt',kontaktet:'Kontaktet',svar:'Svar mottatt',mote:'Samtale booket',tilbud:'Tilbud sendt',vunnet:'Vunnet',tapt:'Tapt'};
 var STAGES=Object.keys(STAGE_LABELS);
 
@@ -537,7 +537,7 @@ function lbl(t){return '<label>'+esc(t)+'</label>';}
 function selEl(id,opts,cur){return '<select id="'+id+'">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===cur?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>';}
 function segSelect(cur){return selEl('__ID__',[['handverker','Håndverker'],['klinikk','Klinikk/frisør/skjønnhet'],['restaurant','Restaurant/hospitality'],['eiendom','Eiendom/Airbnb/hytte'],['renhold','Renhold/vedlikehold'],['annet','Annet']],cur||'annet');}
 function stageSelect(cur){return selEl('__ID__',STAGES.map(function(s){return [s,STAGE_LABELS[s]];}),cur||'ny');}
-function offerSelect(cur){return selEl('__ID__',[['','— ingen —'],['sprint','Website Sprint 16 000'],['landing','Landing Page Sprint 7 900'],['growth','Growth 12 900'],['signature','Signature 19 900']],cur||'');}
+function offerSelect(cur){return selEl('__ID__',[['','— ingen —'],['sprint','Komplett nettside 16 000'],['landing','Landingsside 7 900'],['growth','Vekst 12 900'],['signature','Signatur 19 900']],cur||'');}
 $('lead-add').onclick=function(){editLead({});};
 
 /* ---------- audit ---------- */
@@ -635,6 +635,19 @@ function renderQueue(){if(!SEQS.length){$('ko-list').innerHTML='<div class="empt
   }).join('');
   [].forEach.call($('ko-list').querySelectorAll('[data-q]'),function(b){b.onclick=function(){queueOp(b.getAttribute('data-q'),b.getAttribute('data-id'));};});
   [].forEach.call($('ko-list').querySelectorAll('[data-send]'),function(b){b.onclick=function(){sendStep(b.getAttribute('data-lead'),b.getAttribute('data-send'),b);};});
+  [].forEach.call($('ko-list').querySelectorAll('[data-editstep]'),function(b){b.onclick=function(){editStepModal(b.getAttribute('data-lead'),b.getAttribute('data-editstep'));};});
+}
+function editStepModal(leadId,stepId){
+  var s=null,st=null;for(var i=0;i<SEQS.length;i++){if(SEQS[i].leadId===leadId){s=SEQS[i];break;}}
+  if(s)for(var j=0;j<s.steps.length;j++){if(s.steps[j].id===stepId){st=s.steps[j];break;}}
+  if(!st){alert('Fant ikke steget — last køen på nytt.');return;}
+  modal('<h2>Rediger melding</h2>'+
+    lbl('Emne')+'<input id="e-subject" value="'+esc(st.subject)+'">'+
+    lbl('Tekst')+'<textarea id="e-body" style="min-height:240px">'+esc(st.body)+'</textarea>'+
+    '<div class="row" style="margin-top:14px"><button class="btn primary" id="e-save">Lagre</button><button class="btn ghost" id="e-cancel">Avbryt</button></div>');
+  $('e-cancel').onclick=closeModal;
+  $('e-save').onclick=function(){post('sales-queue',{op:'edit',leadId:leadId,stepId:stepId,subject:$('e-subject').value,body:$('e-body').value})
+    .then(function(){toast('Lagret');closeModal();loadQueue();}).catch(function(e){alert(e.message);});};
 }
 function stepCard(s,st){
   var stat=st.status==='sent'?'<span class="tag g">sendt</span>':(st.status==='blocked'?'<span class="tag r">blokkert</span>':(st.status==='skipped'?'<span class="tag">hoppet over</span>':'<span class="tag">planlagt</span>'));
@@ -642,7 +655,10 @@ function stepCard(s,st){
   return '<div class="step"><div class="sh"><b>'+esc(st.label)+'</b>'+stat+'</div>'+
     '<div class="small muted" style="margin-bottom:6px">'+esc(st.subject)+'</div>'+
     '<div class="msgbox small">'+esc(st.body)+'</div>'+
+    '<div class="row" style="gap:8px;margin-top:8px">'+
+    (st.status!=='sent'&&s.status!=='stopped'?'<button class="btn sm ghost" data-editstep="'+st.id+'" data-lead="'+s.leadId+'">✎ Rediger</button>':'')+
     (canSend?'<button class="btn sm primary" data-send="'+st.id+'" data-lead="'+s.leadId+'">Send nå</button>':'')+
+    '</div>'+
     (st.status==='planned'&&!s.autosendEligible?'<span class="small muted">Send manuelt (personlig adresse).</span>':'')+
     '</div>';
 }
