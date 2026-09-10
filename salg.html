@@ -421,6 +421,11 @@
       <p class="small muted" style="margin-top:0">Demo-leads viser CRM-formen. De teller aldri mot 16 000-målet.</p>
       <div class="row"><button class="btn sm" id="seed-demo">Legg inn demo-leads</button><button class="btn sm danger" id="clear-demo">Fjern demo-leads</button></div>
     </div>
+    <div class="panel hide" id="reel-purge" style="margin-top:14px">
+      <div class="ph"><h2 style="font-size:16px">Gamle videobestillinger</h2></div>
+      <div class="small muted" style="margin-bottom:10px">Rester fra reel-tjenesten som er avviklet. De vises ikke i panelet, men ligger fortsatt i lagringen. Sletting kan ikke angres.</div>
+      <button class="btn sm ghost danger" id="reel-purge-btn">Slett dem permanent</button>
+    </div>
     <div class="row" style="margin-top:14px"><button class="btn primary" id="s-save">Lagre innstillinger</button></div>
   </section>
 </div>
@@ -493,7 +498,7 @@ var ORDERS=[];
 var OSTATUS=['ubehandlet','oppstart','design','levering','fullført'];
 function loadOrders(){api('admin-orders').then(function(d){ORDERS=(d.orders||[]).filter(function(o){return !o.demo;});
   var pending=ORDERS.filter(function(o){return !isReel(o) && o.paid && o.status!=='fullført';}).length;
-  $('c-ordre').textContent=pending;renderOrders();}).catch(function(e){if($('ordre-list'))$('ordre-list').innerHTML='<div class="empty">Kunne ikke hente bestillinger.</div>';});}
+  $('c-ordre').textContent=pending;renderOrders();renderReelPurge();}).catch(function(e){if($('ordre-list'))$('ordre-list').innerHTML='<div class="empty">Kunne ikke hente bestillinger.</div>';});}
 /* An order row is created the moment someone clicks a buy button, before any
    money moves. Those abandoned attempts are not orders — they're noise here.
    Real orders = paid, or something actually happened (a message, photos, or
@@ -508,7 +513,17 @@ function isRealOrder(o){
    opp som webdesign-prosjekter. De vises ikke noe sted i dette panelet.
    Samme liste som REEL_PACKAGE_IDS i lib/packages.js. */
 var REEL_PKG=['bilder','enkelt','signatur'];
-function isReel(o){return !o.project && REEL_PKG.indexOf(o.pkg)>=0;}
+var REEL_REF=new RegExp('^sm-('+REEL_PKG.join('|')+')-','i'), REEL_LABEL=/cinematisk|\breel\b/i;
+/* De eldste reel-ordrene har ikke noe pkg-felt i det hele tatt — pakken ligger
+   i referansen ("sm-enkelt-1788551672981-rff0od"). Derfor sjekkes alle tre
+   signalene, ikke bare pkg. Samme regel som isReelOrder i lib/packages.js. */
+function isReel(o){
+  if(o.project) return false;
+  if(REEL_PKG.indexOf(o.pkg)>=0) return true;
+  if(REEL_REF.test(o.id||'')) return true;
+  if(REEL_LABEL.test(o.pakke||'')) return true;
+  return false;
+}
 function renderOrders(){var el=$('ordre-list');if(!el)return;
   var web=ORDERS.filter(function(o){return !isReel(o);});
   var real=web.filter(isRealOrder), junk=web.filter(function(o){return !isRealOrder(o);});
@@ -1146,6 +1161,29 @@ function fillSettings(){var c=CONFIG||{};$('s-goal').value=c.goalKr;$('s-deadlin
   $('s-wstart').value=c.workStartHour;$('s-wend').value=c.workEndHour;}
 $('s-save').onclick=function(){var patch={goalKr:Number($('s-goal').value)||16000,deadline:$('s-deadline').value,vatMode:$('s-vat').value,senderName:$('s-sender').value,studioName:$('s-studio').value,contactEmail:$('s-email').value,contactPhone:$('s-phone').value,workStartHour:Number($('s-wstart').value),workEndHour:Number($('s-wend').value)};
   post('sales-config',{patch:patch}).then(function(d){CONFIG=d.config;toast('Innstillinger lagret');loadMetrics();}).catch(function(e){alert(e.message);});};
+/* Reel-ordrene er filtrert bort fra listene, så uten dette blir de aldri
+   slettet — de bare ligger der. Gjenbruker slett-handlingen som allerede
+   finnes per ordre, én ordre om gangen. */
+function renderReelPurge(){
+  var box=$('reel-purge'); if(!box) return;
+  var reels=ORDERS.filter(isReel);
+  if(!reels.length){ box.classList.add('hide'); return; }
+  box.classList.remove('hide');
+  $('reel-purge-btn').textContent = reels.length===1
+    ? 'Slett 1 gammel videobestilling permanent'
+    : 'Slett '+reels.length+' gamle videobestillinger permanent';
+}
+$('reel-purge-btn').onclick=function(){
+  var reels=ORDERS.filter(isReel); if(!reels.length) return;
+  if(!confirm('Slette '+reels.length+' gamle videobestillinger for godt? Dette kan ikke angres.')) return;
+  var b=this; b.disabled=true; b.textContent='Sletter …';
+  Promise.all(reels.map(function(o){return post('admin-orders',{id:o.id,delete:true}).catch(function(){return null;});}))
+    .then(function(r){
+      var ok=r.filter(Boolean).length;
+      toast('Slettet '+ok+' av '+reels.length);
+      b.disabled=false; loadOrders();
+    });
+};
 $('seed-demo').onclick=function(){api('sales-seed').then(function(d){toast(d.message||'Demo lagt inn');loadLeads();});};
 $('clear-demo').onclick=function(){if(!confirm('Fjerne alle demo-leads?'))return;post('sales-seed',{op:'clear'}).then(function(d){toast('Fjernet '+d.removed+' demo-leads');loadLeads();});};
 </script>
