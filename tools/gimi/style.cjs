@@ -62,7 +62,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 
 /* ---------- topplinje ---------- */
 .top{position:absolute;z-index:30;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.1rem var(--pad);background:transparent}
-.top .mark img{filter:drop-shadow(0 0 3px var(--cream)) drop-shadow(0 0 6px var(--cream)) drop-shadow(0 0 12px var(--cream))}
 .top nav{display:flex;gap:clamp(1.5rem,2.6vw,2.8rem)}
 .top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);opacity:.86;transition:opacity .2s}
 .top nav a:hover{opacity:1}
