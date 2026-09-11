@@ -253,10 +253,10 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .hero__img img{object-position:62% 40%;filter:brightness(.82) saturate(1.02)}
   .hero__img img{object-position:60% 44%}
   .hero h1{max-width:8ch}
-  .hero__sub{font-size:1rem}
-  .hero__cta{gap:1rem}
+  .hero__sub,.hero__note,.hero__foot{display:none}
+  .hero__cta{gap:1rem;margin-top:2rem}
+  .hero__cta .tlink{display:none}
   .hero__cta .btn{width:100%;justify-content:center}
-  .hero__foot{gap:.45rem 1.4rem;font-size:.72rem}
   .gi__choices{flex-direction:column;gap:.2rem}
   .gi__c{font-size:1.7rem}
   .meny__i{grid-template-columns:1fr auto}
