@@ -252,14 +252,14 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   /* Mobil-hero etter monsteret fra Frantzen/Noma/Lilia: bildet dominerer
      (hoyt, full bredde), maks to tekstlinjer, en knapp. Beskrivelse,
      notat og adresse/tider ligger i seksjonene under, ikke her. */
-  .hero{min-height:82svh}
-  .hero::after{background:linear-gradient(180deg,rgba(20,18,24,.28) 0%,rgba(20,18,24,.04) 30%,rgba(20,18,24,.42) 62%,rgba(20,18,24,.88) 100%)}
-  .hero__img img{object-position:56% 36%;filter:brightness(.9) saturate(1.02)}
-  .hero__in{padding-block:2rem 2rem}
-  .hero h1{max-width:8ch;margin-top:1rem;font-size:clamp(3.4rem,15vw,4.6rem)}
-  .hero__where{display:block;margin-top:.9rem;font-size:.86rem;letter-spacing:.04em;color:rgba(251,246,238,.82)}
+  .hero{min-height:84svh}
+  .hero::after{background:linear-gradient(180deg,rgba(20,18,24,.78) 0%,rgba(20,18,24,.44) 34%,rgba(20,18,24,.02) 56%,rgba(20,18,24,.30) 80%,rgba(20,18,24,.72) 100%)}
+  .hero__img img{object-position:56% 62%;filter:brightness(.92) saturate(1.02)}
+  .hero__in{flex:1;display:flex;flex-direction:column;padding-block:1.8rem 1.6rem}
+  .hero h1{max-width:8ch;margin-top:.9rem;font-size:clamp(3.4rem,15vw,4.6rem)}
+  .hero__where{display:block;margin-top:.8rem;font-size:.86rem;letter-spacing:.04em;color:rgba(251,246,238,.82)}
   .hero__sub,.hero__note,.hero__foot,.hero__cta .tlink{display:none}
-  .hero__cta{margin-top:1.8rem}
+  .hero__cta{margin-top:auto;padding-top:2rem}
   .hero__cta .btn{width:100%;justify-content:center}
   .gi__choices{flex-direction:column;gap:.2rem}
   .gi__c{font-size:1.7rem}
