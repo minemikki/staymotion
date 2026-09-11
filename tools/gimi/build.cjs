@@ -77,7 +77,7 @@ const shead = (indexKey, kickerKey, titleKey, leadKey, html) => `
 // ---------- seksjoner ----------
 const topp = `
 <div class=top>
-  <a class=mark href="#top" aria-label="GIMI">gimi</a>
+  <a class=mark href="#top" aria-label="GIMI"><img src="/img/gimi/logo.webp" alt="GIMI" width=142 height=308></a>
   <nav>
     ${nav()}
   </nav>
@@ -153,7 +153,7 @@ const startKort = `<div class=gi__out>
       </div>`;
 
 const gi = `
-<section class="gi sec" id=gimeg>
+<section class="gi sec blue" id=gimeg>
   <div class=wrap>
     ${shead('giIndex', 'giKicker', 'giTitle', 'giBody')}
     <div class=gi__choices>
@@ -256,7 +256,7 @@ const rom = `
 </section>`;
 
 const selskap = `
-<section class="sit sec" id=selskap>
+<section class="sit sec blue" id=selskap>
   <div class=wrap>
     ${shead('selskapIndex', 'selskapKicker', 'selskapTitle', 'selskapBody', 1)}
     <div class=bes__cta>
@@ -297,10 +297,8 @@ const besok = `
 const footer = `
 <footer class=foot>
   <div class="wrap foot__in">
-    <div>
-      <span class=mark>gimi</span>
-      <p class=body style="margin-top:1rem;font-size:.9rem" ${A('footTag')}>${T('footTag')}</p>
-    </div>
+    <span class=foot__mark><img src="/img/gimi/logo.webp" alt="GIMI" width=142 height=308 loading=lazy></span>
+    <p class=foot__tag ${A('footTag')}>${T('footTag')}</p>
     <p class=foot__note ${A('footConcept')}>${T('footConcept')}</p>
   </div>
 </footer>
