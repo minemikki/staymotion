@@ -62,7 +62,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 
 /* ---------- topplinje ---------- */
 .top{position:absolute;z-index:30;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.1rem var(--pad);background:transparent}
-.top .mark img{filter:brightness(0) invert(1)}
+.top .mark{height:calc(72px + 1rem);background:var(--cream);padding:.5rem .7rem;box-shadow:0 1px 3px rgba(20,18,24,.28)}
 .top nav{display:flex;gap:clamp(1.5rem,2.6vw,2.8rem)}
 .top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);opacity:.86;transition:opacity .2s}
 .top nav a:hover{opacity:1}
@@ -249,7 +249,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .top .btn{display:none}
   .burger{display:block}
   .mnav{display:flex}
-  .mark{height:48px}
+  .top .mark{height:calc(48px + .8rem);padding:.4rem .55rem}
   /* Mobil-hero: bildet dominerer, men tekst+knapp holdes samlet nederst
      som ett block (som resten av restaurantsidene vi så på) i stedet for
      splittet topp/bunn — en splittet layout la igjen et stort dødt
