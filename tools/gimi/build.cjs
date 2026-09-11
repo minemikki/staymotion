@@ -86,7 +86,6 @@ const topp = `
       <button type=button id=lang-no data-lang=no aria-pressed=true>NO</button>
       <button type=button id=lang-en data-lang=en aria-pressed=false>EN</button>
     </div>
-    ${bookBtn('btn', 'heroBook')}
     <button class=burger type=button id=burger aria-expanded=false aria-controls=mnav data-attr=aria-label ${A('menuOpen')} aria-label="${T('menuOpen')}"><span></span><span></span><span></span></button>
   </div>
 </div>
