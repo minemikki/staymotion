@@ -161,10 +161,12 @@
 </script>
 <style>
 :root{
-  --ground:#0E0B09;--raised:#17120F;--raised2:#1F1815;
-  --ember:#D9622E;--ember-l:#E89A62;--ember-d:#A8431A;
-  --bone:#F0E9DD;--ash:#8A8078;--ash-d:#5E564F;
-  --line:#2A2320;--line-l:#3A312C;
+  /* Monokrom varm off-white. Fargen kommer fra maten, ikke fra flatene. */
+  --ground:#FAF8F4;--raised:#F2EFE9;--raised2:#EAE6DE;
+  --ember:#16140F;--ember-l:#7C766C;--ember-d:#000000;
+  --fire:#F2EFE9;--on-fire:#16140F;
+  --bone:#16140F;--ash:#78736B;--ash-d:#9A948A;
+  --line:#E4DFD5;--line-l:#D2CBBE;
   --pad:clamp(1.4rem,5vw,6rem);--max:1680px;
   --disp:"Fraunces",Georgia,"Times New Roman",serif;
   --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -195,7 +197,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .body{font-size:1.02rem;line-height:1.68;color:var(--ash)}
 
 /* ---------- ordmerke ---------- */
-.mark{font-family:var(--sans);font-weight:600;font-size:.98rem;letter-spacing:.52em;text-transform:lowercase;color:var(--bone);padding-left:.52em}
+.mark{font-family:var(--sans);font-weight:600;font-size:.98rem;letter-spacing:.52em;text-transform:lowercase;color:#FBF6EE;padding-left:.52em}
 
 /* ---------- knapper ---------- */
 .btn{display:inline-flex;align-items:center;gap:.85rem;min-height:52px;padding:0 1.5rem;font-size:.82rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--ember);color:#fff;transition:background .2s ease}
@@ -208,15 +210,15 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 /* ---------- topplinje ---------- */
 .top{position:absolute;z-index:20;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.9rem var(--pad)}
 .top nav{display:flex;gap:clamp(1.5rem,2.6vw,2.8rem)}
-.top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--bone);opacity:.72;transition:opacity .2s}
+.top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#FBF6EE;opacity:.88;transition:opacity .2s}
 .top nav a:hover{opacity:1}
 .top-r{display:flex;align-items:center;gap:1.4rem}
-.lang{display:flex;box-shadow:inset 0 0 0 1px rgba(240,233,221,.28)}
-.lang button{min-width:40px;min-height:32px;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);opacity:.6;transition:.2s}
-.lang button[aria-pressed=true]{background:var(--bone);color:var(--ground);opacity:1}
+.lang{display:flex;box-shadow:inset 0 0 0 1px rgba(251,246,238,.48)}
+.lang button{min-width:40px;min-height:32px;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#FBF6EE;opacity:.78;transition:.2s}
+.lang button[aria-pressed=true]{background:#FBF6EE;color:#2A1C12;opacity:1}
 .lang button:hover{opacity:1}
 .burger{display:none;position:relative;width:44px;height:44px}
-.burger span{position:absolute;left:11px;width:22px;height:1.5px;background:var(--bone);transition:transform .25s ease,opacity .25s ease}
+.burger span{position:absolute;left:11px;width:22px;height:1.5px;background:#FBF6EE;transition:transform .25s ease,opacity .25s ease}
 .burger span:nth-child(1){top:17px}
 .burger span:nth-child(2){top:22px}
 .burger span:nth-child(3){top:27px}
@@ -230,21 +232,21 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:88svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--ground);isolation:isolate}
 .hero__img{position:absolute;inset:0;z-index:-2}
-.hero__img img{width:100%;height:100%;object-fit:cover;object-position:56% 46%;filter:brightness(.46) saturate(.88) contrast(1.06)}
+.hero__img img{width:100%;height:100%;object-fit:cover;object-position:56% 46%;filter:brightness(.88) saturate(1.02) contrast(1.01)}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(14,11,9,.86) 0%,rgba(14,11,9,.24) 32%,rgba(14,11,9,.62) 72%,var(--ground) 100%),
-             radial-gradient(120% 78% at 76% 66%,rgba(217,98,46,.28),transparent 62%)}
+  background:linear-gradient(180deg,rgba(18,16,12,.44) 0%,rgba(18,16,12,.06) 26%,rgba(18,16,12,.30) 68%,rgba(18,16,12,.56) 100%),
+             linear-gradient(98deg,rgba(16,14,11,.62) 0%,rgba(16,14,11,.22) 44%,transparent 68%)}
 .hero__in{width:100%;padding-block:clamp(3rem,7vw,6rem) clamp(2rem,4vw,3.2rem)}
-.hero h1{max-width:11ch;margin-top:1.6rem}
-.hero__sub{margin-top:1.8rem;max-width:46ch;font-size:clamp(1rem,1.35vw,1.16rem);line-height:1.6;color:rgba(240,233,221,.8)}
+.hero h1{max-width:11ch;margin-top:1.6rem;color:#FBF6EE}
+.hero__sub{margin-top:1.8rem;max-width:46ch;font-size:clamp(1rem,1.35vw,1.16rem);line-height:1.6;color:rgba(251,246,238,.93)}
 .hero__cta{display:flex;flex-wrap:wrap;align-items:center;gap:1.2rem 2rem;margin-top:2.6rem}
-.hero__note{margin-top:1.5rem;font-size:.82rem;color:var(--ash)}
-.hero__foot{display:flex;flex-wrap:wrap;gap:.6rem 2.4rem;margin-top:clamp(2.4rem,5vw,4rem);padding-top:1.5rem;border-top:1px solid rgba(240,233,221,.16);font-size:.78rem;letter-spacing:.06em;color:rgba(240,233,221,.62)}
+.hero__note{margin-top:1.5rem;font-size:.82rem;color:rgba(251,246,238,.8)}
+.hero__foot{display:flex;flex-wrap:wrap;gap:.6rem 2.4rem;margin-top:clamp(2.4rem,5vw,4rem);padding-top:1.5rem;border-top:1px solid rgba(251,246,238,.32);font-size:.78rem;letter-spacing:.06em;color:rgba(251,246,238,.82)}
 
 /* live åpent-status */
-.status{display:inline-flex;align-items:center;gap:.6rem;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ash)}
-.status i{width:6px;height:6px;flex:none;border-radius:50%;background:var(--ash-d)}
-.status.on{color:var(--ember-l)}
+.status{display:inline-flex;align-items:center;gap:.6rem;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(251,246,238,.84)}
+.status i{width:6px;height:6px;flex:none;border-radius:50%;background:rgba(251,246,238,.62)}
+.status.on{color:#FBF8F3}
 .status.on i{background:var(--ember);box-shadow:0 0 0 0 rgba(217,98,46,.6);animation:pulse 2.8s ease-out infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(217,98,46,0)}100%{box-shadow:0 0 0 0 rgba(217,98,46,0)}}
 
@@ -282,14 +284,14 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 /* ---------- 03 ilden ---------- */
-.ild{position:relative;background:var(--ground);border-top:1px solid var(--line);overflow:hidden;isolation:isolate}
+.ild{position:relative;background:var(--fire);color:var(--bone);border-top:1px solid var(--line);overflow:hidden;isolation:isolate}
 .ild::before{content:"";position:absolute;z-index:-1;left:50%;bottom:-46%;width:min(1500px,150%);aspect-ratio:1;transform:translateX(-50%);pointer-events:none;
-  background:radial-gradient(circle,rgba(217,98,46,.30) 0%,rgba(168,67,26,.14) 36%,transparent 66%)}
-.ild__facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin-top:clamp(2rem,4vw,3rem)}
+  background:radial-gradient(circle,rgba(22,20,15,.05) 0%,transparent 62%)}
+.ild__facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-l);margin-top:clamp(2rem,4vw,3rem)}
 .ild__f{padding:1.8rem 2rem 2rem 0;border-right:1px solid var(--line)}
 .ild__f+.ild__f{padding-left:2rem}
 .ild__f:last-child{border-right:0}
-.ild__f b{display:block;font-family:var(--disp);font-style:italic;font-weight:400;font-size:1.6rem;color:var(--ember-l)}
+.ild__f b{display:block;font-family:var(--disp);font-style:italic;font-weight:400;font-size:1.6rem;color:var(--bone)}
 .ild__f span{display:block;margin-top:.5rem;font-size:.92rem;color:var(--ash)}
 .ild__dishes{margin-top:clamp(3rem,6vw,5rem)}
 .ild__d{display:grid;grid-template-columns:minmax(180px,.3fr) 1fr;gap:.6rem 3rem;padding-block:1.7rem;border-top:1px solid var(--line)}
@@ -328,7 +330,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .rom__s{padding:1.8rem 2rem 0 0;border-right:1px solid var(--line)}
 .rom__s+.rom__s{padding-left:2rem}
 .rom__s:last-child{border-right:0}
-.rom__s b{display:block;font-family:var(--disp);font-weight:400;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1;color:var(--ember-l)}
+.rom__s b{display:block;font-family:var(--disp);font-weight:400;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1;color:var(--bone)}
 .rom__s span{display:block;margin-top:.6rem;font-size:.9rem;color:var(--ash)}
 .rom__story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,5vw,6rem);margin-top:clamp(3rem,6vw,5rem)}
 .rom__story p+p{margin-top:1.1rem}
@@ -403,6 +405,18 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .status.on i{animation:none}
   .gi--in{animation:none}
 }
+
+/* Ilden staar paa varm glo-brunn, saa den trenger egne tekstfarger */
+.ild .lab{color:var(--bone)}
+.ild .lab-ash{color:var(--ash)}
+
+/* Heroen ligger over foto: aksentlenka trenger en lysere glo der */
+.hero .tlink{color:#FBF8F3}
+.hero .tlink:hover{color:#FFFFFF}
+
+/* Heroen ligger over foto: naer-svart knapp forsvinner der, saa den snus */
+.hero .btn,.top .btn{background:#FBF8F3;color:#16140F}
+.hero .btn:hover,.top .btn:hover{background:#FFFFFF}
 </style>
 </head>
 <body>
