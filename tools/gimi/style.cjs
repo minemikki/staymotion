@@ -136,9 +136,8 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 /* ---------- 03 ilden ---------- */
-.ild{position:relative;background:var(--fire);color:var(--bone);border-top:1px solid var(--line);overflow:hidden;isolation:isolate}
-.ild::before{content:"";position:absolute;z-index:-1;left:50%;bottom:-46%;width:min(1500px,150%);aspect-ratio:1;transform:translateX(-50%);pointer-events:none;
-  background:radial-gradient(circle,rgba(22,20,15,.05) 0%,transparent 62%)}
+.ild{position:relative;background:#1A1720;color:var(--cream);overflow:hidden;isolation:isolate}
+
 .ild__facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-l);margin-top:clamp(2rem,4vw,3rem)}
 .ild__f{padding:1.8rem 2rem 2rem 0;border-right:1px solid var(--line)}
 .ild__f+.ild__f{padding-left:2rem}
@@ -176,7 +175,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 /* ---------- 06 rommet og brødrene ---------- */
 .rom{background:var(--raised);border-top:1px solid var(--line)}
 .rom__img{position:relative;aspect-ratio:21/9;overflow:hidden;margin-top:clamp(2rem,4vw,3rem)}
-.rom__img img{width:100%;height:100%;object-fit:cover;object-position:52% 58%;filter:brightness(.74) saturate(.9)}
+.rom__img img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:brightness(.8) saturate(.95)}
 .rom__cap{position:absolute;left:0;bottom:0;padding:.8rem 1.2rem;background:var(--ember);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
 .rom__stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--line)}
 .rom__s{padding:1.8rem 2rem 0 0;border-right:1px solid var(--line)}
@@ -264,8 +263,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 }
 
 /* Ilden staar paa varm glo-brunn, saa den trenger egne tekstfarger */
-.ild .lab{color:var(--bone)}
-.ild .lab-ash{color:var(--ash)}
+.ild .lab{color:rgba(250,246,241,.72)}
 
 /* Heroen ligger over foto: aksentlenka trenger en lysere glo der */
 .hero .tlink{color:#FBF8F3}
@@ -304,4 +302,62 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 
 /* Mobilmenyen legger seg under den klebrige toppen, ikke over den */
 .mnav{padding-top:7.5rem}
+
+/* ---------- bildestripe under heroen ---------- */
+.mos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:6px 0 0;background:var(--ground)}
+.mos img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+
+/* ---------- to maater aa sitte paa: bildekort ---------- */
+.sit__cards{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.8rem,1.6vw,1.6rem)}
+.sit__card{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:var(--blue-deep);color:var(--cream)}
+.sit__card img{width:100%;height:100%;object-fit:cover;filter:brightness(.78) saturate(1.02);transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.sit__card:hover img{transform:scale(1.045)}
+.sit__ov{position:absolute;inset:auto 0 0;padding:clamp(1.4rem,3vw,2.6rem);background:linear-gradient(180deg,transparent 0%,rgba(20,18,26,.62) 55%,rgba(20,18,26,.86) 100%)}
+.sit__card .sit__n{color:rgba(250,246,241,.7)}
+.sit__card h3{margin-top:.6rem;color:var(--cream);font-family:var(--disp);font-weight:400;letter-spacing:-.03em;line-height:1;font-size:clamp(2.4rem,4.6vw,4.2rem)}
+.sit__card .sit__line{color:rgba(250,246,241,.85)}
+.sit__card .sit__note{margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(250,246,241,.28);color:rgba(250,246,241,.7)}
+
+/* ---------- ilden som fotoparti ---------- */
+.ild__bg{position:absolute;inset:0;z-index:-1}
+.ild__bg img{width:100%;height:100%;object-fit:cover;object-position:40% 50%;filter:brightness(.52) saturate(.95)}
+.ild__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,18,26,.72) 0%,rgba(20,18,26,.3) 55%,rgba(20,18,26,.5) 100%)}
+.ild__in{padding-block:clamp(6rem,13vw,13rem)}
+.ild h2{color:var(--cream);max-width:12ch}
+.ild__list{list-style:none;margin:clamp(2rem,4vw,3.2rem) 0 0;padding:1.6rem 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem 2.4rem;border-top:1px solid rgba(250,246,241,.28)}
+.ild__list b{display:block;font-family:var(--disp);font-weight:400;font-size:clamp(1.7rem,2.8vw,2.4rem);letter-spacing:-.02em;line-height:1;color:var(--cream)}
+.ild__list span{display:block;margin-top:.5rem;font-size:.92rem;line-height:1.5;color:rgba(250,246,241,.72);max-width:32ch}
+
+/* ---------- baren: foto + tider + navn ---------- */
+.bar__split{display:grid;grid-template-columns:1.1fr .9fr;min-height:680px}
+.bar__img{overflow:hidden}
+.bar__img img{width:100%;height:100%;object-fit:cover;object-position:52% 50%}
+.bar__copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(3rem,6vw,6rem)}
+.bar__copy h2{margin-top:1.2rem}
+.bar__list{list-style:none;margin:2.2rem 0 0;padding:0;display:grid;gap:.55rem}
+.bar__list li{font-family:var(--disp);font-style:italic;font-size:clamp(1.3rem,2vw,1.7rem);color:var(--ash);padding:.35rem 0;border-top:1px solid var(--line)}
+.bar__list li:first-child{border-top:0}
+
+/* ---------- rommet: stort sitat og en setning om broedrene ---------- */
+.quote--big{margin-top:clamp(3rem,6vw,5rem);padding-left:0;border-left:0}
+.quote--big p{font-size:clamp(2rem,4.2vw,4rem);max-width:22ch;line-height:1.08}
+.rom__bro{margin-top:clamp(3rem,6vw,5rem);padding-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--line);max-width:64ch}
+.rom__bro h3{margin-top:1rem}
+.rom__bro .lead{margin-top:1.2rem}
+
+@media (max-width:820px){
+  .sit__cards{grid-template-columns:1fr}
+  .sit__card{aspect-ratio:4/3}
+  .ild__list{grid-template-columns:1fr}
+  .bar__split{grid-template-columns:1fr;min-height:0}
+  .bar__img{aspect-ratio:4/3}
+  .mos img{aspect-ratio:3/4}
+}
+@media (max-width:720px){
+  .bar__copy{padding:3rem var(--pad)}
+}
+
+/* Ankerhopp lander under den klebrige toppen */
+section[id],#top{scroll-margin-top:112px}
+@media (max-width:720px){section[id],#top{scroll-margin-top:90px}}
 `;

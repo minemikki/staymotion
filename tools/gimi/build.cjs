@@ -119,25 +119,36 @@ const hero = `
 const sitte = `
 <section class="sit sec" id=sitte>
   <div class=wrap>
-    ${shead('sitteIndex', 'sitteKicker', 'sitteTitle', 'sitteLead')}
-    <div class=sit__grid>
-      <div class=sit__col>
-        <p class=sit__n>01</p>
-        <h3 ${A('sitteDiskNavn')}>${T('sitteDiskNavn')}</h3>
-        <p class=sit__line ${A('sitteDiskLinje')}>${T('sitteDiskLinje')}</p>
-        <p class=body ${A('sitteDiskTekst')}>${T('sitteDiskTekst')}</p>
-        <p class=sit__note ${A('sitteDiskNote')}>${T('sitteDiskNote')}</p>
-      </div>
-      <div class=sit__col>
-        <p class=sit__n>02</p>
-        <h3 ${A('sitteBordNavn')}>${T('sitteBordNavn')}</h3>
-        <p class=sit__line ${A('sitteBordLinje')}>${T('sitteBordLinje')}</p>
-        <p class=body ${A('sitteBordTekst')}>${T('sitteBordTekst')}</p>
-        <p class=sit__note ${A('sitteBordNote')}>${T('sitteBordNote')}</p>
-      </div>
+    ${shead('sitteIndex', 'sitteKicker', 'sitteTitle', null)}
+    <div class=sit__cards>
+      <a class=sit__card href="${fakta.booking}" target=_blank rel=noopener>
+        <img src="/img/gimi/k-naer.webp" alt="" width=600 height=400 loading=lazy decoding=async>
+        <div class=sit__ov>
+          <p class=sit__n>01</p>
+          <h3 ${A('sitteDiskNavn')}>${T('sitteDiskNavn')}</h3>
+          <p class=sit__line ${A('sitteDiskLinje')}>${T('sitteDiskLinje')}</p>
+          <p class=sit__note ${A('sitteDiskNote')}>${T('sitteDiskNote')}</p>
+        </div>
+      </a>
+      <a class=sit__card href="${fakta.booking}" target=_blank rel=noopener>
+        <img src="/img/gimi/b-hender.webp" alt="" width=828 height=640 loading=lazy decoding=async>
+        <div class=sit__ov>
+          <p class=sit__n>02</p>
+          <h3 ${A('sitteBordNavn')}>${T('sitteBordNavn')}</h3>
+          <p class=sit__line ${A('sitteBordLinje')}>${T('sitteBordLinje')}</p>
+          <p class=sit__note ${A('sitteBordNote')}>${T('sitteBordNote')}</p>
+        </div>
+      </a>
     </div>
   </div>
 </section>`;
+
+const mosaikk = `
+<div class=mos aria-hidden=true>
+  <img src="/img/gimi/k-mat.webp" alt="" width=800 height=724 loading=lazy decoding=async>
+  <img src="/img/gimi/b-lys.webp" alt="" width=640 height=706 loading=lazy decoding=async>
+  <img src="/img/gimi/b-glass.webp" alt="" width=440 height=570 loading=lazy decoding=async>
+</div>`;
 
 const giValg = [['lett', 'giLett'], ['grill', 'giGrill'], ['glass', 'giGlass'], ['dele', 'giDele']];
 const startKort = `<div class=gi__out>
@@ -166,24 +177,21 @@ const gi = `
 </section>`;
 
 const ild = `
-<section class="ild sec" id=ilden>
-  <div class=wrap>
-    ${shead('ildIndex', 'ildKicker', 'ildTitle', 'ildBody')}
-    <div class=ild__facts>
-      ${[['ildF1', 'ildF1b'], ['ildF2', 'ildF2b'], ['ildF3', 'ildF3b']].map(([a, b]) =>
-        `<div class=ild__f><b ${A(a)}>${T(a)}</b><span ${A(b)}>${T(b)}</span></div>`).join('\n      ')}
-    </div>
-    <div class=ild__dishes>
-      <p class="lab lab-ash" ${A('ildRetterTitle')}>${T('ildRetterTitle')}</p>
-      ${fraIlden.map((r) => `<article class=ild__d><h3 ${AB(r.n.no, r.n.en)}>${esc(r.n.no)}</h3><p ${AB(r.b.no, r.b.en)}>${esc(r.b.no)}</p></article>`).join('\n      ')}
-    </div>
+<section class=ild id=ilden>
+  <div class=ild__bg><img src="/img/gimi/k-skaal.webp" alt="" width=700 height=1024 loading=lazy decoding=async></div>
+  <div class="wrap ild__in">
+    <p class=lab ${A('ildIndex')}>${T('ildIndex')}</p>
+    <h2 class="disp h-l" ${A('ildTitle')}>${T('ildTitle')}</h2>
+    <ul class=ild__list>
+      ${fraIlden.map((r) => `<li><b ${AB(r.n.no, r.n.en)}>${esc(r.n.no)}</b><span ${AB(r.b.no, r.b.en)}>${esc(r.b.no)}</span></li>`).join('\n      ')}
+    </ul>
   </div>
 </section>`;
 
 const menySeksjon = `
 <section class="meny sec" id=meny>
   <div class=wrap>
-    ${shead('menyIndex', 'menyKicker', 'menyTitle', 'menyBody')}
+    ${shead('menyIndex', 'menyKicker', 'menyTitle', null)}
     ${meny.map((g) => `<div class=meny__g>
       <h3 ${AB(g.gruppe.no, g.gruppe.en)}>${esc(g.gruppe.no)}</h3>
       ${g.retter.map((r) => `<article class=meny__i>
@@ -203,21 +211,19 @@ const menySeksjon = `
 </section>`;
 
 const bar = `
-<section class="bar sec" id=baren>
-  <div class=wrap>
-    ${shead('barIndex', 'barKicker', 'barTitle', 'barBody')}
-    <div class=bar__grid>
-      <div>
-        <p class=body ${A('barBody2')}>${T('barBody2')}</p>
-        <div class=bar__hours>
-          <span ${A('barH1')}>${T('barH1')}</span><b ${A('barH1b')}>${T('barH1b')}</b>
-          <span ${A('barH2')}>${T('barH2')}</span><b ${A('barH2b')}>${T('barH2b')}</b>
-        </div>
+<section class=bar id=baren>
+  <div class=bar__split>
+    <div class=bar__img><img src="/img/gimi/bar-cocktail.jpg" alt="Illustrativt bilde av en bartender som ferdigstiller en cocktail" width=1448 height=1086 loading=lazy decoding=async></div>
+    <div class=bar__copy>
+      <p class=lab ${A('barIndex')}>${T('barIndex')}</p>
+      <h2 class="disp h-l" ${A('barTitle')}>${T('barTitle')}</h2>
+      <div class=bar__hours>
+        <span ${A('barH1')}>${T('barH1')}</span><b ${A('barH1b')}>${T('barH1b')}</b>
+        <span ${A('barH2')}>${T('barH2')}</span><b ${A('barH2b')}>${T('barH2b')}</b>
       </div>
-      <div>
-        <p class="lab lab-ash" ${A('barLabel')}>${T('barLabel')}</p>
-        ${glasset.map((d) => `<article class=bar__d><h3 ${AB(d.n.no, d.n.en)}>${esc(d.n.no)}</h3><p ${AB(d.b.no, d.b.en)}>${esc(d.b.no)}</p></article>`).join('\n        ')}
-      </div>
+      <ul class=bar__list>
+        ${glasset.map((d) => `<li ${AB(d.n.no, d.n.en)}>${esc(d.n.no)}</li>`).join('\n        ')}
+      </ul>
     </div>
   </div>
 </section>`;
@@ -225,32 +231,23 @@ const bar = `
 const rom = `
 <section class="rom sec" id=rommet>
   <div class=wrap>
-    ${shead('romIndex', 'romKicker', 'romTitle', 'romBody', 1)}
+    ${shead('romIndex', 'romKicker', 'romTitle', null, 1)}
     <figure class=rom__img>
-      <img src="/img/gimi/bar-cocktail.jpg" alt="Illustrativt bilde fra lokalet: baren en kveld" width=1448 height=1086 loading=lazy decoding=async>
+      <img src="/img/gimi/b-rom.webp" alt="Illustrativt bilde fra lokalet" width=1400 height=619 loading=lazy decoding=async>
       <figcaption class=rom__cap ${A('romFoto')}>${T('romFoto')}</figcaption>
     </figure>
     <div class=rom__stats>
       ${[['romStat1', 'romStat1b'], ['romStat2', 'romStat2b'], ['romStat3', 'romStat3b']].map(([a, b]) =>
         `<div class=rom__s><b ${A(a)}>${T(a)}</b><span ${A(b)}>${T(b)}</span></div>`).join('\n      ')}
     </div>
-    <div class=rom__story>
-      <div>
-        <p class=lab ${A('ossKicker')}>${T('ossKicker')}</p>
-        <h3 class="disp h-m" style="margin-top:1rem" ${A('ossTitle', 1)}>${t.no.ossTitle}</h3>
-        <div style="margin-top:1.6rem">
-          <p class=body ${A('ossBody')}>${T('ossBody')}</p>
-          <p class=body ${A('ossBody2')}>${T('ossBody2')}</p>
-        </div>
-      </div>
-      <blockquote class=quote>
-        <p ${A('ossQuote')}>${T('ossQuote')}</p>
-        <cite ${A('ossQuoteBy')}>${T('ossQuoteBy')}</cite>
-      </blockquote>
-    </div>
-    <div class=nabo>
-      <h3 ${A('naboTitle')}>${T('naboTitle')}</h3>
-      <p class=body ${A('naboBody')}>${T('naboBody')}</p>
+    <blockquote class="quote quote--big">
+      <p ${A('ossQuote')}>${T('ossQuote')}</p>
+      <cite ${A('ossQuoteBy')}>${T('ossQuoteBy')}</cite>
+    </blockquote>
+    <div class=rom__bro>
+      <p class=lab ${A('ossKicker')}>${T('ossKicker')}</p>
+      <h3 class="disp h-m" ${A('ossTitle', 1)}>${t.no.ossTitle}</h3>
+      <p class=lead ${A('ossBody')}>${T('ossBody')}</p>
     </div>
   </div>
 </section>`;
@@ -258,7 +255,7 @@ const rom = `
 const selskap = `
 <section class="sit sec blue" id=selskap>
   <div class=wrap>
-    ${shead('selskapIndex', 'selskapKicker', 'selskapTitle', 'selskapBody', 1)}
+    ${shead('selskapIndex', 'selskapKicker', 'selskapTitle', null, 1)}
     <div class=bes__cta>
       <a class=btn href="mailto:${fakta.epost}"><span ${A('selskapCta')}>${T('selskapCta')}</span><span aria-hidden=true>&#8599;</span></a>
       <span class=body ${A('selskapNote')}>${T('selskapNote')}</span>
@@ -290,7 +287,6 @@ const besok = `
       ${bookBtn('btn', 'heroBook')}
       <span class=body ${A('heroBookNote')}>${T('heroBookNote')}</span>
     </div>
-    <p class=bes__mood ${A('stemning')}>${T('stemning')}</p>
   </div>
 </section>`;
 
@@ -477,6 +473,7 @@ ${JSON.stringify(graf, null, 1)}
 ${topp}
 <main id=main>
 ${hero}
+${mosaikk}
 ${sitte}
 ${gi}
 ${ild}
