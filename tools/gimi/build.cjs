@@ -104,7 +104,6 @@ const hero = `
     <img src="/img/gimi/hero-kamskjell.webp" alt="Illustrativt nærbilde av en rett fra kjøkkenet" width=1536 height=1024 fetchpriority=high>
   </div>
   <div class="wrap hero__in">
-    <p class=status id=status hidden><i aria-hidden=true></i><span id=status-text></span></p>
     <h1 class="disp h-xl" ${A('heroOver')}>${T('heroOver')}</h1>
     <p class=hero__where ${A('heroEyebrow')}>${T('heroEyebrow')}</p>
     <p class=hero__sub ${A('heroUnder')}>${T('heroUnder')}</p>
@@ -322,10 +321,9 @@ const skript = `
 (function(){
   "use strict";
   var POOL = ${kort(pool)};
-  var APENT = ${kort(fakta.apent)};
   var TXT = ${kort({
-    no: { giPrefix: t.no.giPrefix, giAgain: t.no.giAgain, giBook: t.no.giBook, statusOpen: t.no.statusOpen, statusOpenUntil: t.no.statusOpenUntil, statusBarUntil: t.no.statusBarUntil, statusOpensToday: t.no.statusOpensToday, statusOpensAt: t.no.statusOpensAt, statusClosed: t.no.statusClosed, statusLunch: t.no.statusLunch, dager: t.no.dager },
-    en: { giPrefix: t.en.giPrefix, giAgain: t.en.giAgain, giBook: t.en.giBook, statusOpen: t.en.statusOpen, statusOpenUntil: t.en.statusOpenUntil, statusBarUntil: t.en.statusBarUntil, statusOpensToday: t.en.statusOpensToday, statusOpensAt: t.en.statusOpensAt, statusClosed: t.en.statusClosed, statusLunch: t.en.statusLunch, dager: t.en.dager },
+    no: { giPrefix: t.no.giPrefix, giAgain: t.no.giAgain, giBook: t.no.giBook },
+    en: { giPrefix: t.en.giPrefix, giAgain: t.en.giAgain, giBook: t.en.giBook },
   })};
   var BOOKING = ${kort(fakta.booking)};
   var START_TAG = 'grill', START_I = ${startIndeks};
@@ -349,7 +347,6 @@ const skript = `
     if (a) a.setAttribute('aria-pressed', String(lang === 'no'));
     if (b) b.setAttribute('aria-pressed', String(lang === 'en'));
     try { localStorage.setItem('gimi-lang', lang); } catch(e){}
-    visStatus();
     if (sisteTag) vis(sisteTag, true);
   }
   var lb = document.querySelectorAll('.lang button');
@@ -368,39 +365,6 @@ const skript = `
     for (var j = 0; j < ml.length; j++) ml[j].addEventListener('click', function(){
       bg.setAttribute('aria-expanded', 'false'); mn.hidden = true; document.body.style.overflow = '';
     });
-  }
-
-  /* ---- live åpent-status ---- */
-  function klokke(h){
-    if (h === 24) return '24.00';
-    var hel = Math.floor(h) % 24;
-    return (hel < 10 ? '0' : '') + hel + '.00';
-  }
-  function finn(now){
-    var d = now.getDay(), h = now.getHours() + now.getMinutes() / 60, i, nd;
-    var forrige = APENT[(d + 6) % 7];
-    if (forrige && forrige.bar > 24 && h < (forrige.bar - 24)) return { apen: true, til: forrige.bar, bar: true };
-    var idag = APENT[d];
-    if (idag){
-      if (idag.lunsj && h >= idag.lunsj[0] && h < idag.lunsj[1]) return { apen: true, lunsj: true };
-      if (h >= idag.fra && h < idag.bar) return { apen: true, til: (h < idag.til) ? idag.til : idag.bar, bar: h >= idag.til };
-      if (h < idag.fra) return { apen: false, iDag: idag.fra };
-    }
-    for (i = 1; i <= 7; i++){ nd = (d + i) % 7; if (APENT[nd]) return { apen: false, dag: nd, fra: APENT[nd].fra }; }
-    return { apen: false };
-  }
-  function visStatus(){
-    var boks = $('status'), tx = $('status-text');
-    if (!boks || !tx) return;
-    var s = finn(new Date()), tt = TXT[lang], ut;
-    boks.classList.toggle('on', !!s.apen);
-    if (s.apen && s.lunsj) ut = tt.statusLunch;
-    else if (s.apen) ut = tt.statusOpen + ' · ' + (s.bar ? tt.statusBarUntil : tt.statusOpenUntil) + ' ' + klokke(s.til);
-    else if (s.iDag !== undefined) ut = tt.statusOpensToday + ' ' + klokke(s.iDag);
-    else if (s.dag !== undefined) ut = tt.statusOpensAt + ' ' + tt.dager[s.dag] + ' ' + klokke(s.fra);
-    else ut = tt.statusClosed;
-    tx.textContent = ut;
-    boks.hidden = false;
   }
 
   /* ---- gi meg noe ---- */
@@ -448,8 +412,6 @@ const skript = `
 
   /* ---- oppstart ---- */
   try { if (localStorage.getItem('gimi-lang') === 'en') bytt('en'); } catch(e){}
-  visStatus();
-  setInterval(visStatus, 60000);
 })();
 </script>`;
 

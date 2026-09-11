@@ -212,7 +212,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 
 /* ---------- topplinje ---------- */
 .top{position:absolute;z-index:30;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.1rem var(--pad);background:transparent}
-.top .mark{height:calc(72px + 1rem);background:var(--cream);padding:.5rem .7rem;box-shadow:0 1px 3px rgba(20,18,24,.28)}
+.top .mark img{filter:drop-shadow(0 0 3px var(--cream)) drop-shadow(0 0 6px var(--cream)) drop-shadow(0 0 12px var(--cream))}
 .top nav{display:flex;gap:clamp(1.5rem,2.6vw,2.8rem)}
 .top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);opacity:.86;transition:opacity .2s}
 .top nav a:hover{opacity:1}
@@ -249,13 +249,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .hero__cta{display:flex;flex-wrap:wrap;align-items:center;gap:1.2rem 2rem;margin-top:2.6rem}
 .hero__note{margin-top:1.5rem;font-size:.82rem;color:rgba(251,246,238,.8)}
 .hero__foot{display:flex;flex-wrap:wrap;gap:.6rem 2.4rem;margin-top:clamp(2.4rem,5vw,4rem);padding-top:1.5rem;border-top:1px solid rgba(251,246,238,.32);font-size:.78rem;letter-spacing:.06em;color:rgba(251,246,238,.82)}
-
-/* live åpent-status */
-.status{display:inline-flex;align-items:center;gap:.6rem;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(251,246,238,.84)}
-.status i{width:6px;height:6px;flex:none;border-radius:50%;background:rgba(251,246,238,.62)}
-.status.on{color:#FBF8F3}
-.status.on i{background:var(--ember);box-shadow:0 0 0 0 rgba(217,98,46,.6);animation:pulse 2.8s ease-out infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(217,98,46,0)}100%{box-shadow:0 0 0 0 rgba(217,98,46,0)}}
 
 /* ---------- seksjonshode ---------- */
 .shead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(1.6rem,4vw,5rem);align-items:end;padding-bottom:clamp(2.4rem,5vw,4rem)}
@@ -399,7 +392,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .top .btn{display:none}
   .burger{display:block}
   .mnav{display:flex}
-  .top .mark{height:calc(48px + .8rem);padding:.4rem .55rem}
   /* Mobil-hero: bildet dominerer, men tekst+knapp holdes samlet nederst
      som ett block (som resten av restaurantsidene vi så på) i stedet for
      splittet topp/bunn — en splittet layout la igjen et stort dødt
@@ -431,7 +423,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .status.on i{animation:none}
   .gi--in{animation:none}
   .hero__img img{animation:none}
 }
@@ -567,7 +558,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
     <img src="/img/gimi/hero-kamskjell.webp" alt="Illustrativt nærbilde av en rett fra kjøkkenet" width=1536 height=1024 fetchpriority=high>
   </div>
   <div class="wrap hero__in">
-    <p class=status id=status hidden><i aria-hidden=true></i><span id=status-text></span></p>
     <h1 class="disp h-xl" data-no="Over ild." data-en="Over fire.">Over ild.</h1>
     <p class=hero__where data-no="Restaurant &amp; cocktailbar · Eiganes, Stavanger" data-en="Restaurant &amp; cocktail bar · Eiganes, Stavanger">Restaurant &amp; cocktailbar · Eiganes, Stavanger</p>
     <p class=hero__sub data-no="Restaurant og cocktailbar i det gamle hermetikklaboratoriet på Eiganes. Tretti plasser, åpent kjøkken, og en grill som står på hele kvelden." data-en="Restaurant and cocktail bar in the old canning laboratory at Eiganes. Thirty seats, an open kitchen, and a grill that runs all evening.">Restaurant og cocktailbar i det gamle hermetikklaboratoriet på Eiganes. Tretti plasser, åpent kjøkken, og en grill som står på hele kvelden.</p>
@@ -867,8 +857,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 (function(){
   "use strict";
   var POOL = {"lett":[{"n":{"no":"Kyllingleverterrine","en":"Chicken liver terrine"},"b":{"no":"Brioche og marmelade","en":"Brioche and marmalade"},"a":{"no":"Melk · hvete · sulfitt · egg","en":"Milk · wheat · sulphites · egg"},"pris":185},{"n":{"no":"Oksetartar","en":"Beef tartare"},"b":{"no":"Potetrøsti, eggekrem og wrångebäck","en":"Potato rösti, egg cream and wrångebäck"},"a":{"no":"Melk · egg · fisk · sennep","en":"Milk · egg · fish · mustard"},"pris":245},{"n":{"no":"Kamskjell","en":"Scallops"},"b":{"no":"Reddik, fingerlime og blåskjell","en":"Radish, finger lime and mussels"},"a":{"no":"Bløtdyr · sulfitt","en":"Molluscs · sulphites"},"pris":385},{"n":{"no":"Rørte bær","en":"Stirred berries"},"b":{"no":"Kremostis og karamellisert sjokolade","en":"Cream cheese ice cream and caramelised chocolate"},"a":{"no":"Melk","en":"Milk"},"pris":155}],"grill":[{"n":{"no":"Dagens fisk","en":"Fish of the day"},"b":{"no":"Tomat og erter","en":"Tomato and peas"},"a":{"no":"Melk · fisk · sulfitt","en":"Milk · fish · sulphites"},"pris":395},{"n":{"no":"Tørrmodnet svinecarré","en":"Dry-aged pork loin"},"b":{"no":"Squash, sennep og peppersaus","en":"Courgette, mustard and pepper sauce"},"a":{"no":"Melk · sulfitt · lupin · sennep","en":"Milk · sulphites · lupin · mustard"},"pris":420},{"n":{"no":"Negima","en":"Negima"},"b":{"no":"Kyllingspyd med glasur og ordentlig grillsmak. Purren er like god som kyllingen.","en":"Chicken skewer with a glaze and real char off the grill. The leek is as good as the chicken."},"a":null,"pris":null},{"n":{"no":"Margbein","en":"Bone marrow"},"b":{"no":"Grillet sitron, ansjos og surdeig fra Molinå nede i byen.","en":"Grilled lemon, anchovy and sourdough from Molinå down in town."},"a":null,"pris":null},{"n":{"no":"Uer","en":"Ocean perch"},"b":{"no":"Sauce vierge — lys, urterik og syrlig der den skal være det.","en":"Sauce vierge — bright, herby and sharp exactly where it should be."},"a":null,"pris":null}],"glass":[{"n":{"no":"Noe syrlig","en":"Something sharp"},"b":{"no":"Fermentert, friskt og litt uventet. Bartenderen setter den sammen etter hva du liker.","en":"Fermented, fresh and a little unexpected. The bar builds it around what you like."},"a":null,"pris":null},{"n":{"no":"Noe med røyk i","en":"Something smoky"},"b":{"no":"Krydder, sylting og litt av den samme ilden som står på kjøkkenet.","en":"Spice, pickling and a little of the same fire that runs the kitchen."},"a":null,"pris":null},{"n":{"no":"En klassiker, satt riktig","en":"A classic, done properly"},"b":{"no":"Ingen omskriving. Bare riktig is, riktig mål og riktig glass.","en":"No reinvention. Just the right ice, the right measure and the right glass."},"a":null,"pris":null},{"n":{"no":"Noe alkoholfritt","en":"Something alcohol-free"},"b":{"no":"Laget med like mye omtanke som resten av kartet. Ikke en plan B.","en":"Made with the same care as everything else on the list. Not a plan B."},"a":null,"pris":null}],"dele":[{"n":{"no":"Kyllingleverterrine","en":"Chicken liver terrine"},"b":{"no":"Brioche og marmelade","en":"Brioche and marmalade"},"a":{"no":"Melk · hvete · sulfitt · egg","en":"Milk · wheat · sulphites · egg"},"pris":185},{"n":{"no":"Oksetartar","en":"Beef tartare"},"b":{"no":"Potetrøsti, eggekrem og wrångebäck","en":"Potato rösti, egg cream and wrångebäck"},"a":{"no":"Melk · egg · fisk · sennep","en":"Milk · egg · fish · mustard"},"pris":245},{"n":{"no":"Tørrmodnet svinecarré","en":"Dry-aged pork loin"},"b":{"no":"Squash, sennep og peppersaus","en":"Courgette, mustard and pepper sauce"},"a":{"no":"Melk · sulfitt · lupin · sennep","en":"Milk · sulphites · lupin · mustard"},"pris":420},{"n":{"no":"Rørte bær","en":"Stirred berries"},"b":{"no":"Kremostis og karamellisert sjokolade","en":"Cream cheese ice cream and caramelised chocolate"},"a":{"no":"Melk","en":"Milk"},"pris":155},{"n":{"no":"Negima","en":"Negima"},"b":{"no":"Kyllingspyd med glasur og ordentlig grillsmak. Purren er like god som kyllingen.","en":"Chicken skewer with a glaze and real char off the grill. The leek is as good as the chicken."},"a":null,"pris":null},{"n":{"no":"Margbein","en":"Bone marrow"},"b":{"no":"Grillet sitron, ansjos og surdeig fra Molinå nede i byen.","en":"Grilled lemon, anchovy and sourdough from Molinå down in town."},"a":null,"pris":null}]};
-  var APENT = {"3":{"fra":17,"til":24,"bar":24},"4":{"fra":17,"til":24,"bar":24},"5":{"fra":17,"til":24,"bar":25},"6":{"fra":17,"til":24,"bar":25,"lunsj":[12,15]}};
-  var TXT = {"no":{"giPrefix":"Da foreslår vi","giAgain":"Gi meg noe annet","giBook":"Book bord","statusOpen":"Åpent nå","statusOpenUntil":"kjøkkenet til","statusBarUntil":"baren til","statusOpensToday":"Åpner i dag","statusOpensAt":"Åpner","statusClosed":"Stengt i dag","statusLunch":"Lørdagslunsj nå","dager":["søndag","mandag","tirsdag","onsdag","torsdag","fredag","lørdag"]},"en":{"giPrefix":"Then we suggest","giAgain":"Give me something else","giBook":"Book a table","statusOpen":"Open now","statusOpenUntil":"kitchen until","statusBarUntil":"bar until","statusOpensToday":"Opens today","statusOpensAt":"Opens","statusClosed":"Closed today","statusLunch":"Saturday lunch now","dager":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}};
+  var TXT = {"no":{"giPrefix":"Da foreslår vi","giAgain":"Gi meg noe annet","giBook":"Book bord"},"en":{"giPrefix":"Then we suggest","giAgain":"Give me something else","giBook":"Book a table"}};
   var BOOKING = "https://book.easytable.com/book/?id=0c967&lang=auto";
   var START_TAG = 'grill', START_I = 2;
   var lang = 'no';
@@ -891,7 +880,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
     if (a) a.setAttribute('aria-pressed', String(lang === 'no'));
     if (b) b.setAttribute('aria-pressed', String(lang === 'en'));
     try { localStorage.setItem('gimi-lang', lang); } catch(e){}
-    visStatus();
     if (sisteTag) vis(sisteTag, true);
   }
   var lb = document.querySelectorAll('.lang button');
@@ -910,39 +898,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
     for (var j = 0; j < ml.length; j++) ml[j].addEventListener('click', function(){
       bg.setAttribute('aria-expanded', 'false'); mn.hidden = true; document.body.style.overflow = '';
     });
-  }
-
-  /* ---- live åpent-status ---- */
-  function klokke(h){
-    if (h === 24) return '24.00';
-    var hel = Math.floor(h) % 24;
-    return (hel < 10 ? '0' : '') + hel + '.00';
-  }
-  function finn(now){
-    var d = now.getDay(), h = now.getHours() + now.getMinutes() / 60, i, nd;
-    var forrige = APENT[(d + 6) % 7];
-    if (forrige && forrige.bar > 24 && h < (forrige.bar - 24)) return { apen: true, til: forrige.bar, bar: true };
-    var idag = APENT[d];
-    if (idag){
-      if (idag.lunsj && h >= idag.lunsj[0] && h < idag.lunsj[1]) return { apen: true, lunsj: true };
-      if (h >= idag.fra && h < idag.bar) return { apen: true, til: (h < idag.til) ? idag.til : idag.bar, bar: h >= idag.til };
-      if (h < idag.fra) return { apen: false, iDag: idag.fra };
-    }
-    for (i = 1; i <= 7; i++){ nd = (d + i) % 7; if (APENT[nd]) return { apen: false, dag: nd, fra: APENT[nd].fra }; }
-    return { apen: false };
-  }
-  function visStatus(){
-    var boks = $('status'), tx = $('status-text');
-    if (!boks || !tx) return;
-    var s = finn(new Date()), tt = TXT[lang], ut;
-    boks.classList.toggle('on', !!s.apen);
-    if (s.apen && s.lunsj) ut = tt.statusLunch;
-    else if (s.apen) ut = tt.statusOpen + ' · ' + (s.bar ? tt.statusBarUntil : tt.statusOpenUntil) + ' ' + klokke(s.til);
-    else if (s.iDag !== undefined) ut = tt.statusOpensToday + ' ' + klokke(s.iDag);
-    else if (s.dag !== undefined) ut = tt.statusOpensAt + ' ' + tt.dager[s.dag] + ' ' + klokke(s.fra);
-    else ut = tt.statusClosed;
-    tx.textContent = ut;
-    boks.hidden = false;
   }
 
   /* ---- gi meg noe ---- */
@@ -990,8 +945,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 
   /* ---- oppstart ---- */
   try { if (localStorage.getItem('gimi-lang') === 'en') bytt('en'); } catch(e){}
-  visStatus();
-  setInterval(visStatus, 60000);
 })();
 </script>
 </body>

@@ -62,7 +62,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 
 /* ---------- topplinje ---------- */
 .top{position:absolute;z-index:30;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.1rem var(--pad);background:transparent}
-.top .mark{height:calc(72px + 1rem);background:var(--cream);padding:.5rem .7rem;box-shadow:0 1px 3px rgba(20,18,24,.28)}
+.top .mark img{filter:drop-shadow(0 0 3px var(--cream)) drop-shadow(0 0 6px var(--cream)) drop-shadow(0 0 12px var(--cream))}
 .top nav{display:flex;gap:clamp(1.5rem,2.6vw,2.8rem)}
 .top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);opacity:.86;transition:opacity .2s}
 .top nav a:hover{opacity:1}
@@ -99,13 +99,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .hero__cta{display:flex;flex-wrap:wrap;align-items:center;gap:1.2rem 2rem;margin-top:2.6rem}
 .hero__note{margin-top:1.5rem;font-size:.82rem;color:rgba(251,246,238,.8)}
 .hero__foot{display:flex;flex-wrap:wrap;gap:.6rem 2.4rem;margin-top:clamp(2.4rem,5vw,4rem);padding-top:1.5rem;border-top:1px solid rgba(251,246,238,.32);font-size:.78rem;letter-spacing:.06em;color:rgba(251,246,238,.82)}
-
-/* live åpent-status */
-.status{display:inline-flex;align-items:center;gap:.6rem;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(251,246,238,.84)}
-.status i{width:6px;height:6px;flex:none;border-radius:50%;background:rgba(251,246,238,.62)}
-.status.on{color:#FBF8F3}
-.status.on i{background:var(--ember);box-shadow:0 0 0 0 rgba(217,98,46,.6);animation:pulse 2.8s ease-out infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(217,98,46,0)}100%{box-shadow:0 0 0 0 rgba(217,98,46,0)}}
 
 /* ---------- seksjonshode ---------- */
 .shead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(1.6rem,4vw,5rem);align-items:end;padding-bottom:clamp(2.4rem,5vw,4rem)}
@@ -249,7 +242,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .top .btn{display:none}
   .burger{display:block}
   .mnav{display:flex}
-  .top .mark{height:calc(48px + .8rem);padding:.4rem .55rem}
   /* Mobil-hero: bildet dominerer, men tekst+knapp holdes samlet nederst
      som ett block (som resten av restaurantsidene vi så på) i stedet for
      splittet topp/bunn — en splittet layout la igjen et stort dødt
@@ -281,7 +273,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .status.on i{animation:none}
   .gi--in{animation:none}
   .hero__img img{animation:none}
 }
