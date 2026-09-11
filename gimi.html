@@ -199,7 +199,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 
 /* ---------- ordmerke ---------- */
 .mark{display:block;flex:none;height:72px}
-.mark img{width:auto;height:100%;filter:brightness(0) invert(1)}
+.mark img{width:auto;height:100%}
 
 /* ---------- knapper ---------- */
 .btn{display:inline-flex;align-items:center;gap:.85rem;min-height:52px;padding:0 1.5rem;font-size:.82rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--ember);color:#fff;transition:background .2s ease}
@@ -210,17 +210,17 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .tlink:hover{color:var(--bone)}
 
 /* ---------- topplinje ---------- */
-.top{position:absolute;z-index:20;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.9rem var(--pad)}
+.top{position:sticky;z-index:30;top:0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.1rem var(--pad);background:var(--ground);border-bottom:1px solid var(--line)}
 .top nav{display:flex;gap:clamp(1.5rem,2.6vw,2.8rem)}
-.top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#FBF6EE;opacity:.88;transition:opacity .2s}
+.top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-deep);opacity:.82;transition:opacity .2s}
 .top nav a:hover{opacity:1}
 .top-r{display:flex;align-items:center;gap:1.4rem}
-.lang{display:flex;box-shadow:inset 0 0 0 1px rgba(251,246,238,.48)}
-.lang button{min-width:40px;min-height:32px;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#FBF6EE;opacity:.78;transition:.2s}
-.lang button[aria-pressed=true]{background:#FBF6EE;color:#2A1C12;opacity:1}
+.lang{display:flex;box-shadow:inset 0 0 0 1px var(--line-l)}
+.lang button{min-width:40px;min-height:32px;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-deep);opacity:.72;transition:.2s}
+.lang button[aria-pressed=true]{background:var(--blue);color:var(--cream);opacity:1}
 .lang button:hover{opacity:1}
 .burger{display:none;position:relative;width:44px;height:44px}
-.burger span{position:absolute;left:11px;width:22px;height:1.5px;background:#FBF6EE;transition:transform .25s ease,opacity .25s ease}
+.burger span{position:absolute;left:11px;width:22px;height:1.5px;background:var(--blue-deep);transition:transform .25s ease,opacity .25s ease}
 .burger span:nth-child(1){top:17px}
 .burger span:nth-child(2){top:22px}
 .burger span:nth-child(3){top:27px}
@@ -232,7 +232,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .mnav[hidden]{display:none}
 
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:88svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--ground);isolation:isolate}
+.hero{position:relative;min-height:78svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--ground);isolation:isolate}
 .hero__img{position:absolute;inset:0;z-index:-2}
 .hero__img img{width:100%;height:100%;object-fit:cover;object-position:56% 46%;filter:brightness(.88) saturate(1.02) contrast(1.01)}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
@@ -387,7 +387,9 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .burger{display:block}
   .mnav{display:flex}
   .mark{height:48px}
-  .hero{min-height:auto;padding-top:7rem}
+  .hero{min-height:auto}
+  .hero::after{background:linear-gradient(180deg,rgba(20,18,24,.66) 0%,rgba(20,18,24,.52) 28%,rgba(20,18,24,.70) 66%,rgba(20,18,24,.86) 100%)}
+  .hero__img img{object-position:62% 40%;filter:brightness(.82) saturate(1.02)}
   .hero__img img{object-position:60% 44%}
   .hero h1{max-width:8ch}
   .hero__sub{font-size:1rem}
@@ -420,8 +422,8 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .hero .tlink:hover{color:#FFFFFF}
 
 /* Heroen ligger over foto: naer-svart knapp forsvinner der, saa den snus */
-.hero .btn,.top .btn{background:#FBF8F3;color:#16140F}
-.hero .btn:hover,.top .btn:hover{background:#FFFFFF}
+.hero .btn{background:var(--cream);color:var(--blue-deep)}
+.hero .btn:hover{background:#FFFFFF}
 
 /* ---------- seksjoner i heldekkende blaatt ----------
    Bryter opp sanden og gir siden rytme. GIMIs egen blaa, ikke en oppfunnet. */
@@ -449,6 +451,9 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .foot__mark{display:block;height:clamp(104px,13vw,178px)}
 .foot__mark img{width:auto;height:100%;filter:brightness(0) invert(1)}
 .foot__tag{margin-top:1.2rem;font-size:.95rem;line-height:1.6;color:rgba(250,246,241,.78);max-width:34ch}
+
+/* Mobilmenyen legger seg under den klebrige toppen, ikke over den */
+.mnav{padding-top:7.5rem}
 </style>
 </head>
 <body>
