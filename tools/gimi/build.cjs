@@ -121,7 +121,7 @@ const sitte = `
     ${shead('sitteIndex', 'sitteKicker', 'sitteTitle', null)}
     <div class=sit__cards>
       <a class=sit__card href="${fakta.booking}" target=_blank rel=noopener>
-        <img src="/img/gimi/k-naer.webp" alt="" width=600 height=400 loading=lazy decoding=async>
+        <img src="/img/gimi/k-naer.webp" alt="" width=1120 height=1400 loading=lazy decoding=async>
         <div class=sit__ov>
           <p class=sit__n>01</p>
           <h3 ${A('sitteDiskNavn')}>${T('sitteDiskNavn')}</h3>
@@ -130,7 +130,7 @@ const sitte = `
         </div>
       </a>
       <a class=sit__card href="${fakta.booking}" target=_blank rel=noopener>
-        <img src="/img/gimi/b-hender.webp" alt="" width=828 height=640 loading=lazy decoding=async>
+        <img src="/img/gimi/b-hender.webp" alt="" width=1120 height=1400 loading=lazy decoding=async>
         <div class=sit__ov>
           <p class=sit__n>02</p>
           <h3 ${A('sitteBordNavn')}>${T('sitteBordNavn')}</h3>
@@ -146,7 +146,7 @@ const mosaikk = `
 <div class=mos aria-hidden=true>
   <img src="/img/gimi/k-mat.webp" alt="" width=800 height=724 loading=lazy decoding=async>
   <img src="/img/gimi/b-lys.webp" alt="" width=640 height=706 loading=lazy decoding=async>
-  <img src="/img/gimi/b-glass.webp" alt="" width=440 height=570 loading=lazy decoding=async>
+  <img src="/img/gimi/b-glass.webp" alt="" width=1120 height=1400 loading=lazy decoding=async>
 </div>`;
 
 const giValg = [['lett', 'giLett'], ['grill', 'giGrill'], ['glass', 'giGlass'], ['dele', 'giDele']];
@@ -177,7 +177,7 @@ const gi = `
 
 const ild = `
 <section class=ild id=ilden>
-  <div class=ild__bg><img src="/img/gimi/k-skaal.webp" alt="" width=700 height=1024 loading=lazy decoding=async></div>
+  <div class=ild__bg><img src="/img/gimi/k-skaal.webp" alt="" width=933 height=1400 loading=lazy decoding=async></div>
   <div class="wrap ild__in">
     <p class=lab ${A('ildIndex')}>${T('ildIndex')}</p>
     <h2 class="disp h-l" ${A('ildTitle')}>${T('ildTitle')}</h2>
@@ -212,7 +212,7 @@ const menySeksjon = `
 const bar = `
 <section class=bar id=baren>
   <div class=bar__split>
-    <div class=bar__img><img src="/img/gimi/bar-cocktail.jpg" alt="Illustrativt bilde av en bartender som ferdigstiller en cocktail" width=1448 height=1086 loading=lazy decoding=async></div>
+    <div class=bar__img><img src="/img/gimi/b-shaker.webp" alt="Illustrativt bilde av en bartender som ferdigstiller en cocktail" width=1400 height=1050 loading=lazy decoding=async></div>
     <div class=bar__copy>
       <p class=lab ${A('barIndex')}>${T('barIndex')}</p>
       <h2 class="disp h-l" ${A('barTitle')}>${T('barTitle')}</h2>

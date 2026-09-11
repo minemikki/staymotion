@@ -305,7 +305,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 
 /* ---------- bildestripe under heroen ---------- */
 .mos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:6px 0 0;background:var(--ground)}
-.mos img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.mos img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;display:block}
 
 /* ---------- to maater aa sitte paa: bildekort ---------- */
 .sit__cards{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.8rem,1.6vw,1.6rem)}
