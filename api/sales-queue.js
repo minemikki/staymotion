@@ -1,14 +1,15 @@
-// Approval queue for first-contact + follow-up sequences. Admin-gated.
+// Approval queue for first-contact outreach. Admin-gated.
 //
 //   GET  /api/sales-queue?key=...                 → all sequences + pending count
 //   POST { op:'create', leadId, observation?, offer? }
-//        → builds a first-contact + 3-day + 7-day sequence in status 'pending'
-//   POST { op:'approve', leadId }                 → approve → schedules steps
+//        → builds a single first-contact email in status 'pending'
+//   POST { op:'approve', leadId }                 → approve → schedules the send
 //   POST { op:'reject',  leadId }                 → delete the sequence
 //   POST { op:'edit', leadId, stepId, subject?, body? }
 //
-// The first contact must be previewed + approved by Michael. Once approved,
-// lawful follow-ups can auto-send later (stopped instantly on reply/opt-out).
+// No automatic 3-day/7-day follow-ups: every message is one Michael has
+// previewed and approved himself. The first contact must be previewed +
+// approved before anything sends.
 
 import { listLeads } from '../lib/leads.js';
 import { generateMessage } from '../lib/messages.js';
@@ -59,10 +60,9 @@ async function buildSequence(lead, config, opts) {
     offer, priceLine: pl.priceLine, depositLine: pl.depositLine,
     deliver: (PACKAGES[offer] || {}).deliver || '',
   };
+  // Single first-contact email only — no automatic 3-day/7-day follow-ups.
   const plan = [
     { id: 'email1', type: 'email1', offsetDays: 0 },
-    { id: 'followup3', type: 'followup3', offsetDays: 3 },
-    { id: 'followup7', type: 'followup7', offsetDays: 7 },
   ];
   const steps = plan.map((s) => {
     const m = generateMessage(s.type, ctx);
