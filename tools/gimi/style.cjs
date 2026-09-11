@@ -61,17 +61,18 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .ic{width:.95em;height:.95em;flex:none}
 
 /* ---------- topplinje ---------- */
-.top{position:sticky;z-index:30;top:0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.1rem var(--pad);background:var(--ground);border-bottom:1px solid var(--line)}
+.top{position:absolute;z-index:30;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.1rem var(--pad);background:transparent}
+.top .mark img{filter:brightness(0) invert(1)}
 .top nav{display:flex;gap:clamp(1.5rem,2.6vw,2.8rem)}
-.top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-deep);opacity:.82;transition:opacity .2s}
+.top nav a{font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);opacity:.86;transition:opacity .2s}
 .top nav a:hover{opacity:1}
 .top-r{display:flex;align-items:center;gap:1.4rem}
-.lang{display:flex;box-shadow:inset 0 0 0 1px var(--line-l)}
-.lang button{min-width:40px;min-height:32px;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-deep);opacity:.72;transition:.2s}
-.lang button[aria-pressed=true]{background:var(--blue);color:var(--cream);opacity:1}
+.lang{display:flex;box-shadow:inset 0 0 0 1px rgba(250,246,241,.42)}
+.lang button{min-width:40px;min-height:32px;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);opacity:.82;transition:.2s}
+.lang button[aria-pressed=true]{background:var(--cream);color:var(--blue-deep);opacity:1}
 .lang button:hover{opacity:1}
 .burger{display:none;position:relative;width:44px;height:44px}
-.burger span{position:absolute;left:11px;width:22px;height:1.5px;background:var(--blue-deep);transition:transform .25s ease,opacity .25s ease}
+.burger span{position:absolute;left:11px;width:22px;height:1.5px;background:var(--cream);transition:transform .25s ease,opacity .25s ease}
 .burger span:nth-child(1){top:17px}
 .burger span:nth-child(2){top:22px}
 .burger span:nth-child(3){top:27px}
@@ -255,7 +256,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
      fotoparti midt på skjermen uten noe forankring, og det er trolig
      det som leste som "rart"/uprofft. */
   .hero{min-height:88svh}
-  .hero::after{background:linear-gradient(180deg,rgba(20,18,24,.06) 0%,rgba(20,18,24,.10) 46%,rgba(20,18,24,.58) 78%,rgba(20,18,24,.88) 100%)}
+  .hero::after{background:linear-gradient(180deg,rgba(20,18,24,.62) 0%,rgba(20,18,24,.14) 16%,rgba(20,18,24,.10) 46%,rgba(20,18,24,.58) 78%,rgba(20,18,24,.88) 100%)}
   /* Kilden er et liggende bilde med mye mørk steinbenk over selve retten.
      På en høy mobilskjerm dekker cover hele bildehøyden (beskjæringen skjer
      bare i bredden), så den mørke benken øverst blir stående som dødt rom.
@@ -380,7 +381,4 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .bar__copy{padding:3rem var(--pad)}
 }
 
-/* Ankerhopp lander under den klebrige toppen */
-section[id],#top{scroll-margin-top:112px}
-@media (max-width:720px){section[id],#top{scroll-margin-top:90px}}
 `;
