@@ -256,7 +256,13 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
      det som leste som "rart"/uprofft. */
   .hero{min-height:88svh}
   .hero::after{background:linear-gradient(180deg,rgba(20,18,24,.06) 0%,rgba(20,18,24,.10) 46%,rgba(20,18,24,.58) 78%,rgba(20,18,24,.88) 100%)}
-  .hero__img img{object-position:58% 40%;filter:brightness(.92) saturate(1.02)}
+  /* Kilden er et liggende bilde med mye mørk steinbenk over selve retten.
+     På en høy mobilskjerm dekker cover hele bildehøyden (beskjæringen skjer
+     bare i bredden), så den mørke benken øverst blir stående som dødt rom.
+     Zoomer derfor inn og forskyver fokuspunktet ned mot retten selv. */
+  .hero__img img{object-position:58% 50%;filter:brightness(.92) saturate(1.02);
+    animation:heroLiveM 22s ease-in-out infinite alternate;transform-origin:50% 78%}
+  @keyframes heroLiveM{0%{transform:scale(1.32)}100%{transform:scale(1.4)}}
   .hero__in{padding-block:0 1.8rem}
   .hero h1{max-width:8ch;margin-top:.9rem;font-size:clamp(3rem,13vw,4rem)}
   .hero__where{display:block;margin-top:.7rem;font-size:.86rem;letter-spacing:.04em;color:rgba(251,246,238,.82)}
