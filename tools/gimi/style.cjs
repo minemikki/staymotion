@@ -58,6 +58,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .btn--ghost:hover{background:var(--raised2);box-shadow:inset 0 0 0 1px var(--ash-d)}
 .tlink{display:inline-flex;align-items:center;gap:.7rem;font-size:.82rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ember-l);padding-bottom:.35rem;box-shadow:inset 0 -1px 0 currentColor}
 .tlink:hover{color:var(--bone)}
+.ic{width:.95em;height:.95em;flex:none}
 
 /* ---------- topplinje ---------- */
 .top{position:sticky;z-index:30;top:0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.1rem var(--pad);background:var(--ground);border-bottom:1px solid var(--line)}
@@ -86,7 +87,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .hero__img{position:absolute;inset:0;z-index:-2}
 .hero__img img{width:100%;height:100%;object-fit:cover;object-position:56% 46%;filter:brightness(.88) saturate(1.02) contrast(1.01);
   animation:heroLive 22s ease-in-out infinite alternate;transform-origin:56% 46%}
-@keyframes heroLive{0%{transform:scale(1.0)}100%{transform:scale(1.09)}}
+@keyframes heroLive{0%{transform:scale(1.0)}100%{transform:scale(1.05)}}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:linear-gradient(180deg,rgba(22,20,26,.46) 0%,rgba(22,20,26,.06) 26%,rgba(22,20,26,.32) 68%,rgba(22,20,26,.58) 100%),
              linear-gradient(98deg,rgba(20,18,24,.64) 0%,rgba(20,18,24,.22) 44%,transparent 68%)}
@@ -178,7 +179,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .rom{background:var(--raised);border-top:1px solid var(--line)}
 .rom__img{position:relative;aspect-ratio:21/9;overflow:hidden;margin-top:clamp(2rem,4vw,3rem)}
 .rom__img img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:brightness(.8) saturate(.95)}
-.rom__cap{position:absolute;left:0;bottom:0;padding:.8rem 1.2rem;background:var(--ember);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.rom__cap{position:absolute;left:0;top:0;padding:.8rem 1.2rem;background:var(--ember);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
 .rom__stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--line)}
 .rom__s{padding:1.8rem 2rem 0 0;border-right:1px solid var(--line)}
 .rom__s+.rom__s{padding-left:2rem}

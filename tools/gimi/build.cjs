@@ -62,8 +62,13 @@ const navLenker = [['#sitte', 'sitteDiskNavn'], ['#meny', 'navMeny'], ['#ilden',
 const nav = (klasse) => navLenker.map(([h, k]) =>
   `<a href="${h}" ${A(k)}>${T(k)}</a>`).join(klasse === 'mnav' ? '\n  ' : '\n    ');
 
+// SVG-piler i stedet for unicode-piler: unicode ↗/↓ rendres som fargede emoji på iOS,
+// noe som ser uprofesjonelt ut i knapper. SVG gir et fast, nøytralt ikon overalt.
+const ikonUt = '<svg class=ic viewBox="0 0 16 16" aria-hidden=true focusable=false><path d="M4 12L12 4M6 4H12V10" fill=none stroke=currentColor stroke-width=1.4 stroke-linecap=round stroke-linejoin=round/></svg>';
+const ikonNed = '<svg class=ic viewBox="0 0 16 16" aria-hidden=true focusable=false><path d="M8 3V13M3 8L8 13L13 8" fill=none stroke=currentColor stroke-width=1.4 stroke-linecap=round stroke-linejoin=round/></svg>';
+
 const bookBtn = (klasse, nøkkel) =>
-  `<a class="${klasse}" href="${fakta.booking}" target=_blank rel=noopener><span ${A(nøkkel)}>${T(nøkkel)}</span><span aria-hidden=true>&#8599;</span></a>`;
+  `<a class="${klasse}" href="${fakta.booking}" target=_blank rel=noopener><span ${A(nøkkel)}>${T(nøkkel)}</span>${ikonUt}</a>`;
 
 const shead = (indexKey, kickerKey, titleKey, leadKey, html) => `
     <div class=shead>
@@ -104,7 +109,7 @@ const hero = `
     <p class=hero__sub ${A('heroUnder')}>${T('heroUnder')}</p>
     <div class=hero__cta>
       ${bookBtn('btn', 'heroBook')}
-      <a class=tlink href="#meny"><span ${A('heroMenuLink')}>${T('heroMenuLink')}</span><span aria-hidden=true>&#8595;</span></a>
+      <a class=tlink href="#meny"><span ${A('heroMenuLink')}>${T('heroMenuLink')}</span>${ikonNed}</a>
     </div>
     <p class=hero__note ${A('heroBookNote')}>${T('heroBookNote')}</p>
     <div class=hero__foot>
@@ -259,7 +264,7 @@ const selskap = `
       <div>
         <p class="body sel__body" ${A('selskapBody')}>${T('selskapBody')}</p>
         <div class="bes__cta sel__cta">
-          <a class=btn href="mailto:${fakta.epost}"><span ${A('selskapCta')}>${T('selskapCta')}</span><span aria-hidden=true>&#8599;</span></a>
+          <a class=btn href="mailto:${fakta.epost}"><span ${A('selskapCta')}>${T('selskapCta')}</span>${ikonUt}</a>
           <span class=body ${A('selskapNote')}>${T('selskapNote')}</span>
         </div>
       </div>
@@ -281,7 +286,7 @@ const besok = `
       <div class=bes__c>
         <p class="lab lab-ash" ${A('besokAdr')}>${T('besokAdr')}</p>
         <p>${esc(fakta.adresse)}<br>${esc(fakta.postnr)}</p>
-        <a class=tlink href="${fakta.kart}" target=_blank rel=noopener><span ${A('besokVei')}>${T('besokVei')}</span><span aria-hidden=true>&#8599;</span></a>
+        <a class=tlink href="${fakta.kart}" target=_blank rel=noopener><span ${A('besokVei')}>${T('besokVei')}</span>${ikonUt}</a>
       </div>
       <div class=bes__c>
         <p class="lab lab-ash" ${A('besokRest')}>${T('besokRest')}</p>
@@ -290,7 +295,7 @@ const besok = `
       <div class=bes__c>
         <p class="lab lab-ash" ${A('besokKontakt')}>${T('besokKontakt')}</p>
         <p><a href="tel:${fakta.tlfIntl}">${esc(fakta.tlf)}</a><br><a href="mailto:${fakta.epost}">${esc(fakta.epost)}</a></p>
-        <a class=tlink href="${fakta.instagram}" target=_blank rel=noopener>Instagram<span aria-hidden=true>&#8599;</span></a>
+        <a class=tlink href="${fakta.instagram}" target=_blank rel=noopener>Instagram${ikonUt}</a>
       </div>
     </div>
     <div class=bes__cta>
