@@ -255,9 +255,19 @@ const selskap = `
 <section class="sit sec blue" id=selskap>
   <div class=wrap>
     ${shead('selskapIndex', 'selskapKicker', 'selskapTitle', null, 1)}
-    <div class=bes__cta>
-      <a class=btn href="mailto:${fakta.epost}"><span ${A('selskapCta')}>${T('selskapCta')}</span><span aria-hidden=true>&#8599;</span></a>
-      <span class=body ${A('selskapNote')}>${T('selskapNote')}</span>
+    <div class=sel__grid>
+      <div>
+        <p class="body sel__body" ${A('selskapBody')}>${T('selskapBody')}</p>
+        <div class="bes__cta sel__cta">
+          <a class=btn href="mailto:${fakta.epost}"><span ${A('selskapCta')}>${T('selskapCta')}</span><span aria-hidden=true>&#8599;</span></a>
+          <span class=body ${A('selskapNote')}>${T('selskapNote')}</span>
+        </div>
+      </div>
+      <div class=sel__stats>
+        <div class=sel__s><b ${A('selskapStat1N')}>${T('selskapStat1N')}</b><span ${A('selskapStat1B')}>${T('selskapStat1B')}</span></div>
+        <div class=sel__s><b ${A('selskapStat2N')}>${T('selskapStat2N')}</b><span ${A('selskapStat2B')}>${T('selskapStat2B')}</span></div>
+        <div class=sel__s><b ${A('selskapStat3N')}>${T('selskapStat3N')}</b><span ${A('selskapStat3B')}>${T('selskapStat3B')}</span></div>
+      </div>
     </div>
   </div>
 </section>`;
@@ -266,6 +276,7 @@ const besok = `
 <section class="bes sec" id=besok>
   <div class=wrap>
     ${shead('besokIndex', 'besokKicker', 'besokTitle', null, 1)}
+    <p class=bes__big><span ${A('besokDager')}>${T('besokDager')}</span> ${T('besokTid')}</p>
     <div class=bes__grid>
       <div class=bes__c>
         <p class="lab lab-ash" ${A('besokAdr')}>${T('besokAdr')}</p>
@@ -274,7 +285,7 @@ const besok = `
       </div>
       <div class=bes__c>
         <p class="lab lab-ash" ${A('besokRest')}>${T('besokRest')}</p>
-        <p><span ${A('besokDager')}>${T('besokDager')}</span> ${T('besokTid')}<br><span ${A('besokLunsj')}>${T('besokLunsj')}</span> ${T('besokLunsjTid')}</p>
+        <p><span ${A('besokLunsj')}>${T('besokLunsj')}</span> ${T('besokLunsjTid')}</p>
       </div>
       <div class=bes__c>
         <p class="lab lab-ash" ${A('besokKontakt')}>${T('besokKontakt')}</p>

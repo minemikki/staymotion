@@ -84,7 +84,9 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:78svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--ground);isolation:isolate}
 .hero__img{position:absolute;inset:0;z-index:-2}
-.hero__img img{width:100%;height:100%;object-fit:cover;object-position:56% 46%;filter:brightness(.88) saturate(1.02) contrast(1.01)}
+.hero__img img{width:100%;height:100%;object-fit:cover;object-position:56% 46%;filter:brightness(.88) saturate(1.02) contrast(1.01);
+  animation:heroLive 22s ease-in-out infinite alternate;transform-origin:56% 46%}
+@keyframes heroLive{0%{transform:scale(1.0)}100%{transform:scale(1.09)}}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:linear-gradient(180deg,rgba(22,20,26,.46) 0%,rgba(22,20,26,.06) 26%,rgba(22,20,26,.32) 68%,rgba(22,20,26,.58) 100%),
              linear-gradient(98deg,rgba(20,18,24,.64) 0%,rgba(20,18,24,.22) 44%,transparent 68%)}
@@ -191,8 +193,18 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .nabo{margin-top:clamp(2.4rem,5vw,4rem);padding-top:1.6rem;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,.36fr) minmax(0,1fr);gap:1rem 3rem}
 .nabo h3{font-family:var(--disp);font-style:italic;font-weight:400;font-size:1.5rem;color:var(--ember-l)}
 
+/* ---------- selskap ---------- */
+.sel__grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(2rem,5vw,6rem);align-items:start;margin-top:clamp(1.4rem,3vw,2rem)}
+.sel__body{max-width:46ch;font-size:1.1rem;line-height:1.65}
+.sel__cta{margin-top:clamp(2rem,4vw,2.6rem)}
+.sel__stats{border-top:1px solid rgba(250,246,241,.26)}
+.sel__s{display:grid;grid-template-columns:auto 1fr;gap:0 1.6rem;align-items:baseline;padding-block:1.6rem;border-bottom:1px solid rgba(250,246,241,.26)}
+.sel__s b{font-family:var(--disp);font-weight:400;font-size:clamp(2rem,3.6vw,2.8rem);line-height:1;white-space:nowrap}
+.sel__s span{font-size:.94rem;line-height:1.5;color:rgba(250,246,241,.8)}
+
 /* ---------- 07 besøk ---------- */
 .bes{background:var(--ground);border-top:1px solid var(--line)}
+.bes__big{font-family:var(--disp);font-weight:300;font-size:clamp(3.2rem,9vw,7.4rem);letter-spacing:-.03em;line-height:.92;color:var(--blue)}
 .bes__grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin-top:clamp(2rem,4vw,3rem)}
 .bes__c{padding:1.9rem 2rem 2rem 0;border-right:1px solid var(--line)}
 .bes__c+.bes__c{padding-left:2rem}
@@ -217,6 +229,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .gi__out{grid-template-columns:1fr}
   .bar__grid,.rom__story{grid-template-columns:1fr}
   .nabo{grid-template-columns:1fr;gap:.8rem}
+  .sel__grid{grid-template-columns:1fr;gap:2.4rem}
 }
 @media (max-width:820px){
   .sit__grid{grid-template-columns:1fr}
@@ -260,6 +273,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   html{scroll-behavior:auto}
   .status.on i{animation:none}
   .gi--in{animation:none}
+  .hero__img img{animation:none}
 }
 
 /* Ilden staar paa varm glo-brunn, saa den trenger egne tekstfarger */
