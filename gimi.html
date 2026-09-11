@@ -243,6 +243,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
              linear-gradient(98deg,rgba(20,18,24,.64) 0%,rgba(20,18,24,.22) 44%,transparent 68%)}
 .hero__in{width:100%;padding-block:clamp(3rem,7vw,6rem) clamp(2rem,4vw,3.2rem)}
 .hero h1{max-width:11ch;margin-top:1.6rem;color:#FBF6EE}
+.hero__where{display:none}
 .hero__sub{margin-top:1.8rem;max-width:46ch;font-size:clamp(1rem,1.35vw,1.16rem);line-height:1.6;color:rgba(251,246,238,.93)}
 .hero__cta{display:flex;flex-wrap:wrap;align-items:center;gap:1.2rem 2rem;margin-top:2.6rem}
 .hero__note{margin-top:1.5rem;font-size:.82rem;color:rgba(251,246,238,.8)}
@@ -398,15 +399,18 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .burger{display:block}
   .mnav{display:flex}
   .mark{height:48px}
-  .hero{min-height:auto}
-  .hero::after{background:linear-gradient(180deg,rgba(20,18,24,.66) 0%,rgba(20,18,24,.52) 28%,rgba(20,18,24,.70) 66%,rgba(20,18,24,.86) 100%)}
-  .hero__img img{object-position:62% 40%;filter:brightness(.82) saturate(1.02)}
-  .hero__img img{object-position:60% 44%}
-  .hero h1{max-width:8ch}
-  .hero__sub{font-size:1rem}
-  .hero__cta{gap:1rem}
+  /* Mobil-hero etter monsteret fra Frantzen/Noma/Lilia: bildet dominerer
+     (hoyt, full bredde), maks to tekstlinjer, en knapp. Beskrivelse,
+     notat og adresse/tider ligger i seksjonene under, ikke her. */
+  .hero{min-height:82svh}
+  .hero::after{background:linear-gradient(180deg,rgba(20,18,24,.28) 0%,rgba(20,18,24,.04) 30%,rgba(20,18,24,.42) 62%,rgba(20,18,24,.88) 100%)}
+  .hero__img img{object-position:56% 36%;filter:brightness(.9) saturate(1.02)}
+  .hero__in{padding-block:2rem 2rem}
+  .hero h1{max-width:8ch;margin-top:1rem;font-size:clamp(3.4rem,15vw,4.6rem)}
+  .hero__where{display:block;margin-top:.9rem;font-size:.86rem;letter-spacing:.04em;color:rgba(251,246,238,.82)}
+  .hero__sub,.hero__note,.hero__foot,.hero__cta .tlink{display:none}
+  .hero__cta{margin-top:1.8rem}
   .hero__cta .btn{width:100%;justify-content:center}
-  .hero__foot{gap:.45rem 1.4rem;font-size:.72rem}
   .gi__choices{flex-direction:column;gap:.2rem}
   .gi__c{font-size:1.7rem}
   .meny__i{grid-template-columns:1fr auto}
@@ -559,6 +563,7 @@ section[id],#top{scroll-margin-top:112px}
   <div class="wrap hero__in">
     <p class=status id=status hidden><i aria-hidden=true></i><span id=status-text></span></p>
     <h1 class="disp h-xl" data-no="Over ild." data-en="Over fire.">Over ild.</h1>
+    <p class=hero__where data-no="Restaurant &amp; cocktailbar · Eiganes, Stavanger" data-en="Restaurant &amp; cocktail bar · Eiganes, Stavanger">Restaurant &amp; cocktailbar · Eiganes, Stavanger</p>
     <p class=hero__sub data-no="Restaurant og cocktailbar i det gamle hermetikklaboratoriet på Eiganes. Tretti plasser, åpent kjøkken, og en grill som står på hele kvelden." data-en="Restaurant and cocktail bar in the old canning laboratory at Eiganes. Thirty seats, an open kitchen, and a grill that runs all evening.">Restaurant og cocktailbar i det gamle hermetikklaboratoriet på Eiganes. Tretti plasser, åpent kjøkken, og en grill som står på hele kvelden.</p>
     <div class=hero__cta>
       <a class="btn" href="https://book.easytable.com/book/?id=0c967&lang=auto" target=_blank rel=noopener><span data-no="Book bord" data-en="Book a table">Book bord</span><svg class=ic viewBox="0 0 16 16" aria-hidden=true focusable=false><path d="M4 12L12 4M6 4H12V10" fill=none stroke=currentColor stroke-width=1.4 stroke-linecap=round stroke-linejoin=round/></svg></a>

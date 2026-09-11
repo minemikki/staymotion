@@ -106,6 +106,7 @@ const hero = `
   <div class="wrap hero__in">
     <p class=status id=status hidden><i aria-hidden=true></i><span id=status-text></span></p>
     <h1 class="disp h-xl" ${A('heroOver')}>${T('heroOver')}</h1>
+    <p class=hero__where ${A('heroEyebrow')}>${T('heroEyebrow')}</p>
     <p class=hero__sub ${A('heroUnder')}>${T('heroUnder')}</p>
     <div class=hero__cta>
       ${bookBtn('btn', 'heroBook')}
