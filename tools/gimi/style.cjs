@@ -220,8 +220,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .foot__note{max-width:34ch;font-size:.76rem;line-height:1.62;color:rgba(250,246,241,.6);text-align:right}
 
 /* ---------- fast bookinglinje på mobil ---------- */
-.bookbar{position:fixed;z-index:18;inset:auto 0 0;display:none;padding:.7rem var(--pad) calc(.7rem + env(safe-area-inset-bottom));background:var(--blue);border-top:1px solid rgba(250,246,241,.2)}
-.bookbar .btn{width:100%;justify-content:center}
 
 /* ---------- responsivt ---------- */
 @media (max-width:1080px){
@@ -266,8 +264,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
   .foot__in{grid-template-columns:1fr;gap:1.4rem}
   .foot__note{text-align:left;max-width:40ch}
   .foot__mark{height:86px}
-  .bookbar{display:block}
-  body{padding-bottom:76px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}

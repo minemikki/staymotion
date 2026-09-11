@@ -307,8 +307,7 @@ const footer = `
     <p class=foot__tag ${A('footTag')}>${T('footTag')}</p>
     <p class=foot__note ${A('footConcept')}>${T('footConcept')}</p>
   </div>
-</footer>
-<div class=bookbar>${bookBtn('btn', 'heroBook')}</div>`;
+</footer>`;
 
 // ---------- klientkode ----------
 const kort = (o) => JSON.stringify(o);
