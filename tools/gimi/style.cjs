@@ -38,9 +38,9 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .wrap{max-width:var(--max);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
 .sec{padding-block:clamp(5rem,11vw,11rem)}
 .disp{font-family:var(--disp);font-weight:400;letter-spacing:-.03em;line-height:.92;text-wrap:balance}
-.h-xl{font-size:clamp(3.6rem,11vw,11rem)}
-.h-l{font-size:clamp(2.6rem,6.4vw,6.4rem)}
-.h-m{font-size:clamp(2rem,3.6vw,3.4rem)}
+.h-xl{font-size:clamp(3.2rem,9.4vw,9rem)}
+.h-l{font-size:clamp(2.3rem,5.4vw,5.4rem)}
+.h-m{font-size:clamp(1.8rem,3.1vw,2.9rem)}
 .lab{font-family:var(--sans);font-size:.7rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--ember)}
 .lab-ash{color:var(--ash)}
 .rule{height:1px;background:var(--line);border:0;margin:0}
@@ -114,7 +114,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .sit__col{display:flex;flex-direction:column;padding:clamp(2.4rem,4vw,3.6rem) clamp(1.6rem,3vw,3rem) clamp(2.6rem,5vw,4rem) 0}
 .sit__col+.sit__col{border-left:1px solid var(--line);padding-left:clamp(1.6rem,3vw,3rem)}
 .sit__n{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ember)}
-.sit__col h3{margin-top:1rem;font-family:var(--disp);font-weight:400;font-size:clamp(2.2rem,4vw,3.6rem);letter-spacing:-.03em;line-height:1}
+.sit__col h3{margin-top:1rem;font-family:var(--disp);font-weight:400;font-size:clamp(2rem,3.4vw,3.1rem);letter-spacing:-.03em;line-height:1}
 .sit__line{margin-top:.5rem;font-family:var(--disp);font-style:italic;font-size:1.25rem;color:var(--ember-l)}
 .sit__col p.body{margin-top:1.4rem;max-width:44ch}
 .sit__note{margin-top:auto;padding-top:1.6rem;border-top:1px solid var(--line);font-size:.8rem;color:var(--ash-d)}
@@ -127,7 +127,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .gi__c[aria-pressed=true]{color:var(--ember)}
 .gi__out{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:2rem 4rem;align-items:start;padding-top:clamp(2.2rem,4vw,3.4rem)}
 .gi__pre{font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ember)}
-.gi__name{margin-top:1rem;font-family:var(--disp);font-weight:400;font-size:clamp(2.2rem,5vw,4.2rem);letter-spacing:-.035em;line-height:.98}
+.gi__name{margin-top:1rem;font-family:var(--disp);font-weight:400;font-size:clamp(2rem,4.2vw,3.6rem);letter-spacing:-.035em;line-height:.98}
 .gi__desc{margin-top:1rem;max-width:46ch;font-size:1.12rem;line-height:1.6;color:var(--ash)}
 .gi__all{display:block;margin-top:1rem;font-size:.76rem;letter-spacing:.05em;color:var(--ash-d)}
 .gi__side{display:flex;flex-direction:column;align-items:flex-start;gap:1.4rem}
@@ -149,7 +149,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .ild__dishes{margin-top:clamp(3rem,6vw,5rem)}
 .ild__d{display:grid;grid-template-columns:minmax(180px,.3fr) 1fr;gap:.6rem 3rem;padding-block:1.7rem;border-top:1px solid var(--line)}
 .ild__d:last-child{border-bottom:1px solid var(--line)}
-.ild__d h3{font-family:var(--disp);font-weight:400;font-size:clamp(1.7rem,3vw,2.5rem);letter-spacing:-.02em;line-height:1}
+.ild__d h3{font-family:var(--disp);font-weight:400;font-size:clamp(1.6rem,2.5vw,2.2rem);letter-spacing:-.02em;line-height:1}
 .ild__d p{align-self:center;font-size:1.02rem;line-height:1.6;color:var(--ash)}
 
 /* ---------- 04 menyen ---------- */
@@ -183,12 +183,12 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .rom__s{padding:1.8rem 2rem 0 0;border-right:1px solid var(--line)}
 .rom__s+.rom__s{padding-left:2rem}
 .rom__s:last-child{border-right:0}
-.rom__s b{display:block;font-family:var(--disp);font-weight:400;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1;color:var(--bone)}
+.rom__s b{display:block;font-family:var(--disp);font-weight:400;font-size:clamp(2rem,3.3vw,2.7rem);line-height:1;color:var(--bone)}
 .rom__s span{display:block;margin-top:.6rem;font-size:.9rem;color:var(--ash)}
 .rom__story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,5vw,6rem);margin-top:clamp(3rem,6vw,5rem)}
 .rom__story p+p{margin-top:1.1rem}
 .quote{padding-left:1.8rem;border-left:2px solid var(--ember)}
-.quote p{font-family:var(--disp);font-style:italic;font-weight:400;font-size:clamp(1.5rem,2.4vw,2.1rem);line-height:1.22;color:var(--bone)}
+.quote p{font-family:var(--disp);font-style:italic;font-weight:400;font-size:clamp(1.4rem,2vw,1.9rem);line-height:1.22;color:var(--bone)}
 .quote cite{display:block;margin-top:1rem;font-style:normal;font-size:.78rem;letter-spacing:.08em;color:var(--ash-d)}
 .nabo{margin-top:clamp(2.4rem,5vw,4rem);padding-top:1.6rem;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,.36fr) minmax(0,1fr);gap:1rem 3rem}
 .nabo h3{font-family:var(--disp);font-style:italic;font-weight:400;font-size:1.5rem;color:var(--ember-l)}
@@ -199,12 +199,12 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .sel__cta{margin-top:clamp(2rem,4vw,2.6rem)}
 .sel__stats{border-top:1px solid rgba(250,246,241,.26)}
 .sel__s{display:grid;grid-template-columns:auto 1fr;gap:0 1.6rem;align-items:baseline;padding-block:1.6rem;border-bottom:1px solid rgba(250,246,241,.26)}
-.sel__s b{font-family:var(--disp);font-weight:400;font-size:clamp(2rem,3.6vw,2.8rem);line-height:1;white-space:nowrap}
+.sel__s b{font-family:var(--disp);font-weight:400;font-size:clamp(1.8rem,3vw,2.4rem);line-height:1;white-space:nowrap}
 .sel__s span{font-size:.94rem;line-height:1.5;color:rgba(250,246,241,.8)}
 
 /* ---------- 07 besøk ---------- */
 .bes{background:var(--ground);border-top:1px solid var(--line)}
-.bes__big{font-family:var(--disp);font-weight:300;font-size:clamp(3.2rem,9vw,7.4rem);letter-spacing:-.03em;line-height:.92;color:var(--blue)}
+.bes__big{font-family:var(--disp);font-weight:300;font-size:clamp(2.2rem,5.6vw,4.6rem);letter-spacing:-.02em;line-height:1.05;color:var(--blue);overflow-wrap:break-word}
 .bes__grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin-top:clamp(2rem,4vw,3rem)}
 .bes__c{padding:1.9rem 2rem 2rem 0;border-right:1px solid var(--line)}
 .bes__c+.bes__c{padding-left:2rem}
@@ -328,7 +328,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .sit__card:hover img{transform:scale(1.045)}
 .sit__ov{position:absolute;inset:auto 0 0;padding:clamp(1.4rem,3vw,2.6rem);background:linear-gradient(180deg,transparent 0%,rgba(20,18,26,.62) 55%,rgba(20,18,26,.86) 100%)}
 .sit__card .sit__n{color:rgba(250,246,241,.7)}
-.sit__card h3{margin-top:.6rem;color:var(--cream);font-family:var(--disp);font-weight:400;letter-spacing:-.03em;line-height:1;font-size:clamp(2.4rem,4.6vw,4.2rem)}
+.sit__card h3{margin-top:.6rem;color:var(--cream);font-family:var(--disp);font-weight:400;letter-spacing:-.03em;line-height:1;font-size:clamp(2.1rem,3.8vw,3.5rem)}
 .sit__card .sit__line{color:rgba(250,246,241,.85)}
 .sit__card .sit__note{margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(250,246,241,.28);color:rgba(250,246,241,.7)}
 
@@ -339,7 +339,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .ild__in{padding-block:clamp(6rem,13vw,13rem)}
 .ild h2{color:var(--cream);max-width:12ch}
 .ild__list{list-style:none;margin:clamp(2rem,4vw,3.2rem) 0 0;padding:1.6rem 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem 2.4rem;border-top:1px solid rgba(250,246,241,.28)}
-.ild__list b{display:block;font-family:var(--disp);font-weight:400;font-size:clamp(1.7rem,2.8vw,2.4rem);letter-spacing:-.02em;line-height:1;color:var(--cream)}
+.ild__list b{display:block;font-family:var(--disp);font-weight:400;font-size:clamp(1.6rem,2.3vw,2.1rem);letter-spacing:-.02em;line-height:1;color:var(--cream)}
 .ild__list span{display:block;margin-top:.5rem;font-size:.92rem;line-height:1.5;color:rgba(250,246,241,.72);max-width:32ch}
 
 /* ---------- baren: foto + tider + navn ---------- */
@@ -354,7 +354,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 
 /* ---------- rommet: stort sitat og en setning om broedrene ---------- */
 .quote--big{margin-top:clamp(3rem,6vw,5rem);padding-left:0;border-left:0}
-.quote--big p{font-size:clamp(2rem,4.2vw,4rem);max-width:22ch;line-height:1.08}
+.quote--big p{font-size:clamp(1.8rem,3.4vw,3.3rem);max-width:22ch;line-height:1.1}
 .rom__bro{margin-top:clamp(3rem,6vw,5rem);padding-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--line);max-width:64ch}
 .rom__bro h3{margin-top:1rem}
 .rom__bro .lead{margin-top:1.2rem}
