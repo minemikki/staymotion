@@ -1,8 +1,10 @@
 // Bygger gimi.html — konseptsiden for GIMI restaurant og bar.
 //   node tools/gimi/build.cjs
 //
-// Egen visuell identitet, ikke StayMotion-skallet: dette er GIMI sin merkevare.
-// Alt tekstinnhold ligger i content.cjs, all stil i style.cjs.
+// Andre retning, bygget etter research på amerikanske topprestauranter:
+// mørk ild-palett, minuskel-ordmerke, én display-font, stram struktur,
+// og sitteplassene presentert som to separate produkter.
+// Innhold i content.cjs, stil i style.cjs.
 
 const fs = require('fs');
 const { t, meny, glasset, fraIlden, fakta } = require('./content.cjs');
@@ -13,550 +15,430 @@ const esc = (s) => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;')
   .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// Tospråklighet: hvert element bærer begge språk som attributter, og JS bytter
-// tekstinnholdet. Da ligger alt innhold i HTML-en fra første render — ingenting
-// venter på JavaScript for å bli lesbart.
-const A = (key, html) => `data-no="${esc(t.no[key])}" data-en="${esc(t.en[key])}"${html ? ' data-html' : ''}`;
-const T = (key) => esc(t.no[key]);
-const RAW = (key) => t.no[key];
-// For innhold som ikke ligger i t (menylinjer o.l.)
-const AB = (no, en, html) => `data-no="${esc(no)}" data-en="${esc(en)}"${html ? ' data-html' : ''}`;
+// Tospråklig: hvert element bærer begge språk, JS bytter tekstinnholdet.
+// Alt innhold ligger dermed i HTML-en fra første render.
+const A = (k, html) => `data-no="${esc(t.no[k])}" data-en="${esc(t.en[k])}"${html ? ' data-html' : ''}`;
+const T = (k) => esc(t.no[k]);
+const AB = (no, en) => `data-no="${esc(no)}" data-en="${esc(en)}"`;
 
-// ---------- "Gi meg noe": kurven av forslag ----------
+// ---------- "Gi meg noe": forslagskurven ----------
 const pool = { lett: [], grill: [], glass: [], dele: [] };
-for (const g of meny) {
-  for (const r of g.retter) {
-    for (const tag of r.tags) {
-      if (pool[tag]) pool[tag].push({ n: r.n, b: r.b, a: r.a, pris: r.pris });
-    }
-  }
-}
-for (const r of fraIlden) {
-  for (const tag of r.tags) {
-    if (pool[tag]) pool[tag].push({ n: r.n, b: r.b, a: null, pris: null });
-  }
-}
+for (const g of meny) for (const r of g.retter) for (const tag of r.tags)
+  if (pool[tag]) pool[tag].push({ n: r.n, b: r.b, a: r.a, pris: r.pris });
+for (const r of fraIlden) for (const tag of r.tags)
+  if (pool[tag]) pool[tag].push({ n: r.n, b: r.b, a: null, pris: null });
 for (const d of glasset) pool.glass.push({ n: d.n, b: d.b, a: null, pris: null });
 
+const startRett = fraIlden[0];
+const startIndeks = pool.grill.findIndex((r) => r.n.no === startRett.n.no);
+
 // ---------- strukturerte data ----------
-// Siden er noindex (den er et konsept, ikke GIMIs offisielle side), så dette
-// er med for å vise hva de faktisk ville fått — ikke for å bli indeksert.
 const dagNavn = { 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday' };
 const apningstider = Object.entries(fakta.apent).map(([d, o]) => ({
   '@type': 'OpeningHoursSpecification',
   dayOfWeek: 'https://schema.org/' + dagNavn[d],
   opens: String(o.fra).padStart(2, '0') + ':00',
-  closes: (o.bar > 24 ? String(o.bar - 24).padStart(2, '0') : String(o.bar).padStart(2, '0')) + ':00',
+  closes: (o.bar > 24 ? String(o.bar - 24).padStart(2, '0') : String(o.bar)) + ':00',
 }));
-apningstider.push({
-  '@type': 'OpeningHoursSpecification',
-  dayOfWeek: 'https://schema.org/Saturday', opens: '12:00', closes: '15:00',
-});
+apningstider.push({ '@type': 'OpeningHoursSpecification', dayOfWeek: 'https://schema.org/Saturday', opens: '12:00', closes: '15:00' });
 
 const graf = {
-  '@context': 'https://schema.org',
-  '@type': 'Restaurant',
-  name: 'GIMI restaurant og bar',
-  description: t.no.heroBody,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: fakta.adresse,
-    postalCode: fakta.postnr.split(' ')[0],
-    addressLocality: 'Stavanger',
-    addressCountry: 'NO',
-  },
-  telephone: fakta.tlfIntl,
-  email: fakta.epost,
-  servesCuisine: ['Nordisk', 'Grill'],
-  priceRange: '200–500 NOK',
-  acceptsReservations: fakta.booking,
-  sameAs: [fakta.instagram],
+  '@context': 'https://schema.org', '@type': 'Restaurant',
+  name: 'GIMI restaurant og bar', description: t.no.heroUnder,
+  address: { '@type': 'PostalAddress', streetAddress: fakta.adresse, postalCode: fakta.postnr.split(' ')[0], addressLocality: 'Stavanger', addressCountry: 'NO' },
+  telephone: fakta.tlfIntl, email: fakta.epost,
+  servesCuisine: ['Nordisk', 'Grill'], priceRange: '200–500 NOK',
+  acceptsReservations: fakta.booking, sameAs: [fakta.instagram],
   openingHoursSpecification: apningstider,
-  hasMenu: {
-    '@type': 'Menu',
-    hasMenuSection: meny.map((g) => ({
-      '@type': 'MenuSection',
-      name: g.gruppe.no,
-      hasMenuItem: g.retter.map((r) => ({
-        '@type': 'MenuItem',
-        name: r.n.no,
-        description: r.b.no,
-        offers: { '@type': 'Offer', price: String(r.pris), priceCurrency: 'NOK' },
-      })),
-    })),
-  },
+  hasMenu: { '@type': 'Menu', hasMenuSection: meny.map((g) => ({
+    '@type': 'MenuSection', name: g.gruppe.no,
+    hasMenuItem: g.retter.map((r) => ({ '@type': 'MenuItem', name: r.n.no, description: r.b.no,
+      offers: { '@type': 'Offer', price: String(r.pris), priceCurrency: 'NOK' } })),
+  })) },
 };
 
+// ---------- byggeklosser ----------
+const navLenker = [['#sitte', 'sitteDiskNavn'], ['#meny', 'navMeny'], ['#ilden', 'navIlden'], ['#baren', 'navBaren'], ['#besok', 'navBesok']];
+const nav = (klasse) => navLenker.map(([h, k]) =>
+  `<a href="${h}" ${A(k)}>${T(k)}</a>`).join(klasse === 'mnav' ? '\n  ' : '\n    ');
+
+const bookBtn = (klasse, nøkkel) =>
+  `<a class="${klasse}" href="${fakta.booking}" target=_blank rel=noopener><span ${A(nøkkel)}>${T(nøkkel)}</span><span aria-hidden=true>&#8599;</span></a>`;
+
+const shead = (indexKey, kickerKey, titleKey, leadKey, html) => `
+    <div class=shead>
+      <div>
+        <p class=lab ${A(indexKey)}>${T(indexKey)}</p>
+        <h2 class="disp h-l" ${A(titleKey, html)}>${html ? t.no[titleKey] : T(titleKey)}</h2>
+      </div>
+      ${leadKey ? `<p class=lead ${A(leadKey)}>${T(leadKey)}</p>` : '<div></div>'}
+    </div>`;
+
 // ---------- seksjoner ----------
-const header = `
-<div class=concept-bar>
-  <span ${A('conceptBar')}>${T('conceptBar')}</span>
-  <span class=concept-bar__note ${A('conceptNote')}>${T('conceptNote')}</span>
-</div>
-<header class=site-header aria-label=Hovedmeny>
-  <a class=brand href="#top" aria-label="GIMI – til toppen"><img src="/img/gimi/logo.webp" alt=GIMI width=142 height=308></a>
+const topp = `
+<div class=top>
+  <a class=mark href="#top" aria-label="GIMI">gimi</a>
   <nav>
-    <a href="#meny" ${A('navMeny')}>${T('navMeny')}</a>
-    <a href="#ilden" ${A('navIlden')}>${T('navIlden')}</a>
-    <a href="#oss" ${A('navOss')}>${T('navOss')}</a>
-    <a href="#baren" ${A('navBaren')}>${T('navBaren')}</a>
-    <a href="#besok" ${A('navBesok')}>${T('navBesok')}</a>
+    ${nav()}
   </nav>
-  <div class=head-right>
-    <div class=langsw role=group aria-label="Språk / Language">
+  <div class=top-r>
+    <div class=lang role=group aria-label="Språk / Language">
       <button type=button id=lang-no data-lang=no aria-pressed=true>NO</button>
       <button type=button id=lang-en data-lang=en aria-pressed=false>EN</button>
     </div>
-    <button class=menu-toggle type=button id=menu-toggle aria-expanded=false aria-controls=mobile-nav ${A('menuOpen')} data-attr=aria-label aria-label="${T('menuOpen')}">
-      <span></span><span></span><span></span>
-    </button>
+    ${bookBtn('btn', 'heroBook')}
+    <button class=burger type=button id=burger aria-expanded=false aria-controls=mnav data-attr=aria-label ${A('menuOpen')} aria-label="${T('menuOpen')}"><span></span><span></span><span></span></button>
   </div>
-</header>
-<nav class=mobile-nav id=mobile-nav aria-label=Mobilmeny hidden>
-  <a href="#meny" ${A('navMeny')}>${T('navMeny')}</a>
-  <a href="#ilden" ${A('navIlden')}>${T('navIlden')}</a>
-  <a href="#oss" ${A('navOss')}>${T('navOss')}</a>
-  <a href="#baren" ${A('navBaren')}>${T('navBaren')}</a>
-  <a href="#besok" ${A('navBesok')}>${T('navBesok')}</a>
+</div>
+<nav class=mnav id=mnav aria-label=Meny hidden>
+  ${nav('mnav')}
 </nav>`;
 
 const hero = `
-<section class=hero id=top aria-labelledby=hero-title>
-  <div class=hero__copy>
-    <p class=eyebrow ${A('heroEyebrow')}>${T('heroEyebrow')}</p>
-    <p class=status id=status hidden><span class=status__dot aria-hidden=true></span><span id=status-text></span></p>
-    <h1 id=hero-title><span ${A('heroTitleA')}>${T('heroTitleA')}</span><br><em ${A('heroTitleB')}>${T('heroTitleB')}</em></h1>
-    <p class=hero__lead ${A('heroLead')}>${T('heroLead')}</p>
-    <p class=hero__body ${A('heroBody')}>${T('heroBody')}</p>
-    <div class=hero__actions>
-      <a class="button button--light" href="${fakta.booking}" target=_blank rel=noopener><span ${A('heroBook')}>${T('heroBook')}</span> <span aria-hidden=true>↗</span></a>
-      <a class="text-link text-link--light" href="#meny"><span ${A('heroMenuLink')}>${T('heroMenuLink')}</span> <span aria-hidden=true>↓</span></a>
+<section class=hero id=top>
+  <div class=hero__img>
+    <img src="/img/gimi/hero-kamskjell.webp" alt="Illustrativt nærbilde av en rett fra kjøkkenet" width=1536 height=1024 fetchpriority=high>
+  </div>
+  <div class="wrap hero__in">
+    <p class=status id=status hidden><i aria-hidden=true></i><span id=status-text></span></p>
+    <h1 class="disp h-xl" ${A('heroOver')}>${T('heroOver')}</h1>
+    <p class=hero__sub ${A('heroUnder')}>${T('heroUnder')}</p>
+    <div class=hero__cta>
+      ${bookBtn('btn', 'heroBook')}
+      <a class=tlink href="#meny"><span ${A('heroMenuLink')}>${T('heroMenuLink')}</span><span aria-hidden=true>&#8595;</span></a>
     </div>
-    <div class=hero__details aria-label="Praktisk informasjon">
-      <span>${esc(fakta.adresse)}</span>
+    <p class=hero__note ${A('heroBookNote')}>${T('heroBookNote')}</p>
+    <div class=hero__foot>
+      <span>${esc(fakta.adresse)}, ${esc(fakta.postnr)}</span>
       <span ${A('besokDager')}>${T('besokDager')}</span>
       <span>${esc(fakta.tlf)}</span>
     </div>
   </div>
-  <div class=hero__visual>
-    <img class=hero__image src="/img/gimi/hero-kamskjell.webp" alt="Illustrativt nærbilde av kamskjell med reddik, fingerlime og urter" width=1536 height=1024 fetchpriority=high>
-    <div class=hero__image-caption>
-      <span ${A('heroCaptionA')}>${T('heroCaptionA')}</span>
-      <strong ${A('heroCaptionB')}>${T('heroCaptionB')}</strong>
+</section>`;
+
+const sitte = `
+<section class="sit sec" id=sitte>
+  <div class=wrap>
+    ${shead('sitteIndex', 'sitteKicker', 'sitteTitle', 'sitteLead')}
+    <div class=sit__grid>
+      <div class=sit__col>
+        <p class=sit__n>01</p>
+        <h3 ${A('sitteDiskNavn')}>${T('sitteDiskNavn')}</h3>
+        <p class=sit__line ${A('sitteDiskLinje')}>${T('sitteDiskLinje')}</p>
+        <p class=body ${A('sitteDiskTekst')}>${T('sitteDiskTekst')}</p>
+        <p class=sit__note ${A('sitteDiskNote')}>${T('sitteDiskNote')}</p>
+      </div>
+      <div class=sit__col>
+        <p class=sit__n>02</p>
+        <h3 ${A('sitteBordNavn')}>${T('sitteBordNavn')}</h3>
+        <p class=sit__line ${A('sitteBordLinje')}>${T('sitteBordLinje')}</p>
+        <p class=body ${A('sitteBordTekst')}>${T('sitteBordTekst')}</p>
+        <p class=sit__note ${A('sitteBordNote')}>${T('sitteBordNote')}</p>
+      </div>
     </div>
   </div>
-</section>
-<div class=ticker aria-hidden=true>
-  <div class=ticker__track>
-    ${[0, 1].map(() => `<span ${A('tickerA')}>${T('tickerA')}</span><i>◆</i><span ${A('tickerB')}>${T('tickerB')}</span><i>◆</i><span ${A('tickerC')}>${T('tickerC')}</span><i>◆</i>`).join('\n    ')}
-  </div>
-</div>`;
+</section>`;
 
-// Startkortet i "Gi meg noe". Server-rendret, slik at boksen aldri står tom
-// og modulen viser hva den gjør uten at man må trykke først.
-const startRett = fraIlden[0]; // Negima
-const startIndeks = pool.grill.indexOf(pool.grill.find((r) => r.n.no === startRett.n.no));
-const startKort = `<div class=gi__card>
+const giValg = [['lett', 'giLett'], ['grill', 'giGrill'], ['glass', 'giGlass'], ['dele', 'giDele']];
+const startKort = `<div class=gi__out>
         <div>
-          <p class=gi__prefix ${A('giPrefix')}>${T('giPrefix')}</p>
+          <p class=gi__pre ${A('giPrefix')}>${T('giPrefix')}</p>
           <h3 class=gi__name ${AB(startRett.n.no, startRett.n.en)}>${esc(startRett.n.no)}</h3>
           <p class=gi__desc ${AB(startRett.b.no, startRett.b.en)}>${esc(startRett.b.no)}</p>
         </div>
         <div class=gi__side>
-          <div class=gi__actions>
-            <a class="button button--deep" href="${fakta.booking}" target=_blank rel=noopener><span ${A('giBook')}>${T('giBook')}</span> <span aria-hidden=true>\u2197</span></a>
-            <button type=button class=gi__again ${A('giAgain')}>${T('giAgain')}</button>
-          </div>
+          ${bookBtn('btn btn--ghost', 'giBook')}
+          <button type=button class=gi__again ${A('giAgain')}>${T('giAgain')}</button>
         </div>
       </div>`;
 
-const giValg = [['lett', 'giLett'], ['grill', 'giGrill'], ['glass', 'giGlass'], ['dele', 'giDele']];
 const gi = `
-<section class=gi id=gimeg aria-labelledby=gi-title>
-  <div class=gi__inner>
-    <div class=section-index ${A('giIndex')}>${T('giIndex')}</div>
-    <div class=gi__head>
-      <p class="kicker" style="margin-top:1.4rem" ${A('giKicker')}>${T('giKicker')}</p>
-      <h2 id=gi-title ${A('giTitle')}>${T('giTitle')}</h2>
-      <p ${A('giBody')}>${T('giBody')}</p>
-    </div>
+<section class="gi sec" id=gimeg>
+  <div class=wrap>
+    ${shead('giIndex', 'giKicker', 'giTitle', 'giBody')}
     <div class=gi__choices>
-      ${giValg.map(([tag, key]) => `<button type=button class=gi__choice data-gi="${tag}" aria-pressed=false><span ${A(key)}>${T(key)}</span> <i aria-hidden=true>→</i></button>`).join('\n      ')}
+      ${giValg.map(([tag, k]) => `<button type=button class=gi__c data-gi="${tag}" aria-pressed=${tag === 'grill'} ${A(k)}>${T(k)}</button>`).join('\n      ')}
     </div>
-    <div class=gi__result id=gi-result aria-live=polite>
+    <div id=gi-result aria-live=polite>
       ${startKort}
     </div>
   </div>
 </section>`;
 
 const ild = `
-<section class=ild id=ilden aria-labelledby=ild-title>
-  <div class=ild__inner>
-    <div class="section-index section-index--ember" ${A('ildIndex')}>${T('ildIndex')}</div>
-    <div class=ild__top>
-      <div>
-        <p class="kicker kicker--ember" style="margin-top:1.4rem" ${A('ildKicker')}>${T('ildKicker')}</p>
-        <h2 id=ild-title ${A('ildTitle')}>${T('ildTitle')}</h2>
-      </div>
-      <div>
-        <p class=ild__body ${A('ildBody')}>${T('ildBody')}</p>
-        <p class=ild__body ${A('ildBody2')}>${T('ildBody2')}</p>
-      </div>
-    </div>
+<section class="ild sec" id=ilden>
+  <div class=wrap>
+    ${shead('ildIndex', 'ildKicker', 'ildTitle', 'ildBody')}
     <div class=ild__facts>
       ${[['ildF1', 'ildF1b'], ['ildF2', 'ildF2b'], ['ildF3', 'ildF3b']].map(([a, b]) =>
-        `<div class=ild__fact><b ${A(a)}>${T(a)}</b><span ${A(b)}>${T(b)}</span></div>`).join('\n      ')}
+        `<div class=ild__f><b ${A(a)}>${T(a)}</b><span ${A(b)}>${T(b)}</span></div>`).join('\n      ')}
     </div>
     <div class=ild__dishes>
-      <h3 class=ild__dishesTitle ${A('ildRetterTitle')}>${T('ildRetterTitle')}</h3>
-      ${fraIlden.map((r) => `<article class=ild__dish><h3 ${AB(r.n.no, r.n.en)}>${esc(r.n.no)}</h3><p ${AB(r.b.no, r.b.en)}>${esc(r.b.no)}</p></article>`).join('\n      ')}
+      <p class="lab lab-ash" ${A('ildRetterTitle')}>${T('ildRetterTitle')}</p>
+      ${fraIlden.map((r) => `<article class=ild__d><h3 ${AB(r.n.no, r.n.en)}>${esc(r.n.no)}</h3><p ${AB(r.b.no, r.b.en)}>${esc(r.b.no)}</p></article>`).join('\n      ')}
     </div>
   </div>
 </section>`;
 
-const oss = `
-<section class=oss id=oss aria-labelledby=oss-title>
-  <div class=oss__inner>
-    <div class=section-index ${A('ossIndex')}>${T('ossIndex')}</div>
-    <div class=oss__content>
-      <p class=kicker ${A('ossKicker')}>${T('ossKicker')}</p>
-      <h2 id=oss-title ${A('ossTitle', 1)}>${RAW('ossTitle')}</h2>
-      <div class=oss__text>
+const menySeksjon = `
+<section class="meny sec" id=meny>
+  <div class=wrap>
+    ${shead('menyIndex', 'menyKicker', 'menyTitle', 'menyBody')}
+    ${meny.map((g) => `<div class=meny__g>
+      <h3 ${AB(g.gruppe.no, g.gruppe.en)}>${esc(g.gruppe.no)}</h3>
+      ${g.retter.map((r) => `<article class=meny__i>
         <div>
-          <p ${A('ossBody')}>${T('ossBody')}</p>
-          <p ${A('ossBody2')}>${T('ossBody2')}</p>
+          <h4 ${AB(r.n.no, r.n.en)}>${esc(r.n.no)}</h4>
+          <p ${AB(r.b.no, r.b.en)}>${esc(r.b.no)}</p>
+          <small ${AB(r.a.no, r.a.en)}>${esc(r.a.no)}</small>
         </div>
-        <blockquote class=oss__quote>
-          <p ${A('ossQuote')}>${T('ossQuote')}</p>
-          <cite ${A('ossQuoteBy')}>${T('ossQuoteBy')}</cite>
-        </blockquote>
+        <b>${r.pris}</b>
+      </article>`).join('\n      ')}
+    </div>`).join('\n    ')}
+    <div class=meny__foot>
+      <span ${A('menyFoot')}>${T('menyFoot')}</span>
+      <span ${A('menyFoot2')}>${T('menyFoot2')}</span>
+    </div>
+  </div>
+</section>`;
+
+const bar = `
+<section class="bar sec" id=baren>
+  <div class=wrap>
+    ${shead('barIndex', 'barKicker', 'barTitle', 'barBody')}
+    <div class=bar__grid>
+      <div>
+        <p class=body ${A('barBody2')}>${T('barBody2')}</p>
+        <div class=bar__hours>
+          <span ${A('barH1')}>${T('barH1')}</span><b ${A('barH1b')}>${T('barH1b')}</b>
+          <span ${A('barH2')}>${T('barH2')}</span><b ${A('barH2b')}>${T('barH2b')}</b>
+        </div>
+      </div>
+      <div>
+        <p class="lab lab-ash" ${A('barLabel')}>${T('barLabel')}</p>
+        ${glasset.map((d) => `<article class=bar__d><h3 ${AB(d.n.no, d.n.en)}>${esc(d.n.no)}</h3><p ${AB(d.b.no, d.b.en)}>${esc(d.b.no)}</p></article>`).join('\n        ')}
       </div>
     </div>
   </div>
 </section>`;
 
 const rom = `
-<section class=rom id=rommet aria-labelledby=rom-title>
-  <div class=rom__split>
-    <div class=rom__image>
-      <img src="/img/gimi/bar-cocktail.jpg" alt="Illustrativt bilde fra lokalet: baren og gjester en kveld" width=1448 height=1086 loading=lazy decoding=async>
-      <span class=image-label ${A('romLabel')}>${T('romLabel')}</span>
+<section class="rom sec" id=rommet>
+  <div class=wrap>
+    ${shead('romIndex', 'romKicker', 'romTitle', 'romBody', 1)}
+    <figure class=rom__img>
+      <img src="/img/gimi/bar-cocktail.jpg" alt="Illustrativt bilde fra lokalet: baren en kveld" width=1448 height=1086 loading=lazy decoding=async>
+      <figcaption class=rom__cap ${A('romFoto')}>${T('romFoto')}</figcaption>
+    </figure>
+    <div class=rom__stats>
+      ${[['romStat1', 'romStat1b'], ['romStat2', 'romStat2b'], ['romStat3', 'romStat3b']].map(([a, b]) =>
+        `<div class=rom__s><b ${A(a)}>${T(a)}</b><span ${A(b)}>${T(b)}</span></div>`).join('\n      ')}
     </div>
-    <div class=rom__copy>
-      <div class="section-index section-index--light" ${A('romIndex')}>${T('romIndex')}</div>
-      <p class="kicker kicker--light" style="margin-top:1.4rem" ${A('romKicker')}>${T('romKicker')}</p>
-      <h2 id=rom-title ${A('romTitle', 1)}>${RAW('romTitle')}</h2>
-      <p ${A('romBody')}>${T('romBody')}</p>
-      <p ${A('romBody2')}>${T('romBody2')}</p>
-    </div>
-  </div>
-  <div class=rom__stats>
-    ${[['romStat1', 'romStat1b'], ['romStat2', 'romStat2b'], ['romStat3', 'romStat3b']].map(([a, b]) =>
-      `<div class=rom__stat><b ${A(a)}>${T(a)}</b><span ${A(b)}>${T(b)}</span></div>`).join('\n    ')}
-  </div>
-  <div class=rom__nabo>
-    <h3 ${A('naboTitle')}>${T('naboTitle')}</h3>
-    <p ${A('naboBody')}>${T('naboBody')}</p>
-  </div>
-</section>`;
-
-const menySeksjon = `
-<section class="menu-section section" id=meny aria-labelledby=meny-title>
-  <div class=menu-intro>
-    <div>
-      <p class=kicker ${A('menyKicker')}>${T('menyKicker')}</p>
-      <h2 id=meny-title ${A('menyTitle')}>${T('menyTitle')}</h2>
-    </div>
-    <p ${A('menyBody')}>${T('menyBody')}</p>
-  </div>
-  <div class=menu-groups>
-    ${meny.map((g) => `<div class=menu-group>
-      <h3 ${AB(g.gruppe.no, g.gruppe.en)}>${esc(g.gruppe.no)}</h3>
-      ${g.retter.map((r) => `<article class=menu-item>
-        <div>
-          <h4 ${AB(r.n.no, r.n.en)}>${esc(r.n.no)}</h4>
-          <p ${AB(r.b.no, r.b.en)}>${esc(r.b.no)}</p>
-          <small ${AB(r.a.no, r.a.en)}>${esc(r.a.no)}</small>
+    <div class=rom__story>
+      <div>
+        <p class=lab ${A('ossKicker')}>${T('ossKicker')}</p>
+        <h3 class="disp h-m" style="margin-top:1rem" ${A('ossTitle', 1)}>${t.no.ossTitle}</h3>
+        <div style="margin-top:1.6rem">
+          <p class=body ${A('ossBody')}>${T('ossBody')}</p>
+          <p class=body ${A('ossBody2')}>${T('ossBody2')}</p>
         </div>
-        <strong>${r.pris}</strong>
-      </article>`).join('\n      ')}
-    </div>`).join('\n    ')}
-  </div>
-  <div class=menu-foot>
-    <p ${A('menyFoot')}>${T('menyFoot')}</p>
-    <span ${A('menyFoot2')}>${T('menyFoot2')}</span>
-  </div>
-</section>`;
-
-const bar = `
-<section class=bar-section id=baren aria-labelledby=bar-title>
-  <div class=bar-section__image>
-    <img src="/img/gimi/bar-cocktail.jpg" alt="Illustrativt bilde av en bartender som ferdigstiller en cocktail" width=1448 height=1086 loading=lazy decoding=async>
-    <span class=image-label ${A('barLabel')}>${T('barLabel')}</span>
-  </div>
-  <div class=bar-section__copy>
-    <div class="section-index section-index--light" ${A('barIndex')}>${T('barIndex')}</div>
-    <p class="kicker kicker--light" ${A('barKicker')}>${T('barKicker')}</p>
-    <h2 id=bar-title ${A('barTitle')}>${T('barTitle')}</h2>
-    <p ${A('barBody')}>${T('barBody')}</p>
-    <p ${A('barBody2')}>${T('barBody2')}</p>
-    <div class=bar-hours>
-      <span ${A('barH1')}>${T('barH1')}</span><strong ${A('barH1b')}>${T('barH1b')}</strong>
-      <span ${A('barH2')}>${T('barH2')}</span><strong ${A('barH2b')}>${T('barH2b')}</strong>
+      </div>
+      <blockquote class=quote>
+        <p ${A('ossQuote')}>${T('ossQuote')}</p>
+        <cite ${A('ossQuoteBy')}>${T('ossQuoteBy')}</cite>
+      </blockquote>
     </div>
-  </div>
-</section>`;
-
-const lunsj = `
-<section class=lunsj aria-labelledby=lunsj-title>
-  <div class=lunsj__inner>
-    <div>
-      <p class=kicker ${A('lunsjKicker')}>${T('lunsjKicker')}</p>
-      <h2 id=lunsj-title ${A('lunsjTitle')}>${T('lunsjTitle')}</h2>
-      <p ${A('lunsjBody')}>${T('lunsjBody')}</p>
+    <div class=nabo>
+      <h3 ${A('naboTitle')}>${T('naboTitle')}</h3>
+      <p class=body ${A('naboBody')}>${T('naboBody')}</p>
     </div>
-    <a class="button button--deep" href="${fakta.booking}" target=_blank rel=noopener><span ${A('lunsjCta')}>${T('lunsjCta')}</span> <span aria-hidden=true>↗</span></a>
   </div>
 </section>`;
 
 const selskap = `
-<section class=selskap aria-labelledby=selskap-title>
-  <div class=selskap__inner>
-    <div>
-      <div class="section-index section-index--light" ${A('selskapIndex')}>${T('selskapIndex')}</div>
-      <p class="kicker kicker--light" style="margin-top:1.4rem" ${A('selskapKicker')}>${T('selskapKicker')}</p>
-      <h2 id=selskap-title ${A('selskapTitle', 1)}>${RAW('selskapTitle')}</h2>
+<section class="sit sec" id=selskap>
+  <div class=wrap>
+    ${shead('selskapIndex', 'selskapKicker', 'selskapTitle', 'selskapBody', 1)}
+    <div class=bes__cta>
+      <a class=btn href="mailto:${fakta.epost}"><span ${A('selskapCta')}>${T('selskapCta')}</span><span aria-hidden=true>&#8599;</span></a>
+      <span class=body ${A('selskapNote')}>${T('selskapNote')}</span>
     </div>
-    <div>
-      <p ${A('selskapBody')}>${T('selskapBody')}</p>
-      <a class="button button--ember" href="mailto:${fakta.epost}"><span ${A('selskapCta')}>${T('selskapCta')}</span> <span aria-hidden=true>↗</span></a>
-      <p class=selskap__note ${A('selskapNote')}>${T('selskapNote')}</p>
-    </div>
-  </div>
-</section>`;
-
-const faq = `
-<section class=faq aria-labelledby=faq-title>
-  <div class=faq__inner>
-    <div class=section-index ${A('faqIndex')}>${T('faqIndex')}</div>
-    <h2 id=faq-title ${A('faqTitle')}>${T('faqTitle')}</h2>
-    ${t.no.faq.map(([q, a], i) => `<details>
-      <summary><span ${AB(q, t.en.faq[i][0])}>${esc(q)}</span><span class=pm aria-hidden=true>+</span></summary>
-      <div class=a ${AB(a, t.en.faq[i][1])}>${esc(a)}</div>
-    </details>`).join('\n    ')}
   </div>
 </section>`;
 
 const besok = `
-<section class=visit id=besok aria-labelledby=besok-title>
-  <div class=visit__inner>
-    <div class=section-index ${A('besokIndex')}>${T('besokIndex')}</div>
-    <div class=visit__headline>
-      <p class=kicker ${A('besokKicker')}>${T('besokKicker')}</p>
-      <h2 id=besok-title ${A('besokTitle', 1)}>${RAW('besokTitle')}</h2>
-    </div>
-    <div class=visit__grid>
-      <div>
-        <span class=visit__label ${A('besokAdr')}>${T('besokAdr')}</span>
+<section class="bes sec" id=besok>
+  <div class=wrap>
+    ${shead('besokIndex', 'besokKicker', 'besokTitle', null, 1)}
+    <div class=bes__grid>
+      <div class=bes__c>
+        <p class="lab lab-ash" ${A('besokAdr')}>${T('besokAdr')}</p>
         <p>${esc(fakta.adresse)}<br>${esc(fakta.postnr)}</p>
-        <a class=text-link href="${fakta.kart}" target=_blank rel=noopener><span ${A('besokVei')}>${T('besokVei')}</span> <span aria-hidden=true>↗</span></a>
+        <a class=tlink href="${fakta.kart}" target=_blank rel=noopener><span ${A('besokVei')}>${T('besokVei')}</span><span aria-hidden=true>&#8599;</span></a>
       </div>
-      <div>
-        <span class=visit__label ${A('besokRest')}>${T('besokRest')}</span>
-        <p><span ${A('besokDager')}>${T('besokDager')}</span><br>${T('besokTid')}</p>
-        <p><span ${A('besokLunsj')}>${T('besokLunsj')}</span><br>${T('besokLunsjTid')}</p>
+      <div class=bes__c>
+        <p class="lab lab-ash" ${A('besokRest')}>${T('besokRest')}</p>
+        <p><span ${A('besokDager')}>${T('besokDager')}</span> ${T('besokTid')}<br><span ${A('besokLunsj')}>${T('besokLunsj')}</span> ${T('besokLunsjTid')}</p>
       </div>
-      <div>
-        <span class=visit__label ${A('besokKontakt')}>${T('besokKontakt')}</span>
+      <div class=bes__c>
+        <p class="lab lab-ash" ${A('besokKontakt')}>${T('besokKontakt')}</p>
         <p><a href="tel:${fakta.tlfIntl}">${esc(fakta.tlf)}</a><br><a href="mailto:${fakta.epost}">${esc(fakta.epost)}</a></p>
-        <a class=text-link href="${fakta.instagram}" target=_blank rel=noopener>Instagram <span aria-hidden=true>↗</span></a>
+        <a class=tlink href="${fakta.instagram}" target=_blank rel=noopener>Instagram<span aria-hidden=true>&#8599;</span></a>
       </div>
     </div>
-    <p class=visit__stemning ${A('stemning')}>${T('stemning')}</p>
+    <div class=bes__cta>
+      ${bookBtn('btn', 'heroBook')}
+      <span class=body ${A('heroBookNote')}>${T('heroBookNote')}</span>
+    </div>
+    <p class=bes__mood ${A('stemning')}>${T('stemning')}</p>
   </div>
 </section>`;
 
 const footer = `
-<footer>
-  <img src="/img/gimi/logo.webp" alt=GIMI width=142 height=308 loading=lazy>
-  <p ${A('footTag')}>${T('footTag')}</p>
-  <p class=footer__concept ${A('footConcept')}>${T('footConcept')}</p>
+<footer class=foot>
+  <div class="wrap foot__in">
+    <div>
+      <span class=mark>gimi</span>
+      <p class=body style="margin-top:1rem;font-size:.9rem" ${A('footTag')}>${T('footTag')}</p>
+    </div>
+    <p class=foot__note ${A('footConcept')}>${T('footConcept')}</p>
+  </div>
 </footer>
-<div class=bookbar>
-  <a class="button button--light" href="${fakta.booking}" target=_blank rel=noopener><span ${A('heroBook')}>${T('heroBook')}</span> <span aria-hidden=true>↗</span></a>
-</div>`;
+<div class=bookbar>${bookBtn('btn', 'heroBook')}</div>`;
 
 // ---------- klientkode ----------
+const kort = (o) => JSON.stringify(o);
 const skript = `
 <script>
 (function(){
   "use strict";
-  var POOL = ${JSON.stringify(pool)};
-  var APENT = ${JSON.stringify(fakta.apent)};
-  var TXT = ${JSON.stringify({
-    no: { giPrefix: t.no.giPrefix, giAgain: t.no.giAgain, giBook: t.no.giBook, statusOpen: t.no.statusOpen, statusOpenUntil: t.no.statusOpenUntil, statusBarUntil: t.no.statusBarUntil, statusOpensToday: t.no.statusOpensToday, statusOpensAt: t.no.statusOpensAt, statusClosed: t.no.statusClosed, statusLunch: t.no.statusLunch, dager: t.no.dager, menuOpen: t.no.menuOpen },
-    en: { giPrefix: t.en.giPrefix, giAgain: t.en.giAgain, giBook: t.en.giBook, statusOpen: t.en.statusOpen, statusOpenUntil: t.en.statusOpenUntil, statusBarUntil: t.en.statusBarUntil, statusOpensToday: t.en.statusOpensToday, statusOpensAt: t.en.statusOpensAt, statusClosed: t.en.statusClosed, statusLunch: t.en.statusLunch, dager: t.en.dager, menuOpen: t.en.menuOpen },
+  var POOL = ${kort(pool)};
+  var APENT = ${kort(fakta.apent)};
+  var TXT = ${kort({
+    no: { giPrefix: t.no.giPrefix, giAgain: t.no.giAgain, giBook: t.no.giBook, statusOpen: t.no.statusOpen, statusOpenUntil: t.no.statusOpenUntil, statusBarUntil: t.no.statusBarUntil, statusOpensToday: t.no.statusOpensToday, statusOpensAt: t.no.statusOpensAt, statusClosed: t.no.statusClosed, statusLunch: t.no.statusLunch, dager: t.no.dager },
+    en: { giPrefix: t.en.giPrefix, giAgain: t.en.giAgain, giBook: t.en.giBook, statusOpen: t.en.statusOpen, statusOpenUntil: t.en.statusOpenUntil, statusBarUntil: t.en.statusBarUntil, statusOpensToday: t.en.statusOpensToday, statusOpensAt: t.en.statusOpensAt, statusClosed: t.en.statusClosed, statusLunch: t.en.statusLunch, dager: t.en.dager },
   })};
-  var BOOKING = ${JSON.stringify(fakta.booking)};
+  var BOOKING = ${kort(fakta.booking)};
+  var START_TAG = 'grill', START_I = ${startIndeks};
   var lang = 'no';
   var $ = function(id){ return document.getElementById(id); };
 
-  /* ---------- språk ---------- */
+  /* ---- språk ---- */
   function bytt(l){
     lang = (l === 'en') ? 'en' : 'no';
-    document.documentElement.lang = (lang === 'en') ? 'en' : 'no';
-    var noder = document.querySelectorAll('[data-no][data-en]');
-    for (var i = 0; i < noder.length; i++){
-      var el = noder[i], v = el.getAttribute('data-' + lang);
+    document.documentElement.lang = lang;
+    var n = document.querySelectorAll('[data-no][data-en]');
+    for (var i = 0; i < n.length; i++){
+      var el = n[i], v = el.getAttribute('data-' + lang);
       if (v === null) continue;
-      var attr = el.getAttribute('data-attr');
-      if (attr) el.setAttribute(attr, v);
+      var at = el.getAttribute('data-attr');
+      if (at) el.setAttribute(at, v);
       else if (el.hasAttribute('data-html')) el.innerHTML = v;
       else el.textContent = v;
     }
-    var nob = $('lang-no'), enb = $('lang-en');
-    if (nob) nob.setAttribute('aria-pressed', String(lang === 'no'));
-    if (enb) enb.setAttribute('aria-pressed', String(lang === 'en'));
+    var a = $('lang-no'), b = $('lang-en');
+    if (a) a.setAttribute('aria-pressed', String(lang === 'no'));
+    if (b) b.setAttribute('aria-pressed', String(lang === 'en'));
     try { localStorage.setItem('gimi-lang', lang); } catch(e){}
     visStatus();
-    if (sisteTag) visForslag(sisteTag, true);
+    if (sisteTag) vis(sisteTag, true);
   }
-  var lb = document.querySelectorAll('.langsw button');
-  for (var i = 0; i < lb.length; i++){
-    lb[i].addEventListener('click', function(){ bytt(this.getAttribute('data-lang')); });
-  }
+  var lb = document.querySelectorAll('.lang button');
+  for (var i = 0; i < lb.length; i++) lb[i].addEventListener('click', function(){ bytt(this.getAttribute('data-lang')); });
 
-  /* ---------- mobilmeny ---------- */
-  var btn = $('menu-toggle'), nav = $('mobile-nav');
-  if (btn && nav){
-    btn.addEventListener('click', function(){
-      var open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      nav.hidden = open;
+  /* ---- mobilmeny ---- */
+  var bg = $('burger'), mn = $('mnav');
+  if (bg && mn){
+    bg.addEventListener('click', function(){
+      var open = bg.getAttribute('aria-expanded') === 'true';
+      bg.setAttribute('aria-expanded', String(!open));
+      mn.hidden = open;
+      document.body.style.overflow = open ? '' : 'hidden';
     });
-    var lenker = nav.querySelectorAll('a');
-    for (var j = 0; j < lenker.length; j++){
-      lenker[j].addEventListener('click', function(){
-        btn.setAttribute('aria-expanded', 'false');
-        nav.hidden = true;
-      });
-    }
+    var ml = mn.querySelectorAll('a');
+    for (var j = 0; j < ml.length; j++) ml[j].addEventListener('click', function(){
+      bg.setAttribute('aria-expanded', 'false'); mn.hidden = true; document.body.style.overflow = '';
+    });
   }
 
-  /* ---------- live åpent-status ---------- */
+  /* ---- live åpent-status ---- */
   function klokke(h){
-    // Kjøkkenet stenger «24.00», ikke «00.00» — men baren til 25 skal vise 01.00.
     if (h === 24) return '24.00';
     var hel = Math.floor(h) % 24;
     return (hel < 10 ? '0' : '') + hel + '.00';
   }
-  function finnStatus(now){
-    var d = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
-    var i, nd;
-    // Fortsatt inne i gårsdagens sene økt? (baren til 01 fredag og lørdag)
+  function finn(now){
+    var d = now.getDay(), h = now.getHours() + now.getMinutes() / 60, i, nd;
     var forrige = APENT[(d + 6) % 7];
-    if (forrige && forrige.bar > 24 && h < (forrige.bar - 24)){
-      return { apen: true, til: forrige.bar, bar: true };
+    if (forrige && forrige.bar > 24 && h < (forrige.bar - 24)) return { apen: true, til: forrige.bar, bar: true };
+    var idag = APENT[d];
+    if (idag){
+      if (idag.lunsj && h >= idag.lunsj[0] && h < idag.lunsj[1]) return { apen: true, lunsj: true };
+      if (h >= idag.fra && h < idag.bar) return { apen: true, til: (h < idag.til) ? idag.til : idag.bar, bar: h >= idag.til };
+      if (h < idag.fra) return { apen: false, iDag: idag.fra };
     }
-    var i_dag = APENT[d];
-    if (i_dag){
-      if (i_dag.lunsj && h >= i_dag.lunsj[0] && h < i_dag.lunsj[1]){
-        return { apen: true, lunsj: true, til: i_dag.lunsj[1] };
-      }
-      if (h >= i_dag.fra && h < i_dag.bar){
-        return { apen: true, til: (h < i_dag.til) ? i_dag.til : i_dag.bar, bar: h >= i_dag.til };
-      }
-      if (h < i_dag.fra) return { apen: false, iDag: i_dag.fra };
-    }
-    for (i = 1; i <= 7; i++){
-      nd = (d + i) % 7;
-      if (APENT[nd]) return { apen: false, dag: nd, fra: APENT[nd].fra };
-    }
+    for (i = 1; i <= 7; i++){ nd = (d + i) % 7; if (APENT[nd]) return { apen: false, dag: nd, fra: APENT[nd].fra }; }
     return { apen: false };
   }
   function visStatus(){
-    var boks = $('status'), tekst = $('status-text');
-    if (!boks || !tekst) return;
-    var s = finnStatus(new Date()), tt = TXT[lang], ut;
-    boks.classList.toggle('is-open', !!s.apen);
-    if (s.apen && s.lunsj){
-      ut = tt.statusLunch;
-    } else if (s.apen){
-      ut = tt.statusOpen + ' · ' + (s.bar ? tt.statusBarUntil : tt.statusOpenUntil) + ' ' + klokke(s.til);
-    } else if (s.iDag !== undefined){
-      ut = tt.statusOpensToday + ' ' + klokke(s.iDag);
-    } else if (s.dag !== undefined){
-      ut = tt.statusOpensAt + ' ' + tt.dager[s.dag] + ' ' + klokke(s.fra);
-    } else {
-      ut = tt.statusClosed;
-    }
-    tekst.textContent = ut;
+    var boks = $('status'), tx = $('status-text');
+    if (!boks || !tx) return;
+    var s = finn(new Date()), tt = TXT[lang], ut;
+    boks.classList.toggle('on', !!s.apen);
+    if (s.apen && s.lunsj) ut = tt.statusLunch;
+    else if (s.apen) ut = tt.statusOpen + ' · ' + (s.bar ? tt.statusBarUntil : tt.statusOpenUntil) + ' ' + klokke(s.til);
+    else if (s.iDag !== undefined) ut = tt.statusOpensToday + ' ' + klokke(s.iDag);
+    else if (s.dag !== undefined) ut = tt.statusOpensAt + ' ' + tt.dager[s.dag] + ' ' + klokke(s.fra);
+    else ut = tt.statusClosed;
+    tx.textContent = ut;
     boks.hidden = false;
   }
 
-  /* ---------- "Gi meg noe" ---------- */
-  var START_TAG = 'grill', START_INDEKS = ${startIndeks};
-  // Startkortet ligger allerede i HTML-en. Vi kjenner tilstanden det står i,
-  // slik at "gi meg noe annet" ikke serverer det samme igjen. sisteTag holdes
-  // null inntil noen faktisk velger noe — da bytter språkbytte tekstene via
-  // data-attributtene på startkortet i stedet for å bygge det på nytt.
-  var sisteTag = null, sisteIndeks = {};
-  sisteIndeks[START_TAG] = START_INDEKS;
+  /* ---- gi meg noe ---- */
+  var sisteTag = null, sisteI = {};
+  sisteI[START_TAG] = START_I;
   function velg(tag){
-    var liste = POOL[tag] || [];
-    if (!liste.length) return null;
-    if (liste.length === 1) return liste[0];
-    var forrige = sisteIndeks[tag], n;
-    do { n = Math.floor(Math.random() * liste.length); } while (n === forrige);
-    sisteIndeks[tag] = n;
-    return liste[n];
+    var l = POOL[tag] || [];
+    if (!l.length) return null;
+    if (l.length === 1) return l[0];
+    var f = sisteI[tag], n;
+    do { n = Math.floor(Math.random() * l.length); } while (n === f);
+    sisteI[tag] = n;
+    return l[n];
   }
-  function visForslag(tag, behold){
+  function vis(tag, behold){
     var boks = $('gi-result');
     if (!boks) return;
-    var r = behold ? POOL[tag][sisteIndeks[tag]] : velg(tag);
+    var r = behold ? POOL[tag][sisteI[tag]] : velg(tag);
     if (!r) return;
     sisteTag = tag;
     var tt = TXT[lang];
-    var h = '<div class="gi__card' + (behold ? '' : ' gi--in') + '">' +
-      '<div>' +
-        '<p class=gi__prefix>' + tt.giPrefix + '</p>' +
-        '<h3 class=gi__name></h3>' +
-        '<p class=gi__desc></p>' +
-        (r.a ? '<small class=gi__allerg></small>' : '') +
-      '</div>' +
-      '<div class=gi__side>' +
-        (r.pris ? '<span class=gi__price>' + r.pris + ',-</span>' : '') +
-        '<div class=gi__actions>' +
-          '<a class="button button--deep" href="' + BOOKING + '" target=_blank rel=noopener>' + tt.giBook + ' <span aria-hidden=true>↗</span></a>' +
-          '<button type=button class=gi__again>' + tt.giAgain + '</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-    boks.innerHTML = h;
-    // Tekst settes med textContent, aldri innerHTML — innholdet skal aldri
-    // kunne tolkes som markup.
+    boks.innerHTML = '<div class="gi__out' + (behold ? '' : ' gi--in') + '">' +
+      '<div><p class=gi__pre></p><h3 class=gi__name></h3><p class=gi__desc></p>' +
+      (r.a ? '<small class=gi__all></small>' : '') + '</div>' +
+      '<div class=gi__side>' + (r.pris ? '<span class=gi__price></span>' : '') +
+      '<a class="btn btn--ghost" href="' + BOOKING + '" target=_blank rel=noopener></a>' +
+      '<button type=button class=gi__again></button></div></div>';
+    // Tekst settes med textContent — innhold skal aldri tolkes som markup.
+    boks.querySelector('.gi__pre').textContent = tt.giPrefix;
     boks.querySelector('.gi__name').textContent = r.n[lang];
     boks.querySelector('.gi__desc').textContent = r.b[lang];
-    if (r.a) boks.querySelector('.gi__allerg').textContent = r.a[lang];
-    boks.querySelector('.gi__again').addEventListener('click', function(){ visForslag(tag); });
-    var valg = document.querySelectorAll('.gi__choice');
-    for (var k = 0; k < valg.length; k++){
-      valg[k].setAttribute('aria-pressed', String(valg[k].getAttribute('data-gi') === tag));
-    }
+    if (r.a) boks.querySelector('.gi__all').textContent = r.a[lang];
+    if (r.pris) boks.querySelector('.gi__price').textContent = r.pris + ',-';
+    boks.querySelector('.btn').textContent = tt.giBook;
+    var ig = boks.querySelector('.gi__again');
+    ig.textContent = tt.giAgain;
+    ig.addEventListener('click', function(){ vis(tag); });
+    var v = document.querySelectorAll('.gi__c');
+    for (var k = 0; k < v.length; k++) v[k].setAttribute('aria-pressed', String(v[k].getAttribute('data-gi') === tag));
   }
-  var valg = document.querySelectorAll('.gi__choice');
-  for (var v = 0; v < valg.length; v++){
-    valg[v].addEventListener('click', function(){ visForslag(this.getAttribute('data-gi')); });
-  }
+  var valg = document.querySelectorAll('.gi__c');
+  for (var v2 = 0; v2 < valg.length; v2++) valg[v2].addEventListener('click', function(){ vis(this.getAttribute('data-gi')); });
   var startIgjen = document.querySelector('#gi-result .gi__again');
-  if (startIgjen) startIgjen.addEventListener('click', function(){ visForslag(START_TAG); });
+  if (startIgjen) startIgjen.addEventListener('click', function(){ vis(START_TAG); });
 
-  /* ---------- oppstart ---------- */
-  try {
-    var lagret = localStorage.getItem('gimi-lang');
-    if (lagret === 'en') bytt('en');
-  } catch(e){}
+  /* ---- oppstart ---- */
+  try { if (localStorage.getItem('gimi-lang') === 'en') bytt('en'); } catch(e){}
   visStatus();
   setInterval(visStatus, 60000);
 })();
@@ -572,7 +454,7 @@ const html = `<!doctype html>
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name=theme-color content="#202b4a">
+<meta name=theme-color content="#0E0B09">
 <title>${esc(tittel)}</title>
 <meta name=description content="${esc(beskrivelse)}">
 <meta name=robots content="noindex,nofollow">
@@ -580,7 +462,7 @@ const html = `<!doctype html>
 <link rel=icon type="image/webp" href="/img/gimi/logo.webp">
 <link rel=preconnect href="https://fonts.googleapis.com">
 <link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel=stylesheet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300..900&display=swap" rel=stylesheet>
 <meta property="og:type" content=website>
 <meta property="og:title" content="${esc(tittel)}">
 <meta property="og:description" content="${esc(beskrivelse)}">
@@ -593,19 +475,17 @@ ${JSON.stringify(graf, null, 1)}
 <style>${STIL}</style>
 </head>
 <body>
-<a class=skip-link href="#main" ${A('skip')}>${T('skip')}</a>
-${header}
+<a class=skip href="#main" ${A('skip')}>${T('skip')}</a>
+${topp}
 <main id=main>
 ${hero}
+${sitte}
 ${gi}
 ${ild}
-${oss}
-${rom}
 ${menySeksjon}
 ${bar}
-${lunsj}
+${rom}
 ${selskap}
-${faq}
 ${besok}
 </main>
 ${footer}
@@ -615,4 +495,4 @@ ${skript}
 
 fs.writeFileSync(`${ROT}/gimi.html`, html);
 console.log('  ✓ gimi.html', Math.round(html.length / 1024) + 'kB');
-console.log('    Gi meg noe — forslag per valg:', Object.keys(pool).map((k) => k + ':' + pool[k].length).join(' '));
+console.log('    Gi meg noe:', Object.keys(pool).map((k) => k + ':' + pool[k].length).join(' '), '| start:', startRett.n.no, '#' + startIndeks);

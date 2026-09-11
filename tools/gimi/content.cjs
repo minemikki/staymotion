@@ -146,6 +146,26 @@ const t = {
     menuOpen: 'Åpne meny',
     skip: 'Hopp til innhold',
 
+
+    // --- ny retning: ild-ledet hero ---
+    heroOver: 'Over ild.',
+    heroUnder: 'Restaurant og cocktailbar i det gamle hermetikklaboratoriet på Eiganes. Tretti plasser, åpent kjøkken, og en grill som står på hele kvelden.',
+    heroBookNote: 'Tretti plasser i alt. Bordbestilling anbefales, særlig fredag og lørdag.',
+    heroScroll: 'Rull ned',
+
+    // --- to måter å sitte på ---
+    sitteIndex: '01 / Å sitte her',
+    sitteKicker: 'Velg plassen din',
+    sitteTitle: 'To måter å sitte på.',
+    sitteLead: 'Tretti plasser i alt. Hvor du setter deg avgjør hva slags kveld det blir — så velg med vilje.',
+    sitteDiskNavn: 'Disken',
+    sitteDiskLinje: 'Rett mot ilden',
+    sitteDiskTekst: 'Noen få plasser vendt mot det åpne kjøkkenet. Du ser hver rett bli laget, og du kommer som regel i snakk med den som lager den. Det er husets beste plass, og den går fort.',
+    sitteDiskNote: 'Si ifra at du vil sitte ved disken når du bestiller.',
+    sitteBordNavn: 'Bordet',
+    sitteBordLinje: 'I rommet',
+    sitteBordTekst: 'Lyst, enkelt og lite. Bestill flere retter, sett dem midt på bordet og del alt. Menyen er kort med vilje — det som står der, står der fordi det er godt akkurat nå.',
+    sitteBordNote: 'Fungerer fra to og oppover.',
     heroEyebrow: 'Restaurant & cocktailbar · Eiganes, Stavanger',
     heroTitleA: 'Gi meg',
     heroTitleB: 'noe.',
@@ -160,7 +180,7 @@ const t = {
     tickerB: 'Litt fine dining',
     tickerC: 'Alltid noe godt',
 
-    giIndex: '01 / Gi meg noe',
+    giIndex: '02 / Gi meg noe',
     giKicker: 'Navnet vårt er en bestilling',
     giTitle: 'Så si det, da.',
     giBody: 'GIMI er «gi mi». Trykk på det du er i humør til, så foreslår vi noe fra menyen.',
@@ -173,7 +193,7 @@ const t = {
     giHint: 'Velg noe over, så finner vi noe til deg.',
     giPrefix: 'Da foreslår vi',
 
-    ildIndex: '02 / Ilden',
+    ildIndex: '03 / Ilden',
     ildKicker: 'Alt begynner i ilden',
     ildTitle: 'Nesten alt innom grillen.',
     ildBody: 'Grillen står midt i det åpne kjøkkenet, og nesten alt vi serverer har vært innom den. Ild gir mat noe man ikke får til på andre måter — røyk, skorpe, en dybde som ikke kan jukses fram.',
@@ -195,12 +215,13 @@ const t = {
     ossQuote: 'Vi gleder oss til å komme tilbake hit.',
     ossQuoteBy: 'Stavanger Aftenblad, i sin anmeldelse av GIMI',
 
-    romIndex: '04 / Rommet',
+    romIndex: '06 / Rommet',
     romKicker: 'Det gamle hermetikklaboratoriet',
     romTitle: 'Tredve plasser.<br><em>Én av dem er best.</em>',
     romBody: 'Vi holder til i det gamle hermetikklaboratoriet på Eiganes, i samme bygg som Matmagasinet. Lyst, enkelt og lite — tredve plasser i alt.',
     romBody2: 'Disken mot det åpne kjøkkenet er den beste plassen i huset. Der ser du alt som skjer, og du kommer garantert i snakk med noen. Si ifra når du bestiller — de plassene går fort.',
     romLabel: 'Disken mot kjøkkenet',
+    romFoto: 'Baren, en kveld',
     romStat1: '30',
     romStat1b: 'plasser i hele lokalet',
     romStat2: '200–500',
@@ -210,14 +231,14 @@ const t = {
     naboTitle: 'Vi holder ikke p\u00e5 alene.',
     naboBody: 'Bygget deles med Matmagasinet og Hermetikken. Vinen f\u00e5r hjelp fra Chris ved siden av, br\u00f8det kommer fra Molin\u00e5 nede i byen. Det er en fordel \u00e5 ha naboer som kan faget sitt.',
 
-    menyIndex: '05 / Menyen',
+    menyIndex: '04 / Menyen',
     menyKicker: 'Akkurat nå',
     menyTitle: 'À la carte',
     menyBody: 'Menyen følger sesongen, råvarene og det kjøkkenet har lyst til å servere. Her er et utvalg fra dagens meny.',
     menyFoot: 'Vi tilrettelegger for allergier og vegetar, men dessverre ikke vegansk — gi gjerne beskjed ved bordbestilling.',
     menyFoot2: 'Prisene er oppgitt i NOK',
 
-    barIndex: '06 / Baren',
+    barIndex: '05 / Baren',
     barKicker: 'Før, under eller etter',
     barTitle: 'Baren lar kvelden finne sin egen rytme.',
     barBody: 'Klassikere satt riktig, og egne drinker bygget på fermentering, sylting og krydder — samme kjøkken, samme tankegang. De alkoholfrie er laget med like mye omtanke, ikke som en ettertanke.',
@@ -234,7 +255,7 @@ const t = {
     lunsjBody: 'Samme kjøkken, roligere tempo. Kom innom for noe lite før dagen tar deg videre — eller bli sittende til den gjør det.',
     lunsjCta: 'Book lørdagslunsj',
 
-    selskapIndex: '08 / Selskap',
+    selskapIndex: '07 / Selskap',
     selskapKicker: 'Hele lokalet',
     selskapTitle: 'Tredve plasser<br><em>kan bli deres alene.</em>',
     selskapBody: 'Bursdager, firmamiddag, julebord — eller en kveld uten spesiell grunn. Vi tar hele huset: tredve rundt samme bord, én meny satt sammen for dere, og baren deres for kvelden.',
@@ -258,7 +279,7 @@ const t = {
        'Ja. Tredve personer får plass når vi tar huset for oss selv. Ta kontakt med hvor mange dere er og hvilken dato, så setter vi opp et forslag.'],
     ],
 
-    besokIndex: '10 / Besøk',
+    besokIndex: '08 / Besøk',
     besokKicker: 'Midt ved Ledaalparken',
     stemning: 'H\u00f8yt under taket, god stemning og musikk som faktisk h\u00f8res. Dette er ikke et sted der folk hvisker.',
     besokTitle: 'Kom som du er.<br><em>Bli lenger enn planlagt.</em>',
@@ -296,6 +317,25 @@ const t = {
     menuOpen: 'Open menu',
     skip: 'Skip to content',
 
+
+    // --- new direction: fire-led hero ---
+    heroOver: 'Over fire.',
+    heroUnder: 'Restaurant and cocktail bar in the old canning laboratory at Eiganes. Thirty seats, an open kitchen, and a grill that runs all evening.',
+    heroBookNote: 'Thirty seats in all. Booking is recommended, especially Friday and Saturday.',
+    heroScroll: 'Scroll',
+
+    sitteIndex: '01 / Sitting here',
+    sitteKicker: 'Choose your seat',
+    sitteTitle: 'Two ways to sit.',
+    sitteLead: 'Thirty seats in all. Where you sit decides what kind of evening it becomes — so choose on purpose.',
+    sitteDiskNavn: 'The counter',
+    sitteDiskLinje: 'Facing the fire',
+    sitteDiskTekst: 'A handful of seats turned toward the open kitchen. You watch every dish being made, and you usually end up talking to whoever is making it. It is the best seat in the house, and it goes quickly.',
+    sitteDiskNote: 'Ask for the counter when you book.',
+    sitteBordNavn: 'The table',
+    sitteBordLinje: 'In the room',
+    sitteBordTekst: 'Bright, plain and small. Order several dishes, put them in the middle and share everything. The menu is short on purpose — what is on it is on it because it is good right now.',
+    sitteBordNote: 'Works from two people upward.',
     heroEyebrow: 'Restaurant & cocktail bar · Eiganes, Stavanger',
     heroTitleA: 'Give me',
     heroTitleB: 'something.',
@@ -310,7 +350,7 @@ const t = {
     tickerB: 'Part fine dining',
     tickerC: 'Always something good',
 
-    giIndex: '01 / Give me something',
+    giIndex: '02 / Give me something',
     giKicker: 'Our name is an order',
     giTitle: 'So go on, ask.',
     giBody: 'GIMI means «give me». Tap whatever you are in the mood for, and we will suggest something from the menu.',
@@ -323,7 +363,7 @@ const t = {
     giHint: 'Pick something above and we will find you something.',
     giPrefix: 'Then we suggest',
 
-    ildIndex: '02 / The fire',
+    ildIndex: '03 / The fire',
     ildKicker: 'It all starts in the fire',
     ildTitle: 'Almost everything meets the grill.',
     ildBody: 'The grill sits in the middle of the open kitchen, and almost everything we serve has been over it. Fire gives food something you cannot get any other way — smoke, crust, a depth that cannot be faked.',
@@ -345,12 +385,13 @@ const t = {
     ossQuote: 'We are already looking forward to coming back.',
     ossQuoteBy: 'Stavanger Aftenblad, in its review of GIMI',
 
-    romIndex: '04 / The room',
+    romIndex: '06 / The room',
     romKicker: 'The old canning laboratory',
     romTitle: 'Thirty seats.<br><em>One of them is the best.</em>',
     romBody: 'We are in the old canning laboratory at Eiganes, in the same building as Matmagasinet. Bright, plain and small — thirty seats in all.',
     romBody2: 'The counter facing the open kitchen is the best seat in the house. You see everything happen, and you will almost certainly end up talking to someone. Ask for it when you book — those seats go quickly.',
     romLabel: 'The counter facing the kitchen',
+    romFoto: 'The bar, one evening',
     romStat1: '30',
     romStat1b: 'seats in the whole room',
     romStat2: '200–500',
@@ -360,14 +401,14 @@ const t = {
     naboTitle: 'We are not doing this alone.',
     naboBody: 'We share the building with Matmagasinet and Hermetikken. The wine gets help from Chris next door, the bread comes from Molin\u00e5 down in town. It helps to have neighbours who know their trade.',
 
-    menyIndex: '05 / The menu',
+    menyIndex: '04 / The menu',
     menyKicker: 'Right now',
     menyTitle: 'À la carte',
     menyBody: 'The menu follows the season, the produce and whatever the kitchen feels like cooking. Here is a selection from today.',
     menyFoot: 'We accommodate allergies and vegetarians, though sadly not vegan — just let us know when you book.',
     menyFoot2: 'Prices in NOK',
 
-    barIndex: '06 / The bar',
+    barIndex: '05 / The bar',
     barKicker: 'Before, during or after',
     barTitle: 'The bar lets the evening find its own rhythm.',
     barBody: 'Classics done properly, and our own drinks built on fermentation, pickling and spice — same kitchen, same thinking. The alcohol-free ones are made with just as much care, not as an afterthought.',
@@ -384,7 +425,7 @@ const t = {
     lunsjBody: 'Same kitchen, slower pace. Come by for something small before the day takes you onward — or stay until it does.',
     lunsjCta: 'Book Saturday lunch',
 
-    selskapIndex: '08 / Private hire',
+    selskapIndex: '07 / Private hire',
     selskapKicker: 'The whole room',
     selskapTitle: 'Thirty seats<br><em>can be yours alone.</em>',
     selskapBody: 'Birthdays, company dinners, Christmas parties — or an evening with no particular reason. We hand over the whole house: thirty around one table, a menu built for you, and the bar for the night.',
@@ -408,7 +449,7 @@ const t = {
        'Yes. Thirty people fit when we give the house over. Get in touch with your numbers and a date, and we will put a proposal together.'],
     ],
 
-    besokIndex: '10 / Visit',
+    besokIndex: '08 / Visit',
     besokKicker: 'By Ledaalparken',
     stemning: 'Loud enough, in high spirits, with music you can actually hear. This is not a room where people whisper.',
     besokTitle: 'Come as you are.<br><em>Stay longer than planned.</em>',
