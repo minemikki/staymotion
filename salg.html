@@ -955,7 +955,7 @@ function renderQueue(){if(!SEQS.length){$('ko-list').innerHTML='<div class="empt
     var id=h.getAttribute('data-toggle');var b=document.getElementById('qb-'+id);if(!b)return;
     b.hidden=!b.hidden;QOPEN[id]=!b.hidden;h.parentNode.classList.toggle('open',!b.hidden);};});
   [].forEach.call($('ko-list').querySelectorAll('[data-q]'),function(b){b.onclick=function(ev){ev.stopPropagation();queueOp(b.getAttribute('data-q'),b.getAttribute('data-id'));};});
-  [].forEach.call($('ko-list').querySelectorAll('[data-send]'),function(b){b.onclick=function(){sendStep(b.getAttribute('data-lead'),b.getAttribute('data-send'),b);};});
+  [].forEach.call($('ko-list').querySelectorAll('[data-marksent]'),function(b){b.onclick=function(){markSent(b.getAttribute('data-lead'),b.getAttribute('data-marksent'),b);};});
   [].forEach.call($('ko-list').querySelectorAll('[data-editstep]'),function(b){b.onclick=function(){editStepModal(b.getAttribute('data-lead'),b.getAttribute('data-editstep'));};});
 }
 function editStepModal(leadId,stepId){
@@ -971,27 +971,25 @@ function editStepModal(leadId,stepId){
     .then(function(){toast('Lagret');closeModal();loadQueue();}).catch(function(e){alert(e.message);});};
 }
 function stepCard(s,st){
-  var stat=st.status==='sent'?'<span class="tag g">sendt</span>':(st.status==='blocked'?'<span class="tag r">blokkert</span>':(st.status==='skipped'?'<span class="tag">hoppet over</span>':(st.sendAt?'<span class="tag">går ut '+new Date(st.sendAt).toLocaleDateString('nb-NO')+'</span>':'<span class="tag">utkast</span>')));
-  var canSend=st.status==='planned'&&s.status!=='stopped'&&s.autosendEligible;
+  var stat=st.status==='sent'?(st.sentManually?'<span class="tag g">sendt manuelt</span>':'<span class="tag g">sendt</span>'):(st.status==='blocked'?'<span class="tag r">blokkert</span>':(st.status==='skipped'?'<span class="tag">hoppet over</span>':'<span class="tag">klar til å sendes</span>'));
+  var canAct=st.status!=='sent'&&s.status!=='stopped';
   return '<div class="step"><div class="sh"><b>'+esc(st.label)+'</b>'+stat+'</div>'+
     '<div class="small muted" style="margin-bottom:6px">'+esc(st.subject)+'</div>'+
     '<div class="msgbox small">'+esc(st.body)+'</div>'+
     '<div class="row" style="gap:8px;margin-top:8px">'+
-    (st.status!=='sent'&&s.status!=='stopped'?'<button class="btn sm ghost" data-editstep="'+st.id+'" data-lead="'+s.leadId+'">✎ Rediger</button>':'')+
-    (canSend?'<button class="btn sm primary" data-send="'+st.id+'" data-lead="'+s.leadId+'">Send nå</button>':'')+
+    (canAct?'<button class="btn sm primary" onclick="copyText(this)" data-t="'+esc(st.subject+'\n\n'+st.body).replace(/"/g,'&quot;')+'">Kopier</button>':'')+
+    (canAct?'<button class="btn sm ghost" data-editstep="'+st.id+'" data-lead="'+s.leadId+'">✎ Rediger</button>':'')+
+    (canAct?'<button class="btn sm ghost" data-marksent="'+st.id+'" data-lead="'+s.leadId+'">✓ Merk sendt</button>':'')+
     '</div>'+
-    (st.status==='planned'&&!s.autosendEligible?'<span class="small muted">Send manuelt (personlig adresse).</span>':'')+
+    (st.status==='sent'&&st.sentAt?'<span class="small muted">Sendt '+new Date(st.sentAt).toLocaleDateString('nb-NO')+'</span>':'')+
     '</div>';
 }
 function queueOp(op,id){post('sales-queue',{op:op,leadId:id}).then(function(){toast('OK');loadQueue();loadMetrics();}).catch(function(e){alert(e.message);});}
-function sendStep(leadId,stepId,btn){btn.disabled=true;btn.textContent='Sender…';
-  post('sales-send',{op:'send',leadId:leadId,stepId:stepId,force:true}).then(function(d){
-    var r=d.result||{};
-    if(r.status==='sent')toast('Sendt ✓ ('+d.sentToday+'/'+d.dailyCap+' i dag)');
-    else if(r.status==='would-send')toast('Dry-run: '+(r.reason||'ikke sendt'));
-    else toast(r.status+': '+(r.reason||''));
+function markSent(leadId,stepId,btn){btn.disabled=true;btn.textContent='Lagrer…';
+  post('sales-queue',{op:'mark-sent',leadId:leadId,stepId:stepId}).then(function(){
+    toast('Merket som sendt ✓');
     loadQueue();loadMetrics();
-  }).catch(function(e){alert(e.message);btn.disabled=false;btn.textContent='Send nå';});}
+  }).catch(function(e){alert(e.message);btn.disabled=false;btn.textContent='✓ Merk sendt';});}
 
 /* ---------- sending / safety ---------- */
 function loadSend(){api('sales-config').then(function(d){CONFIG=d.config;renderSendState($('send-state'),d.sendState,false);renderSwitches();$('set-cap').value=d.config.dailyCap;});

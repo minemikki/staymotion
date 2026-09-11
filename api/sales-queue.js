@@ -143,6 +143,20 @@ export default async function handler(req, res) {
       return res.json({ ok: true, sequence: seq });
     }
 
+    if (op === 'mark-sent') {
+      // Manual workflow: Michael copies the text and sends it from his own inbox,
+      // this just logs that it went out — no email is dispatched from here.
+      const seq = await getSequence(b.leadId);
+      if (!seq) return res.status(404).json({ error: 'Fant ikke sekvens' });
+      const step = seq.steps.find((s) => s.id === b.stepId);
+      if (!step) return res.status(404).json({ error: 'Fant ikke steg' });
+      step.status = 'sent';
+      step.sentAt = Date.now();
+      step.sentManually = true;
+      await saveSequence(seq);
+      return res.json({ ok: true, sequence: seq });
+    }
+
     if (op === 'edit') {
       const seq = await getSequence(b.leadId);
       if (!seq) return res.status(404).json({ error: 'Fant ikke sekvens' });
