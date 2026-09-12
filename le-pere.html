@@ -3,7 +3,7 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name=theme-color content="#EFE7DA">
+<meta name=theme-color content="#F5F0E6">
 <title>Le Père Brasserie — visuelt konsept</title>
 <meta name=description content="Et uforpliktende visuelt nettsidekonsept for Le Père Brasserie ved Breiavatnet i Stavanger, utviklet av StayMotion.">
 <meta name=robots content="noindex,nofollow">
@@ -12,28 +12,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel=stylesheet>
 <style>
 :root{
-  /* hentet ut av deres egne bilder: tak, fasade, vegger, paneler */
-  --plaster:#EFE7DA;--cream:#F8F3E9;--sage:#C4CDC0;--sage-d:#5E6F62;
-  --terra:#8E4A2C;--terra-d:#6E3720;--mustard:#E2C074;--espresso:#2A1C15;
+  /* én flate, én aksent. Bildene deres står for fargen. */
+  --paper:#F5F0E6;--cream:#F5F0E6;--espresso:#241C16;
+  --terra:#8E4A2C;--terra-d:#6E3720;
   --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   --pad:clamp(1.25rem,4.5vw,4.5rem);
   --ease:cubic-bezier(.22,1,.36,1);
-  --sec:var(--plaster);--fg:#33251C;--fg2:#5A4636;--mute:#8B7663;--line:rgba(51,37,28,.16);
+  --sec:var(--paper);--fg:#2B211A;--fg2:#5C4E42;--mute:#8C7C6C;--line:rgba(43,33,26,.14);
 }
-/* seksjonstemaer — hver seksjon setter sin egen flate og tekstfarge */
-.t-cream  {--sec:var(--cream);   --fg:#33251C;--fg2:#5A4636;--mute:#8B7663;--line:rgba(51,37,28,.15)}
-.t-plaster{--sec:var(--plaster); --fg:#33251C;--fg2:#5A4636;--mute:#8B7663;--line:rgba(51,37,28,.16)}
-.t-sage   {--sec:var(--sage);    --fg:#26332A;--fg2:#3F5044;--mute:#6B7C6E;--line:rgba(38,51,42,.2)}
-.t-sage-d {--sec:var(--sage-d);  --fg:#F4F1E8;--fg2:#DDE3D9;--mute:#A9B7AB;--line:rgba(244,241,232,.24)}
-.t-terra  {--sec:var(--terra);   --fg:#FBF4E8;--fg2:#F0E1CE;--mute:#D6B49C;--line:rgba(251,244,232,.28)}
-.t-mustard{--sec:var(--mustard); --fg:#3A2A12;--fg2:#54401E;--mute:#7A6234;--line:rgba(58,42,18,.25)}
-.t-dark   {--sec:var(--espresso);--fg:#F4EBDD;--fg2:#DCCEBB;--mute:#9C8874;--line:rgba(244,235,221,.2)}
-.t-cream,.t-plaster,.t-sage,.t-sage-d,.t-terra,.t-mustard,.t-dark{background:var(--sec);color:var(--fg)}
+.t-cream{background:var(--paper);color:var(--fg)}
 
 *{box-sizing:border-box}
-html{background:var(--plaster);color-scheme:light}
-body{margin:0;background:var(--plaster);color:var(--fg);font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip}
+html{background:var(--paper);color-scheme:light}
+body{margin:0;background:var(--paper);color:var(--fg);font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip}
 a{color:inherit;text-decoration:none}
 img{display:block;width:100%;height:100%;object-fit:cover}
 h1,h2,h3,p,ul{margin:0}ul{padding:0;list-style:none}
@@ -49,13 +41,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .grain{position:fixed;inset:-50%;width:200%;height:200%;z-index:90;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-5%)}60%{transform:translate(-5%,-2%)}80%{transform:translate(4%,4%)}100%{transform:translate(0,0)}}
 
-/* preloader — terrakotta, ikke svart */
-.pre{position:fixed;inset:0;z-index:150;background:var(--terra);color:var(--cream);display:grid;place-items:center;transition:transform 1s var(--ease);will-change:transform}
+/* preloader */
+.pre{position:fixed;inset:0;z-index:150;background:var(--paper);color:var(--fg);display:grid;place-items:center;transition:transform 1s var(--ease);will-change:transform}
 .pre.done{transform:translateY(-100%)}
 .pre__n{font-family:var(--serif);font-size:clamp(4rem,14vw,11rem);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.pre__w{position:absolute;bottom:2rem;left:var(--pad);right:var(--pad);display:flex;justify-content:space-between;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,244,232,.7)}
+.pre__w{position:absolute;bottom:2rem;left:var(--pad);right:var(--pad);display:flex;justify-content:space-between;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
 
-/* header — tar farge fra seksjonen den svever over */
+/* header — mørk over heroen, papir under */
 .hd{position:fixed;top:0;left:0;right:0;z-index:80;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:1.15rem var(--pad);color:var(--cream);border-bottom:1px solid transparent;transition:background .45s var(--ease),color .45s var(--ease),border-color .45s var(--ease)}
 .hd--solid{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .hd__logo{font-family:var(--serif);font-size:1.5rem;letter-spacing:-.02em;justify-self:start}
@@ -71,12 +63,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .burger[aria-expanded=true] i:nth-child(2){top:19px;transform:rotate(-45deg)}
 
 /* flytende reserver-pille */
-.fab{position:fixed;z-index:85;right:clamp(1rem,3vw,2rem);bottom:clamp(1rem,3vw,2rem);display:inline-flex;align-items:center;gap:.8rem;padding:.95rem 1.4rem .95rem 1.6rem;border-radius:999px;background:var(--espresso);color:var(--cream);font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transform:translateY(150%);transition:transform .7s var(--ease),background .4s;box-shadow:0 14px 36px rgba(42,28,21,.28)}
+.fab{position:fixed;z-index:85;right:clamp(1rem,3vw,2rem);bottom:clamp(1rem,3vw,2rem);display:inline-flex;align-items:center;gap:.8rem;padding:.95rem 1.4rem .95rem 1.6rem;border-radius:999px;background:var(--terra);color:var(--paper);font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transform:translateY(150%);transition:transform .7s var(--ease),background .4s;box-shadow:0 14px 36px rgba(43,33,26,.22)}
 .fab.on{transform:translateY(0)}
-.fab:hover{background:var(--terra)}
+.fab:hover{background:var(--terra-d)}
 .menu.on~.fab{transform:translateY(150%)}
-.fab i{width:8px;height:8px;border-radius:50%;background:var(--mustard);animation:pulse 2.2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(226,192,116,.6)}70%{box-shadow:0 0 0 10px rgba(226,192,116,0)}}
+.fab i{width:8px;height:8px;border-radius:50%;background:var(--paper);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,240,230,.7)}70%{box-shadow:0 0 0 9px rgba(245,240,230,0)}}
 
 /* fullskjermmeny */
 .menu{position:fixed;inset:0;z-index:70;display:grid;grid-template-rows:1fr auto;padding:7rem var(--pad) 2.5rem;clip-path:inset(0 0 100% 0);transition:clip-path .9s var(--ease),visibility 0s .9s;visibility:hidden}
@@ -85,9 +77,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .menu li a{display:inline-block;font-family:var(--serif);font-size:clamp(3rem,10vw,8rem);line-height:1;letter-spacing:-.03em;transform:translateY(110%);transition:transform .9s var(--ease),color .3s}
 .menu.on li a{transform:translateY(0)}
 .menu li:nth-child(2) a{transition-delay:.06s}.menu li:nth-child(3) a{transition-delay:.12s}.menu li:nth-child(4) a{transition-delay:.18s}
-.menu li a:hover{color:var(--mustard);font-style:italic}
+.menu li a:hover{color:var(--terra);font-style:italic}
 .menu__f{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;justify-content:space-between;font-size:.8rem;color:var(--fg2);border-top:1px solid var(--line);padding-top:1.5rem}
-.menu__f a:hover{color:var(--mustard)}
+.menu__f a:hover{color:var(--terra)}
 
 /* ---------- HERO ---------- */
 .hero{--sec:var(--espresso);position:relative;height:100svh;min-height:640px;overflow:hidden;isolation:isolate;display:grid;grid-template-rows:1fr auto;color:var(--cream)}
@@ -97,7 +89,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(42,28,21,.34) 0%,rgba(42,28,21,0) 30%,rgba(42,28,21,.12) 55%,rgba(42,28,21,.82) 100%)}
 .hero__t{align-self:end;padding:0 var(--pad)}
 .hero__t h1{font-family:var(--serif);font-weight:400;font-size:clamp(5.6rem,21vw,21rem);line-height:.82;letter-spacing:-.045em;margin-left:-.04em;white-space:nowrap}
-.hero__t h1 em{font-style:italic;color:var(--mustard)}
+.hero__t h1 em{font-style:italic}
 .hero__b{display:grid;grid-template-columns:1.2fr 1fr auto;align-items:end;gap:2rem;padding:1.8rem var(--pad) 2.2rem;border-top:1px solid rgba(248,243,233,.24);margin-top:2rem}
 .hero__sub{font-size:clamp(1rem,1.4vw,1.25rem);line-height:1.5;max-width:34ch;color:#EFE6D6}
 .hero__meta{display:grid;gap:.35rem;font-size:.8rem;color:#CBBBA6}
@@ -109,12 +101,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .btn:hover{color:var(--sec)}.btn:hover::before{transform:translateY(0)}
 .btn svg{width:14px;height:14px;transition:transform .5s var(--ease)}
 .btn:hover svg{transform:translate(3px,-3px)}
-.btn--solid{background:var(--cream);color:var(--terra);border-color:var(--cream)}
-.btn--solid::before{background:var(--espresso)}
-.btn--solid:hover{color:var(--cream);border-color:var(--espresso)}
+.btn--solid{background:var(--terra);color:var(--paper);border-color:var(--terra)}
+.btn--solid::before{background:var(--terra-d)}
+.btn--solid:hover{color:var(--paper);border-color:var(--terra-d)}
 
 /* ---------- TICKER — sennepsgul, hentet fra fasaden ---------- */
-.tick{overflow:hidden;padding:1.05rem 0}
+.tick{overflow:hidden;padding:1.05rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .tick__in{display:flex;width:max-content;animation:tick 42s linear infinite}
 .tick__in span{font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.5rem);white-space:nowrap;padding:0 1.6rem}
 .tick__in span::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--terra);margin-left:3.2rem;vertical-align:middle}
@@ -143,7 +135,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .intro__meta b{display:block;font-weight:500;color:var(--fg);margin-bottom:.25rem}
 
 /* ---------- STACK ---------- */
-.stack{background:var(--plaster)}
+.stack{background:var(--paper)}
 .card{position:sticky;top:0;height:100svh;min-height:600px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(2rem,5vw,5rem);padding:5.5rem var(--pad) 2rem;transform-origin:center top}
 .card:last-child{position:relative}
 .card__img{height:min(74svh,760px);overflow:hidden}
@@ -151,7 +143,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .card__n{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:1.6rem}
 .card h2{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,7vw,6.4rem);line-height:.95;letter-spacing:-.03em}
 .card h2 em{color:var(--terra)}
-.t-sage-d .card h2 em,.card.t-sage-d h2 em{color:var(--mustard)}
 .card p{margin-top:1.6rem;font-size:1.05rem;line-height:1.65;color:var(--fg2);max-width:40ch}
 .card__meta{margin-top:2rem;display:flex;gap:2.5rem;font-size:.82rem;color:var(--mute)}
 .card__meta b{display:block;font-weight:500;color:var(--fg)}
@@ -159,14 +150,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* ---------- SIGNATUR — det ene mørke øyeblikket ---------- */
 .sig{position:relative;height:140svh;min-height:800px}
-.sig__pin{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate;background:var(--espresso)}
-.sig__pin img{position:absolute;inset:0;z-index:-1;filter:brightness(.66);transform:scale(1.15)}
-.sig__pin::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(70% 70% at 50% 60%,rgba(42,28,21,0) 0%,rgba(42,28,21,.78) 100%)}
+.sig__pin{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate;background:var(--espresso);color:#F7F2E8}
+.sig__pin img{position:absolute;inset:0;z-index:-1;filter:brightness(.7);transform:scale(1.15)}
+.sig__pin::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(72% 72% at 50% 58%,rgba(36,28,22,.1) 0%,rgba(36,28,22,.76) 100%)}
 .sig__c{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 var(--pad)}
 .sig__c h2{font-family:var(--serif);font-weight:400;font-size:clamp(4rem,13vw,13rem);line-height:.9;letter-spacing:-.04em}
-.sig__c h2 em{display:block;font-size:.4em;letter-spacing:-.01em;color:var(--mustard);margin-top:.4em}
-.sig__c p{margin-top:2.2rem;max-width:40ch;color:var(--fg2)}
-.sig__c .eyebrow{margin-top:2.5rem;color:var(--mustard)}
+.sig__c h2 em{display:block;font-size:.4em;letter-spacing:-.01em;margin-top:.4em;opacity:.85}
+.sig__c p{margin-top:2.2rem;max-width:40ch;color:#E4DACB}
+.sig__c .eyebrow{margin-top:2.5rem;color:#BFAF9C}
 
 /* ---------- LISTE ---------- */
 .list{padding:clamp(6rem,12vw,10rem) var(--pad)}
@@ -188,14 +179,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .chef__img{overflow:hidden}
 .chef__t{display:grid;align-content:center;padding:clamp(4rem,8vw,7rem) var(--pad)}
 .chef__t h2{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,6.5vw,6rem);line-height:.95;letter-spacing:-.03em}
-.chef__t h2 em{color:var(--mustard)}
+.chef__t h2 em{color:var(--terra)}
 .chef__t p{margin-top:1.8rem;color:var(--fg2);line-height:1.65;max-width:38ch}
 .chef__t .eyebrow{margin-bottom:1.5rem}
 
 /* ---------- BESØK — terrakotta ---------- */
-.visit{padding:clamp(7rem,14vw,12rem) var(--pad) clamp(4rem,8vw,6rem)}
+.visit{padding:clamp(7rem,14vw,12rem) var(--pad) clamp(4rem,8vw,6rem);border-top:1px solid var(--line)}
 .visit h2{font-family:var(--serif);font-weight:400;font-size:clamp(3.6rem,12vw,12rem);line-height:.86;letter-spacing:-.045em;margin-left:-.03em}
-.visit h2 em{color:var(--mustard)}
+.visit h2 em{color:var(--terra)}
 .visit__g{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:clamp(3rem,7vw,6rem);padding-top:2.5rem;border-top:1px solid var(--line)}
 .visit__g b{display:block;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:1rem;font-weight:500}
 .visit__g p{font-size:1.05rem;line-height:1.6;color:var(--fg2)}
@@ -203,9 +194,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .visit__cta{margin-top:clamp(3rem,6vw,5rem);display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
 .visit__cta p{color:var(--fg2);max-width:36ch;font-size:.95rem}
 
-.foot{padding:1.6rem var(--pad) 2rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:.8rem 2rem;font-size:.72rem;color:var(--mute)}
+.foot{padding:1.6rem var(--pad) 2rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.8rem 2rem;font-size:.72rem;color:var(--mute)}
 .foot a{color:var(--fg2)}
-.foot a:hover{color:var(--mustard)}
+.foot a:hover{color:var(--terra)}
 
 /* ---------- responsivt ---------- */
 @media (max-width:1000px){
@@ -260,7 +251,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   </div>
 </header>
 
-<nav class="menu t-dark" id=menu aria-label="Fullskjermmeny">
+<nav class="menu t-cream" id=menu aria-label="Fullskjermmeny">
   <ul>
     <li><a href="#dagen">Dagen</a></li>
     <li><a href="#tartaren">Tartaren</a></li>
@@ -294,7 +285,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   </div>
 </section>
 
-<div class="tick t-mustard" aria-hidden=true>
+<div class="tick t-cream" aria-hidden=true>
   <div class=tick__in>
     <span>Brasserie française</span><span>Kongsgata 45A</span><span>Tirsdag–lørdag</span><span>Lunsj 11.30–14.30</span><span>Middag 16.00–21.00</span><span>Terrassen — ingen spiseplikt</span>
     <span>Brasserie française</span><span>Kongsgata 45A</span><span>Tirsdag–lørdag</span><span>Lunsj 11.30–14.30</span><span>Middag 16.00–21.00</span><span>Terrassen — ingen spiseplikt</span>
@@ -311,7 +302,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 </section>
 
 <section class=stack aria-label="Dagen hos Le Père">
-  <article class="card t-sage">
+  <article class="card t-cream">
     <div class="card__img mask"><img src="/img/lepere/hero-interior.webp" alt="Langbordet i spisesalen" width=1536 height=2048 loading=lazy decoding=async></div>
     <div class=card__t>
       <p class=card__n>Lunsj</p>
@@ -329,7 +320,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <div class=card__meta><div><b>Ingen spiseplikt</b>Kaffe, drikke og snacks</div></div>
     </div>
   </article>
-  <article class="card t-plaster">
+  <article class="card t-cream">
     <div class="card__img mask"><img src="/img/lepere/dish-oysters.webp" alt="Østers på is" width=2605 height=2605 loading=lazy decoding=async></div>
     <div class=card__t>
       <p class=card__n>Middag</p>
@@ -340,7 +331,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   </article>
 </section>
 
-<section class="sig t-dark" id=tartaren data-nav=light>
+<section class=sig id=tartaren data-nav=light>
   <div class=sig__pin>
     <img src="/img/lepere/dish-tartare.webp" alt="Classic beef tartar hos Le Père" width=1080 height=1152 loading=lazy decoding=async data-par>
     <div class=sig__c>
@@ -351,7 +342,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   </div>
 </section>
 
-<section class="list t-plaster" id=tider>
+<section class="list t-cream" id=tider>
   <div class=list__h>
     <h2 class=lines><span class=l><span>Når du vil,</span></span><span class=l><span><em>som du vil.</em></span></span></h2>
     <p class=rv>Samme dør, samme bord — fire måter å bruke huset på.</p>
@@ -364,7 +355,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   </ul>
 </section>
 
-<section class="chef t-sage-d" aria-label="Kjøkkenet" data-nav=light>
+<section class="chef t-cream" aria-label="Kjøkkenet">
   <div class="chef__img mask"><img src="/img/lepere/chef.webp" alt="Hugo Lecreff på kjøkkenet hos Le Père" width=960 height=640 loading=lazy decoding=async></div>
   <div class=chef__t>
     <p class="eyebrow rv">Kjøkkenet</p>
@@ -373,7 +364,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   </div>
 </section>
 
-<section class="visit t-terra" id=besok data-nav=light>
+<section class="visit t-cream" id=besok>
   <h2 class=lines><span class=l><span>Ved Breiavatnet,</span></span><span class=l><span><em>midt i sentrum.</em></span></span></h2>
   <div class="visit__g rv">
     <div><b>Adresse</b><p>Kongsgata 45A<br>4005 Stavanger<br><a href="https://www.google.com/maps/search/?api=1&query=Kongsgata+45A+4005+Stavanger" target=_blank rel=noopener>Finn veien ↗</a></p></div>
@@ -389,7 +380,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 </main>
 
-<footer class="foot t-dark" data-nav=light>
+<footer class="foot t-cream">
   <span>© Le Père Brasserie · Kongsgata 45A, Stavanger</span>
   <span>Uforpliktende visuelt konsept av <a href="https://staymotion.no" target=_blank rel=noopener>StayMotion</a> — ikke Le Père sin faktiske nettside.</span>
 </footer>
@@ -423,7 +414,7 @@ const navUpd=()=>{
   let cur=null;
   for(const b of bands){const r=b.getBoundingClientRect();if(r.top<=y&&r.bottom>y)cur=b;}
   if(!cur)return;
-  const over=cur===hero;
+  const over=cur.dataset.nav==='light';
   hd.classList.toggle('hd--solid',!over);
   if(over){hd.style.background='transparent';hd.style.color='';hd.style.borderBottomColor='transparent';return;}
   const cs=getComputedStyle(cur);
