@@ -9,7 +9,7 @@
 <meta name=robots content="noindex,nofollow">
 <link rel=preconnect href="https://fonts.googleapis.com">
 <link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel=stylesheet>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel=stylesheet>
 <style>
 :root{
   /* marineblå er deres egen: Maritas uniform og fargen i bookingsystemet (#1d1e2b) */
@@ -18,8 +18,8 @@
   --nude:#B5825E;--nude-l:#D9A98C;
   --fg:#1D1E2B;--fg2:#514C55;--mute:#8B8189;
   --line:rgba(29,30,43,.13);
-  --disp:"Bodoni Moda",Didot,Georgia,serif;
-  --sans:"Jost","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --disp:"Schibsted Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --sans:"Schibsted Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
   --pad:clamp(1.25rem,5vw,5.5rem);
   --ease:cubic-bezier(.22,1,.36,1);
 }
@@ -34,7 +34,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 :focus-visible{outline:1.5px solid var(--nude);outline-offset:3px}
 .skip{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 .skip:focus{position:fixed;z-index:200;top:1rem;left:1rem;width:auto;height:auto;clip:auto;padding:.8rem 1rem;background:var(--navy);color:#fff}
-.d{font-family:var(--disp);font-weight:400;letter-spacing:-.015em}
+.d{font-family:var(--disp);font-weight:400;letter-spacing:-.035em}
 .d em{font-style:italic}
 .kick{font-size:.68rem;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--nude)}
 
@@ -43,7 +43,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hd.solid{padding-block:.8rem}
 .hd__l{display:flex;align-items:center;gap:.7rem}
 .hd__l img{width:30px;height:auto;object-fit:contain}
-.hd__n{font-family:var(--disp);font-size:1.02rem;letter-spacing:.16em;text-transform:uppercase;line-height:1.1}
+.hd__n{font-family:var(--disp);font-weight:500;font-size:.98rem;letter-spacing:.17em;text-transform:uppercase;line-height:1.1}
 .hd__n small{display:block;font-family:var(--sans);font-size:.56rem;letter-spacing:.3em;color:var(--mute)}
 .hd nav{display:flex;gap:2rem;font-size:.8rem;letter-spacing:.05em}
 .hd nav a{position:relative;padding:.2rem 0}
@@ -65,13 +65,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* ---------- hero ---------- */
 .hero{display:grid;grid-template-columns:1.05fr .95fr;min-height:100svh;align-items:stretch}
 .hero__t{display:grid;align-content:center;gap:1.6rem;padding:9rem var(--pad) 4.5rem}
-.hero h1{font-size:clamp(3.2rem,6.6vw,6.6rem);line-height:.98;letter-spacing:-.03em}
+.hero h1{font-size:clamp(3rem,6.2vw,6.1rem);line-height:.96;letter-spacing:-.045em}
 .hero h1 em{color:var(--nude)}
 .hero__p{max-width:38ch;color:var(--fg2);font-size:1.06rem;font-weight:300}
 .hero__cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.4rem}
 .hero__facts{display:flex;flex-wrap:wrap;gap:1.6rem 2.8rem;margin-top:1.4rem;padding-top:1.6rem;border-top:1px solid var(--line)}
 .hero__facts div{font-size:.82rem;color:var(--mute)}
-.hero__facts b{display:block;font-family:var(--disp);font-size:1.7rem;font-weight:400;color:var(--fg);letter-spacing:-.01em;line-height:1.1}
+.hero__facts b{display:block;font-family:var(--disp);font-size:1.6rem;font-weight:500;color:var(--fg);letter-spacing:-.03em;line-height:1.1}
 .hero__img{position:relative;overflow:hidden;background:var(--shell)}
 .hero__img img{transform:scale(1.06);animation:kb 16s var(--ease) forwards}
 @keyframes kb{to{transform:scale(1)}}
@@ -85,18 +85,18 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* ---------- velger ---------- */
 .finder{padding:clamp(5rem,10vw,8.5rem) var(--pad);background:var(--shell)}
 .finder__h{max-width:52rem;margin-bottom:2.6rem}
-.finder__h h2{font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;margin-top:.7rem}
+.finder__h h2{font-size:clamp(2rem,4.6vw,3.7rem);line-height:1.02;margin-top:.7rem}
 .finder__h p{margin-top:1rem;color:var(--fg2);max-width:46ch;font-weight:300}
 .chips{display:flex;flex-wrap:wrap;gap:.55rem}
 .chip{padding:.75rem 1.25rem;border:1px solid var(--line);border-radius:2px;background:transparent;font-size:.85rem;letter-spacing:.02em;color:var(--fg2);transition:.35s var(--ease)}
 .chip:hover{border-color:var(--navy);color:var(--fg)}
 .chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:var(--porcelain)}
 .res{margin-top:2.4rem;min-height:120px}
-.res__lead{font-family:var(--disp);font-style:italic;font-size:1.35rem;color:var(--fg2);margin-bottom:1.3rem}
+.res__lead{font-style:italic;font-size:1.2rem;font-weight:300;color:var(--fg2);margin-bottom:1.3rem;letter-spacing:-.01em}
 .res__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
 .tr{display:flex;flex-direction:column;gap:.5rem;padding:1.5rem 1.4rem;background:var(--shell);transition:background .3s}
 .tr:hover{background:var(--porcelain)}
-.tr__n{font-family:var(--disp);font-size:1.13rem;line-height:1.22}
+.tr__n{font-family:var(--disp);font-size:1.06rem;font-weight:500;line-height:1.25;letter-spacing:-.02em}
 .tr__p{font-size:.86rem;color:var(--nude);letter-spacing:.05em}
 .tr__b{margin-top:auto;padding-top:.7rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);transition:color .3s}
 .tr:hover .tr__b{color:var(--navy)}
@@ -105,16 +105,16 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* ---------- Marita ---------- */
 .about{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,6vw,6rem);align-items:center;padding:clamp(5rem,11vw,9rem) var(--pad)}
 .about__img{aspect-ratio:4/5;overflow:hidden;background:var(--shell)}
-.about h2{font-size:clamp(2.2rem,5vw,4.2rem);line-height:1.02;margin-top:.8rem}
+.about h2{font-size:clamp(2rem,4.6vw,3.8rem);line-height:1.01;margin-top:.8rem}
 .about p{margin-top:1.4rem;color:var(--fg2);font-weight:300;max-width:44ch}
-.about__q{margin-top:2rem;padding-left:1.4rem;border-left:1px solid var(--nude);font-family:var(--disp);font-style:italic;font-size:1.3rem;line-height:1.42;color:var(--fg)}
+.about__q{margin-top:2rem;padding-left:1.4rem;border-left:1px solid var(--nude);font-style:italic;font-weight:300;font-size:1.22rem;line-height:1.45;color:var(--fg);letter-spacing:-.01em}
 
 /* ---------- merker ---------- */
 .brands{padding:clamp(4rem,8vw,6.5rem) var(--pad);background:var(--navy);color:var(--porcelain)}
-.brands h2{font-size:clamp(1.7rem,3.4vw,2.6rem);max-width:22ch;line-height:1.12}
+.brands h2{font-size:clamp(1.6rem,3.2vw,2.45rem);max-width:22ch;line-height:1.1}
 .brands .kick{color:var(--nude-l)}
 .brands__g{display:flex;flex-wrap:wrap;gap:.6rem .5rem;margin-top:2.6rem}
-.brands__g span{padding:.62rem 1.15rem;border:1px solid rgba(248,245,241,.26);border-radius:2px;font-family:var(--disp);font-size:1rem;letter-spacing:.02em;transition:border-color .35s,color .35s}
+.brands__g span{padding:.62rem 1.15rem;border:1px solid rgba(248,245,241,.26);border-radius:2px;font-size:.92rem;font-weight:400;letter-spacing:-.005em;transition:border-color .35s,color .35s}
 .brands__g span:hover{border-color:var(--nude-l);color:var(--nude-l)}
 .brands__f{margin-top:2rem;font-size:.85rem;color:rgba(248,245,241,.6);max-width:56ch;font-weight:300}
 
@@ -122,27 +122,27 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .start{display:grid;grid-template-columns:1fr 1fr;min-height:82svh}
 .start__img{overflow:hidden;background:var(--shell)}
 .start__t{display:grid;align-content:center;gap:1.1rem;padding:clamp(4rem,8vw,7rem) var(--pad);background:var(--sand)}
-.start h2{font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.05;margin-top:.6rem}
+.start h2{font-size:clamp(1.9rem,4.1vw,3.1rem);line-height:1.03;margin-top:.6rem}
 .start p{color:var(--fg2);max-width:40ch;font-weight:300}
 .start__l{margin-top:.8rem;display:grid;gap:0}
 .start__l a{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:1.05rem 0;border-top:1px solid rgba(29,30,43,.16);transition:padding-left .4s var(--ease)}
 .start__l a:last-child{border-bottom:1px solid rgba(29,30,43,.16)}
 .start__l a:hover{padding-left:.6rem}
-.start__l b{font-family:var(--disp);font-weight:400;font-size:1.2rem}
+.start__l b{font-family:var(--disp);font-weight:500;font-size:1.1rem;letter-spacing:-.02em}
 .start__l span{font-size:.86rem;color:var(--nude);white-space:nowrap;letter-spacing:.04em}
 
 /* ---------- priser ---------- */
 .prices{padding:clamp(5rem,10vw,8.5rem) var(--pad)}
 .prices__h{display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:end;margin-bottom:2.4rem}
-.prices h2{font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;margin-top:.7rem}
+.prices h2{font-size:clamp(2rem,4.6vw,3.7rem);line-height:1.02;margin-top:.7rem}
 .prices__h p{color:var(--mute);font-size:.9rem;max-width:30ch}
 .cat{border-top:1px solid var(--line)}
 .cat:last-of-type{border-bottom:1px solid var(--line)}
 .cat summary{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.35rem 0;cursor:pointer;list-style:none}
 .cat summary::-webkit-details-marker{display:none}
-.cat summary h3{font-family:var(--disp);font-weight:400;font-size:clamp(1.25rem,2.4vw,1.75rem);letter-spacing:-.01em;flex:1}
+.cat summary h3{font-family:var(--disp);font-weight:500;font-size:clamp(1.15rem,2.2vw,1.55rem);letter-spacing:-.03em;flex:1}
 .cat summary i{font-style:normal;font-size:.76rem;color:var(--mute);letter-spacing:.06em;white-space:nowrap}
-.cat summary::after{content:"+";font-family:var(--disp);font-size:1.35rem;color:var(--nude);transition:transform .4s var(--ease);line-height:1}
+.cat summary::after{content:"+";font-size:1.5rem;font-weight:300;color:var(--nude);transition:transform .4s var(--ease);line-height:1}
 .cat[open] summary::after{transform:rotate(45deg)}
 .cat ul{padding:0 0 1.5rem}
 .cat li{display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;padding:.62rem 0;border-top:1px dotted rgba(29,30,43,.16);font-size:.94rem;font-weight:300}
@@ -151,7 +151,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* ---------- besøk ---------- */
 .visit{padding:clamp(5rem,10vw,8rem) var(--pad) clamp(3rem,6vw,4.5rem);background:var(--navy);color:var(--porcelain)}
-.visit h2{font-size:clamp(2.4rem,7vw,6rem);line-height:.98;letter-spacing:-.03em}
+.visit h2{font-size:clamp(2.2rem,6.4vw,5.4rem);line-height:.97;letter-spacing:-.045em}
 .visit h2 em{color:var(--nude-l)}
 .visit__g{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:clamp(2.5rem,6vw,4.5rem);padding-top:2.2rem;border-top:1px solid rgba(248,245,241,.2)}
 .visit__g b{display:block;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--nude-l);margin-bottom:.9rem;font-weight:500}
