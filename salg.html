@@ -170,6 +170,16 @@
   .bar{height:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:10px;overflow:hidden}
   .bar>i{display:block;height:100%;background:linear-gradient(90deg,#0038ec,#2a63ff 45%,#c3c6cc);width:0;transition:width .8s var(--ease)}
   /* pipeline chips */
+  .nav{position:relative;align-items:center}
+  .nav2{position:absolute;top:100%;right:0;z-index:20;display:flex;flex-direction:column;gap:2px;padding:6px;background:#fff;border:1px solid var(--line2);border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.12);min-width:190px}
+  .nav2 .n{text-align:left;width:100%}
+  .lead .stsel{max-width:150px;flex:none}
+  .cmore{display:inline-block}
+  .cmore summary{list-style:none;cursor:pointer;padding:7px 13px;border:1px solid var(--line2);border-radius:9px;font-size:13px;color:var(--muted);background:#fff}
+  .cmore summary::-webkit-details-marker{display:none}
+  .cmore summary:hover{color:var(--ink);border-color:var(--ink)}
+  .cmore[open] summary{color:var(--ink)}
+  .cmb{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .pipe{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 16px}
   .pipe .p{padding:7px 12px;border:1px solid var(--line2);border-radius:20px;font-size:12.5px;color:var(--muted);cursor:pointer;background:#fff;transition:.15s}
   .pipe .p:hover{border-color:var(--ink)}
@@ -263,19 +273,23 @@
   </header>
 
   <div class="nav" id="nav">
-    <button class="n active" data-v="maal">Resultatmål</button>
-    <button class="n" data-v="idag">I dag <span class="c" id="c-idag">0</span></button>
-    <button class="n" data-v="leads">Leads <span class="c" id="c-leads">0</span></button>
-    <button class="n" data-v="ko">Godkjenningskø <span class="c" id="c-ko">0</span></button>
-    <button class="n" data-v="send">Utsending</button>
+    <button class="n active" data-v="leads">Leads <span class="c" id="c-leads">0</span></button>
     <button class="n" data-v="tilbud">Tilbud</button>
     <button class="n" data-v="ordre">Bestillinger <span class="c" id="c-ordre">0</span></button>
     <button class="n" data-v="lev">Leveranse <span class="c" id="c-lev">0</span></button>
-    <button class="n" data-v="innst">Innstillinger</button>
+    <div class="spacer"></div>
+    <button class="n mer" id="nav-mer" aria-expanded="false">Mer ▾</button>
+    <div class="nav2 hide" id="nav2">
+      <button class="n" data-v="maal">Resultatmål</button>
+      <button class="n" data-v="idag">I dag <span class="c" id="c-idag">0</span></button>
+      <button class="n" data-v="ko">Godkjenningskø <span class="c" id="c-ko">0</span></button>
+      <button class="n" data-v="send">Utsending</button>
+      <button class="n" data-v="innst">Innstillinger</button>
+    </div>
   </div>
 
   <!-- MÅL -->
-  <section id="v-maal">
+  <section id="v-maal" class="hide">
     <div class="goalhero">
       <svg class="ribbon" viewBox="0 0 300 300" fill="none" aria-hidden="true">
         <defs>
@@ -308,27 +322,18 @@
   </section>
 
   <!-- LEADS -->
-  <section id="v-leads" class="hide">
+  <section id="v-leads">
     <div class="pipe" id="lead-pipe"></div>
     <div class="row" style="margin-bottom:12px">
       <input id="lead-q" placeholder="Søk bedrift, by, e-post…" style="max-width:240px">
-      <select id="lead-seg" style="max-width:170px">
-        <option value="">Alle bransjer</option>
-        <option value="handverker">Håndverker</option>
-        <option value="klinikk">Klinikk/frisør/skjønnhet</option>
-        <option value="restaurant">Restaurant/hospitality</option>
-        <option value="eiendom">Eiendom/Airbnb/hytte</option>
-        <option value="renhold">Renhold/vedlikehold</option>
-        <option value="annet">Annet</option>
-      </select>
       <select id="lead-sort" style="max-width:150px" aria-label="Sortering">
-        <option value="prio">Høyest prioritet</option>
+        <option value="rort">Sist rørt</option>
         <option value="ny">Nyeste først</option>
         <option value="gammel">Eldste først</option>
-        <option value="rort">Sist rørt</option>
+        <option value="prio">Høyest prioritet</option>
       </select>
       <div class="spacer"></div>
-      <button class="btn sm" id="lead-import">Importer CSV</button>
+      <button class="btn sm ghost" id="lead-import">Importer CSV</button>
       <button class="btn sm primary" id="lead-add">+ Ny lead</button>
     </div>
     <div id="lead-list"></div>
@@ -463,14 +468,16 @@
 var $=function(id){return document.getElementById(id);};
 var KEY='';
 var CONFIG=null, LEADS=[], SEQS=[], METRICS=null, LOG=null, SUPP={};
-var VIEW='maal', LFILTER='', LSEG='', LQ='', QOPEN={};
-var LSORT=huskSort('sm_lead_sort','prio'), OSORT=huskSort('sm_ordre_sort','ny');
+var VIEW='leads', LFILTER='', LQ='', QOPEN={};
+var LSORT=huskSort('sm_lead_sort','rort'), OSORT=huskSort('sm_ordre_sort','ny');
 function huskSort(k,fb){try{return sessionStorage.getItem(k)||fb;}catch(e){return fb;}}
 function lagreSort(k,v){try{sessionStorage.setItem(k,v);}catch(e){}}
 // Display names mirror lib/packages.js. Ids are frozen; only labels changed.
 var PKG={sprint:{name:'Momentum',tag:'Komplett nettside',from:16000,dep:50},landing:{name:'Første trekk',tag:'Landingsside',from:7900,dep:100},signature:{name:'Signatur',tag:'Skreddersydd',from:19900,dep:40,fra:1},care:{name:'Videre',tag:'Drift og oppfølging',from:1490,dep:100,fra:1,mnd:1},growth:{name:'Vekst',tag:'Flere sider (utgått)',from:12900,dep:50},launch:{name:'Oppstart',tag:'Mindre nettside (utgått)',from:7900,dep:50}};
-var STAGE_LABELS={ny:'Ny',undersokt:'Undersøkt',klar:'Klar for kontakt',kontaktet:'Kontaktet',svar:'Svar mottatt',mote:'Samtale booket',tilbud:'Tilbud sendt',vunnet:'Vunnet',tapt:'Tapt'};
+var STAGE_LABELS={ny:'Ny',kontaktet:'Kontaktet',tilbud:'Tilbud sendt',vunnet:'Vunnet',tapt:'Tapt'};
 var STAGES=Object.keys(STAGE_LABELS);
+// Eldre leads ble lagret med ni steg. De vises på nærmeste av de fem.
+var STAGE_ALIAS={undersokt:'ny',klar:'ny',kvalifisert:'ny',svar:'kontaktet',mote:'kontaktet'};
 
 function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});}
 function nok(n){return (Number(n)||0).toLocaleString('nb-NO')+' kr';}
@@ -491,10 +498,12 @@ $('logout').onclick=function(){try{sessionStorage.removeItem('sm_admin');}catch(
 (function(){var k;try{k=sessionStorage.getItem('sm_admin');}catch(e){}if(k){$('key').value=k;enter();}})();
 
 /* ---------- nav ---------- */
-[].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.onclick=function(){showView(n.getAttribute('data-v'));};});
+[].forEach.call(document.querySelectorAll('.nav .n[data-v]'),function(n){n.onclick=function(){showView(n.getAttribute('data-v'));$('nav2').classList.add('hide');$('nav-mer').setAttribute('aria-expanded','false');};});
+$('nav-mer').onclick=function(){var o=$('nav2').classList.toggle('hide');this.setAttribute('aria-expanded',String(!o));};
 function showView(v){VIEW=v;
   ['maal','idag','leads','ko','send','tilbud','ordre','lev','innst'].forEach(function(x){$('v-'+x).classList.toggle('hide',x!==v);});
-  [].forEach.call(document.querySelectorAll('.nav .n'),function(n){n.classList.toggle('active',n.getAttribute('data-v')===v);});
+  [].forEach.call(document.querySelectorAll('.nav .n[data-v]'),function(n){n.classList.toggle('active',n.getAttribute('data-v')===v);});
+  $('nav-mer').classList.toggle('active',!!$('nav2').querySelector('.n[data-v="'+v+'"].active'));
   if(v==='idag')loadToday();if(v==='ko')loadQueue();if(v==='send')loadSend();if(v==='innst')fillSettings();if(v==='ordre')loadOrders();if(v==='lev')loadDelivery();
 }
 
@@ -511,7 +520,7 @@ function paintGoal(g,f,sending,won,note){
   $('maal-bar').style.width=(g.progressPct||0)+'%';
   var cap=(sending&&sending.dailyCap)||(CONFIG&&CONFIG.dailyCap)||12;
   var sent=(sending&&sending.sentToday)||0;
-  var stats=[['Dager igjen',g.daysLeft,'til '+g.deadline],['Kontaktede',f.contacted,'bedrifter'],['Svar',f.replies,''],['Bookede samtaler',f.booked,''],['Sendte tilbud',f.proposals,''],['Vunnet',f.won,''],['Avtalt verdi',nok(f.agreedValue),''],['Sendt i dag',sent+' / '+cap,'e-poster']];
+  var stats=[['Dager igjen',g.daysLeft,'til '+g.deadline],['Kontaktede',f.contacted,'bedrifter'],['Tilbud ute',f.proposals,'venter svar'],['Vunnet',f.won,nok(f.agreedValue)+' avtalt']];
   $('maal-stats').innerHTML=stats.map(function(s){return '<div class="stat"><div class="k">'+esc(s[0])+'</div><div class="v">'+esc(s[1])+'</div><div class="s">'+esc(s[2])+'</div></div>';}).join('');
   $('maal-won').innerHTML=(won&&won.length)?won.map(function(w){return '<div class="switchrow"><span>'+esc(w.company)+'</span><span class="muted">'+nok(w.startPaidKr)+' mottatt / '+nok(w.agreedPriceKr)+' avtalt</span></div>';}).join(''):'<div class="empty small">Ingen vunne kunder ennå. Fokus: svar → samtale → tilbud → oppstartsbetaling.</div>';
   if(note!=null&&$('maal-note'))$('maal-note').textContent=note;
@@ -622,7 +631,6 @@ function bindOrderRows(el){
 function loadLeads(){$('lead-list').innerHTML='<div class="empty small">Laster…</div>';
   api('admin-leads').then(function(d){LEADS=d.leads||[];renderLeads();$('c-leads').textContent=LEADS.filter(function(l){return !l.demo;}).length;}).catch(function(e){$('lead-list').innerHTML='<div class="empty">Kunne ikke hente leads.</div>';});}
 $('lead-q').oninput=function(){LQ=this.value.toLowerCase();renderLeads();};
-$('lead-seg').onchange=function(){LSEG=this.value;renderLeads();};
 $('lead-sort').value=LSORT;
 $('lead-sort').onchange=function(){LSORT=this.value;lagreSort('sm_lead_sort',LSORT);renderLeads();};
 $('ordre-sort').value=OSORT;
@@ -635,7 +643,6 @@ function renderLeads(){
   [].forEach.call($('lead-pipe').querySelectorAll('.p'),function(p){p.onclick=function(){LFILTER=p.getAttribute('data-st');renderLeads();};});
   var list=LEADS.filter(function(l){
     if(LFILTER&&stageOf(l)!==LFILTER)return false;
-    if(LSEG&&l.segment!==LSEG)return false;
     if(LQ){var hay=((l.company||'')+' '+(l.location||'')+' '+(l.email||'')+' '+(l.website||'')).toLowerCase();if(hay.indexOf(LQ)<0)return false;}
     return true;
   });
@@ -645,6 +652,7 @@ function renderLeads(){
   if(!list.length){$('lead-list').innerHTML='<div class="empty"><div class="big">◎</div>Ingen leads her ennå. Legg til en, eller importer CSV.</div>';return;}
   $('lead-list').innerHTML=list.map(leadCard).join('');
   [].forEach.call($('lead-list').querySelectorAll('[data-act]'),function(b){b.onclick=function(){leadAction(b.getAttribute('data-act'),b.getAttribute('data-id'));};});
+  [].forEach.call($('lead-list').querySelectorAll('[data-stage]'),function(sel){sel.onchange=function(){setStage(sel.getAttribute('data-stage'),sel.value);};});
 }
 /* Lista sorterer synkende på prioritet. Leads som er sendt inn via nettsiden
    ble lagret uten score, altså 0 — de havnet bakerst, bak hver eneste kalde
@@ -667,48 +675,42 @@ function byTid(retning){
     return retning==='ny' ? y-x : x-y;
   };
 }
-function stageOf(l){ var st=l.stage||'ny'; return STAGE_LABELS[st]?st:'klar'; }
+function stageOf(l){ var st=l.stage||'ny'; st=STAGE_ALIAS[st]||st; return STAGE_LABELS[st]?st:'ny'; }
 function prio(l){
   var n=Number(l.priorityScore||l.leadScore)||0;
   return l.source==='intake' ? Math.max(n,95) : n;
 }
 function webHref(u){u=String(u||'').trim();if(!u)return '';return /^https?:\/\//i.test(u)?u:'https://'+u;}
 function leadCard(l){
-  var score=prio(l);
-  var addr=l.email?classifyLabel(l.email):'';
+  var st=stageOf(l);
   var supp=l.email&&SUPP&&SUPP[l.email.toLowerCase()];
-  return '<div class="lead st-'+esc(stageOf(l))+(l.demo?' demo':'')+'"'+(supp?' style="opacity:.7"':'')+'>'+
+  var opts=STAGES.map(function(x){return '<option value="'+x+'"'+(x===st?' selected':'')+'>'+esc(STAGE_LABELS[x])+'</option>';}).join('');
+  var line=[l.segment,l.location].filter(Boolean).map(esc).join(' · ');
+  return '<div class="lead st-'+esc(st)+(l.demo?' demo':'')+'"'+(supp?' style="opacity:.6"':'')+'>'+
     '<div class="lh"><div><span class="co">'+esc(l.company||'Uten navn')+'</span>'+
       (l.demo?'<span class="tag demo">DEMO</span>':'')+
       (supp?'<span class="tag r">⛔ Avmeldt</span>':'')+
-      (l.source==='intake'?'<span class="tag g">★ Henvendelse fra nettsiden</span>':'')+
-      /* Innsendinger fra nettsiden lagres før e-posten sendes. Går sendingen i
-         stå, får kunden takkesiden og ingenting mer — det skal synes her. */
-      (l.source==='intake'&&l.mailConfirmOk===false?'<span class="tag r" title="'+esc(l.mailError||'Ukjent feil')+'">✉ Bekreftelse ikke sendt</span>':'')+
-      '<span class="tag">'+esc(STAGE_LABELS[stageOf(l)])+'</span>'+
-      '<div class="sub">'+esc(l.segment||'')+(l.location?' · '+esc(l.location):'')+(l.website?' · <a href="'+esc(webHref(l.website))+'" target="_blank" rel="noopener">'+esc(l.website)+' ↗</a>':'')+'</div></div>'+
-      '<div style="text-align:right"><div class="score">'+score+'</div><div class="sub">prioritet</div></div></div>'+
+      (l.source==='intake'?'<span class="tag g">★ Fra nettsiden</span>':'')+
+      (line?'<div class="sub">'+line+'</div>':'')+'</div>'+
+      '<select class="stsel" data-stage="'+l.id+'" aria-label="Status">'+opts+'</select></div>'+
     '<div class="meta">'+
-      (l.email?'<span>✉ <a href="mailto:'+esc(l.email)+'"><b>'+esc(l.email)+'</b></a> '+addr+'</span>':'<span class="muted">Ingen e-post</span>')+
+      (l.email?'<span>✉ <a href="mailto:'+esc(l.email)+'">'+esc(l.email)+'</a></span>':'')+
       (l.phone?'<span>☎ <a href="tel:'+esc(String(l.phone).replace(/\s+/g,""))+'">'+esc(l.phone)+'</a></span>':'')+
-      (l.websiteQuality?'<span>Kvalitet: <b>'+esc(l.websiteQuality)+'</b></span>':'')+
-      (l.mobileIssue?'<span>Mobil: '+esc(l.mobileIssue)+'</span>':'')+
-      (l.offer?'<span>Tilbud: <b>'+esc(l.offer)+'</b></span>':'')+
-      (tid(l)?'<span title="Lagt inn i CRM-en">🕘 '+new Date(tid(l)).toLocaleDateString('nb-NO',{day:'numeric',month:'short',year:'numeric'})+'</span>':'')+
+      (l.website?'<span><a href="'+esc(webHref(l.website))+'" target="_blank" rel="noopener">'+esc(l.website)+' ↗</a></span>':'')+
+      (l.conceptUrl?'<span><a href="'+esc(l.conceptUrl)+'" target="_blank" rel="noopener">Konsept ↗</a></span>':'')+
+      (l.offer?'<span>Tilbud: <b>'+esc(PKG[l.offer]?PKG[l.offer].name:l.offer)+'</b></span>':'')+
     '</div>'+
-    (l.topOpportunity?'<div class="small" style="color:var(--champagne)">→ '+esc(l.topOpportunity)+'</div>':'')+
-    (l.nextAction?'<div class="small muted" style="margin-top:4px">Neste: '+esc(l.nextAction)+(l.nextActionDate?' ('+esc(l.nextActionDate)+')':'')+'</div>':'')+
+    (l.nextAction?'<div class="small muted" style="margin-top:6px">Neste: '+esc(l.nextAction)+(l.nextActionDate?' · '+esc(l.nextActionDate):'')+'</div>':'')+
     '<div class="acts">'+
       '<button class="btn sm" data-act="edit" data-id="'+l.id+'">Rediger</button>'+
-      (l.website?'<button class="btn sm" data-act="audit" data-id="'+l.id+'">Analyser side</button>':'')+
-      '<button class="btn sm" data-act="msg" data-id="'+l.id+'">Meldinger</button>'+
-      (l.email&&!supp?'<button class="btn sm primary" data-act="queue" data-id="'+l.id+'">Til godkjenningskø</button>':'')+
-      (supp?'<span class="tag r" style="align-self:center">Avmeldt — ikke kontakt</span>'+
-        '<button class="btn sm ghost" data-act="resub" data-id="'+l.id+'" title="Fjern fra reservasjonslisten så du kan kontakte igjen">Meld på igjen</button>'
-        :(l.email?'<button class="btn sm ghost" data-act="unsub" data-id="'+l.id+'" title="Legg adressen på reservasjonslisten så det ikke sendes mer">Marker avmeldt</button>':''))+
-      '<div class="spacer"></div>'+
-      '<button class="btn sm ghost" data-act="reply" data-id="'+l.id+'">Svar mottatt</button>'+
-      '<button class="btn sm ghost danger" data-act="del" data-id="'+l.id+'">Slett</button>'+
+      '<details class="cmore"><summary>Mer</summary><div class="cmb">'+
+        (l.website?'<button class="btn sm ghost" data-act="audit" data-id="'+l.id+'">Analyser side</button>':'')+
+        '<button class="btn sm ghost" data-act="msg" data-id="'+l.id+'">Meldinger</button>'+
+        (l.email&&!supp?'<button class="btn sm ghost" data-act="queue" data-id="'+l.id+'">Til godkjenningskø</button>':'')+
+        (supp?'<button class="btn sm ghost" data-act="resub" data-id="'+l.id+'">Meld på igjen</button>'
+             :(l.email?'<button class="btn sm ghost" data-act="unsub" data-id="'+l.id+'">Marker avmeldt</button>':''))+
+        '<button class="btn sm ghost danger" data-act="del" data-id="'+l.id+'">Slett</button>'+
+      '</div></details>'+
     '</div></div>';
 }
 function classifyLabel(email){var e=email.toLowerCase();var lp=e.split('@')[0];var dom=e.split('@')[1]||'';
@@ -718,6 +720,10 @@ function classifyLabel(email){var e=email.toLowerCase();var lp=e.split('@')[0];v
   if(general.indexOf(lp)>=0)return '<span class="tag g">generell</span>';
   return '<span class="tag g">bedrift</span>';}
 
+function setStage(id,stage){var l=leadById(id);if(!l)return;
+  var prev=l.stage;l.stage=stage;
+  post('admin-leads',{lead:l}).then(function(){toast(l.company+' → '+STAGE_LABELS[stage]);loadLeads();loadMetrics();})
+    .catch(function(e){l.stage=prev;alert(e.message);renderLeads();});}
 function leadById(id){for(var i=0;i<LEADS.length;i++)if(LEADS[i].id===id)return LEADS[i];return null;}
 function leadAction(act,id){var l=leadById(id);
   if(act==='edit')return editLead(l||{});
