@@ -82,7 +82,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hero__facts div{font-size:.82rem;color:var(--mute)}
 .hero__facts b{display:block;font-family:var(--disp);font-size:1.6rem;font-weight:500;color:var(--fg);letter-spacing:-.03em;line-height:1.1}
 .hero__img{position:relative;overflow:hidden;background:var(--shell)}
-.hero__img img{transform:scale(1.06);animation:kb 16s var(--ease) forwards}
+.hero__img img{transform:scale(1.045);transform-origin:50% 0;animation:kb 16s var(--ease) forwards}
 @keyframes kb{to{transform:scale(1)}}
 .hero__cap{position:absolute;left:0;bottom:0;right:0;padding:2.2rem 1.6rem 1.4rem;color:#fff;font-size:.78rem;letter-spacing:.05em;background:linear-gradient(to top,rgba(29,30,43,.62),transparent)}
 
@@ -192,6 +192,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .prices__h{grid-template-columns:1fr}
 }
 @media (max-width:600px){
+  .fab{display:none}
   .visit__g{grid-template-columns:1fr}
   .hero__facts{gap:1.2rem 2rem}
   .res__grid{grid-template-columns:1fr}
