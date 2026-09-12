@@ -121,7 +121,9 @@ button{background:none;border:0;cursor:pointer}
 .serv__h{display:grid;grid-template-columns:1fr auto;gap:1.4rem;align-items:end;margin-bottom:2.4rem}
 .serv__h h2{margin-top:.8rem;font-size:clamp(1.9rem,4.4vw,3.4rem)}
 .serv__h p{color:var(--fg2);max-width:34ch;font-size:.95rem}
-.serv__g{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.7rem}
+/* sju kort gir alltid en ufull siste rad — den sentreres, og bredden regnes ut så alle radene blir like brede */
+.serv__g{display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem}
+.sc{flex:0 1 calc(25% - .525rem)}
 .sc{position:relative;padding:1.7rem 1.6rem;background:var(--paper);border-radius:4px;border:1px solid var(--line);overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s}
 .sc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--petrol);transform:scaleY(0);transform-origin:bottom;transition:transform .45s var(--ease)}
 .sc:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(11,26,32,.09)}
@@ -190,6 +192,9 @@ button{background:none;border:0;cursor:pointer}
 .foot__end a{color:rgba(255,255,255,.7)}
 
 /* ---------- responsivt ---------- */
+@media (max-width:1180px){ .sc{flex-basis:calc(33.333% - .467rem)} }
+@media (max-width:860px){ .sc{flex-basis:calc(50% - .35rem)} }
+@media (max-width:560px){ .sc{flex-basis:100%} }
 @media (max-width:1000px){
   .hd nav{display:none}
   .proof{grid-template-columns:1fr 1fr}
