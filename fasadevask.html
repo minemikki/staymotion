@@ -61,20 +61,7 @@ button{background:none;border:0;cursor:pointer}
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:100svh;display:grid;align-items:end;isolation:isolate;overflow:hidden}
 .hero__bg{position:absolute;inset:0;z-index:-2;background:var(--slate)}
-.hero__bg img{transform-origin:50% 42%;animation:drift 17s ease-in-out infinite alternate;will-change:transform}
-@keyframes drift{
-  from{transform:scale(1.05) translate3d(2.2%,1.4%,0)}
-  to{transform:scale(1.22) translate3d(-2.6%,-2.2%,0)}
-}
-/* fin vanndis som driver i sprutens retning */
-.hero__mist{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.5;
-  background:radial-gradient(38% 26% at 44% 30%,rgba(255,255,255,.2),transparent 70%),
-             radial-gradient(26% 18% at 58% 20%,rgba(255,255,255,.14),transparent 72%);
-  animation:mist 6.5s ease-in-out infinite alternate;will-change:transform,opacity}
-@keyframes mist{
-  from{transform:translate3d(-6%,4%,0) scale(.92);opacity:.22}
-  to{transform:translate3d(9%,-7%,0) scale(1.3);opacity:.72}
-}
+
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,26,32,.5) 0%,rgba(11,26,32,.1) 26%,rgba(11,26,32,.3) 56%,rgba(11,26,32,.88) 100%),linear-gradient(260deg,rgba(11,26,32,.72) 0%,rgba(11,26,32,.4) 34%,transparent 62%)}
 .hero__in{padding:9rem var(--pad) clamp(2.2rem,5vw,3.4rem);color:#fff;width:100%}
 .hero__in .wrap{display:flex;justify-content:flex-end}
@@ -121,7 +108,7 @@ button{background:none;border:0;cursor:pointer}
 
 /* ---------- bevisbilde ---------- */
 .proofimg{position:relative;height:clamp(340px,52vw,660px);overflow:hidden}
-.proofimg img{object-position:50% 88%;height:124%;will-change:transform}
+.proofimg img{object-position:50% 88%}
 .proofimg figcaption{position:absolute;left:0;right:0;bottom:0;padding:5rem var(--pad) 1.6rem;color:#fff;font-size:.92rem;background:linear-gradient(to top,rgba(11,26,32,.82),transparent)}
 .proofimg figcaption b{font-weight:600}
 
@@ -143,7 +130,6 @@ button{background:none;border:0;cursor:pointer}
 /* ---------- tilbudsskjema ---------- */
 .quote{display:grid;grid-template-columns:1fr 1.05fr;background:var(--slate);color:#fff}
 .quote__img{position:relative;overflow:hidden;min-height:420px}
-.quote__img img{height:118%;will-change:transform}
 .quote__f{padding:clamp(2.6rem,5vw,4.5rem) var(--pad)}
 .quote .kick{color:#8FE0DC}
 .quote h2{margin-top:.8rem;font-size:clamp(1.8rem,3.6vw,2.9rem)}
@@ -179,7 +165,6 @@ button{background:none;border:0;cursor:pointer}
 /* ---------- næring ---------- */
 .biz{display:grid;grid-template-columns:1.1fr .9fr;align-items:stretch}
 .biz__img{position:relative;overflow:hidden;min-height:380px}
-.biz__img img{height:118%;will-change:transform}
 .biz__t{display:grid;align-content:center;gap:1rem;padding:clamp(3rem,6vw,6rem) var(--pad);background:var(--mist)}
 .biz__t h2{margin-top:.7rem;font-size:clamp(1.8rem,3.6vw,2.9rem)}
 .biz__t p{color:var(--fg2);max-width:42ch}
@@ -242,9 +227,6 @@ button{background:none;border:0;cursor:pointer}
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
   html{scroll-behavior:auto}
   .rv{opacity:1;transform:none}
-  .hero__bg img{transform:none}
-  .hero__mist{display:none}
-  .proofimg img,.quote__img img,.biz__img img{height:100%;transform:none!important}
 }
 </style>
 </head>
@@ -267,7 +249,6 @@ button{background:none;border:0;cursor:pointer}
 <main id=main>
 
 <section class=hero id=top>
-  <div class=hero__mist aria-hidden=true></div>
   <div class=hero__bg><img src="/img/fasadevask/arbeid.webp" alt="Montør fra Rogaland Fasadevask vasker en fasade med lavtrykk" width=1500 height=1125 fetchpriority=high></div>
   <div class=hero__in><div class=wrap><div class=hero__col>
     <p class=kick>Jæren · Stavanger · Rogaland</p>
@@ -515,24 +496,6 @@ function oppdater(){
 }
 ['#q-navn','#q-tlf','#q-sted','#q-fritt'].forEach(function(s){$(s).addEventListener('input',oppdater);});
 oppdater();
-
-/* --- parallakse: bildet beveger seg saktere enn siden --- */
-if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
-  var lag=[].slice.call(document.querySelectorAll('.proofimg img,.quote__img img,.biz__img img'));
-  var tikk=false;
-  var flytt=function(){
-    tikk=false;
-    var vh=innerHeight;
-    lag.forEach(function(im){
-      var r=im.parentElement.getBoundingClientRect();
-      if(r.bottom<-200||r.top>vh+200)return;
-      var p=(r.top+r.height/2-vh/2)/(vh/2+r.height/2);   // -1 over, +1 under
-      im.style.transform='translate3d(0,'+(p*-8).toFixed(2)+'%,0)';
-    });
-  };
-  addEventListener('scroll',function(){if(!tikk){tikk=true;requestAnimationFrame(flytt);}},{passive:true});
-  addEventListener('resize',flytt);flytt();
-}
 
 /* --- topp --- */
 var hd=$('#hd');
