@@ -39,14 +39,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .grain{position:fixed;inset:-50%;width:200%;height:200%;z-index:90;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-5%)}60%{transform:translate(-5%,-2%)}80%{transform:translate(4%,4%)}100%{transform:translate(0,0)}}
 
-/* cursor */
-.cur{position:fixed;z-index:120;top:0;left:0;width:10px;height:10px;border-radius:50%;background:var(--bone);pointer-events:none;mix-blend-mode:difference;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),opacity .3s;opacity:0}
-.cur.on{opacity:1}
-.cur.big{width:72px;height:72px}
-.cur.txt{width:88px;height:88px;background:var(--bone);mix-blend-mode:normal;color:var(--bg);display:grid;place-items:center;font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
-.cur span{opacity:0;transition:opacity .2s}
-.cur.txt span{opacity:1}
-@media (hover:none),(pointer:coarse){.cur{display:none}}
 
 /* preloader */
 .pre{position:fixed;inset:0;z-index:150;background:var(--bg);display:grid;place-items:center;transition:transform 1s var(--ease);will-change:transform}
@@ -178,11 +170,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .row__t{font-family:var(--serif);font-size:clamp(1.8rem,3.6vw,3.2rem);line-height:1;letter-spacing:-.02em}
 .row__d{font-size:.85rem;color:var(--mute);max-width:26ch;text-align:right}
 .row__h{font-size:.85rem;color:var(--bone2);font-variant-numeric:tabular-nums;white-space:nowrap}
-.float{position:fixed;z-index:60;top:0;left:0;width:300px;aspect-ratio:4/5;pointer-events:none;overflow:hidden;opacity:0;transform:translate(-50%,-50%) scale(.85) rotate(-3deg);transition:opacity .4s var(--ease),transform .6s var(--ease)}
-.float.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}
-.float img{position:absolute;inset:0;opacity:0;transition:opacity .4s}
-.float img.on{opacity:1}
-@media (hover:none){.float{display:none}}
 
 /* ---------- KJØKKENET ---------- */
 .chef{display:grid;grid-template-columns:1.15fr .85fr;min-height:100svh}
@@ -241,7 +228,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 <body>
 <a class=skip href="#main">Hopp til innhold</a>
 <div class=grain aria-hidden=true></div>
-<div class=cur aria-hidden=true><span>Se</span></div>
 
 <div class=pre aria-hidden=true>
   <div class=pre__n id=pren>0</div>
@@ -359,17 +345,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <p class=rv>Samme dør, samme bord — fire måter å bruke huset på.</p>
   </div>
   <ul class=rows>
-    <li><a class=row href="https://www.lepere.no/visit" target=_blank rel=noopener data-img=0><span class=row__n>01</span><span class=row__t>Lunsj</span><span class=row__d>I salen eller ute</span><span class=row__h>11.30–14.30</span></a></li>
-    <li><a class=row href="https://www.lepere.no/visit" target=_blank rel=noopener data-img=1><span class=row__n>02</span><span class=row__t>Aperitiff</span><span class=row__d>Et glass på terrassen, uten matbestilling</span><span class=row__h>Ettermiddag</span></a></li>
-    <li><a class=row href="https://www.lepere.no/visit" target=_blank rel=noopener data-img=2><span class=row__n>03</span><span class=row__t>Middag</span><span class=row__d>Klassisk fransk brasserie</span><span class=row__h>16.00–21.00</span></a></li>
-    <li><a class=row href="https://www.lepere.no/visit" target=_blank rel=noopener data-img=3><span class=row__n>04</span><span class=row__t>Siste glass</span><span class=row__d>Baren holder åpent etter kjøkkenet</span><span class=row__h>Til 22.00</span></a></li>
+    <li><a class=row href="https://www.lepere.no/visit" target=_blank rel=noopener><span class=row__n>01</span><span class=row__t>Lunsj</span><span class=row__d>I salen eller ute</span><span class=row__h>11.30–14.30</span></a></li>
+    <li><a class=row href="https://www.lepere.no/visit" target=_blank rel=noopener><span class=row__n>02</span><span class=row__t>Aperitiff</span><span class=row__d>Et glass på terrassen, uten matbestilling</span><span class=row__h>Ettermiddag</span></a></li>
+    <li><a class=row href="https://www.lepere.no/visit" target=_blank rel=noopener><span class=row__n>03</span><span class=row__t>Middag</span><span class=row__d>Klassisk fransk brasserie</span><span class=row__h>16.00–21.00</span></a></li>
+    <li><a class=row href="https://www.lepere.no/visit" target=_blank rel=noopener><span class=row__n>04</span><span class=row__t>Siste glass</span><span class=row__d>Baren holder åpent etter kjøkkenet</span><span class=row__h>Til 22.00</span></a></li>
   </ul>
-  <div class=float aria-hidden=true>
-    <img src="/img/lepere/hero-interior.webp" alt="" loading=lazy>
-    <img src="/img/lepere/terrace.webp" alt="" loading=lazy>
-    <img src="/img/lepere/dish-tartare.webp" alt="" loading=lazy>
-    <img src="/img/lepere/dish-oysters.webp" alt="" loading=lazy>
-  </div>
 </section>
 
 <section class=chef aria-label="Kjøkkenet">
@@ -455,31 +435,13 @@ addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false);});
 /* smooth scroll til ankere */
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(!t)return;e.preventDefault();t.scrollIntoView({behavior:rm?'auto':'smooth'});}));
 
-/* cursor, magnetiske knapper, hover-bilde */
-const cur=document.querySelector('.cur');
+/* magnetiske knapper */
 if(fine&&!rm){
-  let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
-  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.classList.add('on');},{passive:true});
-  document.documentElement.addEventListener('mouseleave',()=>cur.classList.remove('on'));
-  (function loop(){cx+=(mx-cx)*.22;cy+=(my-cy)*.22;cur.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
-  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('big'));el.addEventListener('mouseleave',()=>cur.classList.remove('big'));});
-  document.querySelectorAll('.card__img,.chef__img').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('txt'));el.addEventListener('mouseleave',()=>cur.classList.remove('txt'));});
-
   document.querySelectorAll('[data-mag]').forEach(b=>{
     b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();const x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;b.style.transform=`translate(${x*.25}px,${y*.35}px)`;});
     b.addEventListener('mouseleave',()=>{b.style.transition='transform .7s cubic-bezier(.22,1,.36,1)';b.style.transform='';setTimeout(()=>b.style.transition='',700);});
   });
 
-  const fl=document.querySelector('.float');
-  if(fl){
-    const imgs=[...fl.querySelectorAll('img')];let fx=0,fy=0,tx=0,ty=0;
-    document.querySelectorAll('.row').forEach(r=>{
-      r.addEventListener('mouseenter',()=>{imgs.forEach((im,i)=>im.classList.toggle('on',i==r.dataset.img));fl.classList.add('on');});
-      r.addEventListener('mouseleave',()=>fl.classList.remove('on'));
-    });
-    addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;},{passive:true});
-    (function fLoop(){fx+=(tx-fx)*.12;fy+=(ty-fy)*.12;fl.style.left=fx+'px';fl.style.top=fy+'px';requestAnimationFrame(fLoop);})();
-  }
 }
 })();
 </script>
