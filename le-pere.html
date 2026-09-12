@@ -3,7 +3,7 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name=theme-color content="#211B16">
+<meta name=theme-color content="#181210">
 <title>Le Père Brasserie — visuelt konsept</title>
 <meta name=description content="Et uforpliktende visuelt nettsidekonsept for Le Père Brasserie ved Breiavatnet i Stavanger, utviklet av StayMotion.">
 <meta name=robots content="noindex,nofollow">
@@ -12,162 +12,129 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300..600&display=swap" rel=stylesheet>
 <style>
 :root{
-  --cream:#F7F1E4;--paper:#FBF7EE;--ink:#211B16;--ink-soft:#4A4038;
-  --mustard:#C9972B;--mustard-deep:#9C7420;--sage:#5C6B52;--sage-deep:#3E4A38;
-  --line:#DCD0B8;--ash:#7A7266;
+  --ink:#181210;--ink2:#22190F;--paper:#F4EDE1;--cream:#EFE6D6;
+  --brass:#C7A15C;--brass-l:#E3C888;--brass-d:#8C6F3B;
+  --ash:#B9AE9C;--ash-d:#8A8070;--line:rgba(244,237,225,.16);--line-d:#2A2019;
   --disp:"Fraunces",Georgia,"Times New Roman",serif;
   --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
   --pad:clamp(1.4rem,5vw,6rem);--max:1560px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--cream)}
-body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip}
+html{scroll-behavior:smooth;background:var(--ink)}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip}
 a{color:inherit;text-decoration:none}
 img{display:block;width:100%}
 h1,h2,h3,h4,p{margin:0}
 button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
-::selection{background:var(--mustard);color:var(--ink)}
-:focus-visible{outline:2px solid var(--sage-deep);outline-offset:3px}
+::selection{background:var(--brass);color:var(--ink)}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
 .skip{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-.skip:focus{position:fixed;z-index:100;top:1rem;left:1rem;width:auto;height:auto;clip:auto;padding:.8rem 1rem;background:var(--ink);color:var(--cream)}
+.skip:focus{position:fixed;z-index:100;top:1rem;left:1rem;width:auto;height:auto;clip:auto;padding:.8rem 1rem;background:var(--paper);color:var(--ink)}
 
 .wrap{max-width:var(--max);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
-.sec{padding-block:clamp(4.5rem,10vw,9rem)}
-.disp{font-family:var(--disp);font-weight:400;letter-spacing:-.02em;line-height:.98}
-.lab{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--mustard-deep)}
-.lead{font-size:clamp(1.05rem,1.5vw,1.25rem);line-height:1.6;color:var(--ink-soft);max-width:52ch}
-.body{font-size:1.02rem;line-height:1.68;color:var(--ink-soft)}
+.disp{font-family:var(--disp);font-weight:400;letter-spacing:-.02em}
 
-/* ---------- knapper ---------- */
-.btn{display:inline-flex;align-items:center;gap:.8rem;min-height:52px;padding:0 1.5rem;font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:var(--sage-deep);color:var(--paper);transition:background .2s ease}
-.btn:hover{background:var(--ink)}
-.btn--ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.btn--ghost:hover{background:var(--ink);color:var(--paper)}
-.ic{width:.9em;height:.9em;flex:none}
-.tlink{display:inline-flex;align-items:center;gap:.6rem;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sage-deep);padding-bottom:.3rem;box-shadow:inset 0 -1px 0 currentColor}
-.tlink:hover{color:var(--ink)}
-
-/* ---------- topplinje ---------- */
-.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.9rem var(--pad);background:var(--cream);border-bottom:1px solid var(--line)}
-.mark{display:flex;align-items:center;gap:.6rem;flex:none}
-.mark img{width:44px;height:44px;object-fit:contain}
-.mark span{font-family:var(--disp);font-size:1.3rem;letter-spacing:-.01em}
-.top nav{display:flex;gap:clamp(1.4rem,2.4vw,2.6rem)}
-.top nav a{font-size:.76rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);transition:color .2s}
-.top nav a:hover{color:var(--ink)}
-.top-r{display:flex;align-items:center;gap:1.2rem}
-.burger{display:none;position:relative;width:40px;height:40px}
-.burger span{position:absolute;left:9px;width:22px;height:1.5px;background:var(--ink);transition:.25s}
-.burger span:nth-child(1){top:15px}
-.burger span:nth-child(2){top:20px}
-.burger span:nth-child(3){top:25px}
-.burger[aria-expanded=true] span:nth-child(1){top:20px;transform:rotate(45deg)}
+/* ---------- topp ---------- */
+.top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.1rem var(--pad);background:rgba(24,18,16,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.mark img{height:34px;width:auto;filter:invert(1) brightness(2)}
+.top-r{display:flex;align-items:center;gap:1.4rem}
+.top-r a{font-size:.78rem;font-weight:500;letter-spacing:.08em;color:var(--paper)}
+.burger{position:relative;width:34px;height:24px}
+.burger span{position:absolute;left:0;width:100%;height:1.5px;background:var(--paper)}
+.burger span:nth-child(1){top:0}
+.burger span:nth-child(2){top:11px}
+.burger span:nth-child(3){top:22px}
+.burger[aria-expanded=true] span:nth-child(1){top:11px;transform:rotate(45deg)}
 .burger[aria-expanded=true] span:nth-child(2){opacity:0}
-.burger[aria-expanded=true] span:nth-child(3){top:20px;transform:rotate(-45deg)}
-.mnav{display:none;position:fixed;z-index:19;inset:0;flex-direction:column;justify-content:center;gap:1.4rem;padding:6rem var(--pad) 3rem;background:var(--sage-deep);color:var(--paper)}
-.mnav a{font-family:var(--disp);font-size:2.2rem;color:var(--paper)}
+.burger[aria-expanded=true] span:nth-child(3){top:11px;transform:rotate(-45deg)}
+.mnav{display:none;position:fixed;z-index:19;inset:0;flex-direction:column;justify-content:center;gap:1.6rem;padding:6rem var(--pad) 3rem;background:var(--ink)}
+.mnav a{font-family:var(--disp);font-style:italic;font-size:clamp(2rem,7vw,3rem);color:var(--paper)}
 .mnav[hidden]{display:none}
 
-/* ---------- hero ---------- */
-.hero{position:relative;min-height:92svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--ink)}
+/* ---------- hero: fullskjerm, tekst skjærer inn i bildet ---------- */
+.hero{position:relative;min-height:100svh;display:grid;overflow:hidden;isolation:isolate}
 .hero__img{position:absolute;inset:0;z-index:-2}
-.hero__img img{width:100%;height:100%;object-fit:cover;object-position:38% 35%;filter:brightness(.72) saturate(1.05)}
-.hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(20,15,10,.15) 0%,rgba(20,15,10,.1) 40%,rgba(20,15,10,.62) 82%,rgba(20,15,10,.88) 100%)}
-.hero__in{width:100%;padding-block:clamp(2.5rem,7vw,5rem)}
-.hero__eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,241,228,.86)}
-.hero h1{margin-top:1rem;font-size:clamp(3.4rem,9vw,7.4rem);color:var(--paper);max-width:12ch}
-.hero__sub{margin-top:1.4rem;max-width:44ch;font-size:clamp(1rem,1.3vw,1.14rem);line-height:1.6;color:rgba(247,241,228,.9)}
-.hero__cta{display:flex;flex-wrap:wrap;align-items:center;gap:1.1rem 2rem;margin-top:2.2rem}
-.hero .btn{background:var(--mustard);color:var(--ink)}
-.hero .btn:hover{background:var(--paper)}
-.hero .tlink{color:var(--paper)}
+.hero__img img{width:100%;height:100%;object-fit:cover;object-position:60% 40%;filter:brightness(.88) saturate(1.08)}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(15,10,7,.42) 0%,rgba(15,10,7,.02) 32%,rgba(15,10,7,.1) 60%,rgba(15,10,7,.72) 100%)}
+.hero__body{align-self:end;padding:clamp(6rem,14vw,9rem) var(--pad) clamp(3rem,6vw,5rem)}
+.hero__kick{font-family:var(--disp);font-style:italic;font-size:clamp(1.1rem,2vw,1.5rem);color:var(--brass-l)}
+.hero h1{margin-top:.6rem;font-size:clamp(4.6rem,15vw,12rem);line-height:.86;max-width:16ch}
+.hero__foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.6rem 3rem;margin-top:clamp(2rem,5vw,3.5rem);padding-top:1.6rem;border-top:1px solid var(--line)}
+.hero__sub{max-width:38ch;font-size:1.02rem;line-height:1.6;color:var(--ash)}
+.hero__cta{display:flex;align-items:center;gap:1.4rem}
+.btn{display:inline-flex;align-items:center;gap:.8rem;min-height:54px;padding:0 1.6rem;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--brass);color:var(--ink)}
+.btn:hover{background:var(--brass-l)}
+.tlink{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--disp);font-style:italic;font-size:1.1rem;color:var(--paper);box-shadow:inset 0 -1px 0 currentColor;padding-bottom:.2rem}
+.ic{width:.85em;height:.85em;flex:none}
 
-/* ---------- seksjonshode ---------- */
-.shead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(1.6rem,4vw,5rem);align-items:end;padding-bottom:clamp(2.2rem,4.5vw,3.6rem)}
-.shead h2{margin-top:1rem;font-size:clamp(2.3rem,5.2vw,4.4rem)}
-
-/* ---------- 01 signaturretten ---------- */
-.sign{background:var(--cream)}
-.sign__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
-.sign__img{aspect-ratio:4/5;overflow:hidden}
+/* ---------- signatur: bilde bleeder, tekst flyter over ---------- */
+.sign{position:relative;background:var(--ink2)}
+.sign__img{aspect-ratio:16/11;overflow:hidden}
 .sign__img img{width:100%;height:100%;object-fit:cover}
-.sign__badge{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.6rem;padding:.5rem 1rem;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line);font-size:.8rem;color:var(--ink-soft)}
+.sign__txt{padding:clamp(2.6rem,6vw,5rem) var(--pad);display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:start}
+.sign__txt h2{font-size:clamp(2.6rem,6vw,5rem);line-height:.98}
+.sign__txt h2 em{color:var(--brass-l);font-style:italic}
+.sign__cred{font-size:.86rem;color:var(--ash-d);margin-top:1.4rem}
+.sign__note{font-size:1.05rem;line-height:1.7;color:var(--ash);align-self:end}
 
-/* ---------- 02 meny/konsept ---------- */
-.meny{background:var(--sage-deep);color:var(--paper)}
-.meny .lab{color:var(--mustard)}
-.meny__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.6rem,4vw,3rem);margin-top:clamp(2.4rem,5vw,4rem);border-top:1px solid rgba(247,241,228,.28)}
-.meny__i{padding:1.8rem 0 0}
-.meny__i h3{font-family:var(--disp);font-size:1.6rem}
-.meny__i p{margin-top:.7rem;font-size:.96rem;line-height:1.6;color:rgba(247,241,228,.78)}
+/* ---------- konsept: stort sitat, ingen rutenett ---------- */
+.stmt{padding:clamp(6rem,13vw,11rem) var(--pad);background:var(--ink)}
+.stmt p{font-family:var(--disp);font-weight:300;font-size:clamp(2rem,5.4vw,4.6rem);line-height:1.14;max-width:20ch;color:var(--paper)}
+.stmt p em{color:var(--brass-l);font-style:italic}
+.stmt__foot{display:flex;flex-wrap:wrap;gap:2.5rem;margin-top:clamp(2.6rem,5vw,4rem);padding-top:1.6rem;border-top:1px solid var(--line);max-width:52ch}
+.stmt__foot div b{display:block;font-family:var(--disp);font-size:1.5rem;color:var(--brass-l)}
+.stmt__foot div span{display:block;margin-top:.3rem;font-size:.86rem;color:var(--ash-d)}
 
-/* ---------- 03 rommet ---------- */
-.rom{background:var(--cream)}
-.rom__band{aspect-ratio:21/9;overflow:hidden;margin-top:clamp(2rem,4vw,3rem)}
-.rom__band img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
-.rom__note{max-width:60ch;margin-top:clamp(2rem,4vw,3rem);font-family:var(--disp);font-style:italic;font-size:clamp(1.25rem,2.2vw,1.7rem);line-height:1.35;color:var(--sage-deep)}
+/* ---------- rommet: asymmetrisk to-bilde ---------- */
+.duo{background:var(--paper);color:var(--ink)}
+.duo__grid{display:grid;grid-template-columns:1.3fr .7fr;gap:2px;background:var(--line-d)}
+.duo__a{aspect-ratio:4/3;overflow:hidden}
+.duo__b{aspect-ratio:3/4;overflow:hidden;display:flex;align-items:end}
+.duo img{width:100%;height:100%;object-fit:cover;display:block}
+.duo__cap{padding:clamp(2.4rem,5vw,4.5rem) var(--pad) clamp(3rem,6vw,5rem)}
+.duo__cap h2{font-size:clamp(2.4rem,5.6vw,4.6rem);line-height:1}
+.duo__cap p{margin-top:1.2rem;max-width:50ch;font-size:1.05rem;line-height:1.7;color:#4A4038}
 
-/* ---------- 04 terrasse ---------- */
-.ter{background:var(--paper)}
-.ter__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,5rem);align-items:center}
-.ter__img{aspect-ratio:4/5;overflow:hidden}
-.ter__img img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
-.ter__list{list-style:none;margin:1.8rem 0 0;padding:0;display:grid;gap:.5rem}
-.ter__list li{padding:.5rem 0;border-top:1px solid var(--line);font-size:1rem;color:var(--ink-soft)}
-.ter__list li:first-child{border-top:0}
-.ter__list b{color:var(--ink)}
+/* ---------- terrasse: tekst i marg, bilde full bredde ---------- */
+.wide{position:relative;background:var(--ink)}
+.wide__img{aspect-ratio:16/10;overflow:hidden}
+.wide__img img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:brightness(.82)}
+.wide__cap{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(2rem,5vw,5rem);padding:clamp(2.6rem,6vw,5rem) var(--pad)}
+.wide__cap h2{font-size:clamp(2.2rem,4.8vw,3.6rem)}
+.wide__list{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.wide__list li{display:flex;justify-content:space-between;gap:1rem;padding:1.1rem 0;border-top:1px solid var(--line);font-size:1rem;color:var(--ash)}
+.wide__list li:first-child{border-top:0}
+.wide__list b{font-family:var(--disp);font-style:italic;color:var(--paper);font-weight:400}
 
-/* ---------- 05 kjøkkenet ---------- */
-.kjok{background:var(--ink);color:var(--paper)}
-.kjok__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
-.kjok__img{aspect-ratio:3/4;overflow:hidden}
-.kjok__img img{width:100%;height:100%;object-fit:cover;filter:brightness(.92)}
-.kjok .lab{color:var(--mustard)}
-.kjok p.body{color:rgba(247,241,228,.8)}
-
-/* ---------- 06 besøk ---------- */
-.bes{background:var(--cream)}
-.bes__big{font-family:var(--disp);font-weight:300;font-size:clamp(2.2rem,5.6vw,4.4rem);letter-spacing:-.02em;line-height:1.05;color:var(--sage-deep)}
-.bes__grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin-top:clamp(2rem,4vw,3rem)}
-.bes__c{padding:1.8rem 2rem 2rem 0;border-right:1px solid var(--line)}
-.bes__c+.bes__c{padding-left:2rem}
-.bes__c:last-child{border-right:0}
-.bes__c p{margin-top:1rem;font-family:var(--disp);font-size:1.3rem;line-height:1.4}
-.bes__c .tlink{margin-top:1.2rem}
-.bes__cta{display:flex;flex-wrap:wrap;align-items:center;gap:1.1rem 2rem;margin-top:clamp(2.4rem,5vw,3.6rem)}
+/* ---------- besøk: stort, funksjonelt, ingen pynt ---------- */
+.visit{background:var(--brass);color:var(--ink);padding:clamp(4rem,9vw,7rem) var(--pad)}
+.visit__top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:1.6rem 3rem;border-bottom:1px solid rgba(24,18,16,.22);padding-bottom:clamp(2rem,4vw,3rem)}
+.visit h2{font-size:clamp(2.8rem,7vw,6rem);line-height:.94;max-width:14ch}
+.visit .btn{background:var(--ink);color:var(--paper)}
+.visit .btn:hover{background:var(--ink2)}
+.visit__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:clamp(2rem,4vw,3rem)}
+.visit__c b{display:block;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(24,18,16,.6)}
+.visit__c p{margin-top:.6rem;font-family:var(--disp);font-size:1.25rem;line-height:1.4}
+.visit__c a{box-shadow:inset 0 -1px 0 currentColor}
 
 /* ---------- footer ---------- */
-.foot{background:var(--sage-deep);color:var(--paper);padding-block:clamp(2.8rem,6vw,4.5rem)}
-.foot__in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:2rem}
-.foot__mark img{width:auto;height:72px;filter:brightness(0) invert(1)}
-.foot__note{max-width:38ch;font-size:.8rem;line-height:1.6;color:rgba(247,241,228,.68);text-align:right}
+.foot{background:var(--ink);padding:2rem var(--pad);display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-size:.78rem;color:var(--ash-d)}
 
-@media (max-width:1080px){
-  .shead{grid-template-columns:1fr}
-  .sign__grid,.ter__grid,.kjok__grid{grid-template-columns:1fr}
-  .kjok__grid{direction:ltr}
-}
-@media (max-width:820px){
-  .meny__grid{grid-template-columns:1fr}
-  .meny__i{border-top:1px solid rgba(247,241,228,.28);padding-top:1.6rem}
-  .meny__i:first-child{border-top:0}
-  .bes__grid{grid-template-columns:1fr}
-  .bes__c{padding:1.5rem 0;border-right:0;border-bottom:1px solid var(--line)}
-  .bes__c:last-child{border-bottom:0}
-  .rom__band{aspect-ratio:4/3}
+@media (max-width:980px){
+  .sign__txt{grid-template-columns:1fr}
+  .duo__grid{grid-template-columns:1fr}
+  .duo__a,.duo__b{aspect-ratio:4/3}
+  .wide__cap{grid-template-columns:1fr}
+  .visit__grid{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:720px){
-  :root{--pad:1.3rem}
-  .top nav{display:none}
-  .burger{display:block}
-  .mnav{display:flex}
-  .hero{min-height:88svh}
-  .hero__img img{object-position:32% 30%}
-  .hero h1{max-width:9ch}
-  .hero__cta .btn{width:100%;justify-content:center}
-  .foot__in{flex-direction:column;align-items:flex-start}
-  .foot__note{text-align:left}
+  :root{--pad:1.25rem}
+  .top-r a:not(.burgerwrap){display:none}
+  .hero h1{max-width:11ch}
+  .hero__foot{flex-direction:column;align-items:flex-start}
+  .stmt p{max-width:none}
+  .visit__grid{grid-template-columns:1fr}
+  .foot{flex-direction:column}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -176,157 +143,101 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 <a class=skip href="#main">Hopp til innhold</a>
 
 <div class=top>
-  <a class=mark href="#top" aria-label="Le Père Brasserie"><img src="/img/lepere/logo.webp" alt=""><span class=disp>Le Père</span></a>
-  <nav>
-    <a href="#tartare">Tartaren</a>
-    <a href="#meny">Konsept</a>
-    <a href="#rommet">Rommet</a>
-    <a href="#terrasse">Terrassen</a>
-    <a href="#besok">Besøk</a>
-  </nav>
+  <a class=mark href="#top" aria-label="Le Père Brasserie"><img src="/img/lepere/logo.webp" alt=""></a>
   <div class=top-r>
+    <a href="https://www.lepere.no/visit" target=_blank rel=noopener>Reserver bord</a>
     <button class=burger type=button id=burger aria-expanded=false aria-controls=mnav aria-label="Åpne meny"><span></span><span></span><span></span></button>
   </div>
 </div>
 <nav class=mnav id=mnav hidden>
-  <a href="#tartare">Tartaren</a>
-  <a href="#meny">Konsept</a>
+  <a href="#signatur">Tartaren</a>
+  <a href="#stemning">Stemning</a>
   <a href="#rommet">Rommet</a>
-  <a href="#terrasse">Terrassen</a>
+  <a href="#terrassen">Terrassen</a>
   <a href="#besok">Besøk</a>
 </nav>
 
 <main id=main>
 
 <section class=hero id=top>
-  <div class=hero__img><img src="/img/lepere/hero-interior.webp" alt="Interiøret hos Le Père, med messinglysekrone og salvie-grønn panel" width=1536 height=2048 fetchpriority=high></div>
-  <div class="wrap hero__in">
-    <p class=hero__eyebrow>Fransk brasserie ved Breiavatnet</p>
-    <h1 class=disp>Sett deg ned.<br><em>Vi tar oss av resten.</em></h1>
-    <p class=hero__sub>Fransk brasserie midt i Stavanger sentrum — kaffe, lunsj, aperitiff eller middag, samme sted, hele dagen.</p>
-    <div class=hero__cta>
-      <a class=btn href="https://www.lepere.no/visit" target=_blank rel=noopener><span>Reserver bord</span><svg class=ic viewBox="0 0 16 16" aria-hidden=true><path d="M4 12L12 4M6 4H12V10" fill=none stroke=currentColor stroke-width=1.4 stroke-linecap=round stroke-linejoin=round/></svg></a>
-      <a class=tlink href="#meny">Se konseptet</a>
-    </div>
-  </div>
-</section>
-
-<section class="sign sec" id=tartare>
-  <div class=wrap>
-    <div class=sign__grid>
-      <div class=sign__img><img src="/img/lepere/dish-tartare.webp" alt="Classic beef tartar hos Le Père" width=1080 height=1152 loading=lazy decoding=async></div>
-      <div>
-        <p class=lab>01 / Signaturen</p>
-        <h2 class=disp>Classic beef tartar.</h2>
-        <p class="body" style="margin-top:1.2rem">Håndskåret biff, eggeplomme, kapers, sjalottløk og syltede agurker — satt sammen akkurat sånn en tartar skal være. Den er grunnen til at folk kommer tilbake.</p>
-        <div class=sign__badge>Fra kjøkkenet til vår egen Hugo Lecreff</div>
+  <div class=hero__img><img src="/img/lepere/hero-interior.webp" alt="Spisesalen hos Le Père, med messinglysekrone" width=1536 height=2048 fetchpriority=high></div>
+  <div class=hero__body>
+    <p class="disp hero__kick">Ved Breiavatnet</p>
+    <h1 class=disp>Le Père</h1>
+    <div class=hero__foot>
+      <p class=hero__sub>Fransk brasserie i Stavanger sentrum. Kaffe om morgenen, tartar til lunsj, vin til langt på kveld — samme bord, samme dør.</p>
+      <div class=hero__cta>
+        <a class=btn href="https://www.lepere.no/visit" target=_blank rel=noopener><span>Reserver bord</span></a>
+        <a class=tlink href="#signatur">Tartaren</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="meny sec" id=meny>
-  <div class=wrap>
-    <div class=shead>
-      <div>
-        <p class=lab>02 / Konseptet</p>
-        <h2 class=disp>Fransk bistromat,<br><em>norsk tid og sted.</em></h2>
-      </div>
-      <p class=lead style="color:rgba(247,241,228,.82)">Kaffe, lunsj, snacks, drikke og middag — samme lokale, servering hele dagen. Ingen grunn til å vente på riktig anledning.</p>
+<section class=sign id=signatur>
+  <div class=sign__img><img src="/img/lepere/dish-tartare.webp" alt="Classic beef tartar hos Le Père" width=1080 height=1152 loading=lazy decoding=async></div>
+  <div class=sign__txt>
+    <div>
+      <h2 class=disp>Tartaren <em>alle spør om.</em></h2>
+      <p class=sign__cred>Håndskåret, egg, kapers, sjalottløk — fra vår egen Hugo Lecreff.</p>
     </div>
-    <div class=meny__grid>
-      <div class=meny__i><h3 class=disp>Tartar &amp; råvarer</h3><p>Håndskåret tartar, østers og andre klassikere fra det franske bistro-kjøkkenet, laget fra bunnen.</p></div>
-      <div class=meny__i><h3 class=disp>Lunsj til middag</h3><p>Lunsj 11.30–14.30, middag 16.00–21.00 — samme meny-ånd, tilpasset tiden på dagen.</p></div>
-      <div class=meny__i><h3 class=disp>Vin &amp; aperitiff</h3><p>En vinliste bygget for å følge maten, og en bar som er like naturlig klokken 15 som klokken 20.</p></div>
+    <p class=sign__note>Ikke den sikreste retten på menyen. Den mest etterspurte.</p>
+  </div>
+</section>
+
+<section class=stmt id=stemning>
+  <div class=wrap>
+    <p class=disp>Kaffe klokken ti,<br><em>vin klokken ti</em> — samme rom, ingen overgang.</p>
+    <div class=stmt__foot>
+      <div><b>11.30–22.00</b><span>Tirsdag til lørdag</span></div>
+      <div><b>Hele dagen</b><span>Kaffe, lunsj, snacks, drikke og middag</span></div>
+      <div><b>Ingen spiseplikt</b><span>På terrassen — bare bli</span></div>
     </div>
   </div>
 </section>
 
-<section class="rom sec" id=rommet>
-  <div class=wrap>
-    <div class=shead>
-      <div>
-        <p class=lab>03 / Rommet</p>
-        <h2 class=disp>Messing, salvie<br><em>og lange bord.</em></h2>
-      </div>
-      <p class=lead>Et rom bygget for lange middager — myke farger, varmt lys, og plass til å samle hele bordet.</p>
-    </div>
-    <div class=rom__band><img src="/img/lepere/hero-interior.webp" alt="Spisesalen hos Le Père" width=1536 height=2048 loading=lazy decoding=async></div>
-    <p class="disp rom__note">«Kaffe, lunsj, snacks, drikke og middag — servering hele dagen.»</p>
+<section class=duo id=rommet>
+  <div class=duo__grid>
+    <div class=duo__a><img src="/img/lepere/hero-interior.webp" alt="Spisesalen hos Le Père" width=1536 height=2048 loading=lazy decoding=async></div>
+    <div class=duo__b><img src="/img/lepere/chef.webp" alt="Kjøkkenet hos Le Père i arbeid" width=960 height=640 loading=lazy decoding=async></div>
+  </div>
+  <div class=duo__cap>
+    <h2 class=disp>Salvie, messing<br>og lange bord.</h2>
+    <p>Alt lages for hånd i det åpne kjøkkenet — samme håndverk uansett om du kommer klokken tolv eller ti om kvelden.</p>
   </div>
 </section>
 
-<section class="ter sec" id=terrasse>
-  <div class=wrap>
-    <div class=ter__grid>
-      <div class=ter__img><img src="/img/lepere/terrace.webp" alt="Terrassen hos Le Père med utsikt over Stavanger" width=1536 height=1920 loading=lazy decoding=async></div>
-      <div>
-        <p class=lab>04 / Terrassen</p>
-        <h2 class=disp>Ingen spiseplikt.<br><em>Bare bli.</em></h2>
-        <p class="body" style="margin-top:1.2rem">Sett deg med en kaffe, et glass eller et helt måltid — terrassen er like åpen for alle tre.</p>
-        <ul class=ter__list>
-          <li><b>Kaffe & snacks</b> — hele dagen, uten bestilling av mat</li>
-          <li><b>Aperitiff</b> — vin og drikke fra tidlig ettermiddag</li>
-          <li><b>Middag</b> — hele menyen, ute i kveldslyset</li>
-        </ul>
-      </div>
-    </div>
+<section class=wide id=terrassen>
+  <div class=wide__img><img src="/img/lepere/terrace.webp" alt="Terrassen hos Le Père med utsikt over Stavanger" width=1536 height=1920 loading=lazy decoding=async></div>
+  <div class=wide__cap>
+    <h2 class=disp>Terrassen<br><em style="color:var(--brass-l);font-style:italic">tar imot alle.</em></h2>
+    <ul class=wide__list>
+      <li><span>Kaffe & snacks</span><b>Hele dagen</b></li>
+      <li><span>Aperitiff</span><b>Fra tidlig ettermiddag</b></li>
+      <li><span>Middag ute</span><b>16.00–21.00</b></li>
+      <li><span>Matbestilling</span><b>Ikke påkrevd</b></li>
+    </ul>
   </div>
 </section>
 
-<section class="kjok sec" id=kjokkenet>
-  <div class=wrap>
-    <div class=kjok__grid>
-      <div class=kjok__img><img src="/img/lepere/chef.webp" alt="Kjøkkenet hos Le Père i arbeid" width=960 height=640 loading=lazy decoding=async></div>
-      <div>
-        <p class=lab>05 / Kjøkkenet</p>
-        <h2 class=disp style="color:var(--paper)">Laget for hånd,<br><em>hver dag.</em></h2>
-        <p class="body" style="margin-top:1.2rem">Alt fra tartaren til aftenens spesialiteter kommer fra det åpne kjøkkenet — samme håndverk enten du kommer til lunsj eller sen middag.</p>
-      </div>
-    </div>
+<section class=visit id=besok>
+  <div class=visit__top>
+    <h2 class=disp>Ved Breiavatnet,<br>midt i sentrum.</h2>
+    <a class=btn href="https://www.lepere.no/visit" target=_blank rel=noopener><span>Reserver bord</span></a>
   </div>
-</section>
-
-<section class="bes sec" id=besok>
-  <div class=wrap>
-    <div class=shead>
-      <div>
-        <p class=lab>06 / Besøk</p>
-        <h2 class=disp>Ved Breiavatnet.<br><em>Midt i sentrum.</em></h2>
-      </div>
-      <div></div>
-    </div>
-    <p class=bes__big>Tirsdag–lørdag 11.30–22.00</p>
-    <div class=bes__grid>
-      <div class=bes__c>
-        <p class="lab" style="color:var(--ash)">Adresse</p>
-        <p>Kongsgata 45A<br>4005 Stavanger</p>
-        <a class=tlink href="https://www.google.com/maps/search/?api=1&query=Kongsgata+45A+4005+Stavanger" target=_blank rel=noopener><span>Finn veien</span><svg class=ic viewBox="0 0 16 16" aria-hidden=true><path d="M4 12L12 4M6 4H12V10" fill=none stroke=currentColor stroke-width=1.4 stroke-linecap=round stroke-linejoin=round/></svg></a>
-      </div>
-      <div class=bes__c>
-        <p class="lab" style="color:var(--ash)">Servering</p>
-        <p>Lunsj 11.30–14.30<br>Middag 16.00–21.00</p>
-      </div>
-      <div class=bes__c>
-        <p class="lab" style="color:var(--ash)">Kontakt</p>
-        <p><a href="tel:+4797253559">972 53 559</a><br><a href="mailto:kontakt@lepere.no">kontakt@lepere.no</a></p>
-        <a class=tlink href="https://www.instagram.com/leperebrasserie/" target=_blank rel=noopener><span>Instagram</span><svg class=ic viewBox="0 0 16 16" aria-hidden=true><path d="M4 12L12 4M6 4H12V10" fill=none stroke=currentColor stroke-width=1.4 stroke-linecap=round stroke-linejoin=round/></svg></a>
-      </div>
-    </div>
-    <div class=bes__cta>
-      <a class="btn" style="background:var(--sage-deep);color:var(--paper)" href="https://www.lepere.no/visit" target=_blank rel=noopener><span>Reserver bord</span><svg class=ic viewBox="0 0 16 16" aria-hidden=true><path d="M4 12L12 4M6 4H12V10" fill=none stroke=currentColor stroke-width=1.4 stroke-linecap=round stroke-linejoin=round/></svg></a>
-      <span class=body>Ingen krav om matbestilling på terrassen — bare slå deg ned.</span>
-    </div>
+  <div class=visit__grid>
+    <div class=visit__c><b>Adresse</b><p>Kongsgata 45A<br>4005 Stavanger</p><a class=tlink style="color:inherit;font-family:inherit;font-style:normal;font-size:.9rem" href="https://www.google.com/maps/search/?api=1&query=Kongsgata+45A+4005+Stavanger" target=_blank rel=noopener>Finn veien →</a></div>
+    <div class=visit__c><b>Lunsj</b><p>Tir–lør<br>11.30–14.30</p></div>
+    <div class=visit__c><b>Middag</b><p>Tir–lør<br>16.00–21.00</p></div>
+    <div class=visit__c><b>Kontakt</b><p><a href="tel:+4797253559">972 53 559</a><br><a href="mailto:kontakt@lepere.no">kontakt@lepere.no</a></p></div>
   </div>
 </section>
 
 </main>
 
 <footer class=foot>
-  <div class="wrap foot__in">
-    <span class=foot__mark><img src="/img/lepere/logo.webp" alt="Le Père Brasserie" width=72 height=72></span>
-    <p class=foot__note>Uforpliktende visuelt konsept utviklet av StayMotion. Ekte adresse, bilder og fakta — ikke Le Père sin faktiske nettside.</p>
-  </div>
+  <span>Le Père Brasserie · Kongsgata 45A, Stavanger</span>
+  <span>Uforpliktende visuelt konsept av StayMotion — ikke Le Père sin faktiske nettside.</span>
 </footer>
 
 <script>
