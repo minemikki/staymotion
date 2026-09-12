@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang=no>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name=theme-color content="#0B1A20">
+<title>Rogaland Fasadevask — visuelt konsept</title>
+<meta name=description content="Et uforpliktende visuelt nettsidekonsept for Rogaland Fasadevask AS på Ålgård, utviklet av StayMotion.">
+<meta name=robots content="noindex,nofollow">
+<link rel=preconnect href="https://fonts.googleapis.com">
+<link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400;75..125,500;75..125,600;75..125,700&display=swap" rel=stylesheet>
+<style>
+:root{
+  /* petrol er hentet rett ut av logoen deres */
+  --petrol:#078483;--petrol-d:#05605F;--petrol-l:#1FA9A6;
+  --slate:#0B1A20;--slate-2:#12262E;
+  --paper:#FFFFFF;--mist:#F1F5F5;--mist-2:#E3EBEB;
+  --fg:#0B1A20;--fg2:#3F5259;--mute:#71858C;
+  --line:rgba(11,26,32,.13);--line-l:rgba(255,255,255,.2);
+  --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --pad:clamp(1.15rem,4.5vw,5rem);--max:1500px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html{background:var(--paper);color-scheme:light;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--fg);font-family:var(--sans);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit;text-decoration:none}
+img{display:block;width:100%;height:100%;object-fit:cover}
+h1,h2,h3,p,ul,figure{margin:0}ul{padding:0;list-style:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+::selection{background:var(--petrol);color:#fff}
+:focus-visible{outline:2px solid var(--petrol);outline-offset:2px}
+.skip{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.skip:focus{position:fixed;z-index:200;top:1rem;left:1rem;width:auto;height:auto;clip:auto;padding:.8rem 1rem;background:var(--slate);color:#fff}
+.wrap{max-width:var(--max);margin:0 auto}
+.disp{font-stretch:112%;font-weight:600;letter-spacing:-.03em;line-height:1.02}
+.kick{font-size:.7rem;font-weight:600;font-stretch:112%;letter-spacing:.2em;text-transform:uppercase;color:var(--petrol)}
+
+/* ---------- topp ---------- */
+.hd{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem var(--pad);transition:background .4s var(--ease),box-shadow .4s}
+.hd.on{background:rgba(255,255,255,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+.hd__l img{height:46px;width:auto;object-fit:contain;transition:filter .4s}
+.hd:not(.on) .hd__l img{filter:brightness(0) invert(1) drop-shadow(0 2px 10px rgba(0,0,0,.55))}
+.hd nav{display:flex;gap:1.9rem;font-size:.86rem;font-weight:500}
+.hd nav a{position:relative;padding:.25rem 0;color:#fff;transition:color .4s}
+.hd.on nav a{color:var(--fg)}
+.hd nav a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--petrol);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
+.hd nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.hd__tel{display:inline-flex;align-items:center;gap:.55rem;font-weight:600;font-size:.92rem;color:#fff;transition:color .4s;white-space:nowrap}
+.hd.on .hd__tel{color:var(--fg)}
+.hd__tel svg{width:16px;height:16px;flex:none;color:var(--petrol)}
+
+/* ---------- knapper ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.05rem 1.9rem;border-radius:3px;font-size:.82rem;font-weight:600;font-stretch:110%;letter-spacing:.09em;text-transform:uppercase;background:var(--petrol);color:#fff;border:2px solid var(--petrol);transition:background .3s,border-color .3s,transform .3s var(--ease)}
+.btn:hover{background:var(--petrol-d);border-color:var(--petrol-d);transform:translateY(-2px)}
+.btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
+.btn--ghost:hover{background:#fff;border-color:#fff;color:var(--slate)}
+.btn--dark{background:var(--slate);border-color:var(--slate)}
+.btn--dark:hover{background:#000;border-color:#000}
+.btn svg{width:16px;height:16px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;isolation:isolate;overflow:hidden}
+.hero__bg{position:absolute;inset:0;z-index:-2;background:var(--slate)}
+.hero__bg img{transform:scale(1.06);transform-origin:50% 30%;animation:kb 18s var(--ease) forwards}
+@keyframes kb{to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,26,32,.66) 0%,rgba(11,26,32,.14) 30%,rgba(11,26,32,.42) 58%,rgba(11,26,32,.93) 100%),linear-gradient(100deg,rgba(11,26,32,.58) 0%,rgba(11,26,32,.22) 42%,transparent 68%)}
+.hero__in{padding:9rem var(--pad) clamp(2.2rem,5vw,3.4rem);color:#fff;width:100%}
+.hero .kick{color:#8FE0DC}
+.hero h1{margin-top:.9rem;font-size:clamp(2.5rem,6.4vw,5.6rem);max-width:17ch}
+.hero__p{margin-top:1.2rem;max-width:46ch;font-size:clamp(1rem,1.3vw,1.18rem);color:rgba(255,255,255,.86)}
+.hero__cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.9rem}
+.hero__stars{display:flex;align-items:center;gap:.75rem;margin-top:2.2rem;padding-top:1.5rem;border-top:1px solid var(--line-l);font-size:.92rem;color:rgba(255,255,255,.9)}
+.hero__stars b{font-weight:700;font-stretch:112%}
+.stars{display:inline-flex;gap:2px;color:#FFC531}
+.stars svg{width:15px;height:15px}
+
+/* ---------- beviser ---------- */
+.proof{display:grid;grid-template-columns:repeat(4,1fr);background:var(--slate);color:#fff}
+.proof div{padding:clamp(1.6rem,3vw,2.4rem) clamp(1rem,2vw,1.8rem);border-left:1px solid rgba(255,255,255,.12)}
+.proof div:first-child{border-left:0}
+.proof b{display:block;font-size:clamp(1.5rem,2.6vw,2.2rem);font-weight:700;font-stretch:112%;letter-spacing:-.03em;line-height:1}
+.proof span{display:block;margin-top:.4rem;font-size:.82rem;color:rgba(255,255,255,.66)}
+
+/* ---------- avsløringer ---------- */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv[data-d="1"]{transition-delay:.08s}.rv[data-d="2"]{transition-delay:.16s}.rv[data-d="3"]{transition-delay:.24s}
+
+/* ---------- softwash ---------- */
+.method{padding:clamp(4.5rem,9vw,8rem) var(--pad)}
+.method__h{max-width:44rem;margin-bottom:clamp(2.4rem,5vw,4rem)}
+.method__h h2{margin-top:.8rem;font-size:clamp(1.9rem,4.4vw,3.4rem)}
+.method__h p{margin-top:1.1rem;color:var(--fg2);max-width:52ch}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.8rem,2vw,1.4rem)}
+.vs__c{padding:clamp(1.6rem,3vw,2.4rem);border-radius:4px;border:1px solid var(--line)}
+.vs__c--good{background:var(--petrol);border-color:var(--petrol);color:#fff}
+.vs__c--bad{background:var(--mist)}
+.vs__c h3{font-size:1.18rem;font-weight:600;font-stretch:110%;letter-spacing:-.01em}
+.vs__c .tag{display:inline-block;margin-bottom:.9rem;padding:.32rem .7rem;border-radius:2px;font-size:.66rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.vs__c--good .tag{background:rgba(255,255,255,.2)}
+.vs__c--bad .tag{background:var(--mist-2);color:var(--fg2)}
+.vs__c ul{margin-top:1.2rem;display:grid;gap:.7rem}
+.vs__c li{display:flex;gap:.7rem;font-size:.96rem;line-height:1.5}
+.vs__c li svg{width:17px;height:17px;flex:none;margin-top:.25rem}
+.vs__c--good li{color:rgba(255,255,255,.94)}
+.vs__c--bad li{color:var(--fg2)}
+
+/* ---------- bevisbilde ---------- */
+.proofimg{position:relative;height:clamp(340px,52vw,660px);overflow:hidden}
+.proofimg img{object-position:50% 88%}
+.proofimg figcaption{position:absolute;left:0;right:0;bottom:0;padding:5rem var(--pad) 1.6rem;color:#fff;font-size:.92rem;background:linear-gradient(to top,rgba(11,26,32,.82),transparent)}
+.proofimg figcaption b{font-weight:600}
+
+/* ---------- tjenester ---------- */
+.serv{padding:clamp(4.5rem,9vw,8rem) var(--pad);background:var(--mist)}
+.serv__h{display:grid;grid-template-columns:1fr auto;gap:1.4rem;align-items:end;margin-bottom:2.4rem}
+.serv__h h2{margin-top:.8rem;font-size:clamp(1.9rem,4.4vw,3.4rem)}
+.serv__h p{color:var(--fg2);max-width:34ch;font-size:.95rem}
+.serv__g{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.7rem}
+.sc{position:relative;padding:1.7rem 1.6rem;background:var(--paper);border-radius:4px;border:1px solid var(--line);overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s}
+.sc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--petrol);transform:scaleY(0);transform-origin:bottom;transition:transform .45s var(--ease)}
+.sc:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(11,26,32,.09)}
+.sc:hover::before{transform:scaleY(1)}
+.sc h3{font-size:1.1rem;font-weight:600;font-stretch:110%;letter-spacing:-.01em}
+.sc p{margin-top:.6rem;font-size:.93rem;color:var(--fg2);line-height:1.55}
+
+/* ---------- tilbudsskjema ---------- */
+.quote{display:grid;grid-template-columns:1fr 1.05fr;background:var(--slate);color:#fff}
+.quote__img{position:relative;overflow:hidden;min-height:420px}
+.quote__f{padding:clamp(2.6rem,5vw,4.5rem) var(--pad)}
+.quote .kick{color:#8FE0DC}
+.quote h2{margin-top:.8rem;font-size:clamp(1.8rem,3.6vw,2.9rem)}
+.quote__lead{margin-top:.9rem;color:rgba(255,255,255,.74);max-width:44ch;font-size:.98rem}
+.q{margin-top:2rem;display:grid;gap:1.5rem}
+.q__l{display:block;font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#8FE0DC;margin-bottom:.75rem}
+.q__opts{display:flex;flex-wrap:wrap;gap:.45rem}
+.q__opts button{padding:.7rem 1.1rem;border:1px solid rgba(255,255,255,.28);border-radius:3px;font-size:.9rem;color:rgba(255,255,255,.82);transition:.3s var(--ease)}
+.q__opts button:hover{border-color:#fff;color:#fff}
+.q__opts button[aria-pressed=true]{background:var(--petrol);border-color:var(--petrol);color:#fff;font-weight:500}
+.q input,.q textarea{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);border-radius:3px;color:#fff;font-size:.98rem}
+.q input::placeholder,.q textarea::placeholder{color:rgba(255,255,255,.42)}
+.q textarea{min-height:88px;resize:vertical}
+.q__row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.q__send{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
+.q__note{margin-top:.2rem;font-size:.8rem;color:rgba(255,255,255,.5);max-width:46ch}
+
+/* ---------- anmeldelser ---------- */
+.rev{padding:clamp(4.5rem,9vw,8rem) var(--pad)}
+.rev__h{display:flex;flex-wrap:wrap;gap:1.5rem 2.5rem;align-items:end;justify-content:space-between;margin-bottom:2.6rem}
+.rev__h h2{margin-top:.8rem;font-size:clamp(1.9rem,4.4vw,3.4rem)}
+.rev__score{display:flex;align-items:center;gap:1rem;padding:1rem 1.4rem;border:1px solid var(--line);border-radius:4px}
+.rev__score b{font-size:2.4rem;font-weight:700;font-stretch:112%;letter-spacing:-.04em;line-height:1}
+.rev__score span{display:block;font-size:.82rem;color:var(--mute);margin-top:.3rem}
+.rev__g{columns:3;column-gap:.8rem}
+.rc{break-inside:avoid;margin-bottom:.8rem;padding:1.5rem 1.5rem 1.3rem;border:1px solid var(--line);border-radius:4px;background:var(--paper)}
+.rc p{font-size:.95rem;line-height:1.6;color:var(--fg2)}
+.rc footer{margin-top:1rem;padding-top:.9rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:.8rem;align-items:baseline}
+.rc b{font-size:.9rem;font-weight:600}
+.rc time{font-size:.78rem;color:var(--mute)}
+.rc .stars{margin-bottom:.8rem}
+
+/* ---------- næring ---------- */
+.biz{display:grid;grid-template-columns:1.1fr .9fr;align-items:stretch}
+.biz__img{position:relative;overflow:hidden;min-height:380px}
+.biz__t{display:grid;align-content:center;gap:1rem;padding:clamp(3rem,6vw,6rem) var(--pad);background:var(--mist)}
+.biz__t h2{margin-top:.7rem;font-size:clamp(1.8rem,3.6vw,2.9rem)}
+.biz__t p{color:var(--fg2);max-width:42ch}
+.biz__l{margin-top:.6rem;display:grid;gap:0}
+.biz__l div{display:flex;gap:.8rem;padding:.85rem 0;border-top:1px solid var(--line);font-size:.95rem}
+.biz__l div:last-child{border-bottom:1px solid var(--line)}
+.biz__l svg{width:17px;height:17px;flex:none;margin-top:.25rem;color:var(--petrol)}
+.biz__badge{margin-top:1.6rem;display:flex;align-items:center;gap:1rem}
+.biz__badge img{width:120px;height:auto;object-fit:contain}
+.biz__badge span{font-size:.84rem;color:var(--mute);max-width:24ch}
+
+/* ---------- kontakt ---------- */
+.foot{padding:clamp(3.5rem,7vw,6rem) var(--pad) 2rem;background:var(--slate);color:#fff}
+.foot h2{font-size:clamp(1.9rem,5vw,4rem);max-width:16ch}
+.foot__g{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:clamp(2.4rem,5vw,4rem);padding-top:2.2rem;border-top:1px solid var(--line-l)}
+.foot__g b{display:block;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#8FE0DC;margin-bottom:.9rem;font-weight:600}
+.foot__g p{font-size:1rem;color:rgba(255,255,255,.84);line-height:1.65}
+.foot__g a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.foot__cta{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:.7rem}
+.foot__end{margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--line-l);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.7rem 2rem;font-size:.76rem;color:rgba(255,255,255,.48)}
+.foot__end a{color:rgba(255,255,255,.7)}
+
+/* ---------- responsivt ---------- */
+@media (max-width:1000px){
+  .hd nav{display:none}
+  .proof{grid-template-columns:1fr 1fr}
+  .proof div:nth-child(3){border-left:0}
+  .proof div:nth-child(n+3){border-top:1px solid rgba(255,255,255,.12)}
+  .vs{grid-template-columns:1fr}
+  .quote{grid-template-columns:1fr}
+  .quote__img{min-height:260px;order:-1}
+  .biz{grid-template-columns:1fr}
+  .biz__img{min-height:280px}
+  .rev__g{columns:2}
+  .foot__g{grid-template-columns:1fr 1fr}
+  .serv__h{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .proof{grid-template-columns:1fr 1fr}
+  .rev__g{columns:1}
+  .foot__g{grid-template-columns:1fr}
+  .q__row{grid-template-columns:1fr}
+  .hero__in{padding-top:7.5rem}
+  .btn{width:100%}
+  .hero__cta .btn{width:auto;flex:1 1 auto}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+  .hero__bg img{transform:none}
+}
+</style>
+</head>
+<body>
+<a class=skip href="#main">Hopp til innhold</a>
+
+<header class=hd id=hd>
+  <a class=hd__l href="#top" aria-label="Rogaland Fasadevask"><img src="/img/fasadevask/logo.png" alt="Rogaland Fasadevask" width=450 height=204></a>
+  <nav aria-label="Hovedmeny">
+    <a href="#metode">Softwash</a>
+    <a href="#tjenester">Tjenester</a>
+    <a href="#anmeldelser">Anmeldelser</a>
+    <a href="#naering">Næring</a>
+  </nav>
+  <a class=hd__tel href="tel:+4797336311">
+    <svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"/></svg>
+    973 36 311</a>
+</header>
+
+<main id=main>
+
+<section class=hero id=top>
+  <div class=hero__bg><img src="/img/fasadevask/hero.webp" alt="Lavtrykksvask av husfasade mot blå himmel" width=1800 height=1350 fetchpriority=high></div>
+  <div class=hero__in><div class=wrap>
+    <p class=kick>Jæren · Stavanger · Rogaland</p>
+    <h1 class=disp>Huset ditt er verdt millioner. Det tåler ikke høytrykk.</h1>
+    <p class=hero__p>Vi vasker fasader, tak og uteområder skånsomt med Softwash — lavt trykk og riktig såpe, som fjerner grønske og svertesopp uten å ødelegge kledningen.</p>
+    <div class=hero__cta>
+      <a class=btn href="#tilbud">Få tilbud <svg viewBox="0 0 16 16" fill=none stroke=currentColor stroke-width=2><path d="M2 8h12M9 3l5 5-5 5"/></svg></a>
+      <a class="btn btn--ghost" href="tel:+4797336311">Ring 973 36 311</a>
+    </div>
+    <p class=hero__stars>
+      <span class=stars aria-hidden=true>
+        <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+        <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+        <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+        <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+        <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+      </span>
+      <b>5,0</b> av 138 anmeldelser på Google
+    </p>
+  </div></div>
+</section>
+
+<section class=proof aria-label="Kort fortalt">
+  <div><b>5,0</b><span>Snitt på 138 Google-anmeldelser</span></div>
+  <div><b>Softwash</b><span>Lavtrykk som ikke skader kledningen</span></div>
+  <div><b>StartBANK</b><span>Registrert leverandør via Achilles</span></div>
+  <div><b>Man–lør</b><span>08–20 hverdager, 09–17 lørdag</span></div>
+</section>
+
+<section class=method id=metode>
+  <div class=wrap>
+    <div class="method__h rv">
+      <p class=kick>Metoden</p>
+      <h2 class=disp>Forskjellen på å vaske huset og å slite det ned.</h2>
+      <p>De fleste tror fasadevask betyr høytrykk. Det er den raske måten — og den som presser vann inn i kledningen, river opp treverk og sliter på malingen. Vi gjør det motsatte.</p>
+    </div>
+    <div class=vs>
+      <div class="vs__c vs__c--good rv">
+        <span class=tag>Slik vi gjør det</span>
+        <h3>Softwash — lavt trykk, riktig kjemi</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2.4 stroke-linecap=round><path d="M20 6L9 17l-5-5"/></svg><span>Vann påføres med lavt trykk, så kledningen tar ikke skade</span></li>
+          <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2.4 stroke-linecap=round><path d="M20 6L9 17l-5-5"/></svg><span>Såpen løser grønske og svertesopp, og forebygger ny tilvekst</span></li>
+          <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2.4 stroke-linecap=round><path d="M20 6L9 17l-5-5"/></svg><span>Fungerer på vegger og tak — også der høytrykk er utelukket</span></li>
+          <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2.4 stroke-linecap=round><path d="M20 6L9 17l-5-5"/></svg><span>Du utsetter malejobben, og huset holder lenger</span></li>
+        </ul>
+      </div>
+      <div class="vs__c vs__c--bad rv" data-d=1>
+        <span class=tag>Det vanlige alternativet</span>
+        <h3>Høytrykk — raskt, men hardt</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2.4 stroke-linecap=round><path d="M18 6L6 18M6 6l12 12"/></svg><span>Presser vann inn bak kledningen</span></li>
+          <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2.4 stroke-linecap=round><path d="M18 6L6 18M6 6l12 12"/></svg><span>River opp trefiber og sliter på malingen</span></li>
+          <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2.4 stroke-linecap=round><path d="M18 6L6 18M6 6l12 12"/></svg><span>Tar bort overflaten, men ikke soppen som sitter i den</span></li>
+          <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2.4 stroke-linecap=round><path d="M18 6L6 18M6 6l12 12"/></svg><span>Grønsken er tilbake raskere enn du tror</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<figure class=proofimg>
+  <img src="/img/fasadevask/terrasse.webp" alt="Terrasse som vaskes med lavtrykkslanse" width=1600 height=1200 loading=lazy decoding=async>
+  <figcaption><div class=wrap><b>Terrassevask.</b> Lavt trykk og riktig såpe — samme metode som på fasaden, uten å flise opp treverket.</div></figcaption>
+</figure>
+
+<section class=serv id=tjenester>
+  <div class=wrap>
+    <div class=serv__h>
+      <div class=rv>
+        <p class=kick>Tjenester</p>
+        <h2 class=disp>Vi vasker det utvendige.</h2>
+      </div>
+      <p class="rv" data-d=1>Privat, borettslag og næring — på Jæren, i Stavanger og ellers i Rogaland.</p>
+    </div>
+    <div class="serv__g rv" data-d=1>
+      <article class=sc><h3>Fasadevask</h3><p>Vi vasker husets overflater skånsomt med Softwash-metoden. Det skader ikke kledningen, slik som høytrykksspyling.</p></article>
+      <article class=sc><h3>Husvask før maling</h3><p>Skal huset males? Vi vasker veggene med lavtrykk og en såpe som fjerner grønske og svertesopp, og som forebygger ny tilvekst.</p></article>
+      <article class=sc><h3>Terrassevask</h3><p>Med profesjonelt utstyr renser vi vekk grønske og skitt fra terrasser og lignende overflater.</p></article>
+      <article class=sc><h3>Gårdsrom og belegningsstein</h3><p>Har belegningssteinen blitt stygg av mose og grønske? Vi fjerner det for deg med våre maskiner.</p></article>
+      <article class=sc><h3>Salgsforberedelse</h3><p>Skal du selge huset? Da er det viktig å rengjøre utsiden på samme måte som inne, før fotografering.</p></article>
+      <article class=sc><h3>Borettslag og sameie</h3><p>En grundig fasadevask forbedrer bygningens utseende, beskytter fasadene mot skader, og gir et trivelig bomiljø for alle beboerne.</p></article>
+      <article class=sc><h3>Næringsbygg</h3><p>Vi tilpasser våre tjenester for å møte spesifikke behov og ønsker, slik at du får den beste løsningen for ditt næringsbygg.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class=quote id=tilbud>
+  <figure class=quote__img><img src="/img/fasadevask/arbeid.webp" alt="Montør fra Rogaland Fasadevask vasker en fasade" width=1500 height=1125 loading=lazy decoding=async></figure>
+  <div class=quote__f>
+    <p class=kick>Få tilbud</p>
+    <h2 class=disp>Fortell hva som skal vaskes.</h2>
+    <p class=quote__lead>Tre valg og et par felter, så er forespørselen ferdig skrevet. Du sender den fra din egen e-post — vi svarer med pris.</p>
+    <form class=q id=qf>
+      <div>
+        <span class=q__l id=l1>1 — Hva skal vaskes?</span>
+        <div class=q__opts id=hva role=group aria-labelledby=l1></div>
+      </div>
+      <div>
+        <span class=q__l id=l2>2 — Hva slags bygg?</span>
+        <div class=q__opts id=bygg role=group aria-labelledby=l2></div>
+      </div>
+      <div>
+        <span class=q__l>3 — Hvor og hvem</span>
+        <div class=q__row>
+          <input id=q-navn type=text placeholder="Navn" autocomplete=name>
+          <input id=q-tlf type=tel placeholder="Telefon" autocomplete=tel>
+        </div>
+        <div style="margin-top:.7rem"><input id=q-sted type=text placeholder="Adresse eller sted" autocomplete="address-level2"></div>
+        <div style="margin-top:.7rem"><textarea id=q-fritt placeholder="Noe mer vi bør vite? Størrelse, tilkomst, når det passer…"></textarea></div>
+      </div>
+      <div class=q__send>
+        <a class=btn id=q-send href="mailto:post@rogfas.no">Send forespørsel <svg viewBox="0 0 16 16" fill=none stroke=currentColor stroke-width=2><path d="M2 8h12M9 3l5 5-5 5"/></svg></a>
+        <a class="btn btn--ghost" href="tel:+4797336311">Ring i stedet</a>
+      </div>
+      <p class=q__note>Skjemaet åpner e-postprogrammet ditt med teksten ferdig utfylt til post@rogfas.no. Ingenting sendes uten at du trykker send selv.</p>
+    </form>
+  </div>
+</section>
+
+<section class=rev id=anmeldelser>
+  <div class=wrap>
+    <div class=rev__h>
+      <div class=rv>
+        <p class=kick>Anmeldelser</p>
+        <h2 class=disp>138 kunder i Rogaland.<br>Ikke én under fem.</h2>
+      </div>
+      <div class="rev__score rv" data-d=1>
+        <div><b>5,0</b><span>138 anmeldelser</span></div>
+        <span class=stars aria-label="5 av 5 stjerner">
+          <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+          <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+          <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+          <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+          <svg viewBox="0 0 24 24" fill=currentColor><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>
+        </span>
+      </div>
+    </div>
+    <div class="rev__g rv" data-d=1 id=revs></div>
+  </div>
+</section>
+
+<section class=biz id=naering>
+  <figure class=biz__img><img src="/img/fasadevask/naering.webp" alt="Næringsbygg vasket av Rogaland Fasadevask" width=1600 height=1200 loading=lazy decoding=async></figure>
+  <div class=biz__t>
+    <p class="kick rv">Næring, borettslag og offentlig</p>
+    <h2 class="disp rv" data-d=1>Fasaden er førsteinntrykket av virksomheten.</h2>
+    <p class="rv" data-d=1>For næringsbygg er fasaden ofte det første kunden ser. Regelmessig vask beskytter samtidig overflatene mot skader og unødvendig slitasje.</p>
+    <div class="biz__l rv" data-d=2>
+      <div><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round><path d="M20 6L9 17l-5-5"/></svg><span>Lift og profesjonelt utstyr for høye fasader</span></div>
+      <div><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round><path d="M20 6L9 17l-5-5"/></svg><span>Faste avtaler for borettslag og sameier</span></div>
+      <div><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round><path d="M20 6L9 17l-5-5"/></svg><span>Tilpasset løsning etter bygg og behov</span></div>
+    </div>
+    <div class="biz__badge rv" data-d=2>
+      <img src="/img/fasadevask/startbank.png" alt="Achilles StartBANK registrert" width=1000 height=576>
+      <span>Registrert leverandør i StartBANK via Achilles.</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class=foot id=kontakt>
+  <div class=wrap>
+    <h2 class=disp>Vi gjør Rogaland renere.</h2>
+    <div class=foot__cta>
+      <a class=btn href="tel:+4797336311">Ring 973 36 311</a>
+      <a class="btn btn--ghost" href="#tilbud">Få tilbud</a>
+    </div>
+    <div class=foot__g>
+      <div><b>Telefon</b><p><a href="tel:+4797336311">973 36 311</a></p></div>
+      <div><b>E-post</b><p><a href="mailto:post@rogfas.no">post@rogfas.no</a></p></div>
+      <div><b>Adresse</b><p>Edlandsgeilane 7<br>4330 Ålgård<br><a href="https://www.google.com/maps/search/?api=1&query=Edlandsgeilane+7+4330+Ålgård" target=_blank rel=noopener>Finn veien ↗</a></p></div>
+      <div><b>Åpningstider</b><p>Man–fre 08.00–20.00<br>Lør 09.00–17.00</p></div>
+    </div>
+    <div class=foot__end>
+      <span>© Rogaland Fasadevask AS · Edlandsgeilane 7, 4330 Ålgård</span>
+      <span>Uforpliktende visuelt konsept av <a href="https://staymotion.no" target=_blank rel=noopener>StayMotion</a> — ikke Rogaland Fasadevask sin faktiske nettside.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(()=>{
+"use strict";
+var $=function(s){return document.querySelector(s);};
+var esc=function(s){return String(s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});};
+
+/* anmeldelsene er hentet ordrett fra Google-profilen deres */
+var REVS=[
+ ['Veldig profesjonelt firma! Det oppstod noen uforutsette utfordringer underveis i oppdraget, men firmaet og medarbeideren som var på jobb håndterte situasjonen på en svært profesjonell, ryddig og løsningsorientert måte. Det er betryggende å oppleve en entreprenør som beholder roen og håndterer utfordringer på strak arm. Anbefales på det varmeste!','Linn Dirdal','for 24 døgn siden'],
+ ['Rask respons på henvendelse. Jobben ble gjort til avtalt tid og til avtalt pris. Proft utstyr og gjennomføring. Resultatet ble meget bra og sparte meg for mye arbeid ifm forberedelse til husmaling.','Jarle Øversveen',''],
+ ['God service, raskt svar og flinke folk! Huset ble skinnende rent. Anbefales!','Anette Sleveland',''],
+ ['Det er nok med ett ord: Fantastisk!','Steinar Dalva',''],
+ ['Veldig fornøyd og veldig god service.','Kathrin Reuner','for 1 måned siden'],
+ ['Gode folk og god service. Anbefales.','Viggo Austbo','for 2 måneder siden'],
+ ['Veldig fornøyd med resultatet, anbefales!','Bree T',''],
+ ['Veldig fornøyd. Og god informasjon av hun som jobbet hos oss.','Bente Oftedal','']
+];
+var STAR='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>';
+$('#revs').innerHTML=REVS.map(function(r){
+  return '<article class=rc><span class=stars aria-label="5 av 5">'+STAR.repeat(5)+'</span>'+
+    '<p>'+esc(r[0])+'</p><footer><b>'+esc(r[1])+'</b>'+(r[2]?'<time>'+esc(r[2])+'</time>':'')+'</footer></article>';
+}).join('');
+
+/* --- tilbudsskjema: bygger en ferdig e-post, sender ingenting selv --- */
+var HVA=['Husfasade','Tak','Terrasse','Gårdsrom / belegningsstein','Vet ikke helt'];
+var BYGG=['Enebolig','Rekkehus / tomannsbolig','Borettslag / sameie','Næringsbygg'];
+var valg={hva:[],bygg:''};
+function knapper(el,liste,flere,felt){
+  el.innerHTML=liste.map(function(t,i){return '<button type=button data-v="'+esc(t)+'" aria-pressed=false>'+esc(t)+'</button>';}).join('');
+  el.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return;
+    var v=b.dataset.v;
+    if(flere){
+      var i=valg[felt].indexOf(v);
+      if(i<0)valg[felt].push(v); else valg[felt].splice(i,1);
+      b.setAttribute('aria-pressed',String(i<0));
+    }else{
+      valg[felt]=(valg[felt]===v)?'':v;
+      [].forEach.call(el.children,function(c){c.setAttribute('aria-pressed',String(c.dataset.v===valg[felt]));});
+    }
+    oppdater();
+  });
+}
+knapper($('#hva'),HVA,true,'hva');
+knapper($('#bygg'),BYGG,false,'bygg');
+
+function oppdater(){
+  var navn=$('#q-navn').value.trim(), tlf=$('#q-tlf').value.trim(),
+      sted=$('#q-sted').value.trim(), fritt=$('#q-fritt').value.trim();
+  var l=[];
+  l.push('Hei Rogaland Fasadevask,');
+  l.push('');
+  l.push('Jeg ønsker tilbud på vask' + (valg.hva.length?' av: '+valg.hva.join(', '):'') + '.');
+  if(valg.bygg) l.push('Type bygg: '+valg.bygg+'.');
+  if(sted) l.push('Sted: '+sted+'.');
+  if(fritt){ l.push(''); l.push(fritt); }
+  l.push('');
+  l.push('Mvh');
+  if(navn) l.push(navn);
+  if(tlf) l.push('Tlf: '+tlf);
+  var emne='Forespørsel om tilbud'+(valg.hva.length?' — '+valg.hva.join(', '):'')+(sted?' ('+sted+')':'');
+  $('#q-send').href='mailto:post@rogfas.no?subject='+encodeURIComponent(emne)+'&body='+encodeURIComponent(l.join('\n'));
+}
+['#q-navn','#q-tlf','#q-sted','#q-fritt'].forEach(function(s){$(s).addEventListener('input',oppdater);});
+oppdater();
+
+/* --- topp --- */
+var hd=$('#hd');
+var sc=function(){hd.classList.toggle('on',scrollY>60);};
+addEventListener('scroll',sc,{passive:true});sc();
+
+/* --- avsløringer --- */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
+  {threshold:.12,rootMargin:'0px 0px -5% 0px'});
+document.querySelectorAll('.rv').forEach(function(e){io.observe(e);});
+})();
+</script>
+</body>
+</html>
