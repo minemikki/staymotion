@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang=no>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name=theme-color content="#F8F5F1">
+<title>Stavanger Hudpleie — visuelt konsept</title>
+<meta name=description content="Et uforpliktende visuelt nettsidekonsept for Stavanger Hudpleie på Madlastokken, utviklet av StayMotion.">
+<meta name=robots content="noindex,nofollow">
+<link rel=preconnect href="https://fonts.googleapis.com">
+<link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel=stylesheet>
+<style>
+:root{
+  /* marineblå er deres egen: Maritas uniform og fargen i bookingsystemet (#1d1e2b) */
+  --navy:#1D1E2B;--navy-2:#2C2E42;
+  --porcelain:#F8F5F1;--shell:#F1EAE3;--sand:#E7DACE;
+  --nude:#B5825E;--nude-l:#D9A98C;
+  --fg:#1D1E2B;--fg2:#514C55;--mute:#8B8189;
+  --line:rgba(29,30,43,.13);
+  --disp:"Bodoni Moda",Didot,Georgia,serif;
+  --sans:"Jost","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --pad:clamp(1.25rem,5vw,5.5rem);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html{background:var(--porcelain);color-scheme:light;scroll-behavior:smooth}
+body{margin:0;background:var(--porcelain);color:var(--fg);font-family:var(--sans);font-weight:400;font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit;text-decoration:none}
+img{display:block;width:100%;height:100%;object-fit:cover}
+h1,h2,h3,p,ul,figure{margin:0}ul{padding:0;list-style:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--nude);color:#fff}
+:focus-visible{outline:1.5px solid var(--nude);outline-offset:3px}
+.skip{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.skip:focus{position:fixed;z-index:200;top:1rem;left:1rem;width:auto;height:auto;clip:auto;padding:.8rem 1rem;background:var(--navy);color:#fff}
+.d{font-family:var(--disp);font-weight:400;letter-spacing:-.015em}
+.d em{font-style:italic}
+.kick{font-size:.68rem;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--nude)}
+
+/* ---------- header ---------- */
+.hd{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.05rem var(--pad);background:rgba(248,245,241,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line);transition:padding .45s var(--ease)}
+.hd.solid{padding-block:.8rem}
+.hd__l{display:flex;align-items:center;gap:.7rem}
+.hd__l img{width:30px;height:auto;object-fit:contain}
+.hd__n{font-family:var(--disp);font-size:1.02rem;letter-spacing:.16em;text-transform:uppercase;line-height:1.1}
+.hd__n small{display:block;font-family:var(--sans);font-size:.56rem;letter-spacing:.3em;color:var(--mute)}
+.hd nav{display:flex;gap:2rem;font-size:.8rem;letter-spacing:.05em}
+.hd nav a{position:relative;padding:.2rem 0}
+.hd nav a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--nude);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
+.hd nav a:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* ---------- knapper ---------- */
+.btn{display:inline-flex;align-items:center;gap:.7rem;padding:.95rem 1.7rem;border:1px solid var(--navy);border-radius:2px;font-size:.74rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;position:relative;overflow:hidden;isolation:isolate;transition:color .45s var(--ease),border-color .45s}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--navy);transform:scaleY(0);transform-origin:bottom;transition:transform .5s var(--ease)}
+.btn:hover{color:var(--porcelain)}
+.btn:hover::before{transform:scaleY(1)}
+.btn--fill{background:var(--navy);color:var(--porcelain)}
+.btn--fill::before{background:var(--nude)}
+.btn--fill:hover{color:#fff;border-color:var(--nude)}
+.btn--light{border-color:rgba(248,245,241,.55);color:var(--porcelain)}
+.btn--light::before{background:var(--porcelain)}
+.btn--light:hover{color:var(--navy);border-color:var(--porcelain)}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;min-height:100svh;align-items:stretch}
+.hero__t{display:grid;align-content:center;gap:1.6rem;padding:9rem var(--pad) 4.5rem}
+.hero h1{font-size:clamp(3.2rem,6.6vw,6.6rem);line-height:.98;letter-spacing:-.03em}
+.hero h1 em{color:var(--nude)}
+.hero__p{max-width:38ch;color:var(--fg2);font-size:1.06rem;font-weight:300}
+.hero__cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.4rem}
+.hero__facts{display:flex;flex-wrap:wrap;gap:1.6rem 2.8rem;margin-top:1.4rem;padding-top:1.6rem;border-top:1px solid var(--line)}
+.hero__facts div{font-size:.82rem;color:var(--mute)}
+.hero__facts b{display:block;font-family:var(--disp);font-size:1.7rem;font-weight:400;color:var(--fg);letter-spacing:-.01em;line-height:1.1}
+.hero__img{position:relative;overflow:hidden;background:var(--shell)}
+.hero__img img{transform:scale(1.06);animation:kb 16s var(--ease) forwards}
+@keyframes kb{to{transform:scale(1)}}
+.hero__cap{position:absolute;left:0;bottom:0;right:0;padding:2.2rem 1.6rem 1.4rem;color:#fff;font-size:.78rem;letter-spacing:.05em;background:linear-gradient(to top,rgba(29,30,43,.62),transparent)}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .95s var(--ease),transform .95s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv[data-d="1"]{transition-delay:.09s}.rv[data-d="2"]{transition-delay:.18s}.rv[data-d="3"]{transition-delay:.27s}
+
+/* ---------- velger ---------- */
+.finder{padding:clamp(5rem,10vw,8.5rem) var(--pad);background:var(--shell)}
+.finder__h{max-width:52rem;margin-bottom:2.6rem}
+.finder__h h2{font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;margin-top:.7rem}
+.finder__h p{margin-top:1rem;color:var(--fg2);max-width:46ch;font-weight:300}
+.chips{display:flex;flex-wrap:wrap;gap:.55rem}
+.chip{padding:.75rem 1.25rem;border:1px solid var(--line);border-radius:2px;background:transparent;font-size:.85rem;letter-spacing:.02em;color:var(--fg2);transition:.35s var(--ease)}
+.chip:hover{border-color:var(--navy);color:var(--fg)}
+.chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:var(--porcelain)}
+.res{margin-top:2.4rem;min-height:120px}
+.res__lead{font-family:var(--disp);font-style:italic;font-size:1.35rem;color:var(--fg2);margin-bottom:1.3rem}
+.res__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.tr{display:flex;flex-direction:column;gap:.5rem;padding:1.5rem 1.4rem;background:var(--shell);transition:background .3s}
+.tr:hover{background:var(--porcelain)}
+.tr__n{font-family:var(--disp);font-size:1.13rem;line-height:1.22}
+.tr__p{font-size:.86rem;color:var(--nude);letter-spacing:.05em}
+.tr__b{margin-top:auto;padding-top:.7rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);transition:color .3s}
+.tr:hover .tr__b{color:var(--navy)}
+.res__note{margin-top:1.5rem;font-size:.82rem;color:var(--mute);max-width:60ch}
+
+/* ---------- Marita ---------- */
+.about{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,6vw,6rem);align-items:center;padding:clamp(5rem,11vw,9rem) var(--pad)}
+.about__img{aspect-ratio:4/5;overflow:hidden;background:var(--shell)}
+.about h2{font-size:clamp(2.2rem,5vw,4.2rem);line-height:1.02;margin-top:.8rem}
+.about p{margin-top:1.4rem;color:var(--fg2);font-weight:300;max-width:44ch}
+.about__q{margin-top:2rem;padding-left:1.4rem;border-left:1px solid var(--nude);font-family:var(--disp);font-style:italic;font-size:1.3rem;line-height:1.42;color:var(--fg)}
+
+/* ---------- merker ---------- */
+.brands{padding:clamp(4rem,8vw,6.5rem) var(--pad);background:var(--navy);color:var(--porcelain)}
+.brands h2{font-size:clamp(1.7rem,3.4vw,2.6rem);max-width:22ch;line-height:1.12}
+.brands .kick{color:var(--nude-l)}
+.brands__g{display:flex;flex-wrap:wrap;gap:.6rem .5rem;margin-top:2.6rem}
+.brands__g span{padding:.62rem 1.15rem;border:1px solid rgba(248,245,241,.26);border-radius:2px;font-family:var(--disp);font-size:1rem;letter-spacing:.02em;transition:border-color .35s,color .35s}
+.brands__g span:hover{border-color:var(--nude-l);color:var(--nude-l)}
+.brands__f{margin-top:2rem;font-size:.85rem;color:rgba(248,245,241,.6);max-width:56ch;font-weight:300}
+
+/* ---------- start ---------- */
+.start{display:grid;grid-template-columns:1fr 1fr;min-height:82svh}
+.start__img{overflow:hidden;background:var(--shell)}
+.start__t{display:grid;align-content:center;gap:1.1rem;padding:clamp(4rem,8vw,7rem) var(--pad);background:var(--sand)}
+.start h2{font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.05;margin-top:.6rem}
+.start p{color:var(--fg2);max-width:40ch;font-weight:300}
+.start__l{margin-top:.8rem;display:grid;gap:0}
+.start__l a{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:1.05rem 0;border-top:1px solid rgba(29,30,43,.16);transition:padding-left .4s var(--ease)}
+.start__l a:last-child{border-bottom:1px solid rgba(29,30,43,.16)}
+.start__l a:hover{padding-left:.6rem}
+.start__l b{font-family:var(--disp);font-weight:400;font-size:1.2rem}
+.start__l span{font-size:.86rem;color:var(--nude);white-space:nowrap;letter-spacing:.04em}
+
+/* ---------- priser ---------- */
+.prices{padding:clamp(5rem,10vw,8.5rem) var(--pad)}
+.prices__h{display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:end;margin-bottom:2.4rem}
+.prices h2{font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;margin-top:.7rem}
+.prices__h p{color:var(--mute);font-size:.9rem;max-width:30ch}
+.cat{border-top:1px solid var(--line)}
+.cat:last-of-type{border-bottom:1px solid var(--line)}
+.cat summary{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.35rem 0;cursor:pointer;list-style:none}
+.cat summary::-webkit-details-marker{display:none}
+.cat summary h3{font-family:var(--disp);font-weight:400;font-size:clamp(1.25rem,2.4vw,1.75rem);letter-spacing:-.01em;flex:1}
+.cat summary i{font-style:normal;font-size:.76rem;color:var(--mute);letter-spacing:.06em;white-space:nowrap}
+.cat summary::after{content:"+";font-family:var(--disp);font-size:1.35rem;color:var(--nude);transition:transform .4s var(--ease);line-height:1}
+.cat[open] summary::after{transform:rotate(45deg)}
+.cat ul{padding:0 0 1.5rem}
+.cat li{display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;padding:.62rem 0;border-top:1px dotted rgba(29,30,43,.16);font-size:.94rem;font-weight:300}
+.cat li:first-child{border-top:0}
+.cat li b{font-weight:400;color:var(--nude);white-space:nowrap;letter-spacing:.03em}
+
+/* ---------- besøk ---------- */
+.visit{padding:clamp(5rem,10vw,8rem) var(--pad) clamp(3rem,6vw,4.5rem);background:var(--navy);color:var(--porcelain)}
+.visit h2{font-size:clamp(2.4rem,7vw,6rem);line-height:.98;letter-spacing:-.03em}
+.visit h2 em{color:var(--nude-l)}
+.visit__g{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:clamp(2.5rem,6vw,4.5rem);padding-top:2.2rem;border-top:1px solid rgba(248,245,241,.2)}
+.visit__g b{display:block;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--nude-l);margin-bottom:.9rem;font-weight:500}
+.visit__g p{font-size:1rem;line-height:1.65;color:rgba(248,245,241,.86);font-weight:300}
+.visit__g a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.visit__cta{margin-top:clamp(2.5rem,5vw,4rem);display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
+.visit__cta p{color:rgba(248,245,241,.6);max-width:34ch;font-size:.9rem;font-weight:300}
+.foot{padding:1.5rem var(--pad) 2rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:.7rem 2rem;font-size:.72rem;color:var(--mute)}
+.foot a{color:var(--fg2)}
+.foot a:hover{color:var(--nude)}
+
+/* ---------- responsivt ---------- */
+@media (max-width:960px){
+  .hd nav{display:none}
+  .hero{grid-template-columns:1fr;min-height:0}
+  .hero__t{padding:7rem var(--pad) 3rem;order:2}
+  .hero__img{order:1;aspect-ratio:1/1}
+  .about{grid-template-columns:1fr}
+  .start{grid-template-columns:1fr}
+  .start__img{aspect-ratio:4/3}
+  .visit__g{grid-template-columns:1fr 1fr}
+  .prices__h{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .visit__g{grid-template-columns:1fr}
+  .hero__facts{gap:1.2rem 2rem}
+  .res__grid{grid-template-columns:1fr}
+  .cat li{flex-direction:column;gap:.15rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+  .hero__img img{transform:none}
+}
+</style>
+</head>
+<body>
+<a class=skip href="#main">Hopp til innhold</a>
+
+<header class=hd id=hd>
+  <a class=hd__l href="#top">
+    <img src="/img/hudpleie/mark.png" alt="" width=92 height=97>
+    <span class=hd__n>Stavanger<small>Hudpleie</small></span>
+  </a>
+  <nav aria-label="Hovedmeny">
+    <a href="#finn">Finn behandling</a>
+    <a href="#marita">Marita</a>
+    <a href="#priser">Priser</a>
+    <a href="#besok">Besøk</a>
+  </nav>
+  <a class="btn btn--fill" href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener>Book time</a>
+</header>
+
+<main id=main>
+
+<section class=hero id=top>
+  <div class=hero__t>
+    <p class=kick>Madlastokken · Stavanger</p>
+    <h1 class=d>Hudhelse<br><em>i fokus.</em></h1>
+    <p class=hero__p>Avansert hudpleie hos Marita — 130 behandlinger, én plan om gangen. Vi begynner med huden din, ikke med prislisten.</p>
+    <div class=hero__cta>
+      <a class="btn btn--fill" href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener>Book time</a>
+      <a class=btn href="#finn">Finn din behandling</a>
+    </div>
+    <div class=hero__facts>
+      <div><b>20+</b>års erfaring</div>
+      <div><b>130</b>behandlinger</div>
+      <div><b>499,–</b>hudanalyse med VISIA</div>
+    </div>
+  </div>
+  <figure class=hero__img>
+    <img src="/img/hudpleie/marita.webp" alt="Marita Torkelsen i behandlingsrommet hos Stavanger Hudpleie" width=1440 height=1440 fetchpriority=high>
+    <figcaption class=hero__cap>Marita Torkelsen — hudterapeut og innehaver</figcaption>
+  </figure>
+</section>
+
+<section class=finder id=finn>
+  <div class="finder__h rv">
+    <p class=kick>Behandlingsvelger</p>
+    <h2 class=d>Hva vil du <em>med huden din?</em></h2>
+    <p>Velg det som ligger nærmest. Du får behandlingene som hører til, med pris — og veien rett til booking.</p>
+  </div>
+  <div class="chips rv" data-d=1 id=chips role=group aria-label="Velg hudmål"></div>
+  <div class=res id=res aria-live=polite></div>
+</section>
+
+<section class=about id=marita>
+  <figure class="about__img rv"><img src="/img/hudpleie/glow.webp" alt="Ansiktsbehandling hos Stavanger Hudpleie" width=665 height=647 loading=lazy decoding=async></figure>
+  <div class=rv data-d=1>
+    <p class=kick>Om klinikken</p>
+    <h2 class=d>Møt <em>Marita.</em></h2>
+    <p>Over 20 års erfaring innen hudpleiefaget, med spesiell ekspertise innen avansert hudpleie. Fokuset er på behandlingsteknikker som gir deg reelle resultater — ikke en time som bare føles fin der og da.</p>
+    <p>Klinikken ligger på Madlastokken, med hele spekteret fra rolig ansiktsbehandling til microneedling, kjemisk peeling og medisinsk hudpleie.</p>
+    <p class=about__q>«Dedikert til å fremme sunn og frisk hud.»</p>
+  </div>
+</section>
+
+<section class=brands aria-label="Merker og teknologi">
+  <p class="kick rv">Det vi jobber med</p>
+  <h2 class="d rv" data-d=1>Medisinsk hudpleie, <em>ikke gjettverk.</em></h2>
+  <div class="brands__g rv" data-d=2>
+    <span>ZO Skin Health</span><span>pH Formula</span><span>DMK Enzym</span><span>Circadia</span>
+    <span>Lira Clinical</span><span>SkinPen®</span><span>Dermapen</span><span>OxyGeneo</span>
+    <span>BioRePeel</span><span>Herbs2Peel</span><span>Hydrinity</span><span>VISIA-analyse</span>
+  </div>
+  <p class="brands__f rv" data-d=3>Alle merkene over står i den faktiske behandlingslisten til klinikken. VISIA er hudanalysen vi bruker for å se hva som faktisk skjer under overflaten før vi legger en plan.</p>
+</section>
+
+<section class=start aria-label="Slik begynner du">
+  <figure class=start__img><img src="/img/hudpleie/zo.webp" alt="ZO Skin Health-produkter" width=720 height=720 loading=lazy decoding=async></figure>
+  <div class=start__t>
+    <p class="kick rv">Første gang?</p>
+    <h2 class="d rv" data-d=1>Begynn med <em>en analyse.</em></h2>
+    <p class="rv" data-d=1>Vet du ikke hvilken behandling du trenger, er det helt riktig sted å starte. Under 500 kroner, og så vet både du og Marita hva huden faktisk ber om.</p>
+    <div class="start__l rv" data-d=2>
+      <a href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener><b>Hudanalyse med VISIA</b><span>499,–</span></a>
+      <a href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener><b>Konsultasjon og produktveiledning</b><span>499,–</span></a>
+      <a href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener><b>Express ansiktsbehandling</b><span>999,–</span></a>
+      <a href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener><b>Student, 30 min</b><span>799,–</span></a>
+    </div>
+  </div>
+</section>
+
+<section class=prices id=priser>
+  <div class=prices__h>
+    <div class=rv>
+      <p class=kick>Prisliste</p>
+      <h2 class=d>Alt vi gjør, <em>og hva det koster.</em></h2>
+    </div>
+    <p class="rv" data-d=1>Prisene er hentet fra klinikkens egen behandlingsliste. Trykk på en kategori for å åpne den.</p>
+  </div>
+  <div id=priceList></div>
+</section>
+
+<section class=visit id=besok>
+  <p class=kick>Besøk oss</p>
+  <h2 class=d>Madlastokken 5A,<br><em>Hafrsfjord.</em></h2>
+  <div class="visit__g rv">
+    <div><b>Adresse</b><p>Madlastokken 5A<br>4042 Hafrsfjord<br><a href="https://www.google.com/maps/search/?api=1&query=Madlastokken+5A+4042+Hafrsfjord" target=_blank rel=noopener>Finn veien ↗</a></p></div>
+    <div><b>Kontakt</b><p><a href="tel:+4799463836">99 46 38 36</a><br><a href="mailto:marita@stapla.no">marita@stapla.no</a></p></div>
+    <div><b>Booking</b><p><a href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener>Bestill time ↗</a><br><a href="https://bestill.timma.no/giftcard/stavangerhudpleie" target=_blank rel=noopener>Kjøp gavekort ↗</a></p></div>
+    <div><b>Følg oss</b><p><a href="https://www.instagram.com/stavanger_hudpleie/" target=_blank rel=noopener>Instagram ↗</a><br><a href="https://www.facebook.com/stavangerhudpleie" target=_blank rel=noopener>Facebook ↗</a></p></div>
+  </div>
+  <div class="visit__cta rv" data-d=1>
+    <p>Usikker på hva du trenger? Book en analyse, så tar vi det derfra.</p>
+    <a class="btn btn--light" href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener>Book time</a>
+  </div>
+</section>
+
+</main>
+
+<footer class=foot>
+  <span>© Stavanger Hudpleie · Madlastokken 5A, 4042 Hafrsfjord</span>
+  <span>Uforpliktende visuelt konsept av <a href="https://staymotion.no" target=_blank rel=noopener>StayMotion</a> — ikke Stavanger Hudpleie sin faktiske nettside.</span>
+</footer>
+
+<script>
+(()=>{
+"use strict";
+var BOOK='https://bestill.timma.no/stavangerhudpleie';
+
+/* Behandlinger og priser er hentet ordrett fra klinikkens egen liste. */
+var CATS=[
+ ['Kampanjer og tilbud',[['Hydrinity Signatur (introtilbud)',1599],['Vår-kampanje BioRePeel',1499],['Vår-kampanje BioRePeel med OxyGeneo',1999],['Vår-kampanje BioRePeel med mesoterapi',2499]]],
+ ['Ansiktsbehandling',[['Signaturbehandling 50 min',1199],['Signaturbehandling 70 min',1499],['Signaturbehandling 90 min',1799],['Express',999],['Hydrinity Signatur',1899],['Student 30 min',799],['Student 45 min',999],['Student 60 min',1299],['DMK Detox-behandling',1499],['Ungdoms peeling-kur, 3 behandlinger',2250],['Ungdoms peeling-kur, 6 behandlinger',4500],['Hudanalyse med VISIA',499],['LED-lysbehandling',699],['LED-lys i kombinasjon med annen behandling',399],['Konsultasjon og produktveiledning',499],['pH Formula SOS-behandling',1499]]],
+ ['Kjemisk peeling og hudfornyelse',[['BioRePeel',1990],['BioRePeel-kur, 3 behandlinger',5070],['pH Formula Mesoresurfacing',1999],['pH Formula Meso Exo Glow',2899],['pH Formula A.G.E.',1399],['pH Formula Mela',1399],['pH Formula Acne',1399],['pH Formula CR',1399],['pH Formula C-vitamin boost',1499],['pH Formula MD TCA Touch',1990],['ZO Stimulation Peel',1499],['ZO Ultra Hydration',1699],['ZO Blemish & Oil Control',1699],['ZO Skin Brightening',1999],['ZO Clear Up',999],['ZO Hydra Fill Up',999]]],
+ ['Microneedling og mesoterapi',[['Microneedling med exosomer',4999],['SkinPen® microneedling',2899],['SkinPen® inkludert hals og bryst',3199],['SkinPen® med kjemisk peeling',3899],['SkinPen® med biostimulerende peeling',3899],['Dermapen microneedling',2699],['Dermapen med kjemisk peel',3699],['Dermapen med biostimulerende peeling',3699],['Dermapen/SkinPen med enzymterapi',3999],['Signaturbehandling: peel, mesoterapi og Dermapen',4499],['Mesoterapi ansikt',2499],['Protonpen nanoneedling',2499],['Protonpen med microneedling',2499],['Turtlepin III kombibehandling',2999],['Turtlepin III ansikt og hals',3499]]],
+ ['ZO Skin Health',[['ZO Restorative Peel',1499],['ZO Stimulator Peel',1499],['ZO Glow Boost Peel med retinol',1999],['ZO Ultra Hydration',1699],['ZO Blemish & Oil Control',1699],['ZO Skin Brightening',1999],['ZO Signature med Accelerated Serum',2499],['ZO Signature med serum og microneedling',3999],['ZO Radical Stimulator Glow',1699],['ZO «Glass skin»',3999],['ZO Clear Up',999],['ZO Hydra Fill Up',999]]],
+ ['DMK enzymbehandling',[['DMK enzymbehandling, første gang',1890],['DMK oppstrammende og revitaliserende',2150],['SkinPen med DMK enzymmaske',3999],['Biostimulerende peeling med DMK enzymterapi',2999]]],
+ ['Circadia',[['Circadia enzymbehandling',1299],['Circadia Signatur Mixology',1499],['Circadia Signatur Luxus',1899],['Circadia Oxygen RX',1499],['Oxygen RX med LED-lys',1799],['Oxygen RX med Cocoa Enzyme',2000],['Circadia Firming Peptide Mask',1799],['Circadia SWiCH',1959],['Circadia SWiCH kur x3',5650]]],
+ ['Lira Clinical',[['Lira Signature, førstegangsbehandling',1499],['Lira Classic',1899],['Lira Lux',2499],['Lira Express',999]]],
+ ['OxyGeneo',[['OxyGeneo Ultimate, full pakke',1990],['OxyGeneo Intense Lifting',1690],['OxyGeneo Instant Glow',1690],['OxyGeneo Hydrate',1690]]],
+ ['Dermaplaning',[['Dermaplaning',1590],['Dermaplaning med kjemisk peeling eller spesialmaske',1999],['Dermaplaning med OxyGeneo',2599],['Dermaplaning Beyond Glow Boost',2999]]],
+ ['Herbs2Peel og Fruits2Peel',[['Herbs2Peel Beautypeel',1499],['Herbs2Peel Corrective Peel',4499],['Fruits2Peel',1390],['Fruits2Peel ansiktsbehandling',1790]]],
+ ['Vipper og bryn',[['Farging av vipper',399],['Farge og forming av bryn',499],['Farge vipper og bryn, samt forming',699],['Farge bryn',329],['Voks eller napping av bryn',299],['Voks, napp og korrigering av bryn',399],['Keratin vippeløft inkludert farge',1199],['Keratin vippeløft uten farge',1099]]],
+ ['Hårfjerning',[['Brasiliansk voksing',799],['Brasiliansk, 2. gang innen 7 uker',599],['Legger og brasiliansk',1090],['Legger og brasiliansk, 2. gang innen 7 uker',899],['Legger, lår og brasiliansk',1499],['Legger, lår og brasiliansk, 2. gang innen 7 uker',1299],['Bikinilinje',459],['Legger og bikini',859],['Legger, lår og bikini',1159],['Lår',499],['Legger',459],['Fransk',459],['Armer, hel',549],['Armer, halv',399],['Armhuler',349],['Rygg inkludert skuldre',649],['Bryst',499],['Mage',459],['Bryst, mage og rygg inkludert skuldre',1299],['Hake',299],['Hake med kinn',399],['Overleppe',289],['Overleppe og hake',450],['Hele ansiktet',599],['Ører',349],['Nese',349],['Ører og nese',599]]],
+ ['Klassisk massasje',[['Rygg- og nakkemassasje',949],['Dyprens av rygg',990]]]
+];
+
+/* Behandlingene er klinikkens egne. Grupperingen etter hudmål er vårt forslag. */
+var GOALS=[
+ {k:'glod',t:'Glød og friskhet',lead:'For deg som vil ha huden til å se uthvilt ut igjen.',
+  items:[['Signaturbehandling 50 min',1199],['OxyGeneo Instant Glow',1690],['Circadia Signatur Mixology',1499],['Dermaplaning',1590],['ZO Radical Stimulator Glow',1699]]},
+ {k:'urenheter',t:'Urenheter og akne',lead:'Behandlinger rettet mot uren hud, talg og utbrudd.',
+  items:[['pH Formula Acne',1399],['ZO Blemish & Oil Control',1699],['DMK Detox-behandling',1499],['ZO Clear Up',999],['Circadia enzymbehandling',1299]]},
+ {k:'pigment',t:'Pigment og ujevn tone',lead:'For pigmentflekker, solskader og ujevn hudtone.',
+  items:[['pH Formula Mela',1399],['ZO Skin Brightening',1999],['Herbs2Peel Beautypeel',1499],['pH Formula C-vitamin boost',1499]]},
+ {k:'linjer',t:'Linjer og fasthet',lead:'Behandlinger som jobber med kollagen og spenst.',
+  items:[['SkinPen® microneedling',2899],['pH Formula A.G.E.',1399],['Mesoterapi ansikt',2499],['DMK oppstrammende og revitaliserende',2150],['Microneedling med exosomer',4999]]},
+ {k:'arr',t:'Arr og hudstruktur',lead:'For arr etter kviser, store porer og ujevn overflate.',
+  items:[['Dermapen microneedling',2699],['SkinPen® med kjemisk peeling',3899],['BioRePeel',1990],['Turtlepin III kombibehandling',2999]]},
+ {k:'torr',t:'Tørr og stram hud',lead:'Fuktbehandlinger for hud som strammer og flasser.',
+  items:[['ZO Ultra Hydration',1699],['OxyGeneo Hydrate',1690],['Hydrinity Signatur',1899],['ZO Hydra Fill Up',999]]},
+ {k:'usikker',t:'Jeg vet ikke helt',lead:'Da begynner vi med å se på huden før vi bestemmer noe.',
+  items:[['Hudanalyse med VISIA',499],['Konsultasjon og produktveiledning',499],['Express ansiktsbehandling',999],['Student 30 min',799]]}
+];
+
+var kr=function(n){return n.toLocaleString('nb-NO')+',–';};
+var esc=function(s){return String(s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});};
+
+/* --- velger --- */
+var chips=document.getElementById('chips'), res=document.getElementById('res');
+chips.innerHTML=GOALS.map(function(g,i){
+  return '<button class=chip type=button data-i="'+i+'" aria-pressed="'+(i===0)+'">'+esc(g.t)+'</button>';
+}).join('');
+function paint(i){
+  var g=GOALS[i];
+  [].forEach.call(chips.children,function(c,n){c.setAttribute('aria-pressed',String(n===i));});
+  res.innerHTML='<p class=res__lead>'+esc(g.lead)+'</p><div class=res__grid>'+
+    g.items.map(function(it){
+      return '<a class=tr href="'+BOOK+'" target=_blank rel=noopener>'+
+        '<span class=tr__n>'+esc(it[0])+'</span>'+
+        '<span class=tr__p>'+kr(it[1])+'</span>'+
+        '<span class=tr__b>Book time →</span></a>';
+    }).join('')+'</div>'+
+    '<p class=res__note>Behandlingene og prisene er klinikkens egne. Grupperingen etter hudmål er et forslag — Marita setter den faktiske planen etter en hudanalyse.</p>';
+}
+chips.addEventListener('click',function(e){var b=e.target.closest('.chip');if(b)paint(+b.dataset.i);});
+paint(0);
+
+/* --- prisliste --- */
+document.getElementById('priceList').innerHTML=CATS.map(function(c){
+  return '<details class=cat><summary><h3>'+esc(c[0])+'</h3><i>'+c[1].length+' behandlinger</i></summary><ul>'+
+    c[1].map(function(s){return '<li><span>'+esc(s[0])+'</span><b>'+kr(s[1])+'</b></li>';}).join('')+
+    '</ul></details>';
+}).join('');
+
+/* --- header --- */
+var hd=document.getElementById('hd');
+var onScroll=function(){hd.classList.toggle('solid',scrollY>40);};
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* --- reveal --- */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
+  {threshold:.14,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.rv').forEach(function(e){io.observe(e);});
+})();
+</script>
+</body>
+</html>
