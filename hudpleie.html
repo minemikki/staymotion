@@ -49,6 +49,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hd nav a{position:relative;padding:.2rem 0}
 .hd nav a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--nude);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
 .hd nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.hd__tel{font-size:.82rem;letter-spacing:.04em;color:var(--fg2);white-space:nowrap}
+.hd__tel:hover{color:var(--nude)}
+
+/* flytende booking — overtar først når heroen er ute av syne, aldri samtidig med den */
+.fab{position:fixed;z-index:70;right:clamp(1rem,3vw,2.2rem);bottom:clamp(1rem,3vw,2.2rem);display:inline-flex;align-items:center;gap:.7rem;padding:1rem 1.6rem;border-radius:2px;background:var(--navy);color:var(--porcelain);font-size:.74rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;transform:translateY(160%);transition:transform .7s var(--ease),background .35s;box-shadow:0 16px 40px rgba(29,30,43,.24)}
+.fab.on{transform:translateY(0)}
+.fab:hover{background:var(--nude)}
+.fab i{width:6px;height:6px;border-radius:50%;background:var(--nude-l);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(217,169,140,.7)}70%{box-shadow:0 0 0 8px rgba(217,169,140,0)}}
 
 /* ---------- knapper ---------- */
 .btn{display:inline-flex;align-items:center;gap:.7rem;padding:.95rem 1.7rem;border:1px solid var(--navy);border-radius:2px;font-size:.74rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;position:relative;overflow:hidden;isolation:isolate;transition:color .45s var(--ease),border-color .45s}
@@ -93,13 +102,20 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:var(--porcelain)}
 .res{margin-top:2.4rem;min-height:120px}
 .res__lead{font-style:italic;font-size:1.2rem;font-weight:300;color:var(--fg2);margin-bottom:1.3rem;letter-spacing:-.01em}
-.res__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-.tr{display:flex;flex-direction:column;gap:.5rem;padding:1.5rem 1.4rem;background:var(--shell);transition:background .3s}
-.tr:hover{background:var(--porcelain)}
-.tr__n{font-family:var(--disp);font-size:1.06rem;font-weight:500;line-height:1.25;letter-spacing:-.02em}
-.tr__p{font-size:.86rem;color:var(--nude);letter-spacing:.05em}
-.tr__b{margin-top:auto;padding-top:.7rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);transition:color .3s}
-.tr:hover .tr__b{color:var(--navy)}
+.res__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:.6rem}
+.tr{position:relative;display:flex;flex-direction:column;gap:.35rem;padding:1.6rem 1.5rem 1.4rem;background:var(--porcelain);border:1px solid var(--line);overflow:hidden;isolation:isolate;transition:border-color .45s var(--ease),transform .45s var(--ease)}
+.tr::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--navy);transform:translateY(101%);transition:transform .5s var(--ease)}
+.tr:hover{border-color:var(--navy);transform:translateY(-3px)}
+.tr:hover::before{transform:translateY(0)}
+.tr__i{font-size:.68rem;letter-spacing:.2em;color:var(--nude);font-variant-numeric:tabular-nums;transition:color .4s}
+.tr__n{font-size:1.02rem;font-weight:500;line-height:1.3;letter-spacing:-.015em;min-height:2.6em;transition:color .4s}
+.tr__p{margin-top:.5rem;font-size:1.75rem;font-weight:500;letter-spacing:-.035em;line-height:1;transition:color .4s}
+.tr__b{margin-top:1.1rem;padding-top:.85rem;border-top:1px solid var(--line);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);display:flex;justify-content:space-between;align-items:center;transition:color .4s,border-color .4s}
+.tr__b span{transition:transform .45s var(--ease)}
+.tr:hover .tr__i{color:var(--nude-l)}
+.tr:hover .tr__n,.tr:hover .tr__p{color:var(--porcelain)}
+.tr:hover .tr__b{color:var(--porcelain);border-color:rgba(248,245,241,.28)}
+.tr:hover .tr__b span{transform:translateX(5px)}
 .res__note{margin-top:1.5rem;font-size:.82rem;color:var(--mute);max-width:60ch}
 
 /* ---------- Marita ---------- */
@@ -203,8 +219,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <a href="#priser">Priser</a>
     <a href="#besok">Besøk</a>
   </nav>
-  <a class="btn btn--fill" href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener>Book time</a>
+  <a class=hd__tel href="tel:+4799463836">99 46 38 36</a>
 </header>
+
+<a class=fab id=fab href="https://bestill.timma.no/stavangerhudpleie" target=_blank rel=noopener><i></i>Book time</a>
 
 <main id=main>
 
@@ -362,11 +380,12 @@ function paint(i){
   var g=GOALS[i];
   [].forEach.call(chips.children,function(c,n){c.setAttribute('aria-pressed',String(n===i));});
   res.innerHTML='<p class=res__lead>'+esc(g.lead)+'</p><div class=res__grid>'+
-    g.items.map(function(it){
+    g.items.map(function(it,i){
       return '<a class=tr href="'+BOOK+'" target=_blank rel=noopener>'+
+        '<span class=tr__i>'+String(i+1).padStart(2,'0')+'</span>'+
         '<span class=tr__n>'+esc(it[0])+'</span>'+
         '<span class=tr__p>'+kr(it[1])+'</span>'+
-        '<span class=tr__b>Book time →</span></a>';
+        '<span class=tr__b>Book time<span>&rarr;</span></span></a>';
     }).join('')+'</div>'+
     '<p class=res__note>Behandlingene og prisene er klinikkens egne. Grupperingen etter hudmål er et forslag — Marita setter den faktiske planen etter en hudanalyse.</p>';
 }
@@ -380,10 +399,12 @@ document.getElementById('priceList').innerHTML=CATS.map(function(c){
     '</ul></details>';
 }).join('');
 
-/* --- header --- */
-var hd=document.getElementById('hd');
+/* --- header + flytende booking --- */
+var hd=document.getElementById('hd'),fab=document.getElementById('fab');
 var onScroll=function(){hd.classList.toggle('solid',scrollY>40);};
 addEventListener('scroll',onScroll,{passive:true});onScroll();
+new IntersectionObserver(function(e){fab.classList.toggle('on',!e[0].isIntersecting);},{threshold:.08})
+  .observe(document.querySelector('.hero'));
 
 /* --- reveal --- */
 var io=new IntersectionObserver(function(es){es.forEach(function(e){
