@@ -591,6 +591,12 @@
     .preview-label-v14{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;background:rgba(0,0,0,.045);border:1px solid rgba(0,0,0,.1);color:rgba(20,18,15,.72);font-size:10px;letter-spacing:.14em;text-transform:uppercase;align-self:flex-start}
     .preview-label-v14 i{width:6px;height:6px;border-radius:50%;background:#8a7f6e;opacity:.9}
 
+    .pc-mock{display:flex;flex-direction:column;align-items:center;width:100%}
+    .pc-screen{width:100%;background:#1c1c1e;border-radius:16px 16px 5px 5px;padding:9px 9px 12px;box-shadow:0 34px 100px rgba(0,0,0,.3)}
+    .pc-screen .browser-wrap-v14{border-radius:9px;box-shadow:none}
+    .pc-base{width:112%;margin:0 -6% 0;height:15px;background:linear-gradient(180deg,#3d3d40 0%,#232325 55%,#18181a 100%);border-radius:0 0 11px 11px;position:relative;box-shadow:0 12px 20px -6px rgba(0,0,0,.35)}
+    .pc-base i{position:absolute;left:50%;top:0;transform:translateX(-50%);width:72px;height:5px;background:#0b0b0c;border-radius:0 0 7px 7px;font-style:normal}
+    @media(max-width:680px){.pc-base{height:11px}.pc-base i{width:52px;height:4px}}
     .browser-wrap-v14{background:#09090a;border:1px solid rgba(255,255,255,.1);border-radius:28px;overflow:hidden;box-shadow:0 34px 100px rgba(0,0,0,.34)}
     .browser-top-v14{height:48px;display:flex;align-items:center;gap:9px;padding:0 16px;background:#efebe7;border-bottom:1px solid rgba(0,0,0,.08)}
     .browser-top-v14 .dot{width:10px;height:10px;border-radius:50%}
@@ -829,13 +835,8 @@
     /* --- V13.9 stitched full-page previews --- */
     .browser-shot-v14,
     .phone-shot-v14{
-      overflow-y:auto!important;
-      overflow-x:hidden!important;
-      -webkit-overflow-scrolling:touch;
-      overscroll-behavior:contain;
-      touch-action:pan-y;
-      scrollbar-width:thin;
-      scrollbar-color:rgba(255,255,255,.34) rgba(255,255,255,.07);
+      overflow:visible!important;
+      touch-action:auto;
       scroll-behavior:auto;
     }
     .browser-shot-v14{height:auto!important;cursor:auto}
@@ -999,9 +1000,14 @@
 <div class="case-surface-v14">
 <div class="preview-block-v14">
 <span class="preview-label-v14"><i></i> Desktop preview</span>
+<div class="pc-mock">
+<div class="pc-screen">
 <div class="browser-wrap-v14">
 <div class="browser-top-v14"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><div class="browser-addr-v14">staymotion / siamconnect / live</div></div>
 <div class="browser-shot-v14"><img loading="lazy" decoding="async" alt="SiamConnect community-plattform, desktop" src="img/work/siamconnect/forum-d.jpg"></div>
+</div>
+</div>
+<div class="pc-base"><i></i></div>
 </div>
 </div>
 <div class="preview-block-v14 phone-stage-v14">
