@@ -3,172 +3,167 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name=theme-color content="#12100D">
+<meta name=theme-color content="#18140F">
 <title>Nordbø Bygg — visuelt konsept</title>
 <meta name=description content="Et uforpliktende visuelt nettsidekonsept for Nordbø Bygg AS, byggmester i Stavanger, utviklet av StayMotion.">
 <meta name=robots content="noindex,nofollow">
 <link rel=preconnect href="https://fonts.googleapis.com">
 <link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel=stylesheet>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel=stylesheet>
 <style>
 :root{
-  --gull:#C79A56;--gull-l:#E3C48B;--gull-d:#8E6A34;
-  --kull:#12100D;--kull-2:#1B1814;--stein:#2A2521;
-  --hvit:#FBF9F5;--dis:#F4F0E9;--dis-2:#E9E2D6;
-  --fg:#1B1814;--fg2:#4A443C;--mute:#8A8072;
-  --line:rgba(27,24,20,.13);--line-l:rgba(255,255,255,.14);
-  --serif:"Fraunces",Georgia,serif;--sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-  --pad:clamp(1.15rem,4.5vw,5.5rem);--max:1440px;
+  --paper:#EEEAE0;--paper-2:#E3DDCE;--paper-3:#D9D2BF;
+  --ink:#18140F;--ink-soft:#4E473C;--mute:#8B8272;
+  --chalk:#2A3EFF;--chalk-deep:#1B2BB0;
+  --line:rgba(24,20,15,.15);--line-2:rgba(238,234,224,.2);
+  --display:"Space Grotesk",Arial,sans-serif;--body:"IBM Plex Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --pad:clamp(1.15rem,4.5vw,5.5rem);--max:1480px;
   --ease:cubic-bezier(.22,1,.36,1);
 }
 *{box-sizing:border-box}
-html{background:var(--kull);color-scheme:dark;scroll-behavior:smooth}
-body{margin:0;background:var(--dis);color:var(--fg);font-family:var(--sans);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+html{background:var(--paper);scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
 a{color:inherit;text-decoration:none}
 img{display:block;width:100%;height:100%;object-fit:cover}
-h1,h2,h3,p,ul{margin:0}ul{padding:0;list-style:none}
-::selection{background:var(--gull);color:#1b1814}
-:focus-visible{outline:2px solid var(--gull);outline-offset:3px}
+h1,h2,h3,p{margin:0}
+::selection{background:var(--chalk);color:#fff}
+:focus-visible{outline:2px solid var(--chalk);outline-offset:3px}
 .skip{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-.skip:focus{position:fixed;z-index:200;top:1rem;left:1rem;width:auto;height:auto;clip:auto;padding:.8rem 1rem;background:var(--hvit);color:var(--kull)}
+.skip:focus{position:fixed;z-index:200;top:1rem;left:1rem;width:auto;height:auto;clip:auto;padding:.8rem 1rem;background:var(--ink);color:var(--paper)}
 .wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--pad)}
-.serif{font-family:var(--serif);letter-spacing:-.02em}
-.kick{display:inline-flex;align-items:center;gap:.55rem;font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gull-d)}
-.kick::before{content:"";width:20px;height:1px;background:var(--gull-d)}
-.kick.on-dark{color:var(--gull-l)}.kick.on-dark::before{background:var(--gull-l)}
+.display{font-family:var(--display);letter-spacing:-.02em}
+
+/* ---------- duotone photo treatment ---------- */
+.duo{position:relative;isolation:isolate;overflow:hidden;background:var(--paper-2)}
+.duo img{filter:grayscale(1) contrast(1.12) brightness(1.08);mix-blend-mode:multiply}
+.duo::after{content:"";position:absolute;inset:0;pointer-events:none;background:var(--ink);mix-blend-mode:screen}
+
+/* ---------- ruler / dimension mark ---------- */
+.dim-row{display:flex;flex-wrap:wrap;gap:2.6rem 3rem;margin-top:3rem}
+.dim{position:relative;padding-top:1rem}
+.dim::before{content:"";position:absolute;top:0;left:0;width:46px;height:1px;background:var(--ink-soft)}
+.dim::after{content:"";position:absolute;top:-4px;left:0;width:1px;height:9px;background:var(--ink-soft)}
+.dim b{display:block;font-family:var(--display);font-size:2.5rem;font-weight:600;line-height:1}
+.dim span{display:block;font-size:.78rem;color:var(--mute);margin-top:.4rem}
+.dim--dark::before,.dim--dark::after{background:rgba(255,255,255,.4)}
+.dim--dark span{color:rgba(255,255,255,.5)}
 
 /* ---------- topp ---------- */
-.hd{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem var(--pad);transition:background .45s var(--ease),padding .45s var(--ease)}
-.hd.on{background:rgba(18,16,13,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-block:.75rem;box-shadow:0 1px 0 var(--line-l)}
-.hd__l{display:flex;align-items:center;gap:.65rem;font-family:var(--serif);font-weight:600;font-size:1.18rem;color:#fff;letter-spacing:-.01em}
-.hd__l i{width:34px;height:34px;border-radius:50%;background:linear-gradient(155deg,var(--gull-l),var(--gull-d));display:inline-grid;place-items:center;font-style:normal;font-family:var(--serif);font-weight:600;color:#1b1814;font-size:1rem}
-.hd nav{display:flex;gap:2rem;font-size:.85rem;font-weight:500}
-.hd nav a{position:relative;padding:.25rem 0;color:rgba(255,255,255,.82);transition:color .3s}
-.hd nav a:hover{color:#fff}
-.hd nav a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--gull);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
-.hd nav a:hover::after{transform:scaleX(1);transform-origin:left}
-.hd__tel{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.92rem;white-space:nowrap;color:#fff}
-.hd__tel svg{width:16px;height:16px;color:var(--gull-l);flex:none}
-.hd__menu{display:none}
+.hd{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.25rem var(--pad);border-bottom:1px solid transparent;transition:background .4s var(--ease),border-color .4s var(--ease)}
+.hd.on{background:rgba(238,234,224,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:var(--line)}
+.hd__l{font-family:var(--display);font-weight:700;font-size:1.1rem;letter-spacing:-.01em;color:var(--paper);mix-blend-mode:difference}
+.hd nav{display:flex;gap:2.1rem;font-size:.87rem;font-weight:500;color:var(--paper);mix-blend-mode:difference}
+.hd nav a{padding:.25rem 0;border-bottom:1px solid transparent;transition:border-color .25s}
+.hd nav a:hover{border-color:currentColor}
+.hd__tel{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.92rem;white-space:nowrap;color:var(--paper);mix-blend-mode:difference}
+.hd__tel svg{width:15px;height:15px;flex:none}
 
 /* ---------- knapper ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.05rem 1.9rem;border-radius:2px;font-size:.79rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--gull);color:#1b1814;border:2px solid var(--gull);transition:background .3s,border-color .3s,transform .3s var(--ease)}
-.btn:hover{background:var(--gull-d);border-color:var(--gull-d);color:#fff;transform:translateY(-2px)}
-.btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.45)}
-.btn--ghost:hover{background:#fff;border-color:#fff;color:var(--kull)}
-.btn--dark{background:var(--kull);border-color:var(--kull);color:#fff}
-.btn--dark:hover{background:#000;border-color:#000}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.05rem 1.9rem;font-size:.86rem;font-weight:600;background:var(--chalk);color:#fff;border:1px solid var(--chalk);transition:background .25s,transform .25s var(--ease)}
+.btn:hover{background:var(--chalk-deep);border-color:var(--chalk-deep);transform:translateY(-2px)}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--ink-soft)}
+.btn--ghost:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn--ghost-dark{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
+.btn--ghost-dark:hover{background:#fff;border-color:#fff;color:var(--ink)}
 
 /* ---------- ribbon ---------- */
-.ribbon{background:var(--kull);color:rgba(255,255,255,.66);font-size:.76rem;text-align:center;padding:.6rem var(--pad);letter-spacing:.02em}
-.ribbon a{color:var(--gull-l);font-weight:600}
-.ribbon a:hover{text-decoration:underline}
+.ribbon{background:var(--ink);color:rgba(238,234,224,.62);font-size:.76rem;text-align:center;padding:.6rem var(--pad)}
+.ribbon a{color:var(--paper);font-weight:600;border-bottom:1px solid rgba(238,234,224,.4)}
 
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:96svh;display:grid;align-items:end;isolation:isolate;overflow:hidden;background:var(--kull)}
-.hero__bg{position:absolute;inset:0;z-index:-2}
-.hero__bg img{filter:saturate(.92) brightness(.62)}
-.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(18,16,13,.96) 4%,rgba(18,16,13,.62) 42%,rgba(18,16,13,.22) 68%,rgba(18,16,13,.5) 100%)}
-.hero__in{padding:11rem var(--pad) 4.2rem;width:100%}
-.hero h1{color:#fff;font-size:clamp(2.6rem,6.4vw,5.1rem);font-weight:600;line-height:.98;margin-top:1rem;max-width:16ch}
-.hero h1 em{font-style:italic;color:var(--gull-l)}
-.hero p{color:rgba(255,255,255,.78);font-size:1.12rem;line-height:1.68;max-width:46ch;margin-top:1.4rem}
-.hero__cta{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2.1rem}
-.hero__facts{display:flex;flex-wrap:wrap;gap:2.4rem;margin-top:3.4rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.16)}
-.hero__facts div b{display:block;font-family:var(--serif);font-size:1.9rem;font-weight:600;color:#fff}
-.hero__facts div span{font-size:.76rem;letter-spacing:.06em;color:rgba(255,255,255,.6)}
+.hero{display:grid;grid-template-columns:.92fr 1.08fr;min-height:100svh}
+.hero__copy{display:flex;flex-direction:column;justify-content:center;padding:9.5rem clamp(1.5rem,4vw,4.4rem) 3.5rem}
+.hero h1{font-size:clamp(2.6rem,4.6vw,4.6rem);font-weight:600;line-height:.98;max-width:11ch}
+.hero p{color:var(--ink-soft);font-size:1.08rem;line-height:1.68;max-width:38ch;margin-top:1.6rem}
+.hero__cta{margin-top:2.1rem}
+.hero__img{position:relative;min-height:340px}
 
-/* ---------- trust strip ---------- */
-.trust{background:var(--hvit);border-bottom:1px solid var(--line)}
-.trust__row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.6rem;padding-block:1.7rem}
-.trust__item{display:flex;align-items:center;gap:.8rem;font-size:.86rem;color:var(--fg2);font-weight:500}
-.trust__item img{width:38px;height:38px;object-fit:contain;flex:none}
-.trust__item svg{width:22px;height:22px;color:var(--gull-d);flex:none}
+/* ---------- spec bar ---------- */
+.spec{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.spec__row{display:grid;grid-template-columns:repeat(4,1fr)}
+.spec__cell{padding:1.7rem clamp(1rem,2vw,1.8rem);border-left:1px solid var(--line)}
+.spec__cell:first-child{border-left:none}
+.spec__cell dt{font-size:.72rem;color:var(--mute)}
+.spec__cell dd{margin:.5rem 0 0;font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:.6rem}
+.spec__cell dd img{width:26px;height:26px;object-fit:contain;flex:none}
 
 /* ---------- seksjon ---------- */
-section{padding:6.2rem 0}
-.head{display:grid;grid-template-columns:1fr minmax(260px,420px);gap:2.4rem;align-items:end;margin-bottom:3rem}
-.head h2{font-size:clamp(2rem,4vw,3.1rem);font-weight:600;line-height:1.04;margin-top:.7rem}
-.head p{color:var(--fg2);font-size:1rem;line-height:1.72}
-.on-dark{background:var(--kull);color:var(--hvit)}
-.on-dark .head p{color:rgba(255,255,255,.68)}
-.on-stein{background:var(--stein);color:var(--hvit)}
-.on-stein .head p{color:rgba(255,255,255,.68)}
+section{padding:6.4rem 0}
+h2.display{font-size:clamp(2rem,3.6vw,3rem);font-weight:600;line-height:1.05;max-width:16ch}
+.section-lede{color:var(--ink-soft);font-size:1rem;line-height:1.72;max-width:52ch;margin-top:1.1rem}
+.on-dark{background:var(--ink);color:var(--paper)}
+.on-dark .section-lede{color:rgba(238,234,224,.66)}
 
 /* ---------- tjenester ---------- */
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
-.svc{background:var(--hvit);border:1px solid var(--line);border-radius:4px;padding:2.2rem 1.9rem;display:flex;flex-direction:column;gap:1.1rem;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
-.svc:hover{transform:translateY(-4px);box-shadow:0 24px 50px rgba(27,24,20,.1)}
-.svc i{width:52px;height:52px;border-radius:50%;background:var(--dis-2);display:grid;place-items:center;color:var(--gull-d)}
-.svc i svg{width:24px;height:24px}
-.svc h3{font-family:var(--serif);font-size:1.5rem;font-weight:600}
-.svc p{color:var(--fg2);font-size:.94rem;line-height:1.66}
+.svc-list{margin-top:3rem;border-top:1px solid var(--line)}
+.svc{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:2rem;align-items:baseline;padding:2.1rem 0;border-bottom:1px solid var(--line)}
+.svc h3{font-family:var(--display);font-size:clamp(1.9rem,3.4vw,2.6rem);font-weight:600;letter-spacing:-.02em}
+.svc p{color:var(--ink-soft);font-size:.98rem;line-height:1.68;max-width:46ch}
 
 /* ---------- håndverk / craft ---------- */
-.craft{display:grid;grid-template-columns:.86fr 1.14fr;gap:0;align-items:stretch}
-.craft__img{position:relative;min-height:460px;overflow:hidden}
-.craft__copy{padding:4.4rem clamp(1.6rem,4vw,4.4rem);display:flex;flex-direction:column;justify-content:center;gap:1.4rem}
-.craft__copy h2{font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:600;line-height:1.08}
-.craft__copy p{color:rgba(255,255,255,.72);font-size:1.02rem;line-height:1.76;max-width:52ch}
-.craft__list{display:grid;gap:.85rem;margin-top:.4rem}
-.craft__list li{display:flex;gap:.75rem;font-size:.92rem;color:rgba(255,255,255,.82)}
-.craft__list li::before{content:"—";color:var(--gull-l);flex:none}
+.craft{display:grid;grid-template-columns:1.15fr .85fr}
+.craft__img{position:relative;min-height:420px}
+.craft__mark{position:absolute;left:14%;top:38%;display:flex;align-items:center;gap:.6rem;color:var(--paper);font-family:var(--display);font-size:.82rem;font-weight:600}
+.craft__mark i{width:9px;height:9px;border-radius:50%;background:var(--chalk);display:block;box-shadow:0 0 0 4px rgba(42,62,255,.25)}
+.craft__mark::after{content:"";width:60px;height:1px;background:rgba(238,234,224,.6)}
+.craft__copy{background:var(--ink);color:var(--paper);padding:4rem clamp(1.6rem,4vw,3.6rem);display:flex;flex-direction:column;justify-content:center;gap:1.4rem}
+.craft__copy h2{font-size:clamp(1.9rem,3.2vw,2.6rem);font-weight:600;line-height:1.06}
+.craft__copy p{color:rgba(238,234,224,.68);font-size:1.02rem;line-height:1.76;max-width:44ch}
 
 /* ---------- om oss ---------- */
-.om{display:grid;grid-template-columns:.9fr 1.1fr;gap:3.6rem;align-items:center}
-.om__quote{font-family:var(--serif);font-size:clamp(1.4rem,2.4vw,1.9rem);line-height:1.4;font-weight:500;color:var(--fg)}
-.om__quote span{color:var(--gull-d)}
-.om p{color:var(--fg2);font-size:1rem;line-height:1.78;margin-top:1.2rem}
-.om__team{display:flex;gap:2.6rem;margin-top:2.2rem;flex-wrap:wrap}
-.om__team div b{display:block;font-family:var(--serif);font-size:1.15rem;font-weight:600}
-.om__team div span{font-size:.82rem;color:var(--mute)}
-.om__cards{display:grid;gap:1rem}
-.om__card{background:var(--hvit);border:1px solid var(--line);border-radius:4px;padding:1.5rem 1.7rem;display:flex;gap:1rem;align-items:flex-start}
-.om__card i{width:38px;height:38px;border-radius:50%;background:var(--dis-2);display:grid;place-items:center;color:var(--gull-d);flex:none}
-.om__card i svg{width:18px;height:18px}
-.om__card b{display:block;font-size:.95rem;margin-bottom:.2rem}
-.om__card span{font-size:.86rem;color:var(--fg2);line-height:1.55}
+.om{display:grid;grid-template-columns:1.1fr .9fr;gap:4rem}
+.om__quote{font-family:var(--display);font-size:clamp(1.5rem,2.6vw,2.1rem);line-height:1.32;font-weight:600;max-width:20ch}
+.om p{color:var(--ink-soft);font-size:1rem;line-height:1.78;margin-top:1.4rem;max-width:52ch}
+.om__names{margin-top:2.2rem;display:grid;gap:.9rem}
+.om__names div{display:flex;justify-content:space-between;gap:1rem;padding-bottom:.9rem;border-bottom:1px solid var(--line);max-width:420px}
+.om__names b{font-weight:600}
+.om__names span{color:var(--mute);font-size:.9rem}
+.om__facts{border-top:1px solid var(--line)}
+.om__fact{display:flex;justify-content:space-between;gap:1rem;padding:1.5rem 0;border-bottom:1px solid var(--line)}
+.om__fact b{font-weight:600;font-size:1rem}
+.om__fact span{color:var(--mute);font-size:.88rem;text-align:right;max-width:24ch}
 
 /* ---------- referanser ---------- */
-.ref{text-align:center}
-.ref .head{grid-template-columns:1fr;text-align:center;justify-items:center}
-.ref__box{max-width:680px;margin:0 auto;background:var(--stein);border-radius:6px;padding:3rem 2.4rem;display:flex;flex-direction:column;align-items:center;gap:1.2rem}
-.ref__box p{color:rgba(255,255,255,.72);font-size:1rem;line-height:1.7;max-width:44ch}
-.ref__fb{display:inline-flex;align-items:center;gap:.6rem;font-weight:600;color:#fff}
-.ref__fb svg{width:20px;height:20px;color:var(--gull-l)}
+.ref{border:1px solid rgba(238,234,224,.22);padding:3.2rem clamp(1.6rem,4vw,3.6rem);display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center}
+.ref p{color:rgba(238,234,224,.68);font-size:1.02rem;line-height:1.72;max-width:52ch}
+.ref__fb{display:inline-flex;align-items:center;gap:.7rem;font-weight:600;color:#fff;white-space:nowrap}
+.ref__fb svg{width:20px;height:20px;color:var(--chalk)}
 
 /* ---------- kontakt ---------- */
-.kon{background:var(--kull);color:#fff}
-.kon__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
-.kon h2{font-size:clamp(2.1rem,4vw,3.3rem);font-weight:600;line-height:1.05;margin-top:.7rem;max-width:14ch}
-.kon p{color:rgba(255,255,255,.68);font-size:1.02rem;line-height:1.72;margin-top:1.2rem;max-width:42ch}
-.kon__cta{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem}
-.kon__card{background:var(--kull-2);border:1px solid var(--line-l);border-radius:6px;padding:2.2rem}
-.kon__card dl{display:grid;gap:1.1rem;margin:0}
-.kon__card dt{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
-.kon__card dd{margin:.3rem 0 0;font-size:1rem;font-weight:500}
-.kon__card dd a:hover{color:var(--gull-l)}
-.kon__card hr{border:none;border-top:1px solid var(--line-l);margin:0}
+.kon{background:var(--ink);color:var(--paper)}
+.kon__grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem}
+.kon h2{font-size:clamp(2.1rem,3.6vw,3.1rem);font-weight:600;line-height:1.04;max-width:13ch}
+.kon p{color:rgba(238,234,224,.66);font-size:1.02rem;line-height:1.72;margin-top:1.3rem;max-width:40ch}
+.kon__cta{margin-top:2.1rem;display:flex;flex-wrap:wrap;gap:.9rem}
+.kon__fields{border-top:1px solid rgba(238,234,224,.2)}
+.kon__field{display:grid;grid-template-columns:9rem 1fr;gap:1rem;padding:1.35rem 0;border-bottom:1px solid rgba(238,234,224,.2)}
+.kon__field dt{font-size:.78rem;color:rgba(238,234,224,.5)}
+.kon__field dd{margin:0;font-size:1rem;font-weight:500}
+.kon__field a:hover{color:var(--chalk)}
 
 /* ---------- footer ---------- */
-.foot{background:var(--kull);color:rgba(255,255,255,.5);font-size:.82rem;padding:1.6rem var(--pad);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.6rem;border-top:1px solid var(--line-l)}
-.foot a{color:rgba(255,255,255,.78)}
-.foot a:hover{text-decoration:underline}
+.foot{background:var(--ink);color:rgba(238,234,224,.45);font-size:.82rem;padding:1.6rem var(--pad);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.6rem;border-top:1px solid rgba(238,234,224,.16)}
+.foot a{color:rgba(238,234,224,.72)}
 
 @media(max-width:980px){
-  .head{grid-template-columns:1fr}
-  .svc-grid{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr}
+  .hero__copy{padding-top:8.5rem}
+  .hero__img{min-height:300px;order:-1}
+  .spec__row{grid-template-columns:repeat(2,1fr)}
+  .spec__cell:nth-child(3){border-left:none}
+  .spec__cell:nth-child(3),.spec__cell:nth-child(4){border-top:1px solid var(--line)}
+  .svc{grid-template-columns:1fr;gap:.6rem}
   .craft{grid-template-columns:1fr}
-  .craft__img{min-height:320px}
+  .craft__img{min-height:280px}
   .om{grid-template-columns:1fr}
+  .ref{grid-template-columns:1fr;text-align:left}
   .kon__grid{grid-template-columns:1fr}
-  .trust__row{justify-content:center;text-align:center}
 }
 @media(max-width:760px){
   .hd nav{display:none}
   .hd__tel{display:none}
-  .hero__in{padding-top:8.5rem}
-  .hero__facts{gap:1.6rem}
+  .om__fact,.kon__field{grid-template-columns:1fr}
+  .om__fact span{text-align:left}
 }
 </style>
 </head>
@@ -178,12 +173,11 @@ section{padding:6.2rem 0}
 <div class=ribbon>Uforpliktende visuelt konsept laget av <a href="https://staymotion.no" target=_blank rel=noopener>StayMotion</a> — ikke Nordbø Bygg sin faktiske nettside</div>
 
 <header class=hd id=hd>
-  <a class=hd__l href=#top><i>N</i> Nordbø Bygg</a>
+  <a class=hd__l href=#top>Nordbø Bygg</a>
   <nav>
     <a href=#tjenester>Tjenester</a>
     <a href=#handverk>Håndverket</a>
     <a href=#om-oss>Om oss</a>
-    <a href=#referanser>Referanser</a>
     <a href=#kontakt>Kontakt</a>
   </nav>
   <a class=hd__tel href="tel:+4792441446">
@@ -195,74 +189,64 @@ section{padding:6.2rem 0}
 <main id=main>
 
 <section class=hero id=top>
-  <div class=hero__bg><img src="img/concepts/nordbobygg/team-vans.jpg" alt="Arnt Nino og Adrian Nordbø foran Nordbø Bygg sine biler ved Stavanger småbåthavn"></div>
-  <div class=hero__in wrap>
-  <div class=wrap>
-    <span class="kick on-dark">Byggmester i Stavanger siden 2013</span>
-    <h1 class=serif>Håndverk du kan <em>stole på</em>, fra første befaring til nøkkelferdig hus.</h1>
-    <p>Nordbø Bygg er et familiedrevet byggefirma med røtter i gammel trehusbebyggelse og over 30 års erfaring som faglært tømrer og byggeleder. Vi tar nybygg, påbygg og restaurering — med søknad, tegning og godkjenning i orden fra dag én.</p>
+  <div class=hero__copy>
+    <h1 class=display>Håndverk du kan stole på.</h1>
+    <p>Familiedrevet byggefirma i Stavanger. Nybygg, påbygg og restaurering — med søknad, tegning og godkjenning i orden fra dag én.</p>
     <div class=hero__cta>
       <a class=btn href="#kontakt">Book gratis befaring</a>
-      <a class="btn btn--ghost" href="tel:+4792441446">Ring 924 41 446</a>
     </div>
-    <div class=hero__facts>
-      <div><b>30&nbsp;år</b><span>ERFARING I FAGET</span></div>
-      <div><b>2013</b><span>ETABLERT SOM EGET AS</span></div>
-      <div><b>Sentralt</b><span>GODKJENT FORETAK</span></div>
-      <div><b>Stavanger</b><span>SANDNES · BRYNE</span></div>
+    <div class=dim-row>
+      <div class=dim><b>30</b><span>ÅR ERFARING</span></div>
+      <div class=dim><b>2013</b><span>ETABLERT SOM EGET AS</span></div>
+      <div class=dim><b>2</b><span>FAGFOLK PÅ HVERT PROSJEKT</span></div>
     </div>
   </div>
+  <div class="hero__img duo">
+    <img src="img/concepts/nordbobygg/team-vans.jpg" alt="Arnt Nino og Adrian Nordbø foran Nordbø Bygg sine biler ved Stavanger småbåthavn">
   </div>
 </section>
 
-<section class=trust>
-  <div class=wrap trust__row>
-    <div class=trust__item><img src="img/concepts/nordbobygg/badge-sentralt-godkjent.png" alt="Sentralt godkjent foretak"> Sentralt godkjent foretak</div>
-    <div class=trust__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Egenkontroll og sjekklister på alle prosjekt</div>
-    <div class=trust__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><circle cx=12 cy=12 r=10 /><path d="M12 6v6l4 2"/></svg> Gratis befaring, ingen bindingstid</div>
-    <div class=trust__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Samarbeider med arkitekt/tegner</div>
+<section class=spec>
+  <div class=wrap>
+    <dl class=spec__row>
+      <div class=spec__cell><dt>Godkjenning</dt><dd><img src="img/concepts/nordbobygg/badge-sentralt-godkjent.png" alt=""> Sentralt godkjent</dd></div>
+      <div class=spec__cell><dt>Kvalitet</dt><dd>Egenkontroll og sjekklister</dd></div>
+      <div class=spec__cell><dt>Befaring</dt><dd>Gratis, uforpliktende</dd></div>
+      <div class=spec__cell><dt>Samarbeid</dt><dd>Arkitekt og tegner</dd></div>
+    </dl>
   </div>
 </section>
 
 <section id=tjenester>
   <div class=wrap>
-    <div class=head>
-      <div><span class=kick>Tjenester</span><h2 class=serif>Alt innen tømrerfaget, under ett tak.</h2></div>
-      <p>Fra første skisse til ferdig byggemelding — vi håndterer søknader, tegninger og godkjenning fra kommunen, slik at du slipper å stå alene i prosessen.</p>
-    </div>
-    <div class=svc-grid>
-      <div class="svc">
-        <i><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=1.8><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></i>
-        <h3 class=serif>Nybygg</h3>
+    <h2 class=display>Alt innen tømrerfaget, under ett tak</h2>
+    <p class=section-lede>Fra første skisse til ferdig byggemelding — vi håndterer søknader, tegninger og godkjenning fra kommunen, slik at du slipper å stå alene i prosessen.</p>
+    <div class=svc-list>
+      <div class=svc>
+        <h3 class=display>Nybygg</h3>
         <p>Alle typer nybygg fra grunnmur til tak. Vi håndterer søknader og tegninger, og sikrer at prosjektet ditt får riktig godkjenning fra start.</p>
       </div>
-      <div class="svc">
-        <i><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=1.8><path d="M3 12l9-9 9 9M5 10v10h14V10M9 21v-6h6v6"/></svg></i>
-        <h3 class=serif>Påbygg</h3>
+      <div class=svc>
+        <h3 class=display>Påbygg</h3>
         <p>Kvist, ark, inngangspartier, terrasser og garasje. Vi utvider huset ditt uten å gå på kompromiss med kvalitet eller estetikk.</p>
       </div>
-      <div class="svc">
-        <i><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=1.8><path d="M14.5 2.5a2.12 2.12 0 0 1 3 3L6 17l-4 1 1-4z"/></svg></i>
-        <h3 class=serif>Restaurering</h3>
+      <div class=svc>
+        <h3 class=display>Restaurering</h3>
         <p>Lang erfaring fra gammel trehusbebyggelse, blant annet i Gamle Stavanger. Vi bevarer sjelen i huset mens standarden løftes til dagens krav.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="craft on-stein" id=handverk>
-  <div class=craft>
-    <div class=craft__img><img src="img/concepts/nordbobygg/craft-detail.jpg" alt="Nærbilde av presist utført tømrerarbeid i bindingsverk, fra et av Nordbø Byggs prosjekter"></div>
-    <div class=craft__copy>
-      <span class="kick on-dark">Skikkelig arbeid</span>
-      <h2 class=serif>Vi bygger som om det var vårt eget hus.</h2>
-      <p>Etter 30 år som faglært tømrer og byggeleder for store byggefirma, vet vi hva som skiller «godt nok» fra skikkelig håndverk. Hver skjøt, hver list og hvert mål blir gjort med samme nøyaktighet — uansett om det er et helt nybygg eller en kvist på et hus fra 1890-tallet.</p>
-      <ul class=craft__list>
-        <li>Egenkontroll, sjekklister og internkontroll/erklæring på hvert prosjekt</li>
-        <li>Rådgivning i forprosjektet, før noe er bestemt</li>
-        <li>Fast kontaktperson gjennom hele byggeperioden</li>
-      </ul>
-    </div>
+<section class=craft id=handverk>
+  <div class="craft__img duo">
+    <img src="img/concepts/nordbobygg/craft-detail.jpg" alt="Nærbilde av presist utført tømrerarbeid i bindingsverk, fra et av Nordbø Byggs prosjekter">
+    <span class=craft__mark><i></i>Presis skjøt, målt to ganger</span>
+  </div>
+  <div class=craft__copy>
+    <h2 class=display>Vi bygger som om det var vårt eget hus.</h2>
+    <p>Etter 30 år som faglært tømrer og byggeleder for store byggefirma, vet vi hva som skiller «godt nok» fra skikkelig håndverk. Hver skjøt, hver list og hvert mål blir gjort med samme nøyaktighet — uansett om det er et helt nybygg eller en kvist på et hus fra 1890-tallet.</p>
+    <p>Egenkontroll, sjekklister og internkontroll/erklæring følger hvert eneste prosjekt, og du har én fast kontaktperson gjennom hele byggeperioden.</p>
   </div>
 </section>
 
@@ -270,43 +254,31 @@ section{padding:6.2rem 0}
   <div class=wrap>
     <div class=om>
       <div>
-        <span class=kick>Om oss</span>
-        <p class="om__quote">Nordbø Bygg er en <span>erfaren rådgiver</span> i byggesaker — noe som er spesielt viktig i forprosjektet til ditt bygg.</p>
+        <p class=om__quote>Nordbø Bygg er en erfaren rådgiver i byggesaker — noe som er spesielt viktig i forprosjektet til ditt bygg.</p>
         <p>Etter 30 år som faglært tømrer og byggeleder for store byggefirma ble Nordbø Bygg etablert som egen virksomhet i 2013. På veien til egen etablering har vi vært så heldige å få være bidragsyter til flere krevende byggeoppdrag — som har stilt krav til både ypperste kvalitet og god økonomi.</p>
         <p>Det gir deg som kunde en trygghet for at du får utført skikkelig arbeid, som du kan være fornøyd med og stolt av.</p>
-        <div class=om__team>
+        <div class=om__names>
           <div><b>Arnt Nino Nordbø</b><span>Daglig leder — 924 41 446</span></div>
           <div><b>Adrian Nordbø</b><span>Byggeleder — 930 92 441</span></div>
         </div>
       </div>
-      <div class=om__cards>
-        <div class="om__card">
-          <i><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=1.8><circle cx=12 cy=12 r=10 /><path d="M12 6v6l4 2"/></svg></i>
-          <div><b>Gratis befaring</b><span>Vi stiller på befaring og gir nyttige byggetips før du bestemmer deg for noe.</span></div>
-        </div>
-        <div class="om__card">
-          <i><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=1.8><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></i>
-          <div><b>Søknad og tegning</b><span>Vi samarbeider med arkitekt/tegner og håndterer søknad og godkjenning fra kommunen.</span></div>
-        </div>
-        <div class="om__card">
-          <i><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=1.8><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></i>
-          <div><b>Kvalitetssikret</b><span>Egenkontroll, sjekklister og internkontroll/erklæring følger hvert eneste prosjekt.</span></div>
-        </div>
-      </div>
+      <dl class=om__facts>
+        <div class=om__fact><b>Gratis befaring</b><span>Vi stiller på befaring og gir nyttige byggetips før du bestemmer deg for noe</span></div>
+        <div class=om__fact><b>Søknad og tegning</b><span>Vi samarbeider med arkitekt/tegner og håndterer godkjenning fra kommunen</span></div>
+        <div class=om__fact><b>Kvalitetssikret</b><span>Egenkontroll, sjekklister og internkontroll/erklæring på hvert prosjekt</span></div>
+      </dl>
     </div>
   </div>
 </section>
 
-<section class="on-dark ref" id=referanser>
+<section class=on-dark>
   <div class=wrap>
-    <div class=head>
-      <div><span class="kick on-dark">Referanser</span><h2 class=serif>Se det vi faktisk har bygget.</h2></div>
-    </div>
-    <div class=ref__box>
+    <h2 class=display>Se det vi faktisk har bygget</h2>
+    <div class=ref style="margin-top:2.4rem">
       <p>Vi samler løpende bilder fra pågående og ferdige prosjekt på Facebook — fra nybygg til restaurering av gamle trehus i Stavanger-regionen. Ta en kikk, eller spør oss om referanser fra ditt nabolag på befaringen.</p>
       <a class=ref__fb href="https://www.facebook.com/NordboByggAS/" target=_blank rel=noopener>
         <svg viewBox="0 0 24 24" fill=currentColor><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
-        Nordbø Bygg AS på Facebook ↗
+        Nordbø Bygg AS på Facebook
       </a>
     </div>
   </div>
@@ -316,25 +288,19 @@ section{padding:6.2rem 0}
   <div class=wrap>
     <div class=kon__grid>
       <div>
-        <span class="kick on-dark">Kontakt</span>
-        <h2 class=serif>Klar for en uforpliktende befaring?</h2>
+        <h2 class=display>Klar for en uforpliktende befaring?</h2>
         <p>Ta kontakt for en gratis befaring — vi kommer med nyttige byggetips i forkant av et eventuelt prosjekt, uansett hvor stort eller lite det er.</p>
         <div class=kon__cta>
           <a class=btn href="tel:+4792441446">Ring 924 41 446</a>
-          <a class="btn btn--ghost" href="mailto:post@nordbobygg.no">post@nordbobygg.no</a>
+          <a class="btn btn--ghost-dark" href="mailto:post@nordbobygg.no">post@nordbobygg.no</a>
         </div>
       </div>
-      <div class=kon__card>
-        <dl>
-          <div><dt>Besøksadresse</dt><dd>Haugesundsgata 41, 4014 Stavanger</dd></div>
-          <hr>
-          <div><dt>Telefon</dt><dd><a href="tel:+4792441446">Arnt Nino — 924 41 446</a><br><a href="tel:+4793092441">Adrian — 930 92 441</a></dd></div>
-          <hr>
-          <div><dt>E-post</dt><dd><a href="mailto:post@nordbobygg.no">post@nordbobygg.no</a></dd></div>
-          <hr>
-          <div><dt>Åpningstider</dt><dd>Man–Fre: 07.00–17.00</dd></div>
-        </dl>
-      </div>
+      <dl class=kon__fields>
+        <div class=kon__field><dt>Besøksadresse</dt><dd>Haugesundsgata 41, 4014 Stavanger</dd></div>
+        <div class=kon__field><dt>Telefon</dt><dd><a href="tel:+4792441446">Arnt Nino — 924 41 446</a><br><a href="tel:+4793092441">Adrian — 930 92 441</a></dd></div>
+        <div class=kon__field><dt>E-post</dt><dd><a href="mailto:post@nordbobygg.no">post@nordbobygg.no</a></dd></div>
+        <div class=kon__field><dt>Åpningstider</dt><dd>Man–Fre: 07.00–17.00</dd></div>
+      </dl>
     </div>
   </div>
 </section>
