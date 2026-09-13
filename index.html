@@ -891,6 +891,11 @@
   object-position:top center !important;
 }
 
+/* V14.10: clip mockup screenshots to the frame's rounded corners, center desktop mockup with phone mockup */
+.browser-shot-v14,.phone-shot-v14{overflow:hidden!important}
+.preview-block-v14:not(.phone-stage-v14) .pc-mock{margin-top:auto;margin-bottom:auto}
+@media(max-width:900px){.preview-block-v14:not(.phone-stage-v14) .pc-mock{margin-top:0;margin-bottom:0}}
+
 
 /* === V14.9 — Waves shader from user component === */
 .hero{
