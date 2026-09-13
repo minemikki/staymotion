@@ -19,6 +19,7 @@ const ALLOWED = [
   'goalKr', 'deadline', 'dryRun', 'killSwitch', 'paused', 'dailyCap',
   'domainVerified', 'workStartHour', 'workEndHour', 'workDays', 'vatMode',
   'senderName', 'studioName', 'contactPhone', 'contactEmail',
+  'researchTreatedIds',
 ];
 
 function sanitize(patch) {
@@ -29,6 +30,9 @@ function sanitize(patch) {
     if (['dryRun', 'killSwitch', 'paused', 'domainVerified'].includes(k)) v = !!v;
     else if (['goalKr', 'dailyCap', 'workStartHour', 'workEndHour'].includes(k)) v = Math.max(0, parseInt(v, 10) || 0);
     else if (k === 'workDays' && Array.isArray(v)) v = v.map((n) => parseInt(n, 10)).filter((n) => n >= 0 && n <= 6);
+    else if (k === 'researchTreatedIds' && Array.isArray(v)) {
+      v = [...new Set(v.map((x) => String(x || '').trim()).filter((x) => /^[a-z0-9_-]{1,80}$/i.test(x)))].slice(0, 500);
+    }
     else if (k === 'vatMode') v = ['unknown', 'incl', 'excl', 'exempt'].includes(v) ? v : 'unknown';
     else if (typeof v === 'string') v = v.slice(0, 200);
     out[k] = v;
