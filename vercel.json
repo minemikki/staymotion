@@ -1,6 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/salg",
+      "destination": "/sales-hub.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(og.jpg|favicon.svg)",
