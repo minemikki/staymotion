@@ -583,26 +583,26 @@
     .case-header-v14 p{margin:10px 0 0;color:var(--muted);font-size:16px;line-height:1.74;max-width:760px}
     .case-header-v14 .case-side-note{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
 
-    .case-surface-v14{padding:24px;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(280px,.82fr);gap:22px;background:linear-gradient(135deg,#08080a 0%,#121219 100%)}
-    .case-card-v14.gimi .case-surface-v14{background:radial-gradient(circle at 16% 6%, rgba(194,134,74,.18), transparent 24%),linear-gradient(135deg,#08080a 0%,#121219 100%)}
+    .case-surface-v14{padding:24px;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(280px,.82fr);gap:22px;background:linear-gradient(135deg,#f6f5f3 0%,#ece9e4 100%)}
+    .case-card-v14.gimi .case-surface-v14{background:radial-gradient(circle at 16% 6%, rgba(194,134,74,.08), transparent 24%),linear-gradient(135deg,#f6f5f3 0%,#ece9e4 100%)}
     .case-card-v14.fit .case-surface-v14{background:radial-gradient(circle at 78% 16%, rgba(255,53,68,.16), transparent 22%),radial-gradient(circle at 14% 78%, rgba(39,87,255,.12), transparent 24%),linear-gradient(135deg,#08080a 0%,#121219 100%)}
 
     .preview-block-v14{display:flex;flex-direction:column;gap:12px}
-    .preview-label-v14{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.82);font-size:10px;letter-spacing:.14em;text-transform:uppercase;align-self:flex-start}
-    .preview-label-v14 i{width:6px;height:6px;border-radius:50%;background:#fff;opacity:.76}
+    .preview-label-v14{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;background:rgba(0,0,0,.045);border:1px solid rgba(0,0,0,.1);color:rgba(20,18,15,.72);font-size:10px;letter-spacing:.14em;text-transform:uppercase;align-self:flex-start}
+    .preview-label-v14 i{width:6px;height:6px;border-radius:50%;background:#8a7f6e;opacity:.9}
 
     .browser-wrap-v14{background:#09090a;border:1px solid rgba(255,255,255,.1);border-radius:28px;overflow:hidden;box-shadow:0 34px 100px rgba(0,0,0,.34)}
     .browser-top-v14{height:48px;display:flex;align-items:center;gap:9px;padding:0 16px;background:#efebe7;border-bottom:1px solid rgba(0,0,0,.08)}
     .browser-top-v14 .dot{width:10px;height:10px;border-radius:50%}
     .browser-top-v14 .dot.red{background:#ff6f61}.browser-top-v14 .dot.yellow{background:#f2c04d}.browser-top-v14 .dot.green{background:#69c267}
     .browser-addr-v14{margin-left:10px;min-width:0;max-width:360px;flex:1;height:30px;border-radius:999px;background:rgba(255,255,255,.95);padding:0 14px;display:flex;align-items:center;font-size:12px;color:#7c776f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .browser-shot-v14{padding:0;background:#0a0a0b}
-    .browser-shot-v14 img{display:block;width:100%;height:auto;background:#0a0a0b}
+    .browser-shot-v14{padding:0;background:#ece9e4}
+    .browser-shot-v14 img{display:block;width:100%;height:auto;background:#ece9e4}
 
     .phone-stage-v14{display:flex;justify-content:center}
     .phone-wrap-v14{width:min(100%,320px);background:#0b0b0d;border-radius:42px;padding:11px;border:1px solid rgba(255,255,255,.14);box-shadow:0 34px 100px rgba(0,0,0,.36);position:relative}
     .phone-wrap-v14::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:34%;height:20px;border-radius:999px;background:#000;z-index:2}
-    .phone-shot-v14{border-radius:32px;overflow:hidden;background:#070708}
+    .phone-shot-v14{border-radius:32px;overflow:hidden;background:#1a1a1a}
     .phone-shot-v14 img{display:block;width:100%;height:auto;background:#070708}
 
     .case-footer-v14{padding:18px 30px 28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
@@ -730,7 +730,7 @@
     @media (min-width:901px){
       .phone-shot-v14{cursor:ns-resize}
       .preview-block-v14.phone-stage-v14{position:relative}
-      .preview-block-v14.phone-stage-v14::after{content:'SCROLL PREVIEW';position:absolute;right:14px;bottom:12px;padding:8px 10px;border-radius:999px;background:rgba(8,9,12,.72);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);color:rgba(255,255,255,.78);font-size:9px;letter-spacing:.14em;pointer-events:none}
+      .preview-block-v14.phone-stage-v14::after{content:none}
     }
     @media (max-width:900px){
       .phone-wrap-v14{height:500px}
@@ -798,7 +798,7 @@
 
     .preview-block-v14{position:relative}
     .preview-block-v14::after{
-      content:'SCROLL';
+      content:none;
       position:absolute;
       right:14px;
       bottom:12px;
@@ -838,9 +838,9 @@
       scrollbar-color:rgba(255,255,255,.34) rgba(255,255,255,.07);
       scroll-behavior:auto;
     }
-    .browser-shot-v14{height:700px!important;cursor:grab}
-    .phone-wrap-v14{height:680px!important;width:min(100%,344px)!important;overflow:hidden}
-    .phone-shot-v14{height:100%!important;cursor:grab}
+    .browser-shot-v14{height:auto!important;cursor:auto}
+    .phone-wrap-v14{height:auto!important;width:min(100%,344px)!important;overflow:hidden}
+    .phone-shot-v14{height:auto!important;cursor:auto}
     .browser-shot-v14 img,.phone-shot-v14 img{
       display:block!important;width:100%!important;height:auto!important;max-width:none!important;
       object-fit:initial!important;object-position:top center!important;image-rendering:auto!important;
@@ -848,8 +848,8 @@
     .browser-shot-v14::-webkit-scrollbar,.phone-shot-v14::-webkit-scrollbar{width:7px}
     .browser-shot-v14::-webkit-scrollbar-track,.phone-shot-v14::-webkit-scrollbar-track{background:rgba(255,255,255,.05)}
     .browser-shot-v14::-webkit-scrollbar-thumb,.phone-shot-v14::-webkit-scrollbar-thumb{background:rgba(255,255,255,.32);border-radius:999px}
-    @media(max-width:900px){.browser-shot-v14{height:470px!important}.phone-wrap-v14{height:560px!important}}
-    @media(max-width:680px){.browser-shot-v14{height:340px!important}.phone-wrap-v14{height:500px!important;width:252px!important}}
+    @media(max-width:900px){.browser-shot-v14{height:auto!important}.phone-wrap-v14{height:auto!important}}
+    @media(max-width:680px){.browser-shot-v14{height:auto!important}.phone-wrap-v14{height:auto!important;width:252px!important}}
 
 
 /* === V14.2 SAFE REVERT PATCH: keep V13.9 mockups untouched === */
