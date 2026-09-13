@@ -267,7 +267,7 @@
 .journey-card:hover{transform:translateY(-7px);box-shadow:0 32px 90px rgba(0,0,0,.09);border-color:rgba(15,15,16,.22)}
 .journey-card.is-dark{background:linear-gradient(155deg,#16191d 0%,#0a0b0d 58%,#11141a 100%);color:#fff;border-color:#1f242b;box-shadow:0 30px 90px rgba(0,0,0,.18)}
 .journey-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;position:relative;z-index:4}
-.journey-no{font-size:70px;line-height:.82;letter-spacing:-.08em;font-weight:520;color:#d7d8da}
+.journey-no{font-size:70px;line-height:.82;letter-spacing:-.08em;font-weight:520;color:#a8abb1}
 .is-dark .journey-no{color:rgba(255,255,255,.23)}
 .journey-tag{display:inline-flex;align-items:center;padding:8px 10px;border-radius:999px;background:#f1f2f3;color:#5b5e63;font-size:9px;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
 .is-dark .journey-tag{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.75)}
@@ -298,7 +298,9 @@
 
 /* launch phone visual */
 .launch-glow{position:absolute;right:-10%;bottom:-14%;width:55%;aspect-ratio:1;background:radial-gradient(circle,rgba(39,87,255,.17),transparent 68%);filter:blur(10px);z-index:0}
-.launch-phone{position:absolute;right:-3%;bottom:40px;width:150px;height:285px;padding:7px;border-radius:29px;background:#101113;box-shadow:0 28px 60px rgba(0,0,0,.22);transform:rotate(8deg);z-index:2;transition:transform .5s ease}.journey-card:hover .launch-phone{transform:rotate(4deg) translateY(-6px)}
+.launch-phone{position:absolute;right:-1%;bottom:16px;width:118px;height:225px;padding:6px;border-radius:24px;background:#101113;box-shadow:0 28px 60px rgba(0,0,0,.22);transform:rotate(8deg);z-index:2;transition:transform .5s ease}.journey-card:hover .launch-phone{transform:rotate(4deg) translateY(-6px)}
+.journey-card.has-phone .journey-copy{max-width:270px}
+.journey-card.has-phone .journey-bottom{padding-right:104px}
 .launch-phone:before{content:'';position:absolute;top:11px;left:50%;transform:translateX(-50%);width:42px;height:12px;border-radius:999px;background:#020203;z-index:4}.launch-screen{height:100%;border-radius:23px;background:linear-gradient(160deg,#0e1115,#171c25);padding:38px 14px 16px;color:#fff;overflow:hidden;position:relative}.launch-screen:after{content:'';position:absolute;left:-20px;right:-20px;bottom:-8px;height:110px;background:linear-gradient(155deg,transparent 0 34%,#242c39 35% 48%,transparent 49%),linear-gradient(210deg,transparent 0 34%,#111822 35% 54%,transparent 55%)}.launch-screen small{font-size:6px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.42)}.launch-screen strong{display:block;font-family:'Iowan Old Style','Times New Roman',serif;font-weight:400;font-size:20px;line-height:.95;margin-top:26px;position:relative;z-index:2}.launch-screen b{display:inline-block;margin-top:22px;padding:5px 7px;border-radius:999px;background:#fff;color:#111;font-size:6px;position:relative;z-index:2}
 
 /* Pricing */
@@ -1061,7 +1063,7 @@
 <div aria-hidden="true" class="laptop"><div class="laptop-screen"><div class="laptop-ui"><small>StayMotion / Preview</small><strong>Idéer som<br/>skaper vekst.</strong><b>SE RETNING →</b></div></div><div class="laptop-base"></div></div>
 <div class="journey-bottom"><span class="journey-time">Ca. 20 min + logo og bilder</span><a class="journey-link" href="#arbeid">Se arbeidet <span>→</span></a></div>
 </article>
-<article class="journey-card reveal">
+<article class="journey-card has-phone reveal">
 <div class="launch-glow"></div>
 <div class="journey-top"><div class="journey-no">03</div><span class="journey-tag">Klar for verden</span></div>
 <div class="journey-copy"><h3>Godkjenning og lansering</h3><p>Du ser gjennom og godkjenner. Vi publiserer, kobler domenet og setter opp det av Google-bedriftsprofil, analyse og integrasjoner som inngår.</p></div>
