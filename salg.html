@@ -22,10 +22,10 @@
 <div id="app" class="app hide">
   <div class="bar">
     <div class="brand">STAYMOTION</div>
-    <button class="tab on" id="tab-research">Research <span class="count">22</span></button>
+    <button class="tab on" id="tab-research">Research <span class="count" id="research-count">20</span></button>
     <button class="tab" id="tab-crm">CRM / Leads</button>
     <div class="sp"></div>
-    <div class="note">Research først · CRM etter godkjenning</div>
+    <div class="note">Research først · behandlet arkiveres · CRM etter godkjenning</div>
     <button class="logout" id="logout">Logg ut</button>
   </div>
   <div class="stage">
@@ -35,12 +35,25 @@
 </div>
 <script>
 "use strict";
-const $=id=>document.getElementById(id);let KEY='',loaded=false;
-async function api(path){const u='/api/'+path+'?key='+encodeURIComponent(KEY)+'&_='+Date.now();const r=await fetch(u,{cache:'no-store',headers:{'x-admin-key':KEY}});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||('HTTP '+r.status));return j}
+const $=id=>document.getElementById(id);let KEY='',loaded=false,CONFIG={},TREATED=new Set(['rore','bjergabygg']);
+async function api(path,opts={}){const u='/api/'+path+'?key='+encodeURIComponent(KEY)+'&_='+Date.now();opts.cache='no-store';opts.headers=opts.headers||{};opts.headers['x-admin-key']=KEY;const r=await fetch(u,opts);const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||('HTTP '+r.status));return j}
+function post(path,body){return api(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})})}
+function updateResearchCount(total=22){$('research-count').textContent=Math.max(0,total-TREATED.size)}
 function loadFrames(){if(loaded)return;loaded=true;$('frame-research').src='/research.html';$('frame-crm').src='/salg-crm.html';}
-async function enter(){KEY=$('key').value.trim();if(!KEY)return;$('err').textContent='';try{await api('sales-config');sessionStorage.setItem('sm_admin',KEY);$('gate').classList.add('hide');$('app').classList.remove('hide');loadFrames();}catch(e){$('err').textContent=e.message||'Feil nøkkel'}}
+async function enter(){KEY=$('key').value.trim();if(!KEY)return;$('err').textContent='';try{const d=await api('sales-config');CONFIG=d.config||{};TREATED=new Set(Array.isArray(CONFIG.researchTreatedIds)?CONFIG.researchTreatedIds:['rore','bjergabygg']);updateResearchCount();sessionStorage.setItem('sm_admin',KEY);$('gate').classList.add('hide');$('app').classList.remove('hide');loadFrames();}catch(e){$('err').textContent=e.message||'Feil nøkkel'}}
 function show(which){const research=which==='research';$('tab-research').classList.toggle('on',research);$('tab-crm').classList.toggle('on',!research);$('frame-research').classList.toggle('on',research);$('frame-crm').classList.toggle('on',!research)}
-$('enter').onclick=enter;$('key').onkeydown=e=>{if(e.key==='Enter')enter()};$('tab-research').onclick=()=>show('research');$('tab-crm').onclick=()=>show('crm');$('logout').onclick=()=>{sessionStorage.removeItem('sm_admin');location.reload()};
+async function saveTreated(id,treated){const before=new Set(TREATED);if(treated)TREATED.add(id);else TREATED.delete(id);updateResearchCount();try{const d=await post('sales-config',{patch:{researchTreatedIds:[...TREATED]}});CONFIG=d.config||CONFIG;return true}catch(e){TREATED=before;updateResearchCount();alert('Kunne ikke lagre Behandlet-status: '+e.message);return false}}
+function enhanceResearch(){const fr=$('frame-research'),w=fr.contentWindow,d=fr.contentDocument;if(!w||!d||!Array.isArray(w.C)||typeof w.render!=='function'){setTimeout(enhanceResearch,100);return}if(w.__smTreatedEnhanced){w.render();return}w.__smTreatedEnhanced=true;
+  const style=d.createElement('style');style.textContent='#sm-status-tabs{display:flex;gap:8px;align-items:center;margin:18px 0 8px}.sm-state-btn{border:1px solid #cfd0cc;background:#fff;color:#5f6269;padding:9px 13px;border-radius:999px;font:600 13px var(--f);cursor:pointer}.sm-state-btn.on{background:#16171a;color:#fff;border-color:#16171a}.sm-state-btn b{margin-left:5px}.tag.treated{background:#e9f5ee;color:#15734a;border:1px solid #bfe0cd}.btn.treated-action{margin-left:auto}';d.head.appendChild(style);
+  const filter=d.getElementById('filter');if(filter){const all=filter.querySelector('option[value="all"]');if(all)all.textContent='Aktive';if(!filter.querySelector('option[value="treated"]')){const o=d.createElement('option');o.value='treated';o.textContent='Behandlet';filter.appendChild(o)}filter.value='all'}
+  const tools=d.querySelector('.tools');if(tools&&!d.getElementById('sm-status-tabs')){const tabs=d.createElement('div');tabs.id='sm-status-tabs';tabs.innerHTML='<button class="sm-state-btn on" id="sm-active">Aktive <b id="sm-active-count">0</b></button><button class="sm-state-btn" id="sm-treated">Behandlet <b id="sm-treated-count">0</b></button>';tools.parentNode.insertBefore(tabs,tools);d.getElementById('sm-active').onclick=()=>{filter.value='all';w.render()};d.getElementById('sm-treated').onclick=()=>{filter.value='treated';w.render()}}
+  const originalRender=w.render.bind(w);w.render=function(){const full=w.C,f=filter?filter.value:'all',doneView=f==='treated';w.C=full.filter(c=>doneView?TREATED.has(c.id):!TREATED.has(c.id));try{originalRender()}finally{w.C=full}decorateResearch(w,d,full,f)};
+  if(typeof w.promote==='function'){const originalPromote=w.promote.bind(w);w.promote=async function(id,btn){await originalPromote(id,btn);if(w.PROMOTED&&w.PROMOTED.has(id)){await saveTreated(id,true);w.render()}}}
+  w.render();
+}
+function decorateResearch(w,d,full,filterValue){const active=full.filter(c=>!TREATED.has(c.id)).length,done=full.filter(c=>TREATED.has(c.id)).length;updateResearchCount(full.length);const a=d.getElementById('sm-active-count'),b=d.getElementById('sm-treated-count');if(a)a.textContent=active;if(b)b.textContent=done;const ab=d.getElementById('sm-active'),tb=d.getElementById('sm-treated');if(ab)ab.classList.toggle('on',filterValue!=='treated');if(tb)tb.classList.toggle('on',filterValue==='treated');const sAll=d.getElementById('sAll');if(sAll){sAll.textContent=active;if(sAll.nextElementSibling)sAll.nextElementSibling.textContent='Aktive kandidater'}const sReviewed=d.getElementById('sReviewed');if(sReviewed)sReviewed.textContent=full.filter(c=>c.state==='reviewed'&&!TREATED.has(c.id)).length;const sRes=d.getElementById('sResearched');if(sRes&&w.RESULTS)sRes.textContent=Object.keys(w.RESULTS).filter(id=>!TREATED.has(id)).length;
+  d.querySelectorAll('[data-card]').forEach(card=>{const id=card.getAttribute('data-card'),isDone=TREATED.has(id),co=card.querySelector('.co');if(isDone&&co&&!co.querySelector('.tag.treated')){const tag=d.createElement('span');tag.className='tag treated';tag.textContent='BEHANDLET';co.appendChild(tag)}const actions=card.querySelector('.actions');if(actions&&!actions.querySelector('[data-treated-action]')){const btn=d.createElement('button');btn.className='btn treated-action';btn.setAttribute('data-treated-action',id);btn.textContent=isDone?'↩ Flytt tilbake til aktive':'✓ Marker behandlet';btn.onclick=async()=>{btn.disabled=true;const ok=await saveTreated(id,!isDone);if(ok)w.render();else btn.disabled=false};actions.appendChild(btn)}})}
+$('frame-research').addEventListener('load',()=>setTimeout(enhanceResearch,30));$('enter').onclick=enter;$('key').onkeydown=e=>{if(e.key==='Enter')enter()};$('tab-research').onclick=()=>show('research');$('tab-crm').onclick=()=>show('crm');$('logout').onclick=()=>{sessionStorage.removeItem('sm_admin');location.reload()};
 try{const k=sessionStorage.getItem('sm_admin');if(k){$('key').value=k;enter()}}catch(e){}
 </script>
 </body>
