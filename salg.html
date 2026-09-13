@@ -7,26 +7,41 @@
 <title>StayMotion — Salg</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>
-:root{--bg:#f5f5f2;--ink:#151619;--muted:#6f7279;--line:#dbdcd8;--blue:#1248ff;--dark:#111216;--f:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);font-family:var(--f);color:var(--ink)}.app{height:100%;display:flex;flex-direction:column}.bar{height:68px;flex:none;display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid var(--line);background:rgba(245,245,242,.97);backdrop-filter:blur(16px)}.brand{font-size:13px;font-weight:800;letter-spacing:.16em;margin-right:12px}.tab{border:1px solid transparent;background:transparent;border-radius:11px;padding:10px 14px;font-size:14px;font-weight:700;color:#5f6269;cursor:pointer}.tab:hover{background:#fff;border-color:var(--line);color:var(--ink)}.tab.on{background:var(--dark);color:#fff;border-color:var(--dark)}.count{display:inline-flex;min-width:20px;height:20px;padding:0 6px;align-items:center;justify-content:center;border-radius:999px;background:#e8e8e4;color:#62656c;font-size:11px;margin-left:5px}.tab.on .count{background:#ffffff22;color:#fff}.sp{flex:1}.note{font-size:12px;color:var(--muted)}.frame{width:100%;height:calc(100vh - 68px);border:0;display:block;background:var(--bg)}@media(max-width:640px){.bar{height:auto;min-height:68px;flex-wrap:wrap;padding:10px 12px}.brand{width:100%;margin:0}.note{display:none}.frame{height:calc(100vh - 112px)}}
+:root{--bg:#f5f5f2;--ink:#151619;--muted:#6f7279;--line:#dbdcd8;--blue:#1248ff;--dark:#111216;--red:#b83c31;--f:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);font-family:var(--f);color:var(--ink)}.hide{display:none!important}.gate{max-width:400px;margin:12vh auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;text-align:center;box-shadow:0 24px 70px -45px #000}.brand{font-size:13px;font-weight:800;letter-spacing:.16em}.gate h1{margin:18px 0 6px;font-size:28px}.gate p{color:var(--muted);font-size:14px}.gate input{width:100%;padding:12px 14px;border:1px solid #cfd0cc;border-radius:10px;font-size:15px;margin:12px 0}.gate button{width:100%;padding:12px;border:0;border-radius:10px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}.err{color:var(--red);font-size:13px;min-height:20px;margin-top:10px}.app{height:100%;display:flex;flex-direction:column}.bar{height:68px;flex:none;display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid var(--line);background:rgba(245,245,242,.97);backdrop-filter:blur(16px)}.bar .brand{margin-right:12px}.tab{border:1px solid transparent;background:transparent;border-radius:11px;padding:10px 14px;font-size:14px;font-weight:700;color:#5f6269;cursor:pointer}.tab:hover{background:#fff;border-color:var(--line);color:var(--ink)}.tab.on{background:var(--dark);color:#fff;border-color:var(--dark)}.count{display:inline-flex;min-width:20px;height:20px;padding:0 6px;align-items:center;justify-content:center;border-radius:999px;background:#e8e8e4;color:#62656c;font-size:11px;margin-left:5px}.tab.on .count{background:#ffffff22;color:#fff}.sp{flex:1}.note{font-size:12px;color:var(--muted)}.logout{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 11px;font-size:13px;cursor:pointer}.stage{position:relative;flex:1;min-height:0}.frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--bg);visibility:hidden;opacity:0;pointer-events:none}.frame.on{visibility:visible;opacity:1;pointer-events:auto}@media(max-width:640px){.bar{height:auto;min-height:68px;flex-wrap:wrap;padding:10px 12px}.bar .brand{width:100%;margin:0}.note{display:none}.stage{min-height:calc(100vh - 112px)}}
 </style>
 </head>
 <body>
-<div class="app">
+<div id="gate" class="gate">
+  <div class="brand">STAYMOTION</div>
+  <h1>Salgssystem</h1>
+  <p>Én innlogging for Research og CRM.</p>
+  <input id="key" type="password" placeholder="Adminnøkkel" autocomplete="current-password">
+  <button id="enter">Lås opp →</button>
+  <div id="err" class="err"></div>
+</div>
+<div id="app" class="app hide">
   <div class="bar">
     <div class="brand">STAYMOTION</div>
-    <button class="tab on" id="research">Research <span class="count">22</span></button>
-    <button class="tab" id="crm">CRM / Leads</button>
+    <button class="tab on" id="tab-research">Research <span class="count">22</span></button>
+    <button class="tab" id="tab-crm">CRM / Leads</button>
     <div class="sp"></div>
     <div class="note">Research først · CRM etter godkjenning</div>
+    <button class="logout" id="logout">Logg ut</button>
   </div>
-  <iframe id="frame" class="frame" src="/research.html" title="StayMotion salg"></iframe>
+  <div class="stage">
+    <iframe id="frame-research" class="frame on" title="Research"></iframe>
+    <iframe id="frame-crm" class="frame" title="CRM"></iframe>
+  </div>
 </div>
 <script>
-const frame=document.getElementById('frame');
-const research=document.getElementById('research');
-const crm=document.getElementById('crm');
-function show(which){const isResearch=which==='research';research.classList.toggle('on',isResearch);crm.classList.toggle('on',!isResearch);frame.src=isResearch?'/research.html':'/salg-crm.html';}
-research.onclick=()=>show('research');crm.onclick=()=>show('crm');
+"use strict";
+const $=id=>document.getElementById(id);let KEY='',loaded=false;
+async function api(path){const u='/api/'+path+'?key='+encodeURIComponent(KEY)+'&_='+Date.now();const r=await fetch(u,{cache:'no-store',headers:{'x-admin-key':KEY}});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||('HTTP '+r.status));return j}
+function loadFrames(){if(loaded)return;loaded=true;$('frame-research').src='/research.html';$('frame-crm').src='/salg-crm.html';}
+async function enter(){KEY=$('key').value.trim();if(!KEY)return;$('err').textContent='';try{await api('sales-config');sessionStorage.setItem('sm_admin',KEY);$('gate').classList.add('hide');$('app').classList.remove('hide');loadFrames();}catch(e){$('err').textContent=e.message||'Feil nøkkel'}}
+function show(which){const research=which==='research';$('tab-research').classList.toggle('on',research);$('tab-crm').classList.toggle('on',!research);$('frame-research').classList.toggle('on',research);$('frame-crm').classList.toggle('on',!research)}
+$('enter').onclick=enter;$('key').onkeydown=e=>{if(e.key==='Enter')enter()};$('tab-research').onclick=()=>show('research');$('tab-crm').onclick=()=>show('crm');$('logout').onclick=()=>{sessionStorage.removeItem('sm_admin');location.reload()};
+try{const k=sessionStorage.getItem('sm_admin');if(k){$('key').value=k;enter()}}catch(e){}
 </script>
 </body>
 </html>
