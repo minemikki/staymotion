@@ -181,12 +181,15 @@
     /* V10 — original business content, V8 visual language preserved */
     .brand-logo{width:39px;height:31px;object-fit:contain;flex:0 0 auto}
     .brand-word{font-weight:720;letter-spacing:-.045em;font-size:18px}
-    .trust-strip{background:#fff;border-bottom:1px solid var(--line)}
-    .trust-grid{display:grid;grid-template-columns:1.15fr 1fr 1fr 1fr}
-    .trust-intro,.trust-item{padding:23px 24px 24px 0;border-right:1px solid var(--line)}
-    .trust-item{padding-left:24px}.trust-grid>*:last-child{border-right:0}
-    .trust-intro{font-size:13px;line-height:1.55;color:var(--muted)}
-    .trust-item b{display:block;font-size:15px;letter-spacing:-.025em}.trust-item span{display:block;margin-top:6px;font-size:12px;color:var(--muted);line-height:1.45}
+    .trust-strip{background:#0a0a0b;overflow:hidden;padding:26px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+    .trust-track{display:flex;width:max-content;animation:trustScroll 26s linear infinite}
+    .trust-strip:hover .trust-track{animation-play-state:paused}
+    .trust-item{display:flex;align-items:center;flex:0 0 auto;font-family:inherit;font-size:clamp(28px,4.4vw,52px);font-weight:720;letter-spacing:-.03em;line-height:1;white-space:nowrap;color:rgba(255,255,255,.94);padding-right:56px}
+    .trust-item b{font-weight:720}
+    .trust-item i{font-style:normal;color:#e0a94e;padding:0 20px 0 0;font-size:.5em;vertical-align:middle;display:inline-block}
+    @keyframes trustScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @media(prefers-reduced-motion:reduce){.trust-track{animation:none}}
+    @media(max-width:680px){.trust-strip{padding:18px 0}.trust-item{padding-right:32px}.trust-item i{padding-right:14px}}
 
     .process-clean{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
     .process-line{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-strong)}
@@ -247,8 +250,7 @@
     .footer-brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:650}.footer-brand img{width:34px;height:27px;object-fit:contain}.footer-links{display:flex;gap:18px;flex-wrap:wrap}.footer-links a:hover{color:#fff}
 
     @media(max-width:980px){
-      .trust-grid,.process-line,.pricing-grid,.roi-grid-v10,.about-grid{grid-template-columns:1fr}
-      .trust-intro,.trust-item{padding:18px 0;border-right:0;border-bottom:1px solid var(--line)}.trust-grid>*:last-child{border-bottom:0}
+      .process-line,.pricing-grid,.roi-grid-v10,.about-grid{grid-template-columns:1fr}
       .process-step,.process-step+ .process-step{padding:26px 0;border-right:0;border-bottom:1px solid var(--line)}.process-step:last-child{border-bottom:0}
       .price-card{min-height:auto}.price-row{grid-template-columns:1fr auto}.price-row p{grid-column:1/-1}.price-row .ra{grid-row:1;grid-column:2}.price-row .rp{grid-row:2;grid-column:2}
       .pricing-note{grid-template-columns:1fr}.roi-grid-v10{gap:36px}.about-grid{gap:40px}
@@ -982,11 +984,15 @@
 </div>
 </section>
 <section aria-label="Det du får" class="trust-strip">
-<div class="container trust-grid">
-<div class="trust-intro">Tydelige rammer før vi starter. Ingen skjulte overraskelser underveis.</div>
-<div class="trust-item"><b>Fast pris</b><span>Avtalt før prosjektet starter.</span></div>
-<div class="trust-item"><b>Første utkast på dager</b><span>Momentum innen fem virkedager etter oppstart.</span></div>
-<div class="trust-item"><b>Du eier siden</b><span>Design, kode og innhold etter fullført betaling.</span></div>
+<div class="trust-track" aria-hidden="false">
+<span class="trust-item"><i>&#9670;</i><b>Fast pris</b></span>
+<span class="trust-item"><i>&#9670;</i><b>Første utkast på 5 dager</b></span>
+<span class="trust-item"><i>&#9670;</i><b>Du eier siden</b></span>
+<span class="trust-item"><i>&#9670;</i><b>Ingen skjulte overraskelser</b></span>
+<span class="trust-item" aria-hidden="true"><i>&#9670;</i><b>Fast pris</b></span>
+<span class="trust-item" aria-hidden="true"><i>&#9670;</i><b>Første utkast på 5 dager</b></span>
+<span class="trust-item" aria-hidden="true"><i>&#9670;</i><b>Du eier siden</b></span>
+<span class="trust-item" aria-hidden="true"><i>&#9670;</i><b>Ingen skjulte overraskelser</b></span>
 </div>
 </section>
 <section class="portfolio portfolio-v14" id="arbeid">
