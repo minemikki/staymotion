@@ -673,6 +673,18 @@
     .package-list-v15{display:grid;gap:10px;margin:0;padding:0;list-style:none}
     .package-list-v15 li{display:flex;gap:10px;align-items:flex-start;color:#3d403b;font-size:14px;line-height:1.5}
     .package-list-v15 li::before{content:'•';color:var(--blue);font-size:18px;line-height:1;margin-top:-1px}
+
+    .addons-v15{margin-top:34px;padding-top:34px;border-top:1px solid var(--line)}
+    .addons-v15-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px;margin-bottom:18px}
+    .addons-v15-head h3{margin:6px 0 0;font-size:26px;letter-spacing:-.04em;font-weight:520}
+    .addons-v15-head p{margin:0;color:var(--muted);font-size:14px;max-width:420px}
+    .addons-grid-v15{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .addon-card-v15{background:#fafaf8;border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:8px}
+    .addon-icon-v15{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#fff;border:1px solid var(--line);font-size:15px}
+    .addon-card-v15 h4{margin:4px 0 0;font-size:17px;font-weight:600;letter-spacing:-.02em}
+    .addon-card-v15 .addon-price-v15{font-size:13px;color:var(--blue);font-weight:600}
+    .addon-card-v15 p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+    @media(max-width:900px){.addons-grid-v15{grid-template-columns:1fr}}
     .package-cta-v15{margin-top:auto;display:inline-flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-radius:18px;background:#0b0b0d;color:#fff;font-size:12px;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 16px 36px rgba(0,0,0,.08)}
 
     .pricing-footer-v15{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
@@ -1198,6 +1210,32 @@
 <div><b>Levering:</b> Første komplette Momentum-utkast kommer innen fem virkedager etter mottatt innhold, nødvendige tilganger og oppstartbetaling.</div>
 <div><b>Eierskap:</b> Du eier det skreddersydde designet, koden og innholdet etter fullført betaling.</div>
 <div><b>Trygghet:</b> Domene og eventuelle tredjepartskostnader kan komme i tillegg, men selve pakken er satt opp med fast pris og tydelig omfang.</div>
+</div>
+<div class="addons-v15 reveal">
+<div class="addons-v15-head">
+<div><p class="eyebrow">Tilleggstjenester</p><h3>Litt mer polish, om du vil ha det.</h3></div>
+<p>Legges til i tilbudet ditt — ingen egen bestillingsprosess, bare si fra.</p>
+</div>
+<div class="addons-grid-v15">
+<div class="addon-card-v15">
+<div class="addon-icon-v15">▶</div>
+<h4>Animert video fra bilder</h4>
+<div class="addon-price-v15">fra 1 500 kr</div>
+<p>Vi gjør stillbildene dine om til en kort, levende hero-video — gir siden mer liv uten at du trenger å filme noe selv.</p>
+</div>
+<div class="addon-card-v15">
+<div class="addon-icon-v15">◆</div>
+<h4>Enkel logo</h4>
+<div class="addon-price-v15">fra 2 500 kr</div>
+<p>Har du ikke logo fra før? Vi lager en ren, enkel identitet som en del av nettsiden — ikke en generisk AI-logo.</p>
+</div>
+<div class="addon-card-v15">
+<div class="addon-icon-v15">✦</div>
+<h4>Bildeoppskalering</h4>
+<div class="addon-price-v15">Inkludert</div>
+<p>Uskarpe eller små bilder skaleres opp og skjerpes automatisk som en del av leveransen — ingen ekstra kostnad.</p>
+</div>
+</div>
 </div>
 </div>
 </section>
