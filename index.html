@@ -909,14 +909,18 @@
 }
 .hero::before,.hero::after{display:none !important}
 .waves-shader-canvas{
+  display:none;
+}
+.hero-photo-bg{
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
+  object-fit:cover;
+  object-position:center right;
   display:block;
   z-index:0;
   pointer-events:none;
-  background:#03131d;
 }
 .waves-shader-overlay{
   position:absolute;
@@ -968,6 +972,7 @@
 <main id="top">
 <section class="hero">
 <canvas id="wavesShaderCanvas" class="waves-shader-canvas" aria-hidden="true"></canvas>
+<img class="hero-photo-bg" src="img/hero/team-design-review.jpg" alt="" aria-hidden="true">
 <div class="waves-shader-overlay" aria-hidden="true"></div>
 <div class="container hero-grid">
 <div class="hero-head">
