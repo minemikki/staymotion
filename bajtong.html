@@ -122,16 +122,37 @@ section{padding:6rem 0}
 @keyframes reelScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.reel__track{animation:none}}
 
-/* ---------- showcase: bestill alt på én side ---------- */
-.showcase__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:3.6rem;align-items:center}
-.showcase__frame{border-radius:12px;overflow:hidden;box-shadow:0 40px 90px -26px rgba(11,11,10,.32);border:1px solid var(--line);background:#fff}
-.showcase__bar{display:flex;align-items:center;gap:.4rem;padding:.7rem 1rem;background:#EDEDEA;border-bottom:1px solid var(--line)}
-.showcase__bar i{width:9px;height:9px;border-radius:50%;background:#D7D7D2;flex:none}
-.showcase__frame img{display:block;width:100%}
-.showcase__list{margin-top:1.5rem;display:grid;gap:1rem}
-.showcase__list li{display:flex;gap:.85rem;align-items:flex-start;font-size:.98rem;color:var(--ink-soft);line-height:1.55}
-.showcase__list svg{width:19px;height:19px;color:var(--green);flex:none;margin-top:.2rem}
-.showcase__cta{margin-top:1.8rem;display:flex;flex-wrap:wrap;gap:1rem}
+/* ---------- full meny embedded ---------- */
+.tabs{position:sticky;top:85px;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.tabs__row{display:flex;gap:2rem;overflow-x:auto;padding-block:1.1rem}
+.tabs__row a{flex:none;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding-bottom:.3rem;border-bottom:2px solid transparent;transition:color .25s,border-color .25s}
+.tabs__row a:hover{color:var(--ink)}
+.tabs__row a.active{color:var(--green);border-color:var(--green)}
+
+.category{padding:4.4rem 0;scroll-margin-top:150px}
+.category:nth-child(even){background:var(--paper-2)}
+.category__head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:2.4rem}
+.category__head h2{font-weight:800;letter-spacing:-.01em;text-transform:uppercase;font-size:clamp(1.7rem,3.2vw,2.4rem)}
+.category__count{font-size:.82rem;color:var(--mute);font-weight:600}
+
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.photo-card{background:#fff;border:1.5px solid var(--line);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.photo-card:hover{transform:translateY(-5px);box-shadow:0 22px 44px -20px rgba(11,11,10,.22)}
+.photo-card__img{aspect-ratio:4/3;overflow:hidden}
+.photo-card__img img{transition:transform .5s var(--ease)}
+.photo-card:hover .photo-card__img img{transform:scale(1.05)}
+.photo-card__body{padding:1.2rem}
+.photo-card__body .row{display:flex;justify-content:space-between;align-items:baseline;gap:.8rem}
+.photo-card h3{font-weight:800;text-transform:uppercase;font-size:1.02rem;letter-spacing:-.01em}
+.photo-card .price{color:var(--green);font-weight:700;font-size:.86rem;white-space:nowrap}
+.photo-card p{margin-top:.4rem;color:var(--ink-soft);font-size:.84rem;line-height:1.5}
+
+.list{border-top:1px solid var(--line)}
+.list-row{display:grid;grid-template-columns:1fr auto;gap:1.2rem;align-items:baseline;padding:1.15rem 0;border-bottom:1px solid var(--line)}
+.list-row h3{font-weight:800;text-transform:uppercase;font-size:.98rem;letter-spacing:-.005em}
+.list-row p{margin-top:.3rem;color:var(--ink-soft);font-size:.84rem;line-height:1.5;max-width:60ch}
+.list-row .price{color:var(--green);font-weight:700;font-size:.9rem;white-space:nowrap}
+.list-2col{display:grid;grid-template-columns:1fr 1fr;column-gap:3rem}
 
 /* ---------- meny-kategorier ---------- */
 .menu-cats{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
@@ -168,6 +189,8 @@ section{padding:6rem 0}
   .menu-cats{grid-template-columns:repeat(2,1fr)}
   .story{grid-template-columns:1fr}
   .visit__grid{grid-template-columns:1fr}
+  .photo-grid{grid-template-columns:repeat(2,1fr)}
+  .list-2col{grid-template-columns:1fr}
 }
 @media(max-width:760px){
   .hd nav{display:none}
@@ -177,7 +200,9 @@ section{padding:6rem 0}
   .strip__item{padding-inline:.9rem}
   .visit__field{grid-template-columns:1fr}
   .dish-card{width:220px}
-  .showcase__grid{grid-template-columns:1fr}
+  .photo-grid{grid-template-columns:1fr}
+  .list-row{grid-template-columns:1fr}
+  .list-row .price{margin-top:.2rem}
 }
 </style>
 </head>
@@ -192,7 +217,7 @@ section{padding:6rem 0}
   </a>
   <nav>
     <a href=#retter>Retter</a>
-    <a href=#bestill-alt>Bestill på nett</a>
+    <a href=#meny>Bestill på nett</a>
     <a href=#historie>Om oss</a>
     <a href=#besok>Besøk</a>
   </nav>
@@ -202,7 +227,7 @@ section{padding:6rem 0}
 
 <div class=mobile-nav id=mobileNav>
   <a href=#retter>Retter</a>
-  <a href=#bestill-alt>Bestill på nett</a>
+  <a href=#meny>Bestill på nett</a>
   <a href=#historie>Om oss</a>
   <a href=#besok>Besøk</a>
   <a class="hd__tel" href="tel:+4792953388">Ring 929 53 388</a>
@@ -218,7 +243,7 @@ section{padding:6rem 0}
     <h1>Spis ekte.<br>Spis <em>thai.</em></h1>
     <p>Autentiske thairetter laget med gode råvarer, friske urter og masse smak. Bestill på nett og hent når det passer.</p>
     <div class=hero__cta>
-      <a class=btn href="bestill.html">Bestill mat på nett</a>
+      <a class=btn href="#meny">Bestill mat på nett</a>
       <a class="btn btn--ghost" href="#retter">Se rettene</a>
     </div>
     <div class="hero__status" id=openStatus><i></i><span id=openStatusText>Sjekker åpningstider …</span></div>
@@ -279,43 +304,190 @@ section{padding:6rem 0}
   </div>
 </section>
 
-<section id=bestill-alt>
-  <div class="wrap showcase__grid">
-    <div class=showcase__frame>
-      <div class=showcase__bar><i></i><i></i><i></i></div>
-      <img src="img/concepts/bajtong/bestill-preview.jpg" alt="Forhåndsvisning av bestillingssiden med hele menyen samlet på én side" loading=lazy>
+<section class=on-tint id=meny>
+  <div class=wrap>
+    <div class=head>
+      <div><span class=kick>Menyen</span><h2>Fem kategorier, én bestilling</h2></div>
+      <p>Forrett, hovedrett, barnemeny, drikke og tilbehør — alt samlet rett her på siden, ingen tredjeparts-app.</p>
     </div>
-    <div>
-      <span class=kick>Alt på én side</span>
-      <h2 style="margin-top:.7rem">Hele menyen. Én bestilling. Ingen apper.</h2>
-      <p style="color:var(--ink-soft);font-size:1rem;line-height:1.7;margin-top:1rem;max-width:42ch">Vi bygger en egen bestillingsside der gjestene ser hele menyen — forrett, hovedrett, barnemeny, drikke og tilbehør — samlet ett sted, uten omveier via tredjeparts-apper.</p>
-      <ul class=showcase__list>
-        <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M20 6 9 17l-5-5"/></svg> Alle retter, priser og bilder synlig med én gang — ingen skjulte kategorier</li>
-        <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M20 6 9 17l-5-5"/></svg> Faste kategori-faner gjør det raskt å hoppe rundt i menyen</li>
-        <li><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M20 6 9 17l-5-5"/></svg> Samme design og stil som resten av siden — føles som én helhet</li>
-      </ul>
-      <div class=showcase__cta>
-        <a class=btn href="bestill.html">Se hele bestillingssiden</a>
+    <div class=menu-cats>
+      <a class=menu-cat href="#forrett"><h4>Forrett</h4><span>10 retter · fra 30 kr</span></a>
+      <a class=menu-cat href="#hovedrett"><h4>Hovedrett</h4><span>27 retter · fra 169 kr</span></a>
+      <a class=menu-cat href="#barnemeny"><h4>Barnemeny</h4><span>5 retter · 89 kr</span></a>
+      <a class=menu-cat href="#drikke"><h4>Drikke</h4><span>10 valg · fra 35 kr</span></a>
+      <a class=menu-cat href="#tilbehor"><h4>Tilbehør</h4><span>5 valg · fra 30 kr</span></a>
+    </div>
+  </div>
+</section>
+
+<nav class=tabs id=menyTabs>
+  <div class="wrap tabs__row">
+    <a href="#forrett">Forrett</a>
+    <a href="#hovedrett">Hovedrett</a>
+    <a href="#barnemeny">Barnemeny</a>
+    <a href="#drikke">Drikke</a>
+    <a href="#tilbehor">Tilbehør</a>
+  </div>
+</nav>
+
+<section class=category id=forrett>
+  <div class=wrap>
+    <div class=category__head><h2>Forrett</h2><span class=category__count>10 retter</span></div>
+    <div class=photo-grid>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/kylling-satay.jpg" alt="Kylling satay" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Kylling Satay</h3><span class=price>69 kr</span></div><p>2 stk grillet marinert kylling på spyd, serveres med peanøttsaus.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/varrull-kylling.jpg" alt="Vårrull med kylling" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Vårrull Kylling</h3><span class=price>69 kr</span></div><p>3x hjemmelaget vårruller med kål.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/hot-wings.jpg" alt="Hot wings" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Hot Wings</h3><span class=price>69 kr</span></div><p>4 stk friterte, marinerte kyllingvinger i thai-stil.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/kylling-gyoza.jpg" alt="Kylling gyoza" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Kylling Gyoza</h3><span class=price>69 kr</span></div><p>4x stekte gyoza, serveres med søt og sterk dipp.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/dumplings.jpg" alt="Dumplings" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Dumplings</h3><span class=price>69 kr</span></div><p>4 stk dampet dumplings, serveres med salat og sterk dipp.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/scampi-tempura.jpg" alt="Scampi tempura" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Scampi Tempura</h3><span class=price>69 kr</span></div><p>3x frityrstekt scampi, serveres med dipp.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/samosa.jpg" alt="Samosa" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Samosa</h3><span class=price>69 kr</span></div><p>Frityrstekt samosa.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/varrull-vegetar.jpg" alt="Vårrull vegetar" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Vårrull Vegetar</h3><span class=price>69 kr</span></div><p>3x hjemmelaget vårruller med kål, vegetar.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/bajtong-mix.jpg" alt="Bajtong Mix" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Bajtong Mix</h3><span class=price>129 kr</span></div><p>2 stk tempura scampi, 2 stk vårrull og 2 stk gyoza.</p></div>
+      </article>
+    </div>
+    <div class=list style="margin-top:1.4rem">
+      <div class=list-row><div><h3>Rekechips</h3><p>Pose med rekechips.</p></div><span class=price>30 kr</span></div>
+    </div>
+  </div>
+</section>
+
+<section class=category id=hovedrett>
+  <div class=wrap>
+    <div class=category__head><h2>Hovedrett</h2><span class=category__count>27 retter</span></div>
+    <div class=photo-grid>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/hero-gai-yang.jpg" alt="Gai Yang" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Gai Yang</h3><span class=price>189 kr</span></div><p>Thai grillet kylling, serveres med tørket chili-dipp.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/gronn-karri.jpg" alt="Grønn karri" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Grønn Karri</h3><span class=price>189 kr</span></div><p>Kokosmelk, bambusskudd, longbeans, limeblad og søt basilikum.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/larb-moo.jpg" alt="Larb Moo" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Larb Moo</h3><span class=price>189 kr</span></div><p>Hakket svinekjøtt med rødløk, mynteblad, vårløk og lime.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/kylling-cashew.jpg" alt="Kylling cashew" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Kylling Cashew</h3><span class=price>189 kr</span></div><p>Fritert kylling i chili-hvitløksaus med paprika, løk og cashewnøtter.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/sweet-sour.jpg" alt="Sweet and sour" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Sweet &amp; Sour</h3><span class=price>189 kr</span></div><p>Fritert kylling eller scampi i søt sur saus.</p></div>
+      </article>
+      <article class=photo-card>
+        <div class=photo-card__img><img src="img/concepts/bajtong/kylling-satay-hoved.jpg" alt="Kylling satay" loading=lazy></div>
+        <div class=photo-card__body><div class=row><h3>Kylling Satay</h3><span class=price>189 kr</span></div><p>Grillet marinert kylling på spyd med peanøttsaus, brokkoli, løk og koriander.</p></div>
+      </article>
+    </div>
+    <div class="list list-2col" style="margin-top:1.4rem">
+      <div>
+        <div class=list-row><div><h3>Stekt Ris</h3><p>Med gulrot, purreløk og brokkoli.</p></div><span class=price>169 kr</span></div>
+        <div class=list-row><div><h3>Stekt Ris med Hot Basilikum</h3><p>Med longbeans, løk og paprika.</p></div><span class=price>169 kr</span></div>
+        <div class=list-row><div><h3>Stekt Ris med Kylling Teriyaki</h3><p>Med grillet marinert kylling teriyaki.</p></div><span class=price>179 kr</span></div>
+        <div class=list-row><div><h3>Bajtong Stekt Ris</h3><p>Ris med karrismak, servert med grillet kylling.</p></div><span class=price>179 kr</span></div>
+        <div class=list-row><div><h3>Phad Thai</h3><p>Stekte risnudler i pad thai-saus med kinesisk kål.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Phad Grapraow</h3><p>Stekt kjøtt i chili- og hvitløksaus med paprika, bambusskudd og longbeans.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Phad Si-ew</h3><p>Stekte risnudler med egg, brokkoli, gulrot og løk.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Stekte Eggnudler</h3><p>Med gulrot, purreløk og brokkoli.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Stekte Nudler med Hot Basilikum</h3><p>Eggnudler i hot basilikum-saus med paprika.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Stekt Udon</h3><p>Stekte japanske nudler med gulrot og vårløk.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Peppersaus</h3><p>Stekt kjøtt med brokkoli, champignon og paprika.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Tom Yam Suppe</h3><p>Sterk og sur suppe med fløte, chilipaste og sopp.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Tom Kha Gai</h3><p>Syrlig kyllingsuppe med kokosmelk og galangal.</p></div><span class=price>189 kr</span></div>
+      </div>
+      <div>
+        <div class=list-row><div><h3>Massaman</h3><p>Massaman karri med kokosmelk, løk og potet.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Rød Karri</h3><p>Rød karripaste med kokosmelk, bambusskudd og søt basilikum.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Gaeng Panaeng</h3><p>Panaeng karri med kokosmelk, basilikum og paprika.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Larb Kai</h3><p>Thai salat.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Yamnoa (Biffsalat)</h3><p>Thai biffsalat med chili, selleri og koriander.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Yam Woon Sen</h3><p>Sterk glassnudelsalat med chili og hvitløk.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Kor Moo Yang</h3><p>Grillet marinert svinenakke, serveres med tørket chili-dipp.</p></div><span class=price>189 kr</span></div>
+        <div class=list-row><div><h3>Hamburger med Storfekjøtt</h3><p>Med cheddarost og pommes frites.</p></div><span class=price>189 kr</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class=on-tint id=meny>
+<section class=category id=barnemeny>
   <div class=wrap>
-    <div class=head>
-      <div><span class=kick>Menyen</span><h2>Fem kategorier, én bestilling</h2></div>
-      <p>Forrett, hovedrett, barnemeny, drikke og tilbehør — alt bestilles enkelt på nett og hentes ferdig i Kilden.</p>
+    <div class=category__head><h2>Barnemeny</h2><span class=category__count>5 retter · 89 kr</span></div>
+    <div class="list list-2col">
+      <div>
+        <div class=list-row><div><h3>Kylling Nuggets med Ris</h3><p>Kylling nuggets, serveres med ris.</p></div><span class=price>89 kr</span></div>
+        <div class=list-row><div><h3>Stekte Eggnudler med Kylling</h3></div><span class=price>89 kr</span></div>
+        <div class=list-row><div><h3>Pølse og Pomfri</h3><p>Kyllingpølse og pommes frites.</p></div><span class=price>89 kr</span></div>
+      </div>
+      <div>
+        <div class=list-row><div><h3>Kylling Nuggets med Pomfri</h3></div><span class=price>89 kr</span></div>
+        <div class=list-row><div><h3>Stekt Ris med Kylling</h3><p>Stekt ris med egg og kylling.</p></div><span class=price>89 kr</span></div>
+      </div>
     </div>
-    <div class=menu-cats>
-      <a class=menu-cat href="bestill.html#forrett"><h4>Forrett</h4><span>9 retter · fra 30 kr</span></a>
-      <a class=menu-cat href="bestill.html#hovedrett"><h4>Hovedrett</h4><span>27 retter · fra 169 kr</span></a>
-      <a class=menu-cat href="bestill.html#barnemeny"><h4>Barnemeny</h4><span>5 retter · 89 kr</span></a>
-      <a class=menu-cat href="bestill.html#drikke"><h4>Drikke</h4><span>10 valg · fra 35 kr</span></a>
-      <a class=menu-cat href="bestill.html#tilbehor"><h4>Tilbehør</h4><span>5 valg · fra 30 kr</span></a>
+  </div>
+</section>
+
+<section class=category id=drikke>
+  <div class=wrap>
+    <div class=category__head><h2>Drikke</h2><span class=category__count>10 valg</span></div>
+    <div class="list list-2col">
+      <div>
+        <div class=list-row><div><h3>Coca Cola 0.5</h3></div><span class=price>35 kr</span></div>
+        <div class=list-row><div><h3>Coca Cola Zero</h3></div><span class=price>35 kr</span></div>
+        <div class=list-row><div><h3>Fanta Orange</h3></div><span class=price>35 kr</span></div>
+        <div class=list-row><div><h3>Fanta Exotic</h3></div><span class=price>35 kr</span></div>
+        <div class=list-row><div><h3>Urge</h3></div><span class=price>35 kr</span></div>
+      </div>
+      <div>
+        <div class=list-row><div><h3>Bonaqua Blå</h3><p>Vann med kullsyre.</p></div><span class=price>35 kr</span></div>
+        <div class=list-row><div><h3>Monster Mango Loco</h3></div><span class=price>35 kr</span></div>
+        <div class=list-row><div><h3>Monster Ultra White</h3></div><span class=price>35 kr</span></div>
+        <div class=list-row><div><h3>Mango Juice</h3></div><span class=price>39 kr</span></div>
+        <div class=list-row><div><h3>Kokos Juice</h3></div><span class=price>39 kr</span></div>
+      </div>
     </div>
-    <div style="margin-top:2.4rem">
-      <a class=btn href="bestill.html">Bestill mat på nett</a>
+  </div>
+</section>
+
+<section class=category id=tilbehor>
+  <div class=wrap>
+    <div class=category__head><h2>Tilbehør</h2><span class=category__count>5 valg</span></div>
+    <div class="list list-2col">
+      <div>
+        <div class=list-row><div><h3>Extra Grønnsaker</h3></div><span class=price>30 kr</span></div>
+        <div class=list-row><div><h3>Extra Kjøtt</h3></div><span class=price>50 kr</span></div>
+        <div class=list-row><div><h3>Extra Pomfri</h3></div><span class=price>40 kr</span></div>
+      </div>
+      <div>
+        <div class=list-row><div><h3>Extra Ris</h3></div><span class=price>30 kr</span></div>
+        <div class=list-row><div><h3>Extra Saus</h3></div><span class=price>30 kr</span></div>
+      </div>
     </div>
   </div>
 </section>
