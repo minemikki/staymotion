@@ -9,7 +9,7 @@
 <meta name=robots content="noindex,nofollow">
 <link rel=preconnect href="https://fonts.googleapis.com">
 <link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,800;1,500;1,600&display=swap" rel=stylesheet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,800;1,500;1,600&family=Newsreader:ital,wght@1,400;1,500&display=swap" rel=stylesheet>
 <style>
 :root{
   --ink:#0B0B0A;--ink-soft:rgba(11,11,10,.62);--mute:rgba(11,11,10,.48);
@@ -17,6 +17,7 @@
   --green:#2C8B4E;--green-l:#3EAE64;--green-pale:#EAF6EE;
   --line:rgba(11,11,10,.1);
   --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --serif:"Newsreader",Georgia,serif;
   --pad:clamp(1.15rem,4.5vw,5.5rem);--max:1400px;
   --ease:cubic-bezier(.22,1,.36,1);
 }
@@ -35,14 +36,21 @@ h1,h2,h3,p{margin:0}
 .kick::before{content:"";width:24px;height:2px;background:var(--green-l)}
 
 /* ---------- topp ---------- */
-.hd{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.2rem var(--pad);background:rgba(255,255,255,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s,padding .3s,box-shadow .3s}
-.hd.on{border-bottom-color:var(--line);padding-block:.85rem;box-shadow:0 10px 30px rgba(11,11,10,.05)}
+.hd{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.6rem var(--pad);background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom:1px solid transparent;transition:border-color .3s,padding .3s,box-shadow .3s,background .3s}
+.hd.on{background:rgba(255,255,255,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom-color:var(--line);padding-block:.85rem;box-shadow:0 10px 30px rgba(11,11,10,.05)}
 .hd__l img{height:42px;width:auto;object-fit:contain}
+.hd__l .logo-dark{display:none}
+.hd.on .hd__l .logo-dark{display:block}
+.hd.on .hd__l .logo-light{display:none}
 .hd nav{display:flex;gap:2.2rem;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
-.hd nav a{position:relative;padding:.25rem 0;color:var(--ink-soft);transition:color .3s}
-.hd nav a:hover{color:var(--ink)}
-.hd__tel{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.5rem;border:1.5px solid var(--ink);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:background .25s,color .25s}
-.hd__tel:hover{background:var(--ink);color:#fff}
+.hd nav a{position:relative;padding:.25rem 0;color:rgba(255,255,255,.85);transition:color .3s}
+.hd.on nav a{color:var(--ink-soft)}
+.hd nav a:hover{color:#fff}
+.hd.on nav a:hover{color:var(--ink)}
+.hd__tel{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.5rem;border:1.5px solid #fff;color:#fff;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:background .25s,color .25s,border-color .25s}
+.hd.on .hd__tel{border-color:var(--ink);color:var(--ink)}
+.hd__tel:hover{background:#fff;color:var(--ink)}
+.hd.on .hd__tel:hover{background:var(--ink);color:#fff}
 
 /* ---------- knapper ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;padding:1.1rem 2.1rem;font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--green);color:#fff;border:1.5px solid var(--green);transition:background .25s,transform .25s var(--ease)}
@@ -55,18 +63,27 @@ h1,h2,h3,p{margin:0}
 .ribbon a{color:#fff;font-weight:600;border-bottom:1px solid rgba(255,255,255,.4)}
 
 /* ---------- hero ---------- */
-.hero{padding:9.5rem 0 5rem}
-.hero__grid{display:grid;grid-template-columns:1fr 1fr;gap:3.6rem;align-items:center}
-.hero h1{font-weight:800;letter-spacing:-.02em;text-transform:uppercase;font-size:clamp(2.6rem,4.6vw,4.1rem);line-height:.98;color:var(--ink)}
-.hero h1 em{font-style:italic;font-weight:600;color:var(--green);text-transform:none}
-.hero p{color:var(--ink-soft);font-size:1.05rem;line-height:1.7;max-width:38ch;margin-top:1.5rem}
-.hero__cta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2.1rem}
-.hero__status{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.9rem;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
-.hero__status i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px var(--green-pale);flex:none}
-.hero__status.closed i{background:#c4432b;box-shadow:0 0 0 4px rgba(196,67,43,.14)}
-.hero__art{position:relative}
-.hero__art-main{position:relative;aspect-ratio:4/5;box-shadow:0 40px 80px -24px rgba(11,11,10,.28)}
-.hero__art-chip{position:absolute;left:-10%;bottom:-10%;width:52%;aspect-ratio:1;border:6px solid #fff;box-shadow:0 30px 60px -18px rgba(11,11,10,.3)}
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;color:#fff}
+.hero__bg{position:absolute;inset:0;width:100%;height:100%}
+.hero__bg img{width:100%;height:100%;object-fit:cover}
+.hero__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,7,.4) 0%,rgba(8,9,7,.22) 30%,rgba(8,9,7,.5) 62%,rgba(8,9,7,.86) 100%)}
+.hero__wrap{position:relative;z-index:2;width:100%;padding:9rem var(--pad) 5rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.6rem}
+.hero .kick{color:#fff}
+.hero .kick::before{background:var(--green-l)}
+.hero h1{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.01em;font-size:clamp(2.7rem,6.2vw,5.2rem);line-height:1.06;max-width:14ch}
+.hero h1 em{color:var(--green-l);font-style:italic}
+.hero p{color:rgba(255,255,255,.82);font-size:1.05rem;line-height:1.7;max-width:38ch}
+.hero__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem}
+.hero .btn--ghost{border-color:#fff;color:#fff}
+.hero .btn--ghost:hover{background:#fff;color:var(--ink)}
+.hero__status{display:inline-flex;align-items:center;gap:.6rem;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.82)}
+.hero__status i{width:7px;height:7px;border-radius:50%;background:var(--green-l);box-shadow:0 0 0 4px rgba(62,174,100,.25);flex:none}
+.hero__status.closed i{background:#e2775c;box-shadow:0 0 0 4px rgba(226,119,92,.22)}
+.hero__card{position:absolute;left:var(--pad);bottom:2.6rem;z-index:2;width:222px;background:rgba(8,9,7,.68);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14);padding:1.3rem 1.3rem 1.5rem;color:#fff}
+.hero__card span{display:block;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.hero__card strong{display:block;margin-top:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:1.15rem}
+.hero__card em{display:block;margin-top:.35rem;font-style:normal;font-size:.82rem;color:rgba(255,255,255,.72)}
+.hero__card .price{display:block;margin-top:.7rem;color:var(--green-l);font-weight:700;font-size:.85rem;letter-spacing:.04em}
 
 /* ---------- info strip ---------- */
 .strip{background:var(--green-pale);border-block:1px solid var(--line)}
@@ -129,8 +146,6 @@ section{padding:6rem 0}
 .foot a{color:var(--ink-soft)}
 
 @media(max-width:980px){
-  .hero__grid{grid-template-columns:1fr}
-  .hero__art{margin-top:2.5rem}
   .head{grid-template-columns:1fr}
   .menu-cats{grid-template-columns:repeat(2,1fr)}
   .story{grid-template-columns:1fr}
@@ -143,6 +158,7 @@ section{padding:6rem 0}
   .strip__row{justify-content:center;text-align:center}
   .visit__field{grid-template-columns:1fr}
   .dish-card{width:220px}
+  .hero__card{left:1.15rem;right:1.15rem;bottom:1.6rem;width:auto}
 }
 </style>
 </head>
@@ -152,7 +168,10 @@ section{padding:6rem 0}
 <div class=ribbon>Uforpliktende visuelt konsept laget av <a href="https://staymotion.no" target=_blank rel=noopener>StayMotion</a> — ikke Bajtong Thai Kitchen sin faktiske nettside</div>
 
 <header class=hd id=hd>
-  <a class=hd__l href=#top><img src="img/concepts/bajtong/logo.svg" alt="Bajtong Thai Kitchen"></a>
+  <a class=hd__l href=#top>
+    <img class=logo-light src="img/concepts/bajtong/logo-light.svg" alt="Bajtong Thai Kitchen">
+    <img class=logo-dark src="img/concepts/bajtong/logo.svg" alt="Bajtong Thai Kitchen">
+  </a>
   <nav>
     <a href=#retter>Retter</a>
     <a href=#meny>Meny</a>
@@ -165,21 +184,23 @@ section{padding:6rem 0}
 <main id=main>
 
 <section class=hero id=top>
-  <div class="wrap hero__grid">
-    <div>
-      <span class=kick>Kilden · Stavanger</span>
-      <h1 style="margin-top:1.1rem">Spis ekte.<br>Spis <em>thai.</em></h1>
-      <p>Autentiske thairetter laget med gode råvarer, friske urter og masse smak. Bestill på nett og hent når det passer.</p>
-      <div class=hero__cta>
-        <a class=btn href="bestill.html">Bestill mat på nett</a>
-        <a class="btn btn--ghost" href="#retter">Se rettene</a>
-      </div>
-      <div class="hero__status" id=openStatus><i></i><span id=openStatusText>Sjekker åpningstider …</span></div>
+  <div class=hero__bg><img src="img/concepts/bajtong/hero-gai-yang.jpg" alt="Gai Yang — thai grillet kylling servert med ris og chilidipp"></div>
+  <div class=hero__scrim></div>
+  <div class=hero__card>
+    <span>Ukens anbefaling</span>
+    <strong>Gai Yang</strong>
+    <em>Thai grillet kylling med ris og chilidipp</em>
+    <span class=price>189 kr</span>
+  </div>
+  <div class="wrap hero__wrap">
+    <span class=kick>Kilden · Stavanger</span>
+    <h1>Spis ekte.<br>Spis <em>thai.</em></h1>
+    <p>Autentiske thairetter laget med gode råvarer, friske urter og masse smak. Bestill på nett og hent når det passer.</p>
+    <div class=hero__cta>
+      <a class=btn href="bestill.html">Bestill mat på nett</a>
+      <a class="btn btn--ghost" href="#retter">Se rettene</a>
     </div>
-    <div class=hero__art>
-      <div class=hero__art-main><img src="img/concepts/bajtong/hero-gai-yang.jpg" alt="Gai Yang — thai grillet kylling servert med ris og chilidipp"></div>
-      <div class=hero__art-chip><img src="img/concepts/bajtong/dumplings.jpg" alt="Dampet dumplings servert med salat og dipp"></div>
-    </div>
+    <div class="hero__status" id=openStatus><i></i><span id=openStatusText>Sjekker åpningstider …</span></div>
   </div>
 </section>
 
