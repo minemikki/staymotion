@@ -86,7 +86,7 @@ h1,h2,h3,p{margin:0}
 
 /* ---------- info strip ---------- */
 .strip{background:var(--green-pale);border-block:1px solid var(--line)}
-.strip__row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.4rem;padding-block:1.4rem}
+.strip__row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.1rem 1.6rem;padding-block:1.5rem}
 .strip__item{display:flex;align-items:center;gap:.7rem;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
 .strip__item svg{width:16px;height:16px;color:var(--green);flex:none}
 
@@ -99,9 +99,6 @@ section{padding:6rem 0}
 
 /* ---------- rullende retter ---------- */
 .reel{overflow:hidden;position:relative}
-.reel::before,.reel::after{content:"";position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
-.reel::before{left:0;background:linear-gradient(90deg,var(--paper),transparent)}
-.reel::after{right:0;background:linear-gradient(270deg,var(--paper),transparent)}
 .reel__track{display:flex;width:max-content;gap:1.2rem;animation:reelScroll 42s linear infinite}
 .reel:hover .reel__track{animation-play-state:paused}
 .dish-card{flex:0 0 auto;width:270px}
@@ -149,12 +146,13 @@ section{padding:6rem 0}
   .menu-cats{grid-template-columns:repeat(2,1fr)}
   .story{grid-template-columns:1fr}
   .visit__grid{grid-template-columns:1fr}
+  .strip__row{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:760px){
   .hd nav{display:none}
   .hd__tel{display:none}
   .menu-cats{grid-template-columns:1fr}
-  .strip__row{justify-content:center;text-align:center}
+  .strip__row{grid-template-columns:1fr}
   .visit__field{grid-template-columns:1fr}
   .dish-card{width:220px}
   .hero__card{left:1.15rem;right:1.15rem;bottom:1.6rem;width:auto}
