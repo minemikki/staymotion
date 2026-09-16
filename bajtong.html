@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang=no>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name=theme-color content="#15100D">
+<title>Bajtong Thai Kitchen — visuelt konsept</title>
+<meta name=description content="Et uforpliktende visuelt nettsidekonsept for Bajtong Thai Kitchen på Kilden, utviklet av StayMotion.">
+<meta name=robots content="noindex,nofollow">
+<link rel=preconnect href="https://fonts.googleapis.com">
+<link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@400;500;600;700&display=swap" rel=stylesheet>
+<style>
+:root{
+  --ink:#15100D;--ink-2:#1F1712;--stone:#2A2019;
+  --paper:#FBF6EE;--paper-dim:rgba(251,246,238,.7);
+  --gold:#C79A56;--gold-l:#E3C48B;
+  --chili:#C4432B;
+  --line:rgba(251,246,238,.14);
+  --serif:"Instrument Serif",Georgia,serif;--sans:"Work Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --pad:clamp(1.15rem,4.5vw,5.5rem);--max:1360px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html{background:var(--ink);color-scheme:dark;scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit;text-decoration:none}
+img{display:block;width:100%;height:100%;object-fit:cover}
+h1,h2,h3,p{margin:0}
+::selection{background:var(--gold);color:#1b1610}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.skip{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.skip:focus{position:fixed;z-index:200;top:1rem;left:1rem;width:auto;height:auto;clip:auto;padding:.8rem 1rem;background:var(--paper);color:var(--ink)}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--pad)}
+.serif{font-family:var(--serif);letter-spacing:-.01em}
+.kick{display:inline-flex;align-items:center;gap:.6rem;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l)}
+.kick::before{content:"";width:22px;height:1px;background:var(--gold)}
+
+/* ---------- topp ---------- */
+.hd{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.2rem var(--pad);transition:background .4s var(--ease),padding .4s var(--ease)}
+.hd.on{background:rgba(21,16,13,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-block:.8rem;box-shadow:0 1px 0 var(--line)}
+.hd__l{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.7rem;color:#fff}
+.hd nav{display:flex;gap:2.2rem;font-size:.86rem}
+.hd nav a{position:relative;padding:.25rem 0;color:rgba(251,246,238,.78);transition:color .3s}
+.hd nav a:hover{color:#fff}
+.hd__tel{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.9rem;white-space:nowrap;color:#fff}
+.hd__tel svg{width:15px;height:15px;color:var(--gold-l);flex:none}
+
+/* ---------- knapper ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1.05rem 2rem;border-radius:2px;font-size:.78rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;background:var(--chili);color:#fff;border:1px solid var(--chili);transition:background .25s,transform .25s var(--ease)}
+.btn:hover{background:#a3341f;border-color:#a3341f;transform:translateY(-2px)}
+.btn--ghost{background:transparent;color:#fff;border-color:rgba(251,246,238,.4)}
+.btn--ghost:hover{background:rgba(251,246,238,.08);border-color:#fff}
+.btn--dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn--dark:hover{background:#000}
+
+/* ---------- ribbon ---------- */
+.ribbon{background:#000;color:rgba(251,246,238,.6);font-size:.76rem;text-align:center;padding:.6rem var(--pad)}
+.ribbon a{color:var(--gold-l);font-weight:600;border-bottom:1px solid rgba(227,196,139,.4)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;isolation:isolate;overflow:hidden}
+.hero__bg{position:absolute;inset:0;z-index:-2}
+.hero__bg img{filter:saturate(1.04) contrast(1.03) brightness(.86)}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(10,7,5,.96) 0%,rgba(10,7,5,.5) 42%,rgba(10,7,5,.08) 68%,rgba(10,7,5,.35) 100%)}
+.hero__in{padding:10.5rem var(--pad) 4rem;width:100%}
+.hero h1{color:#fff;font-family:var(--serif);font-weight:400;font-size:clamp(3rem,8vw,6.4rem);line-height:.98;max-width:14ch}
+.hero h1 em{font-style:italic;color:var(--gold-l)}
+.hero p{color:rgba(251,246,238,.82);font-size:1.12rem;line-height:1.68;max-width:42ch;margin-top:1.3rem}
+.hero__cta{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem}
+.hero__status{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.6rem;font-size:.85rem;color:rgba(251,246,238,.75)}
+.hero__status i{width:8px;height:8px;border-radius:50%;background:#6fbf73;box-shadow:0 0 0 4px rgba(111,191,115,.22);flex:none}
+.hero__status.closed i{background:#c4432b;box-shadow:0 0 0 4px rgba(196,67,43,.22)}
+
+/* ---------- trust strip ---------- */
+.trust{background:var(--ink-2);border-bottom:1px solid var(--line)}
+.trust__row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.4rem;padding-block:1.5rem}
+.trust__item{display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:rgba(251,246,238,.78)}
+.trust__item svg{width:18px;height:18px;color:var(--gold);flex:none}
+
+/* ---------- seksjon ---------- */
+section{padding:6.2rem 0}
+.head{display:grid;grid-template-columns:1fr minmax(260px,420px);gap:2.4rem;align-items:end;margin-bottom:3rem}
+.head h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.3rem,4.4vw,3.6rem);line-height:1.02;margin-top:.6rem}
+.head p{color:rgba(251,246,238,.68);font-size:1rem;line-height:1.72}
+.on-paper{background:var(--paper);color:var(--ink)}
+.on-paper .kick{color:#8a6a35}
+.on-paper .kick::before{background:#8a6a35}
+.on-paper .head p{color:rgba(21,16,13,.66)}
+
+/* ---------- retter ---------- */
+.dish-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3rem}
+.dish-card{background:var(--ink-2);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.dish-card__img{position:relative;aspect-ratio:4/3}
+.dish-card__body{padding:1.3rem}
+.dish-card h3{font-family:var(--serif);font-weight:400;font-size:1.5rem}
+.dish-card .price{color:var(--gold-l);font-weight:600;font-size:.9rem;margin-top:.2rem}
+.dish-card p{margin-top:.6rem;color:rgba(251,246,238,.62);font-size:.86rem;line-height:1.55}
+
+/* ---------- meny-kategorier ---------- */
+.menu-cats{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid rgba(21,16,13,.14)}
+.menu-cat{padding:2rem 1.2rem;border-right:1px solid rgba(21,16,13,.14);border-bottom:1px solid rgba(21,16,13,.14);display:flex;flex-direction:column;gap:.5rem}
+.menu-cat:nth-child(5n){border-right:none}
+.menu-cat h4{font-family:var(--serif);font-weight:400;font-size:1.6rem}
+.menu-cat span{font-size:.8rem;color:rgba(21,16,13,.55)}
+
+/* ---------- historie ---------- */
+.story{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.story__img{position:relative;min-height:420px}
+.story__copy{background:var(--ink-2);padding:4rem clamp(1.6rem,4vw,4rem);display:flex;flex-direction:column;justify-content:center;gap:1.3rem}
+.story__copy h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,3.4vw,2.8rem);line-height:1.05}
+.story__copy p{color:rgba(251,246,238,.7);font-size:1.02rem;line-height:1.76;max-width:46ch}
+
+/* ---------- besøk ---------- */
+.visit{background:var(--ink)}
+.visit__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:3.4rem;align-items:center}
+.visit h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.04;max-width:13ch}
+.visit p{color:rgba(251,246,238,.68);font-size:1.02rem;line-height:1.72;margin-top:1.2rem;max-width:40ch}
+.visit__cta{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.9rem}
+.visit__card{background:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:2.2rem}
+.visit__fields{display:grid;gap:1.1rem}
+.visit__field{display:grid;grid-template-columns:8rem 1fr;gap:1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--line)}
+.visit__field:last-child{border-bottom:none;padding-bottom:0}
+.visit__field dt{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(251,246,238,.48)}
+.visit__field dd{margin:0;font-size:.98rem}
+.visit__field a:hover{color:var(--gold-l)}
+
+/* ---------- footer ---------- */
+.foot{background:#000;color:rgba(251,246,238,.42);font-size:.82rem;padding:1.6rem var(--pad);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.6rem}
+.foot a{color:rgba(251,246,238,.72)}
+
+@media(max-width:980px){
+  .head{grid-template-columns:1fr}
+  .dish-grid{grid-template-columns:repeat(2,1fr)}
+  .menu-cats{grid-template-columns:repeat(2,1fr)}
+  .menu-cat:nth-child(5n){border-right:1px solid rgba(21,16,13,.14)}
+  .menu-cat:nth-child(2n){border-right:none}
+  .story{grid-template-columns:1fr}
+  .story__img{min-height:300px}
+  .visit__grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .hd nav{display:none}
+  .hd__tel{display:none}
+  .dish-grid{grid-template-columns:1fr}
+  .trust__row{justify-content:center;text-align:center}
+  .visit__field{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class=skip href=#main>Hopp til innhold</a>
+
+<div class=ribbon>Uforpliktende visuelt konsept laget av <a href="https://staymotion.no" target=_blank rel=noopener>StayMotion</a> — ikke Bajtong Thai Kitchen sin faktiske nettside</div>
+
+<header class=hd id=hd>
+  <a class="hd__l serif" href=#top>Bajtong</a>
+  <nav>
+    <a href=#retter>Retter</a>
+    <a href=#meny>Meny</a>
+    <a href=#historie>Om oss</a>
+    <a href=#besok>Besøk</a>
+  </nav>
+  <a class=hd__tel href="tel:+4792953388">
+    <svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    929 53 388
+  </a>
+</header>
+
+<main id=main>
+
+<section class=hero id=top>
+  <div class=hero__bg><img src="img/concepts/bajtong/hero-gai-yang.jpg" alt="Gai Yang — thai grillet kylling servert med ris og chilidipp, Bajtong Thai Kitchen"></div>
+  <div class=hero__in>
+  <div class=wrap>
+    <span class=kick style="color:var(--gold-l)">Kilden kjøpesenter · Stavanger</span>
+    <h1 class=serif>Smaken av <em>Thailand</em>, midt i Kilden.</h1>
+    <p>Autentiske thairetter laget med gode råvarer, friske urter og masse smak. Bestill på nett og hent når det passer.</p>
+    <div class=hero__cta>
+      <a class=btn href="#meny">Bestill mat på nett</a>
+      <a class="btn btn--ghost" href="#retter">Se rettene</a>
+    </div>
+    <div class="hero__status" id=openStatus><i></i><span id=openStatusText>Sjekker åpningstider …</span></div>
+  </div>
+  </div>
+</section>
+
+<section class=trust>
+  <div class=wrap trust__row>
+    <div class=trust__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M12 21c-4.97-4.03-8-7.5-8-11a8 8 0 0 1 16 0c0 3.5-3.03 6.97-8 11z"/><circle cx=12 cy=10 r=3 /></svg> Gartnerveien 15, Kilden</div>
+    <div class=trust__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><circle cx=12 cy=12 r=10 /><path d="M12 6v6l4 2"/></svg> Man–fre 10–20 · Lør 10–19 · Søn 14–19</div>
+    <div class=trust__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 929 53 388</div>
+    <div class=trust__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg> Enkel henting, ingen kø</div>
+  </div>
+</section>
+
+<section id=retter>
+  <div class=wrap>
+    <div class=head>
+      <div><span class=kick>Favoritter</span><h2 class=serif>Retter folk kommer tilbake for.</h2></div>
+      <p>Et lite utvalg fra menyen — grillet, friskt og fullt av smak. Hele menyen finner du når du bestiller på nett.</p>
+    </div>
+    <div class=dish-grid>
+      <article class=dish-card>
+        <div class=dish-card__img><img src="img/concepts/bajtong/hero-gai-yang.jpg" alt="Gai Yang, thai grillet kylling"></div>
+        <div class=dish-card__body>
+          <h3 class=serif>Gai Yang</h3>
+          <div class=price>189 kr</div>
+          <p>Thai grillet kylling, serveres med tørket chili-dipp.</p>
+        </div>
+      </article>
+      <article class=dish-card>
+        <div class=dish-card__img><img src="img/concepts/bajtong/gronn-karri.jpg" alt="Grønn karri med kokosmelk og basilikum"></div>
+        <div class=dish-card__body>
+          <h3 class=serif>Grønn karri</h3>
+          <div class=price>189 kr</div>
+          <p>Kokosmelk, bambusskudd, longbeans, limeblad, paprika og søt basilikum.</p>
+        </div>
+      </article>
+      <article class=dish-card>
+        <div class=dish-card__img><img src="img/concepts/bajtong/larb-moo.jpg" alt="Larb Moo, hakket svinekjøtt med rødløk og mynte"></div>
+        <div class=dish-card__body>
+          <h3 class=serif>Larb Moo</h3>
+          <div class=price>189 kr</div>
+          <p>Hakket svinekjøtt med rødløk, mynteblad, vårløk og lime.</p>
+        </div>
+      </article>
+      <article class=dish-card>
+        <div class=dish-card__img><img src="img/concepts/bajtong/dumplings.jpg" alt="Dampet dumplings servert med salat og dipp"></div>
+        <div class=dish-card__body>
+          <h3 class=serif>Dumplings</h3>
+          <div class=price>69 kr</div>
+          <p>4 stk dampet dumplings, serveres med salat og sterk dipp.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class=on-paper id=meny>
+  <div class=wrap>
+    <div class=head>
+      <div><span class=kick>Menyen</span><h2 class=serif>Fem kategorier, én bestilling.</h2></div>
+      <p>Forrett, hovedrett, barnemeny, drikke og tilbehør — alt bestilles enkelt på nett og hentes ferdig i Kilden.</p>
+    </div>
+  </div>
+  <div class="wrap menu-cats" style="padding-left:0;padding-right:0;max-width:100%">
+    <div class=menu-cat><h4 class=serif>Forrett</h4><span>9 retter · fra 30 kr</span></div>
+    <div class=menu-cat><h4 class=serif>Hovedrett</h4><span>27 retter · fra 169 kr</span></div>
+    <div class=menu-cat><h4 class=serif>Barnemeny</h4><span>5 retter · 89 kr</span></div>
+    <div class=menu-cat><h4 class=serif>Drikke</h4><span>10 valg · fra 35 kr</span></div>
+    <div class=menu-cat><h4 class=serif>Tilbehør</h4><span>5 valg · fra 30 kr</span></div>
+  </div>
+  <div class=wrap style="margin-top:2.4rem">
+    <a class="btn btn--dark" href="#besok">Bestill mat på nett</a>
+  </div>
+</section>
+
+<section class=story id=historie>
+  <div class=story__img><img src="img/concepts/bajtong/stekt-ris.jpg" alt="Stekt ris med reker og grønnsaker, Bajtong Thai Kitchen"></div>
+  <div class=story__copy>
+    <span class=kick>Om Bajtong</span>
+    <h2 class=serif>Enkel bestilling. Store smaker.</h2>
+    <p>Hos oss finner du klassiske thairetter med en frisk og moderne presentasjon. Alt lages fra bunnen med gode råvarer og friske urter — akkurat som det skal smake.</p>
+    <p>Bestill direkte fra menyen vår, så gjør vi maten klar til henting — sentralt plassert på Kilden kjøpesenter, midt i Stavanger.</p>
+  </div>
+</section>
+
+<section class=visit id=besok>
+  <div class=wrap>
+    <div class=visit__grid>
+      <div>
+        <span class=kick>Besøk oss</span>
+        <h2 class=serif>Klar for noe skikkelig godt?</h2>
+        <p>Se menyen, velg favorittene dine og bestill på noen få minutter — vi gjør det klart til du kommer innom.</p>
+        <div class=visit__cta>
+          <a class=btn href="tel:+4792953388">Ring 929 53 388</a>
+          <a class="btn btn--ghost" href="mailto:post@bajtong.no">post@bajtong.no</a>
+        </div>
+      </div>
+      <div class=visit__card>
+        <dl class=visit__fields>
+          <div class=visit__field><dt>Adresse</dt><dd>Gartnerveien 15, Kilden kjøpesenter<br>4016 Stavanger</dd></div>
+          <div class=visit__field><dt>Åpningstider</dt><dd>Man–fre: 10:00–20:00<br>Lørdag: 10:00–19:00<br>Søndag: 14:00–19:00</dd></div>
+          <div class=visit__field><dt>Telefon</dt><dd><a href="tel:+4792953388">929 53 388</a></dd></div>
+          <div class=visit__field><dt>E-post</dt><dd><a href="mailto:post@bajtong.no">post@bajtong.no</a></dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class=foot>
+  <span>© Bajtong Thai Kitchen. Alle rettigheter forbeholdt.</span>
+  <span>Uforpliktende visuelt konsept av <a href="https://staymotion.no" target=_blank rel=noopener>StayMotion</a> — ikke Bajtong Thai Kitchen sin faktiske nettside.</span>
+</footer>
+
+<script>
+(()=>{
+"use strict";
+var hd=document.getElementById('hd');
+var sc=function(){hd.classList.toggle('on',scrollY>60);};
+addEventListener('scroll',sc,{passive:true});sc();
+
+function checkOpen(){
+  var now=new Date();
+  var day=now.getDay(); // 0 sun .. 6 sat
+  var mins=now.getHours()*60+now.getMinutes();
+  var ranges={0:[14*60,19*60],6:[10*60,19*60]};
+  var range = ranges.hasOwnProperty(day) ? ranges[day] : [10*60,20*60];
+  var open = mins>=range[0] && mins<range[1];
+  var el=document.getElementById('openStatus');
+  var txt=document.getElementById('openStatusText');
+  var fmt=function(m){var h=Math.floor(m/60),mm=m%60;return (h<10?'0':'')+h+':'+(mm<10?'0':'')+mm;};
+  if(open){
+    el.classList.remove('closed');
+    txt.textContent='Åpent nå · stenger '+fmt(range[1]);
+  }else{
+    el.classList.add('closed');
+    txt.textContent = mins<range[0] ? 'Stengt · åpner '+fmt(range[0])+' i dag' : 'Stengt for i dag';
+  }
+}
+checkOpen();
+})();
+</script>
+</body>
+</html>
