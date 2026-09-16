@@ -85,12 +85,17 @@ h1,h2,h3,p{margin:0}
 .hero__card .price{display:block;margin-top:.7rem;color:var(--green-l);font-weight:700;font-size:.85rem;letter-spacing:.04em}
 
 /* ---------- info strip ---------- */
-.strip{background:var(--green-pale);border-block:1px solid var(--line);padding:0}
-.strip__row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.7rem 0;padding-block:1.05rem}
-.strip__item{position:relative;display:inline-flex;align-items:center;gap:.55rem;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);white-space:nowrap;padding-inline:1.5rem}
-.strip__item::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:14px;background:rgba(11,11,10,.16)}
-.strip__item:first-child::before{display:none}
-.strip__item svg{width:15px;height:15px;color:var(--green);flex:none}
+.strip{background:var(--ink);padding:0;overflow:hidden;position:relative}
+.strip::before,.strip::after{content:"";position:absolute;top:0;bottom:0;width:64px;z-index:2;pointer-events:none}
+.strip::before{left:0;background:linear-gradient(90deg,var(--ink),transparent)}
+.strip::after{right:0;background:linear-gradient(270deg,var(--ink),transparent)}
+.strip__track{display:flex;width:max-content;align-items:center;animation:stripScroll 30s linear infinite;padding-block:1.05rem}
+.strip:hover .strip__track{animation-play-state:paused}
+.strip__item{position:relative;display:inline-flex;align-items:center;gap:.55rem;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;white-space:nowrap;padding-inline:1.5rem}
+.strip__item::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:14px;background:rgba(255,255,255,.22)}
+.strip__item svg{width:15px;height:15px;color:var(--green-l);flex:none}
+@keyframes stripScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.strip__track{animation:none}}
 
 /* ---------- seksjon ---------- */
 section{padding:6rem 0}
@@ -202,7 +207,7 @@ section{padding:6rem 0}
 </section>
 
 <section class=strip>
-  <div class=wrap strip__row>
+  <div class=strip__track id=stripTrack>
     <div class=strip__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M12 21c-4.97-4.03-8-7.5-8-11a8 8 0 0 1 16 0c0 3.5-3.03 6.97-8 11z"/><circle cx=12 cy=10 r=3 /></svg> Gartnerveien 15, Kilden</div>
     <div class=strip__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><circle cx=12 cy=12 r=10 /><path d="M12 6v6l4 2"/></svg> Man–fre 10–20 · Lør 10–19 · Søn 14–19</div>
     <div class=strip__item><svg viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 929 53 388</div>
@@ -326,6 +331,9 @@ addEventListener('scroll',sc,{passive:true});sc();
 
 var reel=document.getElementById('dishReel');
 if(reel){reel.insertAdjacentHTML('beforeend', reel.innerHTML);}
+
+var strip=document.getElementById('stripTrack');
+if(strip){strip.insertAdjacentHTML('beforeend', strip.innerHTML);}
 
 function checkOpen(){
   var now=new Date();
