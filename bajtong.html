@@ -154,13 +154,6 @@ section{padding:6rem 0}
 .list-row .price{color:var(--green);font-weight:700;font-size:.9rem;white-space:nowrap}
 .list-2col{display:grid;grid-template-columns:1fr 1fr;column-gap:3rem}
 
-/* ---------- meny-kategorier ---------- */
-.menu-cats{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
-.menu-cat{background:#fff;border:1.5px solid var(--line);padding:1.8rem 1.3rem;display:flex;flex-direction:column;gap:.5rem;transition:border-color .25s,transform .25s var(--ease)}
-.menu-cat:hover{border-color:var(--green-l);transform:translateY(-4px)}
-.menu-cat h4{font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:1.2rem}
-.menu-cat span{font-size:.78rem;color:var(--mute)}
-
 /* ---------- historie ---------- */
 .story{display:grid;grid-template-columns:1fr 1fr;gap:3.6rem;align-items:center}
 .story__img{position:relative;aspect-ratio:5/4;box-shadow:0 30px 70px -22px rgba(11,11,10,.22)}
@@ -186,7 +179,6 @@ section{padding:6rem 0}
 
 @media(max-width:980px){
   .head{grid-template-columns:1fr}
-  .menu-cats{grid-template-columns:repeat(2,1fr)}
   .story{grid-template-columns:1fr}
   .visit__grid{grid-template-columns:1fr}
   .photo-grid{grid-template-columns:repeat(2,1fr)}
@@ -196,7 +188,6 @@ section{padding:6rem 0}
   .hd nav{display:none}
   .hd > .hd__tel{display:none}
   .hd__burger{display:flex}
-  .menu-cats{grid-template-columns:1fr}
   .strip__item{padding-inline:.9rem}
   .visit__field{grid-template-columns:1fr}
   .dish-card{width:220px}
@@ -310,18 +301,11 @@ section{padding:6rem 0}
   </div>
 </section>
 
-<section class=on-tint id=meny>
+<section id=meny style="padding-bottom:0">
   <div class=wrap>
-    <div class=head>
-      <div><span class=kick>Menyen</span><h2>Fem kategorier, én bestilling</h2></div>
+    <div class=head style="margin-bottom:0">
+      <div><span class=kick>Menyen</span><h2>Hele menyen, én bestilling</h2></div>
       <p>Forrett, hovedrett, barnemeny, drikke og tilbehør — alt samlet rett her på siden, ingen tredjeparts-app.</p>
-    </div>
-    <div class=menu-cats>
-      <a class=menu-cat href="#forrett"><h4>Forrett</h4><span>10 retter · fra 30 kr</span></a>
-      <a class=menu-cat href="#hovedrett"><h4>Hovedrett</h4><span>27 retter · fra 169 kr</span></a>
-      <a class=menu-cat href="#barnemeny"><h4>Barnemeny</h4><span>5 retter · 89 kr</span></a>
-      <a class=menu-cat href="#drikke"><h4>Drikke</h4><span>10 valg · fra 35 kr</span></a>
-      <a class=menu-cat href="#tilbehor"><h4>Tilbehør</h4><span>5 valg · fra 30 kr</span></a>
     </div>
   </div>
 </section>
