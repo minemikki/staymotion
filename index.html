@@ -577,6 +577,7 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 .primary{background:linear-gradient(178deg,#2a6bff,#0b3ce4 88%);border-color:#2f68ff;box-shadow:inset 0 1px 0 #ffffff33,0 2px 4px #0a1c6a14,0 8px 22px #0a1c6a1f;letter-spacing:-.01em;transition:transform .3s var(--ease),box-shadow .3s var(--ease),background-color .3s var(--ease)}.primary:hover{box-shadow:inset 0 1px 0 #ffffff44,0 3px 6px #0a1c6a1a,0 14px 34px #0a1c6a2e}.primary:active{transform:translateY(0);box-shadow:inset 0 1px 0 #ffffff22,0 2px 6px #0a1c6a24}.primary .arrow{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#ffffff1f;font-size:13px;line-height:1;flex:none}.primary:hover .arrow{background:#ffffff2e}@media(max-width:760px){.primary{justify-content:center;gap:12px;padding:0 22px;min-height:58px;font-size:16px}.hero-cta{margin-top:26px;gap:0;flex-direction:column;align-items:stretch}.hero-cta .primary{max-width:none}.hero-cta .text-link{justify-content:center;gap:10px;border-bottom:0;border:1px solid var(--line);border-radius:var(--r);min-height:52px;padding:0 20px;margin-top:10px;font-size:15px;font-weight:500;color:var(--ink);background:#fff}.hero-cta .text-link .arrow{opacity:.5}.hero-description{font-size:16px;line-height:1.58;margin-top:20px}.hero .label{font-size:11px}}
 @media(max-width:760px){.compare-buttons button{min-height:44px;padding:0 18px}.langsw button{min-height:40px;padding:0 14px}.text-link,.fl,.go,.orline a{position:relative}.text-link::after,.fl::after,.go::after,.orline a::after{content:"";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:44px;pointer-events:auto}.fgrid .fl{display:inline-flex;align-items:center;min-height:36px}}
 </style>
+<link rel="stylesheet" href="/pricing-atmosphere.css">
 </head>
 <body>
 <a class="skip" href="#hovedinnhold">Hopp til innhold</a>
@@ -721,116 +722,128 @@ footer{padding:clamp(40px,5vw,60px) 0 28px}
 </section>
 
 <!-- ================= PRICING ================= -->
-<section class="pricing pad" id="priser" aria-labelledby="pricing-title">
-  <div class="wrap">
-    <div class="sec-head">
-      <div><span class="label">Priser</span><h2 id="pricing-title" class="h-l">Fire tydelige valg.<br>Ingen overraskelser.</h2></div>
-      <p class="lead">Prisen er avtalt før vi starter, betaling skjer via sikker kortlenke, og du eier design, kode og innhold når prosjektet er betalt.</p>
+<section class="price-atmo" id="priser" aria-labelledby="pricing-title">
+  <div class="pa-wrap">
+    <div class="pa-head rv">
+      <div class="pa-kicker">Priser</div>
+      <h2 id="pricing-title">Tre veier til en sterkere tilstedeværelse</h2>
+      <p>Uansett hvor du er i reisen, har vi en tydelig vei videre. Fast pris før vi starter, konkret leveranse og en side du faktisk kan bruke til å få kunder.</p>
+      <span class="pa-handnote" aria-hidden="true">Mest verdi<br>for de fleste</span>
     </div>
 
-    <div class="offers rv">
-      <div class="offer hi">
-        <span class="tag">Mest valgt</span>
-        <h3 class="pkg"><span class="pkgn">Momentum</span><span class="pkgt">Komplett nettside</span></h3>
-        <div class="price">16 000 kr<small>50 % ved oppstart · 50 % ved levering</small></div>
-        <p>Hele nettsiden for bedriften din, satt opp og publisert — med domene, Google-bedriftsprofil og skjema som virker.</p>
-        <ul>
-          <li>Forside og inntil fire undersider</li>
-          <li>Skreddersydd design innen avtalt retning, mobiltilpasset</li>
-          <li>Vi bearbeider teksten — du gir oss råmaterialet</li>
-          <li>Kontaktskjema eller én standard bookingintegrasjon</li>
-          <li>Teknisk SEO-grunnmur og én Google-bedriftsprofil</li>
-          <li>Domene, hosting og publisering satt opp</li>
-        </ul>
-        <details class="incl">
-          <summary>Se alt som er inkludert</summary>
-          <ul>
-            <li>Kart, åpningstider og klikk-for-å-ringe</li>
-            <li>Hastighets- og kvalitetssjekk</li>
-            <li>Grunnleggende tilgjengelighet</li>
-            <li>Testet skjema med spam-beskyttelse</li>
-            <li>Search Console og enkel besøksmåling</li>
-            <li>To revisjonsrunder</li>
-            <li>Kort overlevering</li>
-            <li>14 dagers feilretting etter lansering</li>
-          </ul>
-        </details>
-        <div class="offer-foot">
-          <a class="primary" href="/api/checkout?pkg=sprint">Betal oppstart — 8 000 kr <span class="arrow" aria-hidden="true">↗︎</span></a>
-          <span class="pay">Sikker betaling via Stripe</span>
-          <span class="guarantee">Resten (8 000) betaler du <b>først når du har sett og godkjent siden.</b></span>
-          <span class="orline"><a class="text-link" href="/start.html?pakke=sprint">Eller få et gratis konsept først <span class="arrow" aria-hidden="true">↗︎</span></a></span>
+    <div class="pa-grid rv">
+      <article class="pa-card light">
+        <div class="pa-topline">
+          <span class="pa-icon" aria-hidden="true">↗</span>
+          <span class="pa-eyebrow">Kom i gang</span>
         </div>
-      </div>
-      <div class="offer">
-        <h3 class="pkg"><span class="pkgn">Første trekk</span><span class="pkgt">Landingsside</span></h3>
-        <div class="price">7 900 kr<small>Betales ved oppstart</small></div>
-        <p>Én sterk side som selger én ting — perfekt hvis du i dag bare har Instagram, Facebook eller ingenting.</p>
-        <ul>
+        <h3 class="pa-name">Første trekk</h3>
+        <p class="pa-desc">Én sterk, moderne landingsside for deg som vil komme raskt på plass uten unødvendig kompleksitet.</p>
+        <div class="pa-rule"></div>
+        <div class="pa-price">7 900 kr</div>
+        <ul class="pa-list">
           <li>Én mobiltilpasset salgsside</li>
           <li>Tydelig budskap, bilder og priser</li>
           <li>Kontakt-/bookingskjema eller ring-knapp</li>
           <li>Domene og publisering satt opp</li>
           <li>Klar ca. tre virkedager etter mottatt innhold</li>
         </ul>
-        <div class="offer-foot">
-          <a class="primary" href="/api/checkout?pkg=landing">Kjøp nå — 7 900 kr <span class="arrow" aria-hidden="true">↗︎</span></a>
-          <span class="pay">Sikker betaling via Stripe · full pris ved oppstart</span>
-          
+        <div class="pa-actions">
+          <a class="pa-btn dark" href="/api/checkout?pkg=landing">Velg Første trekk <span aria-hidden="true">→</span></a>
+          <span class="pa-subcta" style="color:#7d8798">Sikker betaling via Stripe · full pris ved oppstart</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-    <div class="psub rv"><h3>Trenger du mer — eller hjelp videre?</h3><p>To roligere alternativer: et større skreddersydd prosjekt, eller løpende drift etter at siden er lansert.</p></div>
-    <div class="erows rv">
-      <a class="erow" href="/start.html?pakke=signature">
-        <span class="pkg"><span class="pkgn">Signatur</span><span class="pkgt">Større, skreddersydd nettopplevelse</span></span>
-        <span class="edesc">Eget visuelt system, flere sider, CMS, booking og integrasjoner ved behov. Omfang og fast pris avtales før vi starter.</span>
-        <span class="eprice">fra 19 900 kr<small>40 / 30 / 30</small></span>
-        <span class="earr" aria-hidden="true">↗︎</span>
-      </a>
-      <a class="erow" href="/start.html?pakke=care">
-        <span class="pkg"><span class="pkgn">Videre</span><span class="pkgt">Drift, endringer og oppfølging</span></span>
-        <span class="edesc">Oppdateringer, teknisk støtte, analyse, SEO-finpuss og nye seksjoner etter lansering. Ingen binding.</span>
-        <span class="eprice">fra 1 490 kr<small>per måned</small></span>
-        <span class="earr" aria-hidden="true">↗︎</span>
-      </a>
-    </div>
-
-    <div class="terms rv">
-      <div class="term">
-        <h4>Google-bedriftsprofil</h4>
-        <p>Vi oppretter eller forbedrer én profil:</p>
-        <ul>
-          <li>Kategori, beskrivelse, kontaktinformasjon og åpningstider</li>
-          <li>Kobler nettside, booking eller meny</li>
-          <li>Legger inn tjenester og bilder du leverer</li>
-          <li>Hjelper med anmeldelseslenke eller QR-kode</li>
+      <article class="pa-card hero">
+        <div class="pa-topline">
+          <span class="pa-icon" aria-hidden="true">▥</span>
+          <span class="pa-badge">♛ Mest valgt</span>
+        </div>
+        <h3 class="pa-name">Momentum</h3>
+        <p class="pa-desc">Komplett nettside for bedriften din — skreddersydd design, tydelig budskap, teknisk grunnmur og alt du trenger for å gå live.</p>
+        <div class="pa-rule"></div>
+        <div class="pa-price">16 000 kr</div>
+        <ul class="pa-list">
+          <li>Forside og inntil fire undersider</li>
+          <li>Skreddersydd design innen avtalt retning</li>
+          <li>Kontaktskjema eller standard bookingintegrasjon</li>
+          <li>Teknisk SEO-grunnmur og Google-bedriftsprofil</li>
+          <li>Domene, hosting og publisering satt opp</li>
+          <li>To revisjonsrunder og 14 dagers feilretting</li>
         </ul>
-        <p style="margin-top:10px">Du beholder eierskapet og gjennomfører eventuell Google-verifisering. Vi lover ikke en bestemt plassering i søk.</p>
-      </div>
-      <div class="term">
-        <h4>Domene og eierskap</h4>
-        <p>Vi kobler eksisterende domene eller hjelper dere å registrere et nytt. Hosting og publisering settes opp. Årlige domene- og tredjepartskostnader kommer i tillegg.</p>
-        <p style="margin-top:10px">Du eier det skreddersydde designet, koden og innholdet etter fullført betaling. Tredjepartstjenester, fonter og lisensierte bilder følger sine egne vilkår.</p>
-      </div>
-      <div class="term">
-        <h4>Integrasjoner</h4>
-        <p>Momentum inkluderer vanlige integrasjoner:</p>
-        <ul>
-          <li>Kontaktskjema</li>
-          <li>Google Maps</li>
-          <li>Kalender eller eksisterende bookingsystem</li>
-          <li>Enkel analyse</li>
-          <li>Sosiale medier</li>
-        </ul>
-        <p style="margin-top:10px">Spesialutviklet CRM, innlogging, nettbutikk, avansert booking, API-integrasjoner og automasjoner prises separat.</p>
-      </div>
-    </div>
+        <div class="pa-actions">
+          <a class="pa-btn blue" href="/api/checkout?pkg=sprint">Betal oppstart — 8 000 kr <span aria-hidden="true">→</span></a>
+          <span class="pa-subcta">50 % ved oppstart · resten før lansering</span>
+          <span class="pa-subcta"><a href="/start.html?pakke=sprint">Få et gratis konsept først ↗</a></span>
+        </div>
+      </article>
 
-    <div class="pnotes rv">
-      <p><b>Leveringstid:</b> Første komplette utkast innen fem virkedager etter at vi har mottatt innhold, nødvendige tilganger og oppstartbetaling. Tilbakemeldinger, domeneflytt og Google-verifisering kan påvirke når siden faktisk lanseres.</p>
-      <p>Betaling: 50 % ved start, 50 % før lansering (Signatur 40 / 30 / 30). <a href="/start.html?type=custom">Trenger du noe mer omfattende? Vi lager gjerne et skreddersydd tilbud.</a></p>
+      <article class="pa-card light">
+        <div class="pa-topline">
+          <span class="pa-icon" aria-hidden="true">≋</span>
+          <span class="pa-eyebrow">Langsiktig vekst</span>
+        </div>
+        <h3 class="pa-name">Videre</h3>
+        <p class="pa-desc">For deg som vil ha en levende nettside som fortsetter å utvikle seg etter lansering — uten å ansette noen internt.</p>
+        <div class="pa-rule"></div>
+        <div class="pa-price"><span class="from">fra</span>1 490 kr<span class="month">/mnd</span></div>
+        <ul class="pa-list">
+          <li>Løpende oppdateringer og teknisk støtte</li>
+          <li>Innholdsendringer og nye seksjoner etter behov</li>
+          <li>Analyse og SEO-finpuss</li>
+          <li>Mindre designjusteringer</li>
+          <li>Ingen binding</li>
+        </ul>
+        <div class="pa-actions">
+          <a class="pa-btn dark" href="/start.html?pakke=care">Velg Videre <span aria-hidden="true">→</span></a>
+          <span class="pa-subcta" style="color:#7d8798">Avtales etter behov · ingen binding</span>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="pa-trust rv">
+    <div class="pa-trust-inner">
+      <div class="pa-proof"><i>◇</i><div><b>Moderne og strategisk design</b><span>Bygget for at kunden skal ta kontakt</span></div></div>
+      <div class="pa-proof"><i>ϟ</i><div><b>Rask levering</b><span>Første Momentum-utkast innen fem virkedager</span></div></div>
+      <div class="pa-proof"><i>✓</i><div><b>Du eier siden</b><span>Design, kode og innhold etter full betaling</span></div></div>
+      <div class="pa-proof"><i>⌾</i><div><b>Trygt og forutsigbart</b><span>Omfang og fast pris avtales før oppstart</span></div></div>
+    </div>
+  </div>
+
+  <div class="pa-addons-shell">
+    <div class="pa-addons rv">
+      <div class="pa-addons-head">
+        <span class="small">Tilleggstjenester</span>
+        <h3>Gjør løsningen enda sterkere</h3>
+        <p>Legg til det du trenger når du trenger det. Vi avtaler omfang og pris før noe settes i gang.</p>
+      </div>
+      <div class="pa-addon-grid">
+        <a class="pa-addon" href="/start.html?pakke=signature">
+          <div class="pa-addon-top"><span class="pa-addon-icon">◆</span><span class="pa-addon-plus">+</span></div>
+          <h4>Signatur</h4>
+          <p>Større skreddersydd nettopplevelse, flere sider og integrasjoner.</p>
+          <strong>fra 19 900 kr</strong>
+        </a>
+        <a class="pa-addon" href="/start.html?type=custom">
+          <div class="pa-addon-top"><span class="pa-addon-icon">▤</span><span class="pa-addon-plus">+</span></div>
+          <h4>Tekst og innhold</h4>
+          <p>Mer omfattende tekstproduksjon og innholdsarbeid utover pakken.</p>
+          <strong>Pris etter behov</strong>
+        </a>
+        <a class="pa-addon" href="/start.html?type=custom">
+          <div class="pa-addon-top"><span class="pa-addon-icon">▣</span><span class="pa-addon-plus">+</span></div>
+          <h4>Nettbutikk</h4>
+          <p>Produkter, betaling og en kjøpsflyt som passer virksomheten din.</p>
+          <strong>Pris etter behov</strong>
+        </a>
+        <a class="pa-addon" href="/start.html?type=custom">
+          <div class="pa-addon-top"><span class="pa-addon-icon">↗</span><span class="pa-addon-plus">+</span></div>
+          <h4>SEO-boost</h4>
+          <p>Ekstra arbeid med synlighet, struktur og innhold etter lansering.</p>
+          <strong>Pris etter behov</strong>
+        </a>
+      </div>
     </div>
   </div>
 </section>
