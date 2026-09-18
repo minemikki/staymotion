@@ -194,8 +194,9 @@
     'Leveringstid:': 'Delivery time:',
     'Første komplette utkast innen fem virkedager etter at vi har mottatt innhold, nødvendige tilganger og oppstartbetaling. Tilbakemeldinger, domeneflytt og Google-verifisering kan påvirke når siden faktisk lanseres.':
       'First complete draft within five working days of receiving your content, the necessary access and the deposit. Your feedback, domain transfers and Google verification can affect when the site actually launches.',
-    'Betaling: full pris ved oppstart for Momentum og Første trekk (Signatur 40 / 30 / 30).':
-      'Payment: full price up front for Momentum and Første trekk (Signatur 40 / 30 / 30).',
+    'Betaling: full pris ved oppstart for alle pakker. Ingen delbetaling.':
+      'Payment: full price up front for every package. No split payment.',
+    'Full pris ved oppstart': 'Full price up front',
     'Trenger du noe mer omfattende? Vi lager gjerne et skreddersydd tilbud.':
       'Need something more extensive? We are happy to put together a custom quote.',
 
