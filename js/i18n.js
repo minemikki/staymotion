@@ -123,7 +123,7 @@
     'Mest valgt': 'Most chosen',
     'Komplett nettside': 'Complete website',
     '16 000 kr': 'NOK 16,000',
-    '50 % ved oppstart · 50 % ved levering': '50% up front · 50% on delivery',
+    'Full pris ved oppstart · ingen restbetaling': 'Full price up front · no balance due later',
     'Hele nettsiden for bedriften din, satt opp og publisert — med domene, Google-bedriftsprofil og skjema som virker.':
       'Your complete business website, set up and published — with domain, Google Business Profile and forms that work.',
     'Forside og inntil fire undersider': 'Homepage and up to four subpages',
@@ -141,10 +141,10 @@
     'To revisjonsrunder': 'Two rounds of revisions',
     'Kort overlevering': 'Short handover',
     '14 dagers feilretting etter lansering': '14 days of bug fixing after launch',
-    'Betal oppstart — 8 000 kr': 'Pay deposit — NOK 8,000',
+    'Betal og kom i gang — 16 000 kr': 'Pay and get started — NOK 16,000',
     'Sikker betaling via Stripe': 'Secure payment via Stripe',
-    'Resten (8 000) betaler du': 'The remaining NOK 8,000 is due',
-    'først når du har sett og godkjent siden.': 'only once you have seen and approved the site.',
+    'Full pris ved oppstart —': 'Full price up front —',
+    'ingen restbetaling ved levering.': 'no balance due at delivery.',
     'Eller få et gratis konsept først': 'Or get a free concept first',
     'Landingsside': 'Landing page',
     '7 900 kr': 'NOK 7,900',
@@ -194,8 +194,8 @@
     'Leveringstid:': 'Delivery time:',
     'Første komplette utkast innen fem virkedager etter at vi har mottatt innhold, nødvendige tilganger og oppstartbetaling. Tilbakemeldinger, domeneflytt og Google-verifisering kan påvirke når siden faktisk lanseres.':
       'First complete draft within five working days of receiving your content, the necessary access and the deposit. Your feedback, domain transfers and Google verification can affect when the site actually launches.',
-    'Betaling: 50 % ved start, 50 % før lansering (Signatur 40 / 30 / 30).':
-      'Payment: 50% at the start, 50% before launch (Signatur 40 / 30 / 30).',
+    'Betaling: full pris ved oppstart for Momentum og Første trekk (Signatur 40 / 30 / 30).':
+      'Payment: full price up front for Momentum and Første trekk (Signatur 40 / 30 / 30).',
     'Trenger du noe mer omfattende? Vi lager gjerne et skreddersydd tilbud.':
       'Need something more extensive? We are happy to put together a custom quote.',
 
