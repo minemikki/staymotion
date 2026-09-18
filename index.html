@@ -24,6 +24,8 @@
       --shadow:0 20px 60px rgba(0,0,0,.08);
       --shadow-heavy:0 50px 140px rgba(0,0,0,.18);
       --radius:28px;
+      --gutter:clamp(22px,3.8vw,64px);
+      --ease:cubic-bezier(.22,1,.36,1);
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -965,6 +967,7 @@
 {"@type":"Question","name":"Kan dere bygge booking, skjema og integrasjoner?","acceptedAnswer":{"@type":"Answer","text":"Ja. Vanlige bookingsystemer, kontaktskjema, betaling, nyhetsbrev og andre integrasjoner kan kobles inn. Mer avansert spesialutvikling avtales separat."}},
 {"@type":"Question","name":"Hva skjer etter lansering?","acceptedAnswer":{"@type":"Answer","text":"Lanseringsstøtte er inkludert. Etterpå kan du drive siden selv, eller bruke Videre til oppdateringer, analyse, SEO-finpuss og nye seksjoner."}}
 ]}</script>
+<link rel="stylesheet" href="/pricing-atmosphere.css">
 </head>
 <body>
 <header class="site-header">
@@ -1111,156 +1114,130 @@
 </div>
 </div>
 </section>
-<section class="pricing-v15" id="priser">
-<div class="container">
-<div class="section-head reveal">
-<div><p class="eyebrow dark">Pakker</p><h2>Dette skal føles som et<br/><em>lett ja</em>.</h2></div>
-<p>Prisene er designet på nytt med én tydelig hovedpakke og tre klare valg under. Målet er at det skal se dyrt, pent og fristende ut – ikke som en kjedelig pristabell.</p>
-</div>
-<div class="pricing-shell-v15 reveal">
-<div class="pricing-top-v15">
-<div>
-<p class="eyebrow">Website Sprint</p>
-<h3>Velg retningen.<br/><em>Trykk kjøp.</em></h3>
-<p>Den viktigste jobben her er ikke å vise mange priser. Det er å gjøre valget fristende. Derfor har jeg latt Momentum eie scenen, og pakket resten som tydelige alternativer under.</p>
-</div>
-<div class="pricing-pills-v15">
-<span><i></i>Fast pris</span>
-<span><i></i>Gratis konsept først</span>
-<span><i></i>Du eier alt</span>
-<span><i></i>Klar på dager</span>
-</div>
-</div>
-<div class="featured-offer-v15">
-<article class="featured-main-v15">
-<div class="eyeline">
-<span class="featured-tag-v15"><i></i> Mest valgt</span>
-<span class="featured-tag-v15"><i></i> Full nettside</span>
-</div>
-<div>
-<h4>Momentum</h4>
-<p class="subcopy">For bedrifter som trenger en skikkelig nettside – ikke bare en enkel landingsside. Dette er den pakken som skal få flest til å tenke: ja, dette er verdt det.</p>
-</div>
-<div class="money-row-v15">
-<div class="money-big-v15">16 000 kr</div>
-<div class="money-meta-v15">50 % ved oppstart<br/>50 % før lansering</div>
-</div>
-<div class="hook-grid-v15">
-<div><b>Komplett uttrykk</b>Forside + inntil fire undersider satt sammen som en ekte liten bedriftsnettside.</div>
-<div><b>Rask levering</b>Første komplette utkast innen fem virkedager etter at innholdet er klart.</div>
-<div><b>Ingen usikkerhet</b>Fast pris, tydelig prosess og eierskap til design, kode og innhold etter betaling.</div>
-</div>
-<div class="buy-row-v15">
-<a class="primary" href="https://staymotion.no/api/checkout?pkg=sprint">Kjøp oppstart — 8 000 kr</a>
-<a class="secondary" href="https://staymotion.no/start.html?pakke=sprint">Få gratis konsept først</a>
-</div>
-</article>
-<aside class="featured-side-v15">
-<div>
-<p class="small-title">Hva du får</p>
-<div class="what-you-get-v15">
-<div><i>✓</i><span>Skreddersydd design, mobil først og tilpasset bedriften din</span></div>
-<div><i>✓</i><span>Tekstbearbeiding fra råmateriale, bilder og eksisterende side</span></div>
-<div><i>✓</i><span>Kontaktskjema eller standard bookingintegrasjon der det passer</span></div>
-<div><i>✓</i><span>SEO-grunnmur, Google-bedriftsprofil og publisering</span></div>
-<div><i>✓</i><span>To revisjonsrunder og 14 dagers feilretting etter lansering</span></div>
-</div>
-</div>
-<div class="mini-stats-v15">
-<div><b>5</b><span>virkedager til første komplette utkast</span></div>
-<div><b>5</b><span>sider inkludert når strukturen trenger det</span></div>
-<div><b>2</b><span>revisjonsrunder inkludert</span></div>
-<div><b>14</b><span>dager feilretting etter lansering</span></div>
-</div>
-</aside>
-</div>
-</div>
-<div class="package-grid-v15">
-<article class="package-card-v15 quick reveal">
-<div class="package-icon-v15">↗</div>
-<div>
-<h4>Første trekk</h4>
-<div class="package-price-v15">7 900 kr<small>Raskeste veien ut</small></div>
-</div>
-<p>For deg som vil ha én salgsside som ser skarp ut og gjør det lett for kunden å ta kontakt.</p>
-<ul class="package-list-v15">
-<li>Én tydelig landingsside</li>
-<li>Budskap, bilder og priser satt opp</li>
-<li>Kontakt- eller bookingskjema</li>
-<li>Klar ca. tre virkedager etter innhold</li>
-</ul>
-<a class="package-cta-v15" href="https://staymotion.no/api/checkout?pkg=landing">Velg Første trekk <span>→</span></a>
-</article>
-<article class="package-card-v15 signature reveal">
-<div class="package-icon-v15">◇</div>
-<div>
-<h4>Signatur</h4>
-<div class="package-price-v15">fra 19 900 kr<small>Mer frihet · mer wow</small></div>
-</div>
-<p>Når du vil ha et tydeligere særpreg, mer skreddersøm og en side som skal føles mer eksklusiv.</p>
-<ul class="package-list-v15">
-<li>Mer skreddersydd visuelt uttrykk</li>
-<li>Flere sider og større fleksibilitet</li>
-<li>CMS, booking og integrasjoner ved behov</li>
-<li>Fast pris avtales før oppstart</li>
-</ul>
-<a class="package-cta-v15" href="https://staymotion.no/start.html?pakke=signature">Utforsk Signatur <span>→</span></a>
-</article>
-<article class="package-card-v15 care reveal">
-<div class="package-icon-v15">▥</div>
-<div>
-<h4>Videre</h4>
-<div class="package-price-v15">fra 1 490 kr/mnd<small>Etter lansering</small></div>
-</div>
-<p>For deg som vil holde siden levende med oppdateringer, finpuss og hjelp uten å stå alene etterpå.</p>
-<ul class="package-list-v15">
-<li>Løpende oppdateringer og støtte</li>
-<li>Analyse, SEO og små forbedringer</li>
-<li>Nye seksjoner når behovet kommer</li>
-<li>Ingen binding</li>
-</ul>
-<a class="package-cta-v15" href="https://staymotion.no/start.html?pakke=care">Velg Videre <span>→</span></a>
-</article>
-</div>
-<div class="pricing-footer-v15 reveal">
-<div><b>Levering:</b> Første komplette Momentum-utkast kommer innen fem virkedager etter mottatt innhold, nødvendige tilganger og oppstartbetaling.</div>
-<div><b>Eierskap:</b> Du eier det skreddersydde designet, koden og innholdet etter fullført betaling.</div>
-<div><b>Trygghet:</b> Domene og eventuelle tredjepartskostnader kan komme i tillegg, men selve pakken er satt opp med fast pris og tydelig omfang.</div>
-</div>
-<div class="addons-v15 reveal">
-<div class="addons-v15-head">
-<div><p class="eyebrow">Tilleggstjenester</p><h3>Litt mer polish, om du vil ha det.</h3></div>
-<p>Legges til i tilbudet ditt — ingen egen bestillingsprosess, bare si fra.</p>
-</div>
-<div class="addons-grid-v15">
-<div class="addon-card-v15">
-<div class="addon-icon-v15">▶</div>
-<h4>Animert video fra bilder</h4>
-<div class="addon-price-v15">fra 1 500 kr</div>
-<p>Vi gjør stillbildene dine om til en kort, levende hero-video — gir siden mer liv uten at du trenger å filme noe selv.</p>
-</div>
-<div class="addon-card-v15">
-<div class="addon-icon-v15">◆</div>
-<h4>Enkel logo</h4>
-<div class="addon-price-v15">fra 2 500 kr</div>
-<p>Har du ikke logo fra før? Vi lager en ren, enkel identitet som en del av nettsiden — ikke en generisk AI-logo.</p>
-</div>
-<div class="addon-card-v15">
-<div class="addon-icon-v15">✦</div>
-<h4>Bildeoppskalering</h4>
-<div class="addon-price-v15">Inkludert</div>
-<p>Uskarpe eller små bilder skaleres opp og skjerpes automatisk som en del av leveransen — ingen ekstra kostnad.</p>
-</div>
-<div class="addon-card-v15 addon-highlight">
-<div class="addon-badge-v15">Nytt</div>
-<div class="addon-icon-v15">◎</div>
-<h4>AI-synlighet</h4>
-<div class="addon-price-v15">fra 2 900 kr</div>
-<p>Vi strukturerer siden din slik at ChatGPT, Google AI Overviews og andre AI-søk faktisk finner og anbefaler bedriften din — ikke bare tradisjonell SEO.</p>
-</div>
-</div>
-</div>
-</div>
+<section class="price-atmo" id="priser" aria-labelledby="pricing-title">
+  <div class="pa-wrap">
+    <div class="pa-head rv">
+      <div class="pa-kicker">Priser</div>
+      <h2 id="pricing-title">Tre veier til en sterkere tilstedeværelse</h2>
+      <p>Uansett hvor du er i reisen, har vi en tydelig vei videre. Fast pris før vi starter, konkret leveranse og en side du faktisk kan bruke til å få kunder.</p>
+      <span class="pa-handnote" aria-hidden="true">Mest verdi<br>for de fleste</span>
+    </div>
+
+    <div class="pa-grid rv">
+      <article class="pa-card light">
+        <div class="pa-topline">
+          <span class="pa-icon" aria-hidden="true">↗</span>
+          <span class="pa-eyebrow">Kom i gang</span>
+        </div>
+        <h3 class="pa-name">Første trekk</h3>
+        <p class="pa-desc">Én sterk, moderne landingsside for deg som vil komme raskt på plass uten unødvendig kompleksitet.</p>
+        <div class="pa-rule"></div>
+        <div class="pa-price">7 900 kr</div>
+        <ul class="pa-list">
+          <li>Én mobiltilpasset salgsside</li>
+          <li>Tydelig budskap, bilder og priser</li>
+          <li>Kontakt-/bookingskjema eller ring-knapp</li>
+          <li>Domene og publisering satt opp</li>
+          <li>Klar ca. tre virkedager etter mottatt innhold</li>
+        </ul>
+        <div class="pa-actions">
+          <a class="pa-btn dark" href="/api/checkout?pkg=landing">Velg Første trekk <span aria-hidden="true">→</span></a>
+          <span class="pa-subcta" style="color:#7d8798">Sikker betaling via Stripe · full pris ved oppstart</span>
+        </div>
+      </article>
+
+      <article class="pa-card hero">
+        <div class="pa-topline">
+          <span class="pa-icon" aria-hidden="true">▥</span>
+          <span class="pa-badge">♛ Mest valgt</span>
+        </div>
+        <h3 class="pa-name">Momentum</h3>
+        <p class="pa-desc">Komplett nettside for bedriften din — skreddersydd design, tydelig budskap, teknisk grunnmur og alt du trenger for å gå live.</p>
+        <div class="pa-rule"></div>
+        <div class="pa-price">16 000 kr</div>
+        <ul class="pa-list">
+          <li>Forside og inntil fire undersider</li>
+          <li>Skreddersydd design innen avtalt retning</li>
+          <li>Kontaktskjema eller standard bookingintegrasjon</li>
+          <li>Teknisk SEO-grunnmur og Google-bedriftsprofil</li>
+          <li>Domene, hosting og publisering satt opp</li>
+          <li>To revisjonsrunder og 14 dagers feilretting</li>
+        </ul>
+        <div class="pa-actions">
+          <a class="pa-btn blue" href="/api/checkout?pkg=sprint">Betal oppstart — 8 000 kr <span aria-hidden="true">→</span></a>
+          <span class="pa-subcta">50 % ved oppstart · resten før lansering</span>
+          <span class="pa-subcta"><a href="/start.html?pakke=sprint">Få et gratis konsept først ↗</a></span>
+        </div>
+      </article>
+
+      <article class="pa-card light">
+        <div class="pa-topline">
+          <span class="pa-icon" aria-hidden="true">≋</span>
+          <span class="pa-eyebrow">Langsiktig vekst</span>
+        </div>
+        <h3 class="pa-name">Videre</h3>
+        <p class="pa-desc">For deg som vil ha en levende nettside som fortsetter å utvikle seg etter lansering — uten å ansette noen internt.</p>
+        <div class="pa-rule"></div>
+        <div class="pa-price pa-price-sm"><span class="from">fra</span>1&nbsp;490&nbsp;kr<span class="month">/mnd</span></div>
+        <ul class="pa-list">
+          <li>Løpende oppdateringer og teknisk støtte</li>
+          <li>Innholdsendringer og nye seksjoner etter behov</li>
+          <li>Analyse og SEO-finpuss</li>
+          <li>Mindre designjusteringer</li>
+          <li>Ingen binding</li>
+        </ul>
+        <div class="pa-actions">
+          <a class="pa-btn dark" href="/start.html?pakke=care">Velg Videre <span aria-hidden="true">→</span></a>
+          <span class="pa-subcta" style="color:#7d8798">Avtales etter behov · ingen binding</span>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="pa-trust rv">
+    <div class="pa-trust-inner">
+      <div class="pa-proof"><i>◇</i><div><b>Moderne og strategisk design</b><span>Bygget for at kunden skal ta kontakt</span></div></div>
+      <div class="pa-proof"><i>ϟ</i><div><b>Rask levering</b><span>Første Momentum-utkast innen fem virkedager</span></div></div>
+      <div class="pa-proof"><i>✓</i><div><b>Du eier siden</b><span>Design, kode og innhold etter full betaling</span></div></div>
+      <div class="pa-proof"><i>⌾</i><div><b>Trygt og forutsigbart</b><span>Omfang og fast pris avtales før oppstart</span></div></div>
+    </div>
+  </div>
+
+  <div class="pa-addons-shell">
+    <div class="pa-addons rv">
+      <div class="pa-addons-head">
+        <span class="small">Tilleggstjenester</span>
+        <h3>Gjør løsningen enda sterkere</h3>
+        <p>Legg til det du trenger når du trenger det. Vi avtaler omfang og pris før noe settes i gang.</p>
+      </div>
+      <div class="pa-addon-grid">
+        <a class="pa-addon" href="/start.html?pakke=signature">
+          <div class="pa-addon-top"><span class="pa-addon-icon">◆</span><span class="pa-addon-plus">+</span></div>
+          <h4>Signatur</h4>
+          <p>Større skreddersydd nettopplevelse, flere sider og integrasjoner.</p>
+          <strong>fra 19 900 kr</strong>
+        </a>
+        <a class="pa-addon" href="/start.html?type=custom">
+          <div class="pa-addon-top"><span class="pa-addon-icon">▤</span><span class="pa-addon-plus">+</span></div>
+          <h4>Tekst og innhold</h4>
+          <p>Mer omfattende tekstproduksjon og innholdsarbeid utover pakken.</p>
+          <strong>Pris etter behov</strong>
+        </a>
+        <a class="pa-addon" href="/start.html?type=custom">
+          <div class="pa-addon-top"><span class="pa-addon-icon">▣</span><span class="pa-addon-plus">+</span></div>
+          <h4>Nettbutikk</h4>
+          <p>Produkter, betaling og en kjøpsflyt som passer virksomheten din.</p>
+          <strong>Pris etter behov</strong>
+        </a>
+        <a class="pa-addon" href="/start.html?type=custom">
+          <div class="pa-addon-top"><span class="pa-addon-icon">↗</span><span class="pa-addon-plus">+</span></div>
+          <h4>SEO-boost</h4>
+          <p>Ekstra arbeid med synlighet, struktur og innhold etter lansering.</p>
+          <strong>Pris etter behov</strong>
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 <section aria-labelledby="roi-title" class="roi-clean">
 <div class="container roi-grid-v10">
