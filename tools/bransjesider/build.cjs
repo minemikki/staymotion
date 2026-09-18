@@ -124,11 +124,15 @@ ${header}
         <a class="text-link" href="/#priser">Se priser <span class="arrow" aria-hidden="true">&#8595;&#65038;</span></a>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="dev rv">
-      <div class="pho">${v.skjerm}</div>
-      <div class="chip"><b>${v.chip[0]}</b><span>${v.chip[1]}</span></div>
-      <p class="note">Illustrert konsept &mdash; ikke en faktisk kunde.</p>
+<section class="foto-band rv">
+  <div class="wrap foto-band-inner">
+    <img class="foto-band-img" src="/img/bransje/${v.foto.fil}" alt="${v.foto.alt}" width="1100" height="506" loading="lazy">
+    <div class="foto-band-copy">
+      <p class="foto-poeng">${v.foto.poeng}</p>
+      <p class="foto-tekst">${v.foto.tekst}</p>
     </div>
   </div>
 </section>
