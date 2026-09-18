@@ -32,6 +32,22 @@ synlighet i Google og i KI-søk som ChatGPT og Perplexity).
 Alle priser er faste og avtales før arbeidet starter. Kunden eier design,
 kode og innhold når prosjektet er betalt.
 
+## Vekst — hvordan StayMotion hjelper bedrifter etter lansering
+
+En nettside fra StayMotion er bygget for å fortsette å jobbe etter at den er
+lansert, ikke bare se bra ut ved lansering:
+
+- **Synlighet i søk og KI-søk.** Teknisk SEO-grunnmur og strukturert data
+  (schema.org) på hver side, slik at innholdet er lett å lese for Google og
+  for KI-verktøy som ChatGPT, Perplexity og Google sine AI-oversikter.
+  StayMotion garanterer aldri en bestemt plassering i søk.
+- **Bygget for konvertering**, ikke bare visuelt uttrykk — budskap, rekkefølge
+  og call-to-action er satt sammen for å flytte besøkende mot en henvendelse.
+- **Lokal tilstedeværelse**: Google-bedriftsprofil, kart, åpningstider og
+  klikk-for-å-ringe satt opp riktig fra dag én.
+- **Løpende vekst gjennom Videre**: analyse, SEO- og AI-synlighetsarbeid, nye
+  seksjoner og forbedringer basert på faktisk bruk av siden.
+
 ## Arbeidsmåte
 
 1. Gratis førsteside-konsept. Kunden sender nettsiden sin eller bare navnet på
