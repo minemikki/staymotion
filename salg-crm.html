@@ -1100,6 +1100,7 @@ function renderLevDetail(){
     : (hard ? 'Dette stopper lansering nå:'
             : 'Ingenting er blokkert. '+rest+' punkt'+(rest===1?'':'er')+' gjenstår før lansering.');
 
+  var STAGE_OPT=[['strategi','Strategi'],['design','Design'],['bygg','Design og bygg']];
   var html='<div class="row" style="margin-bottom:14px"><button class="btn ghost sm" id="lev-back">← Alle prosjekter</button><span class="spacer"></span>'+
     (p.liveUrl?'<a class="btn sm" href="'+esc(p.liveUrl)+'" target="_blank" rel="noopener">Åpne live ↗</a>':'')+'</div>'+
     '<div class="panel"><div class="ph"><div><h2>'+esc(p.company||p.orderId)+'</h2>'+
@@ -1118,6 +1119,25 @@ function renderLevDetail(){
     }).join('')+'</div>'+
     '<p class="phblurb">'+esc(ph.blurb)+'</p>'+
     ph.items.map(levItem).join('')+
+    '</div>'+
+    /* customer-visible status — separate from the internal checklist above.
+       This is what actually drives ordre.html's stage tracker and the
+       "vi er i gang" / "klar for gjennomgang" / "lansert" e-poster. */
+    '<div class="panel" style="margin-top:14px"><div class="ph"><div><h2>Kundestatus</h2>'+
+      '<div class="small muted">Dette styrer hva kunden ser i prosjektportalen og hvilke e-poster som sendes. Sjekklisten over er kun intern.</div></div></div>'+
+    '<div class="lfgrid">'+
+      '<div><label>Fase kunden ser</label>'+
+        ((p.stage==='review'||p.stage==='lansert')
+          ? '<input value="'+(p.stage==='review'?'Gjennomgang':'Lansert')+'" disabled>'
+          : selEl2('id="cs-stage"',STAGE_OPT,p.stage||'strategi'))+
+        '<div class="small muted" style="margin-top:6px">Å flytte fra Strategi sender én e-post: «Vi er i gang».</div></div>'+
+      '<div><label>Forhåndsvisnings-URL</label><input id="cs-staging" value="'+esc(p.stagingUrl||'')+'" placeholder="https://…">'+
+        '<button class="btn sm primary" id="cs-review" style="margin-top:8px">Send til gjennomgang</button></div>'+
+      '<div><label>Live-URL</label><input id="cs-live" value="'+esc(p.liveUrl||'')+'" placeholder="https://…">'+
+        '<button class="btn sm primary" id="cs-launch" style="margin-top:8px">Publiser og varsle kunden</button></div>'+
+    '</div>'+
+    (p.stage==='review'?'<p class="small muted" style="margin-top:10px">Status: sendt til gjennomgang'+(p.reviewSentAt?' '+new Date(p.reviewSentAt).toLocaleString('nb-NO'):'')+'.</p>':'')+
+    (p.stage==='lansert'?'<p class="small muted" style="margin-top:10px">Status: lansert'+(p.launchedAt?' '+new Date(p.launchedAt).toLocaleString('nb-NO'):'')+'.</p>':'')+
     '</div>'+
     /* compact intake record */
     '<div class="panel" style="margin-top:14px"><div class="ph"><div><h2>Prosjektfakta</h2>'+
@@ -1146,6 +1166,36 @@ function renderLevDetail(){
       levSave(k,{note:$('note-'+k).value,doc:$('doc-'+k).value});};});
   $('lev-facts-save').onclick=saveFacts;
   $('lev-report').onclick=genReport;
+  if($('cs-stage'))$('cs-stage').onchange=function(){setStage(this.value);};
+  $('cs-review').onclick=sendReview;
+  $('cs-launch').onclick=sendLaunch;
+}
+
+/* Customer-visible stage + the review/launch emails. Separate endpoint
+   (admin-project) from the internal checklist (admin-delivery) above —
+   this is the one that actually emails and updates ordre.html. */
+function setStage(stage){
+  post('admin-project',{orderId:LEVCUR.orderId,action:'update',stage:stage})
+    .then(function(d){LEVCUR.stage=d.project.stage;toast('Fase oppdatert');renderLevDetail();})
+    .catch(function(e){alert(e.message);});
+}
+function sendReview(){
+  var url=$('cs-staging').value.trim();
+  if(!url){alert('Legg inn en forhåndsvisnings-URL først.');return;}
+  post('admin-project',{orderId:LEVCUR.orderId,action:'update',stagingUrl:url})
+    .then(function(){return post('admin-project',{orderId:LEVCUR.orderId,action:'review'});})
+    .then(function(d){LEVCUR.stage='review';LEVCUR.stagingUrl=url;LEVCUR.reviewSentAt=Date.now();
+      toast('Sendt til gjennomgang — kunden har fått e-post');renderLevDetail();})
+    .catch(function(e){alert(e.message);});
+}
+function sendLaunch(){
+  var url=$('cs-live').value.trim();
+  if(!url){alert('Legg inn live-URL først.');return;}
+  post('admin-project',{orderId:LEVCUR.orderId,action:'update',liveUrl:url})
+    .then(function(){return post('admin-project',{orderId:LEVCUR.orderId,action:'launch'});})
+    .then(function(d){LEVCUR.stage='lansert';LEVCUR.liveUrl=url;LEVCUR.launchedAt=Date.now();
+      toast('Publisert — kunden har fått e-post');renderLevDetail();})
+    .catch(function(e){alert(e.message);});
 }
 
 function findItem(key){

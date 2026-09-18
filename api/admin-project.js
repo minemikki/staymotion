@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     if (!b.orderId || !b.action) return res.status(400).json({ error: 'mangler orderId/action' });
     let r;
     if (b.action === 'update') {
-      const o = await updateProject(b.orderId, { stage: b.stage, stagingUrl: b.stagingUrl, liveUrl: b.liveUrl, notes: b.notes, checklist: b.checklist });
+      const o = await updateProject(b.orderId, { stage: b.stage, stagingUrl: b.stagingUrl, liveUrl: b.liveUrl, notes: b.notes, checklist: b.checklist }, req.headers.host);
       r = { project: o.project, status: o.status };
     }
     else if (b.action === 'review') r = await sendForReview(b.orderId, req.headers.host);
