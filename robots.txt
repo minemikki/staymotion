@@ -5,6 +5,24 @@ Disallow: /salg
 Disallow: /admin.html
 Disallow: /admin
 
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://staymotion.no/sitemap.xml
 
 # AI-lesbar oppsummering: https://staymotion.no/llms.txt
