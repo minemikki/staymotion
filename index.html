@@ -163,6 +163,16 @@
     .growth-card p{margin:0;color:var(--muted);font-size:15.5px;line-height:1.66}
     .growth-note{margin:30px 0 0;max-width:820px;color:var(--muted);font-size:15.5px;line-height:1.7}
 
+    .industries-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .industry-card{position:relative;display:block;min-height:300px;border-radius:var(--radius);overflow:hidden;background-size:cover;background-position:center;color:#fff;padding:26px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;transition:transform .35s ease}
+    .industry-card:hover{transform:translateY(-4px)}
+    .industry-card::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,12,16,.05) 0%,rgba(8,10,14,.78) 78%);z-index:1}
+    .industry-card>*{position:relative;z-index:2}
+    .industry-tag{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+    .industry-card h3{margin:0;font-size:26px;letter-spacing:-.04em;font-weight:560;line-height:1.08}
+    .industry-card p{margin:0;color:rgba(255,255,255,.78);font-size:14.5px;line-height:1.5;max-width:36ch}
+    .industry-card .industry-arrow{margin-top:6px;font-size:13px;font-weight:600;color:#fff;display:inline-flex;align-items:center;gap:6px}
+
     .statement{background:var(--bg-3);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
     .statement h2{margin:0;max-width:1100px;font-size:clamp(42px,6.6vw,98px);line-height:.95;letter-spacing:-.08em;font-weight:520} .statement p{margin:18px 0 0;max-width:760px;color:var(--muted);font-size:18px;line-height:1.72}
 
@@ -193,6 +203,7 @@
       .section-head{grid-template-columns:1fr}
       .service-row{grid-template-columns:1fr;gap:10px}
       .growth-grid{grid-template-columns:1fr}
+      .industries-grid{grid-template-columns:1fr}
     }
     @media (max-width:640px){
       .container{width:min(100% - 28px,1380px)}
@@ -983,7 +994,7 @@
 }
 
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"StayMotion","url":"https://staymotion.no/","email":"michael@staymotion.no","image":"https://staymotion.no/og.jpg","logo":"https://staymotion.no/favicon.svg","address":{"@type":"PostalAddress","addressLocality":"Stavanger","addressRegion":"Rogaland","addressCountry":"NO"},"areaServed":"Norge","priceRange":"7900 NOK - 60000 NOK","serviceType":["Webdesign","UI/UX","Webutvikling","Landingssider","Redesign","Konverteringsoptimalisering","SEO","AI-synlighet"],"makesOffer":[{"@type":"Offer","name":"Første trekk","price":"7900","priceCurrency":"NOK"},{"@type":"Offer","name":"Momentum","price":"16000","priceCurrency":"NOK"},{"@type":"Offer","name":"Signatur","price":"19900","priceCurrency":"NOK"},{"@type":"Offer","name":"Videre","price":"1490","priceCurrency":"NOK"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","@id":"https://staymotion.no/#virksomhet","name":"StayMotion","url":"https://staymotion.no/","email":"michael@staymotion.no","image":"https://staymotion.no/og.jpg","logo":"https://staymotion.no/favicon.svg","address":{"@type":"PostalAddress","addressLocality":"Stavanger","addressRegion":"Rogaland","addressCountry":"NO"},"areaServed":"Norge","priceRange":"7900 NOK - 60000 NOK","serviceType":["Webdesign","UI/UX","Webutvikling","Landingssider","Redesign","Konverteringsoptimalisering","SEO","AI-synlighet"],"makesOffer":[{"@type":"Offer","name":"Første trekk","price":"7900","priceCurrency":"NOK"},{"@type":"Offer","name":"Momentum","price":"16000","priceCurrency":"NOK"},{"@type":"Offer","name":"Signatur","price":"19900","priceCurrency":"NOK"},{"@type":"Offer","name":"Videre","price":"1490","priceCurrency":"NOK"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Hva koster en nettside?","acceptedAnswer":{"@type":"Answer","text":"Momentum koster 16 000 kr og Første trekk 7 900 kr. Signatur starter på 19 900 kr, og Videre på 1 490 kr per måned. Du får alltid fast pris før vi starter."}},
 {"@type":"Question","name":"Hvor lang tid tar det?","acceptedAnswer":{"@type":"Answer","text":"Første komplette Momentum-utkast kommer innen fem virkedager etter at vi har mottatt innhold, nødvendige tilganger og oppstartbetaling. Første trekk er normalt klar på omtrent tre virkedager."}},
@@ -1172,6 +1183,40 @@
 </div>
 </div>
 <p class="growth-note reveal">Uansett om en potensiell kunde googler bedriften din, spør en KI-assistent om anbefalinger, eller finner deg via kart — målet er det samme: at det de finner er oppdatert, riktig og gjør det lett å ta kontakt.</p>
+</div>
+</section>
+<section id="bransjer">
+<div class="container">
+<div class="section-head reveal">
+<div><p class="eyebrow dark">Bransjer</p><h2>Retninger,<br/><em>ikke maler.</em></h2></div>
+<p>Hver side tegnes for bedriften den skal selge for. Velg din bransje for et konkret eksempel på hvordan vi tenker — og få et gratis førsteside-konsept for din egen.</p>
+</div>
+<div class="industries-grid reveal">
+<a class="industry-card" href="/nettside-restaurant" style="background-image:url(/img/bransje/restaurant.webp)" aria-label="Restaurant og kafé — få et førsteside-konsept">
+<span class="industry-tag">Restaurant &amp; kafé</span>
+<h3>Kveldene som blir lange.</h3>
+<p>Meny, stemning og bordbestilling ett trykk unna.</p>
+<span class="industry-arrow">Se eksempel →</span>
+</a>
+<a class="industry-card" href="/nettside-handverker" style="background-image:url(/img/bransje/handverker.webp)" aria-label="Håndverk og bygg — få et førsteside-konsept">
+<span class="industry-tag">Håndverk &amp; bygg</span>
+<h3>Håndverk du kan stole på.</h3>
+<p>Tydelig hva dere gjør, hvor — og hvordan man ber om tilbud.</p>
+<span class="industry-arrow">Se eksempel →</span>
+</a>
+<a class="industry-card" href="/nettside-klinikk" style="background-image:url(/img/bransje/klinikk.webp)" aria-label="Klinikk, frisør og skjønnhet — få et førsteside-konsept">
+<span class="industry-tag">Klinikk, frisør &amp; skjønnhet</span>
+<h3>Ta vare på deg — uten stress.</h3>
+<p>Behandlinger, priser og timebestilling uten støy.</p>
+<span class="industry-arrow">Se eksempel →</span>
+</a>
+<a class="industry-card" href="/nettside-overnatting" style="background-image:url(/img/bransje/overnatting.webp)" aria-label="Overnatting og opplevelser — få et førsteside-konsept">
+<span class="industry-tag">Overnatting &amp; opplevelser</span>
+<h3>Book direkte. Ingen mellomledd.</h3>
+<p>Vis stedet, vis prisen — og la gjesten booke direkte.</p>
+<span class="industry-arrow">Se eksempel →</span>
+</a>
+</div>
 </div>
 </section>
 <section class="price-atmo" id="priser" aria-labelledby="pricing-title">

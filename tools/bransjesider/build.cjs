@@ -90,9 +90,10 @@ for (const s of sider) {
 <meta name="theme-color" content="#f5f5f2">
 <title>${esc(s.tittel)}</title>
 <meta name="description" content="${esc(s.beskrivelse)}">
-<meta name="robots" content="noindex,nofollow">
+<meta name="robots" content="index, follow">
 <link rel="canonical" href="${url}">
-<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/inter-tight-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(s.tittel)}">

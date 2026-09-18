@@ -80,7 +80,12 @@ er et eget produkt som faktisk er bygget og er i drift.
 ## Sider
 
 - [Forsiden](https://staymotion.no/): tjenester, priser, arbeidsmåte og spørsmål
+- [Nettside til restaurant og kafé](https://staymotion.no/nettside-restaurant)
+- [Nettside til håndverker og byggefirma](https://staymotion.no/nettside-handverker)
+- [Nettside til klinikk, frisør og salong](https://staymotion.no/nettside-klinikk)
+- [Nettside til overnatting og utleie](https://staymotion.no/nettside-overnatting)
 - [Start prosjekt](https://staymotion.no/start.html): skjema for gratis konsept
+- [Kontakt](https://staymotion.no/kontakt.html)
 - [SiamConnect](https://staymotion.no/siamconnect.html): eget produkt, digital plattform
 - [Vilkår](https://staymotion.no/vilkar.html)
 - [Personvern](https://staymotion.no/personvern.html)

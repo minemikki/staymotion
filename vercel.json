@@ -1,6 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/nettside-for-restaurant",
+      "destination": "/nettside-restaurant",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/salg",
