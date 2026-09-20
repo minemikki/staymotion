@@ -26,8 +26,11 @@ mellom. Design og utvikling gjøres av samme person.
 ## Tilleggstjenester
 
 Legges til etter behov, med pris avtalt før oppstart: signatur-nivå
-tilpasning, tekst og innhold, nettbutikk, og SEO & AI-synlighet (arbeid med
-synlighet i Google og i KI-søk som ChatGPT og Perplexity).
+tilpasning, tekst og innhold, nettbutikk, SEO & AI-synlighet (arbeid med
+synlighet i Google og i KI-søk som ChatGPT og Perplexity), og annonseoppsett
+(Google- og Meta-annonsering satt opp riktig — konto, kampanjer, målgrupper
+og sporing, som engangsleveranse; kunden drifter selv videre — StayMotion
+tilbyr ikke løpende annonsedrift per i dag).
 
 Alle priser er faste og avtales før arbeidet starter. Kunden eier design,
 kode og innhold når prosjektet er betalt.

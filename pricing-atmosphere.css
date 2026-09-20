@@ -65,7 +65,7 @@
 .pa-addons-head .small{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#65a0ff;font-weight:700}
 .pa-addons-head h3{font-size:clamp(26px,2.3vw,36px);line-height:1;letter-spacing:-.045em;margin-top:9px}
 .pa-addons-head p{margin-top:10px;color:#b6c4df;font-size:13.5px;line-height:1.45;max-width:32ch}
-.pa-addon-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.pa-addon-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .pa-addon{min-height:142px;border-radius:17px;padding:15px;background:linear-gradient(165deg,rgba(26,59,120,.82),rgba(10,28,65,.86));border:1px solid rgba(91,145,255,.36);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:flex;flex-direction:column;transition:transform .3s var(--ease),border-color .3s,background .3s}
 .pa-addon:hover{transform:translateY(-4px);border-color:rgba(115,165,255,.72);background:linear-gradient(165deg,rgba(32,71,143,.9),rgba(10,29,70,.94))}
 .pa-addon-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
