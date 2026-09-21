@@ -122,7 +122,7 @@
       'The price is agreed before we start, payment goes through a secure card link, and you own the design, code and content once the project is paid.',
     'Mest valgt': 'Most chosen',
     'Komplett nettside': 'Complete website',
-    '16 000 kr': 'NOK 16,000',
+    '18 500 kr': 'NOK 18,500',
     'Full pris ved oppstart · ingen restbetaling': 'Full price up front · no balance due later',
     'Hele nettsiden for bedriften din, satt opp og publisert — med domene, Google-bedriftsprofil og skjema som virker.':
       'Your complete business website, set up and published — with domain, Google Business Profile and forms that work.',
@@ -141,7 +141,7 @@
     'To revisjonsrunder': 'Two rounds of revisions',
     'Kort overlevering': 'Short handover',
     '14 dagers feilretting etter lansering': '14 days of bug fixing after launch',
-    'Betal og kom i gang — 16 000 kr': 'Pay and get started — NOK 16,000',
+    'Betal og kom i gang — 18 500 kr': 'Pay and get started — NOK 18,500',
     'Sikker betaling via Stripe': 'Secure payment via Stripe',
     'Full pris ved oppstart —': 'Full price up front —',
     'ingen restbetaling ved levering.': 'no balance due at delivery.',
@@ -164,7 +164,7 @@
     'Større, skreddersydd nettopplevelse': 'Larger, fully custom web experience',
     'Eget visuelt system, flere sider, CMS, booking og integrasjoner ved behov. Omfang og fast pris avtales før vi starter.':
       'Its own visual system, more pages, CMS, booking and integrations as needed. Scope and fixed price agreed before we start.',
-    'fra 19 900 kr': 'from NOK 19,900',
+    'fra 24 900 kr': 'from NOK 24,900',
     'Drift, endringer og oppfølging': 'Care, changes and follow-up',
     'Oppdateringer, teknisk støtte, analyse, SEO-finpuss og nye seksjoner etter lansering. Ingen binding.':
       'Updates, technical support, analytics, SEO refinement and new sections after launch. No lock-in.',

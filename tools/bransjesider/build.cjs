@@ -73,7 +73,7 @@ for (const s of sider) {
         areaServed: [{ '@type': 'City', name: 'Stavanger' }, { '@type': 'AdministrativeArea', name: 'Rogaland' }],
         offers: [
           { '@type': 'Offer', name: 'Første trekk', price: '7900', priceCurrency: 'NOK' },
-          { '@type': 'Offer', name: 'Momentum', price: '16000', priceCurrency: 'NOK' }
+          { '@type': 'Offer', name: 'Momentum', price: '18500', priceCurrency: 'NOK' }
         ]
       },
       { '@type': 'FAQPage', inLanguage: 'nb-NO',

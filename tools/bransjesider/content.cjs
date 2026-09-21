@@ -32,7 +32,7 @@ module.exports = [
   faq: [
     ['Kan dere legge inn menyen vår?', 'Ja. Send den som den er — PDF, bilde eller et dokument — så skriver vi den inn som ekte tekst på siden. Du kan endre den selv etterpå, eller vi gjør det for deg.'],
     ['Vi bruker allerede et bookingsystem. Funker det?', 'Som regel ja. De fleste norske bookingsystemer kan legges rett inn i siden, så gjesten aldri forlater den. Fortell hvilket dere bruker, så sjekker vi.'],
-    ['Hva koster en nettside til restaurant?', 'Momentum, som er en komplett nettside med meny, bilder, kart og skjema, koster 16 000 kr fast. Trenger dere bare én sterk side, koster Første trekk 7 900 kr.'],
+    ['Hva koster en nettside til restaurant?', 'Momentum, som er en komplett nettside med meny, bilder, kart og skjema, koster 18 500 kr fast. Trenger dere bare én sterk side, koster Første trekk 7 900 kr.'],
     ['Hvor fort kan den være oppe?', 'Første komplette utkast innen fem virkedager etter at vi har fått bilder, meny og oppstartbetaling.']
   ]
 },
@@ -67,7 +67,7 @@ module.exports = [
   faq: [
     ['Vi har bare bilder på telefonen. Holder det?', 'Ja. Mobilbilder fungerer godt til før og etter — det er ofte mer troverdig enn stockbilder. Vi hjelper med utvalget og beskjærer dem.'],
     ['Kan skjemaet ta imot bilder fra kunden?', 'Ja. Det gjør ofte tilbudet raskere å gi, fordi du ser jobben før du drar ut.'],
-    ['Hva koster en nettside til håndverkerfirma?', 'Momentum koster 16 000 kr fast og gir forside pluss inntil fire undersider, for eksempel én per tjeneste. Første trekk, én sterk side med tilbudsskjema, koster 7 900 kr.'],
+    ['Hva koster en nettside til håndverkerfirma?', 'Momentum koster 18 500 kr fast og gir forside pluss inntil fire undersider, for eksempel én per tjeneste. Første trekk, én sterk side med tilbudsskjema, koster 7 900 kr.'],
     ['Kan dere vise sentral godkjenning?', 'Ja. Send dokumentasjonen dere har, så legger vi den inn. Vi finner ikke på godkjenninger dere ikke har.']
   ]
 },
@@ -103,7 +103,7 @@ module.exports = [
     ['Må vi vise priser?', 'Nei, men det pleier å lønne seg. Kunder som ikke finner prisen, går ofte videre i stedet for å ringe. Vil dere heller ha «fra»-priser, gjør vi det.'],
     ['Kan dere koble bookingsystemet vårt?', 'De fleste vanlige systemene kan legges rett inn i siden. Fortell hvilket dere bruker, så sjekker vi før vi starter.'],
     ['Kan vi vise før- og etterbilder?', 'Ja, hvis dere har samtykke fra kunden det gjelder. Vi legger ikke ut bilder av behandlingsresultater uten det.'],
-    ['Hva koster en nettside til klinikk eller salong?', 'Momentum koster 16 000 kr fast, med forside og inntil fire undersider — for eksempel én per behandlingsområde. Første trekk koster 7 900 kr.']
+    ['Hva koster en nettside til klinikk eller salong?', 'Momentum koster 18 500 kr fast, med forside og inntil fire undersider — for eksempel én per behandlingsområde. Første trekk koster 7 900 kr.']
   ]
 },
 {
@@ -138,7 +138,7 @@ module.exports = [
     ['Må vi slutte med portalene?', 'Nei. De fleste bruker begge deler: portalene fyller hullene, mens egen side tar imot dem som allerede har bestemt seg. Da slipper du provisjon på de bestillingene.'],
     ['Kan siden vise ledige datoer?', 'Ja, hvis dere bruker et system med kalender vi kan koble til. Ellers setter vi opp en forespørsel med ønsket dato.'],
     ['Vi har bare mobilbilder av stedet. Går det?', 'Ofte ja. Vi ser gjennom det dere har og sier ærlig ifra hvis noe bør tas på nytt — og hva som skal til.'],
-    ['Hva koster en nettside til utleie?', 'Første trekk, én side med bilder, priser og forespørselsskjema, koster 7 900 kr. Momentum med flere sider og kalender koster 16 000 kr.']
+    ['Hva koster en nettside til utleie?', 'Første trekk, én side med bilder, priser og forespørselsskjema, koster 7 900 kr. Momentum med flere sider og kalender koster 18 500 kr.']
   ]
 }
 ];

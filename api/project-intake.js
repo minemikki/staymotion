@@ -23,8 +23,8 @@ const SEGMENT = {
 // Budget range → suggested package + rough value for the pipeline.
 function suggest(budget) {
   if (/40k\+/.test(budget)) return { pkg: 'Skreddersydd', value: 40000 };
-  if (/20–40/.test(budget)) return { pkg: 'Signatur', value: 19900 };
-  if (/10–20/.test(budget)) return { pkg: 'Momentum', value: 16000 };
+  if (/20–40/.test(budget)) return { pkg: 'Signatur', value: 24900 };
+  if (/10–20/.test(budget)) return { pkg: 'Momentum', value: 18500 };
   return { pkg: 'Første trekk', value: 7900 };
 }
 
