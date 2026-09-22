@@ -1,4 +1,5 @@
 /* StayMotion pricing atmosphere — generated 2026-09-18 */
+@property --pa-glow-a{syntax:'<angle>';inherits:false;initial-value:0deg}
 .price-atmo{
   position:relative;overflow:hidden;isolation:isolate;
   padding:clamp(70px,7vw,108px) 0 0;
@@ -26,6 +27,9 @@
 .pa-card.hero{background:linear-gradient(166deg,rgba(18,34,72,.98),rgba(6,14,34,.98) 72%);border:1px solid rgba(79,134,255,.72);box-shadow:0 30px 85px -35px rgba(24,87,255,.9),0 0 0 1px rgba(44,106,255,.2),inset 0 1px 0 rgba(255,255,255,.08);transform:translateY(-18px)}
 .pa-card.hero:hover{transform:translateY(-24px)}
 .pa-card.hero::before{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at 74% 4%,rgba(51,119,255,.30),transparent 32%)}
+.pa-card.hero::after{content:"";position:absolute;inset:-1.5px;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:1;background:conic-gradient(from var(--pa-glow-a),transparent 0deg,rgba(125,169,255,.95) 22deg,rgba(51,119,255,.55) 46deg,transparent 92deg,transparent 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:pa-glow-spin 5s linear infinite}
+@keyframes pa-glow-spin{to{--pa-glow-a:360deg}}
+@media(prefers-reduced-motion:reduce){.pa-card.hero::after{animation:none}}
 .pa-topline{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}
 .pa-icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#f1f4fb;border:1px solid #e5e9f2;color:#0c1528;font-size:20px}
 .hero .pa-icon{background:rgba(56,105,220,.22);border-color:rgba(94,141,255,.18);color:#9fb9ff}
