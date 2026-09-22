@@ -18,6 +18,7 @@ Stripe + Vipps (depositum) · Resend (e-post) · signerte portal-tokens.
 | `salg.html` | **Salgssystem** (adminbeskyttet): resultatmål, CRM, nettsideanalyse, meldingsgenerator, godkjenningskø, lovlig utsending, «I dag», tilbud |
 | `sprint.html` | Offentlig konverteringsside: Website Sprint + Landing Page Sprint + gratis nettsidesjekk (`/sprint`) |
 | `bestill.html` | Redirect til `start.html` (gammel lenke) |
+| `bordvert.html` | **Bordvert** — salgsside for AI-kelneren til restauranter. Eget produkt med egen kodebase ([minemikki/smartw](https://github.com/minemikki/smartw)); denne siden selger den, og rører ikke `lib/packages.js` |
 
 ## Salgssystem (`/salg.html`)
 Adminbeskyttet salgsmotor bygget på eksisterende stack (Blob-prefiks `sales/`). Se `docs/SALES_ENGINE_PLAN.md`

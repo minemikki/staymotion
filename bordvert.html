@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Smartwaiter — AI-kelner for restauranten | StayMotion</title>
-<meta name="description" content="Gjesten spør fritt: «en rett til 300 kr, men jeg har allergi mot peanøtter — og hvilken øl passer?» Smartwaiter svarer. Allergener filtreres av kode, ikke av språkmodellen.">
+<title>Bordvert — AI-kelner for restauranten | StayMotion</title>
+<meta name="description" content="Gjesten spør fritt: «en rett til 300 kr, men jeg har allergi mot peanøtter — og hvilken øl passer?» Bordvert svarer. Allergener filtreres av kode, ikke av språkmodellen.">
 <meta name="theme-color" content="#f5f5f2">
-<link rel="canonical" href="https://staymotion.no/smartwaiter">
+<link rel="canonical" href="https://staymotion.no/bordvert">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="StayMotion">
-<meta property="og:title" content="Smartwaiter — AI-kelner for restauranten">
+<meta property="og:title" content="Bordvert — AI-kelner for restauranten">
 <meta property="og:description" content="Tre betingelser i én setning. Ingen filterknapp løser det. Allergener avgjøres av kode, før modellen får si et ord.">
-<meta property="og:url" content="https://staymotion.no/smartwaiter">
+<meta property="og:url" content="https://staymotion.no/bordvert">
 <meta property="og:locale" content="nb_NO">
 <meta property="og:image" content="https://staymotion.no/og.jpg">
 <style>
@@ -134,18 +134,19 @@ footer a{color:var(--muted)}
 <body>
 
 <header class="top"><div class="wrap">
-  <a class="brand" href="/">StayMotion <small>· Smartwaiter</small></a>
+  <a class="brand" href="/">StayMotion <small>· Bordvert</small></a>
   <a class="btn c" href="#interesse">Snakk med oss</a>
 </div></header>
 
 <section class="hero"><div class="wrap">
-  <p class="kick">Smartwaiter · eget produkt fra StayMotion</p>
+  <p class="kick">Bordvert · eget produkt fra StayMotion</p>
   <h1>Gjesten spør som et menneske. Menyen svarer.</h1>
   <p class="quote">«Jeg vil ha en rett til 300 kr, men jeg har allergi mot peanøtter.
     <span>Og hvilken øl passer?»</span></p>
   <p class="lede">Tre betingelser i én setning. Ingen filterknapp på en digital meny løser det —
-    og gjesten spør likevel, hver kveld, personalet ditt. Smartwaiter svarer på menyens språk,
-    på gjestens språk.</p>
+    og gjesten spør likevel, hver kveld, personalet ditt. En bordvert er den som har ansvar for
+    gjestene ved sitt bord — dette er den rollen, digitalt. <b>En vert du legger til, ikke en ansatt du
+    fjerner:</b> personalet bekrefter fortsatt allergien ved bestilling.</p>
   <div class="cta-row">
     <a class="btn c" id="demo" href="#interesse" aria-disabled="false">Se demoen</a>
     <a class="btn g" href="#hvordan">Hvordan det er sikret</a>
@@ -273,7 +274,7 @@ footer a{color:var(--muted)}
 </div></section>
 
 <footer><div class="wrap">
-  <span>Smartwaiter er et eget produkt. Utviklet og solgt av StayMotion.</span>
+  <span>Bordvert er et eget produkt. Utviklet og solgt av StayMotion.</span>
   <span><a href="/">staymotion.no</a> · <a href="/kontakt.html">Kontakt</a> · <a href="/vilkar.html">Vilkår</a></span>
 </div></footer>
 
@@ -309,12 +310,12 @@ footer a{color:var(--muted)}
     btn.disabled = true; btn.textContent = 'Sender …';
 
     // Går via det eksisterende kontaktendepunktet, men merkes i meldingen slik
-    // at en Smartwaiter-forespørsel er til å skille fra et nettsideprosjekt i
+    // at en Bordvert-forespørsel er til å skille fra et nettsideprosjekt i
     // salgspanelet — uten å røre pakkekatalogen eller intake-flyten.
     var payload = {
       name: $('#name').value.trim(),
       email: email,
-      message: 'SMARTWAITER-forespørsel\n' + (sted ? 'Sted: ' + sted + '\n' : '') + '\n' + msg,
+      message: 'BORDVERT-forespørsel\n' + (sted ? 'Sted: ' + sted + '\n' : '') + '\n' + msg,
       hp: document.querySelector('[name=website_hp]').value
     };
     try{
