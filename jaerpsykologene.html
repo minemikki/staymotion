@@ -116,20 +116,20 @@ em.soft{font-style:italic;color:#b9602a}
 @media(max-width:520px){.brand span{font-size:20px}.brand img{height:34px}.hdr .btn{padding:0 16px}}
 
 /* hero */
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;color:var(--on);background:var(--navy);overflow:hidden;isolation:isolate}
+.hero{position:relative;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;color:var(--on);background:var(--navy);overflow:hidden;isolation:isolate}
 .hero-bg{position:absolute;inset:-6% 0 0 0;z-index:-3;background:url(/img/jaerpsykologene/jaeren-dyner.webp) center 62%/cover no-repeat;will-change:transform}
 .hero::before{content:"";position:absolute;inset:0;z-index:-2;background:
   linear-gradient(180deg,rgba(10,21,33,.78) 0%,rgba(14,28,43,.42) 32%,rgba(14,28,43,.55) 62%,rgba(14,28,43,.97) 100%),
   linear-gradient(90deg,rgba(10,21,33,.85) 0%,rgba(10,21,33,.35) 55%,rgba(10,21,33,.15) 100%),
   radial-gradient(60% 55% at 78% 42%,rgba(224,132,63,.28),transparent 70%)}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.13;mix-blend-mode:overlay;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(20px,4vw,60px);align-items:center;padding-top:clamp(150px,20vh,210px);padding-bottom:clamp(36px,5vh,56px)}
-.hero h1{margin-top:26px}
+.hero-grid{display:block;max-width:66ch;padding-top:clamp(126px,16vw,166px);padding-bottom:clamp(44px,6vw,68px)}
+.hero h1{margin-top:22px}
 .hero h1 .l2{display:block;font-style:italic;color:var(--amber2)}
 .hero .kicker{color:var(--on2)}
 .hero .lead{color:var(--on2)}
-.hero .lead{margin-top:28px;max-width:46ch}
-.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.hero .lead{margin-top:24px;max-width:46ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
 .orb-wrap{position:relative;aspect-ratio:1;width:min(100%,520px);justify-self:center}
 .orb-halo{position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle,rgba(242,167,102,.42) 0%,rgba(217,144,127,.18) 38%,transparent 68%);filter:blur(22px);animation:halo 12s ease-in-out infinite}
 @keyframes halo{0%,100%{transform:scale(.9);opacity:.75}50%{transform:scale(1.06);opacity:1}}
@@ -147,9 +147,7 @@ em.soft{font-style:italic;color:#b9602a}
 .fact span{display:block;margin-top:5px;font-size:13.5px;line-height:1.45;color:var(--on3)}
 @media(max-width:1060px){.facts{grid-template-columns:1fr 1fr}}
 @media(max-width:860px){
-  .hero-grid{grid-template-columns:1fr;padding-top:130px;gap:10px}
-  .orb-wrap{width:min(78vw,340px);order:-1;margin-bottom:6px}
-  .orb-note{display:none}
+  .hero-grid{padding-top:112px}
 }
 @media(max-width:520px){.facts{grid-template-columns:1fr;gap:10px}.fact{padding:16px 18px}.hero-cta .btn{flex:1 1 100%;justify-content:center}}
 
@@ -352,13 +350,8 @@ section{position:relative}
       <p class="lead rv d2">To erfarne psykologspesialister i Sandnes sentrum. Trygge, kunnskapsbaserte samtaler for voksne — uten henvisning, og med kort ventetid.</p>
       <div class="hero-cta rv d3">
         <a class="btn btn-amber" href="#psykologene">Bestill time <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
-        <a class="btn btn-ghost" href="#pust">Ta et pust med oss <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2v11M4 9l4 4 4-4"/></svg></a>
+        <a class="btn btn-ghost" href="#hjelp">Hva vi hjelper med <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
       </div>
-    </div>
-    <div class="orb-wrap rv d2" data-orb="hero" aria-hidden="true">
-      <div class="orb-halo"></div>
-      <div class="orb-fallback"></div>
-      <span class="orb-note"><i></i>Pust i takt med kulen</span>
     </div>
   </div>
   <div class="wrap">
